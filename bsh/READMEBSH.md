@@ -43,3 +43,12 @@ https://localhost:3000/kakaologin}&response_type=code`
 일단 리다이렉트 페이지가 없어서 진행이 안되는중
 
 리다이렉트 페이지 만든후 재도전.
+
+
+
+```javascript
+<button onClick={()=> {titleDelete(i)}}>삭제</button>
+됨
+<button onClick={ titleDelete(i) }>삭제</button>
+매개변수없을때 가능
+```
