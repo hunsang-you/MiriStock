@@ -16,21 +16,13 @@
   
   - action => state 변경함수
   
-  `
+  ```
   
-  reducer : {
+  ```
   
-          increase(state, action) {
   
-              state.age += action.payload
-  
-          }
-  
-  }
-  
-  increase(10)
 
-       `
+       
 
 - state 수정
   
