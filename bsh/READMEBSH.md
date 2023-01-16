@@ -1,6 +1,6 @@
 # 0116
 
-# 카카오 로그인
+# 카카오 로그인test
 
 # 리액트로 카카오 로그인 구현
 
@@ -30,7 +30,7 @@
 
 ```javascript
 const Login = (props: any) => {
-  const kauthUrl=`https://kauth.kakao.com/oauth/authorize?client_id=${process.env.a9e2bc5e039f610db0317b2b799e8625}&redirect_uri=${	
+  const kauthUrl=`https://kauth.kakao.com/oauth/authorize?client_id=${process.env.a9e2bc5e039f610db0317b2b799e8625}&redirect_uri=${    
 https://localhost:3000/kakaologin}&response_type=code`
 
   return (<><a href={kauthUrl}>
