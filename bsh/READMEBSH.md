@@ -1,6 +1,6 @@
 # 0116
 
-# 카카오 로그인te
+# 카카오 로그인
 
 # 리액트로 카카오 로그인 구현
 
@@ -44,11 +44,15 @@ https://localhost:3000/kakaologin}&response_type=code`
 
 리다이렉트 페이지 만든후 재도전.
 
-
-
 ```javascript
 <button onClick={()=> {titleDelete(i)}}>삭제</button>
 됨
 <button onClick={ titleDelete(i) }>삭제</button>
 매개변수없을때 가능
 ```
+
+
+
+# 0117
+
+# React chart.js
