@@ -51,8 +51,101 @@ https://localhost:3000/kakaologin}&response_type=code`
 매개변수없을때 가능
 ```
 
-
-
 # 0117
 
+# 카카오 로그인
+
+- 백엔드 단에서 처리할거기때문에 프론트 할일 x
+
 # React chart.js
+
+```javascript
+import './App.css';
+import { Line } from 'react-chartjs-2';
+import styled from 'styled-components';
+import { Chart, registerables } from 'chart.js';
+import months from './utils.js';
+Chart.register(...registerables);
+
+function App() {
+
+  return (
+    <div className="App">
+      <Charts></Charts>
+    </div>
+  );
+}
+
+const labels = months({count: 130});
+const data = {
+  labels: labels,
+  datasets: [{
+    label : '',
+    data: [65, 59, 80, 81, 56 , 20,30,40,50,60,32,50,43,15,32,54,76,89,39,94,50,19,39,69,79,39,29,38,68,48,69,79,39,65, 59, 80, 81, 56 , 20,30,40,50,60,32,50,43,15,32,54,76,89,39,94,50,19,39,69,79,39,29,38,68,48,69,79,39,65, 59, 80, 81, 56 , 20,30,40,50,60,32,50,43,15,32,54,76,89,39,94,50,19,39,69,79,39,29,38,68,48,69,79,39,65, 59, 80, 81, 56 , 20,30,40,50,60,32,50,43,15,32,54,76,89,39,94,50,19,39,69,79,39,29,38,68,48,69,79,39],
+    fill: true,
+    borderColor: 'rgb(255, 0, 0)',
+    backgroundColor: 'rgba(255, 0, 0,0.3)',
+    tension: 0.1
+  }]
+};
+
+const config = {
+  type: 'line',
+  data: data,
+};
+
+const options = {
+    plugins :  {legend : {display : false},},
+    spanGaps: true,
+    hitRadius : 50,
+    pointRadius : 0,
+    scales: {
+        y: {
+          // y축 스케일링
+            afterDataLimits: (scale) => {
+              scale.max = scale.max * 1.2;
+            },
+            grid : {
+              display : false,
+            },
+        },
+        x: {
+          // 표 그리드  없애기
+          grid : {
+            display : false,
+          },
+          //x축 라벨없애기
+          ticks : {
+            display : false
+          }
+        },
+
+        }
+    
+}
+
+
+const Charts = () => {
+  return (
+    <Container>
+      <Line type="line" data={data} config = {config} options = {options} />
+    </Container>
+  );
+};
+
+const Container = styled.div`
+  width: 90vw;
+  max-width: 900px;
+`;
+
+
+export default App;
+```
+
+![](READMEBSH_assets/2023-01-18-01-18-47-image.png)
+
+
+
+결과그래프 x축 ticks 없애고 점없애고 radius늘림
+
+추가로 공부할것 fill gradient 색깔넣기
