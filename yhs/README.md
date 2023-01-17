@@ -19,8 +19,6 @@
   ```
   
   ```
-  
-  
 
 - state 수정
   
@@ -64,3 +62,80 @@
    - Fill Container : 컨테이너 변화 -> 아이템도 변화 (아이템에 설정)
    
    - Fixed Size : 변화 없음
+
+---
+
+---
+
+# 23.01.17
+
+## Local Storage
+
+- 브라우저에서 제공하는 데이터 저장소
+
+- Key : Value 형태로 저장 가능
+
+- 최대 5MB 문자만 저장가능
+
+- 브라우저 청소 전까지 사이트를 재접속해도 남아있음
+
+- Session Storage의 경우 브라우저를 끄면 데이터가 날아감
+
+
+
+데이터입력```localStorage.setItem('이름', '값')```
+
+데이터출력 `localStorage.getItem('이름')`
+
+데이터삭제 `localStorage.removeItem('이름')`
+
+데이터수정하는 문법은 따로 없고 데이터를 꺼내서 수정하고 다시 집어 넣는다
+
+
+
+array, object를 저장하려면 JSON으로 바꾸어 저장한다
+
+array, object -> JSON 변환은 JSON.stringify()
+
+```
+  let obj = {name : 'kim' }
+  localStorage.setItem('data', JSON.stringify(obj))
+```
+
+
+
+## Chart.js 사용
+
+```
+import React from 'react';
+import Chart from 'chart.js/auto';
+import { Line } from 'react-chartjs-2';
+
+const app = () => {
+
+  let data =  {
+      labels: ['7-8', '8-9', '9-10', '10-11', '11-12', '17-18', '18-19', '19-20' ],
+      datasets: [
+        {
+          type: 'line',
+          label: '탑승인원',
+          backgroundColor: 'rgb(255, 99, 132)',
+          data: [10, 20, 30, 40, 50, 20, 30, 10,,100],
+          borderColor: 'red',
+          borderWidth: 2,
+        },
+      ],
+    };
+    
+	return (
+    	<div>
+        	<Line type="line" data={data} />
+        </div>
+    );
+    
+}
+
+export default app;
+```
+
+`import Chart from 'chart.js/auto'`는 import하여 따로 사용하는 부분이 있는 것은 아니지만 없으면 오류가 나기 때문에 import해주어야 한다.
