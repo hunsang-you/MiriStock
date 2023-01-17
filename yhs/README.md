@@ -111,7 +111,7 @@ import React from 'react';
 import Chart from 'chart.js/auto';
 import { Line } from 'react-chartjs-2';
 
-const app = () => {
+function app() {
 
   let data =  {
       labels: ['7-8', '8-9', '9-10', '10-11', '11-12', '17-18', '18-19', '19-20' ],
@@ -120,7 +120,7 @@ const app = () => {
           type: 'line',
           label: '탑승인원',
           backgroundColor: 'rgb(255, 99, 132)',
-          data: [10, 20, 30, 40, 50, 20, 30, 10,,100],
+          data: [10, 20, 30, 40, 50, 20, 30, 10, 100],
           borderColor: 'red',
           borderWidth: 2,
         },
@@ -135,7 +135,16 @@ const app = () => {
     
 }
 
+export default app;  
+}
+
 export default app;
 ```
 
 `import Chart from 'chart.js/auto'`는 import하여 따로 사용하는 부분이 있는 것은 아니지만 없으면 오류가 나기 때문에 import해주어야 한다.
+
+type : bar, line 등등 그래프의 형태를 정해준다.
+
+data부분에서  상단의 labels의 개수보다 많은 데이터가 들어가게 되면, 그래프의 형태는 labels의 개수만큼 출력되고 그 외는 y축의 변화만 나타내어 졌다.
+
+labels의 개수보다 data의 수가 적으면 x축이 고정된 상태로 그래프가 출력된다.
