@@ -329,3 +329,258 @@ https://opendart.fss.or.kr/api/fnlttSinglAcnt.json?crtfc_key=API_KEY&corp_code=0
 ```
 스켈레톤코드. DB 설계와 같이 파싱할 데이터 확정하고 완성할 예정
 
+---
+### 2023-01-18
+
+- DB 테이블 작성
+
+```sql
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+
+-- -------------------
+-- member TABLE
+-- -------------------
+DROP TABLE IF EXISTS `member`;
+CREATE TABLE IF NOT EXISTS `member`(
+	`member_no` int NOT NULL auto_increment,
+    `member_email` VARCHAR(320) NOT NULL,
+    `member_nickname` VARCHAR(20) NOT NULL,
+    `member_totalasset` BIGINT default 50000000,
+    `member_current_time` DATE NOT NULL,
+    PRIMARY KEY(`member_no`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+-- -------------------
+-- stock TABLE
+-- -------------------
+DROP TABLE IF EXISTS `stock`;
+CREATE TABLE IF NOT EXISTS `stock`(
+	`stock_code` VARCHAR(6) NOT NULL,
+    `stock_name` VARCHAR(40) NOT NULL,
+    PRIMARY KEY (`stock_code`,`stock_name`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+-- -------------------
+-- stockbuy TABLE
+-- -------------------
+DROP TABLE IF EXISTS `stockbuy`;
+CREATE TABLE IF NOT EXISTS `stockbuy`(
+	`stockbuy_no` INT NOT NULL AUTO_INCREMENT,
+    `stock_code` VARCHAR(6) NULL DEFAULT NULL,
+    `member_no` int NULL DEFAULT NULL,
+    `stockbuy_date` DATE NOT NULL,
+    `stockbuy_closing_price` BIGINT NOT NULL ,
+    `stockbuy_amount` INT NOT NULL,
+    PRIMARY KEY (`stockbuy_no`),
+    CONSTRAINT `stockbuy_to_stock_stock_code_fk`
+		FOREIGN KEY (`stock_code`)
+		REFERENCES `stock` (`stock_code`),
+    CONSTRAINT `stockbuy_to_member_member_no_fk`
+		FOREIGN KEY (`member_no`)
+		REFERENCES `member` (`member_no`)
+        ON DELETE CASCADE
+)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+-- -------------------
+-- stocksell TABLE
+-- -------------------
+DROP TABLE IF EXISTS `stocksell`;
+CREATE TABLE IF NOT EXISTS `stocksell`(
+	`stocksell_no` INT NOT NULL AUTO_INCREMENT,
+	`stock_code` VARCHAR(6) NULL DEFAULT NULL,
+    `member_no` int NULL DEFAULT NULL,
+    `stocksell_date` DATE NOT NULL,
+    `stocksell_closing_price` BIGINT NOT NULL ,
+    `stocksell_amount` INT NOT NULL,
+    PRIMARY KEY (`stocksell_no`),
+    CONSTRAINT `stocksell_to_stock_stock_code_fk`
+		FOREIGN KEY (`stock_code`)
+		REFERENCES `stock` (`stock_code`),
+    CONSTRAINT `stocksell_to_member_member_no_fk`
+		FOREIGN KEY (`member_no`)
+		REFERENCES `member` (`member_no`)
+        ON DELETE CASCADE
+)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+-- -------------------
+-- memberasset TABLE
+-- -------------------
+DROP TABLE IF EXISTS `memberasset`;
+CREATE TABLE IF NOT EXISTS `memberasset`(
+	`memberasset_no` INT NOT NULL AUTO_INCREMENT,
+    `member_no` int NULL DEFAULT NULL,
+    `memberasset_total_asset` BIGINT NOT NULL,
+    `memberasset_available_asset` BIGINT NOT NULL,
+    `memberasset_stock_asset` BIGINT NOT NULL,
+    PRIMARY KEY (`memberasset_no`),
+    CONSTRAINT `memberasset_to_member_member_no_fk`
+		FOREIGN KEY (`member_no`)
+		REFERENCES `member` (`member_no`)
+        ON DELETE CASCADE
+)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+-- -------------------
+-- financialstatement TABLE
+-- -------------------
+DROP TABLE IF EXISTS `financialstatement`;
+CREATE TABLE IF NOT EXISTS `financialstatement`(
+	`financialstatement_no` INT NOT NULL AUTO_INCREMENT,
+	`stock_code` VARCHAR(6) NULL DEFAULT NULL,
+    `net_income` BIGINT NOT NULL,
+    `year` INT NOT NULL,
+    `sales_revenue` BIGINT NOT NULL,
+    `operating_profit` BIGINT NOT NULL,
+    PRIMARY KEY (`financialstatement_no`),
+    CONSTRAINT `financialstatement_to_stock_stock_code_fk`
+		FOREIGN KEY (`stock_code`)
+		REFERENCES `stock` (`stock_code`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+-- -------------------
+-- stockdata TABLE
+-- -------------------
+DROP TABLE IF EXISTS `stockdata`;
+CREATE TABLE IF NOT EXISTS `stockdata`(
+	`stockdata_no` INT NOT NULL AUTO_INCREMENT,
+	`stock_code` VARCHAR(6) NULL DEFAULT NULL,
+    `stock_name` varchar(40) NULL DEFAULT NULL,
+    `stockdata_date` DATE NOT NULL,
+    `stockdata_closing_price` INT NOT NULL,
+    `stockdata_amount` BIGINT NOT NULL,
+    `stockdata_flucauation_rate` FLOAT NOT NULL,
+    PRIMARY KEY (`stockdata_no`),
+    CONSTRAINT `stockdata_to_stock_stock_code_fk`
+		FOREIGN KEY (`stock_code`)
+		REFERENCES `stock` (`stock_code`),
+    CONSTRAINT `stockdata_to_stock_stock_name_fk`
+		FOREIGN KEY (`stock_name`)
+		REFERENCES `stock` (`stock_code`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+-- -------------------
+-- interest TABLE
+-- -------------------
+DROP TABLE IF EXISTS `interest`;
+CREATE TABLE IF NOT EXISTS `interest`(
+	`interest_no` INT NOT NULL AUTO_INCREMENT,
+	`stock_code` VARCHAR(6) NULL DEFAULT NULL,
+    `member_no` int NULL DEFAULT NULL,
+    PRIMARY KEY (`interest_no`),
+    CONSTRAINT `interest_to_stock_stock_code_fk`
+		FOREIGN KEY (`stock_code`)
+        REFERENCES `stock` (`stock_code`),
+	CONSTRAINT `interest_to_member_member_no_fk`
+		FOREIGN KEY (`member_no`)
+        REFERENCES `member` (`member_no`)
+        ON DELETE CASCADE
+)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+-- -------------------
+-- limitpricesellorder TABLE
+-- -------------------
+DROP TABLE IF EXISTS `limitpricesellorder`;
+CREATE TABLE IF NOT EXISTS `limitpricesellorder`(
+	`limitpricesellorder_no` INT NOT NULL AUTO_INCREMENT,
+	`stock_code` VARCHAR(6) NULL DEFAULT NULL,
+    `member_no` int NULL DEFAULT NULL,
+    `reservation_price` INT NOT NULL,
+    `stocksell_amount` INT NOT NULL,
+        PRIMARY KEY (`limitpricesellorder_no`),
+    CONSTRAINT `limitpricesellorder_to_stock_stock_code_fk`
+		FOREIGN KEY (`stock_code`)
+        REFERENCES `stock` (`stock_code`),
+	CONSTRAINT `limitpricesellorder_to_member_member_no_fk`
+		FOREIGN KEY (`member_no`)
+        REFERENCES `member` (`member_no`)
+        ON DELETE CASCADE
+)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+-- -------------------
+-- limitpricebuyorder TABLE
+-- -------------------
+DROP TABLE IF EXISTS `limitpricebuyorder`;
+CREATE TABLE IF NOT EXISTS `limitpricebuyorder`(
+	`limitpricebuyorder_no` INT NOT NULL AUTO_INCREMENT,
+	`stock_code` VARCHAR(6) NULL DEFAULT NULL,
+    `member_no` int NULL DEFAULT NULL,
+    `reservation_price` INT NOT NULL,
+    `stockbuy_amount` INT NOT NULL,
+        PRIMARY KEY (`limitpricebuyorder_no`),
+    CONSTRAINT `limitpricebuyorder_to_stock_stock_code_fk`
+		FOREIGN KEY (`stock_code`)
+        REFERENCES `stock` (`stock_code`),
+	CONSTRAINT `limitpricebuyorder_to_member_member_no_fk`
+		FOREIGN KEY (`member_no`)
+        REFERENCES `member` (`member_no`)
+        ON DELETE CASCADE
+)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+-- -------------------
+-- article TABLE
+-- -------------------
+DROP TABLE IF EXISTS `article`;
+CREATE TABLE IF NOT EXISTS `article`(
+	`article_no` INT NOT NULL AUTO_INCREMENT,
+    `member_no` int NULL DEFAULT NULL,
+    `article_title` VARCHAR(100) NOT NULL,
+    `article_content` VARCHAR(1000) NOT NULL,
+    `article_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`article_no`),
+    CONSTRAINT `article_to_member_member_no_fk`
+		FOREIGN KEY (`member_no`)
+        REFERENCES `member` (`member_no`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+-- -------------------
+-- comment TABLE
+-- -------------------
+DROP TABLE IF EXISTS `comment`;
+CREATE TABLE IF NOT EXISTS `comment`(
+	`comment_no` INT NOT NULL AUTO_INCREMENT,
+	`article_no` INT NULL DEFAULT NULL,
+    `member_no` int NULL DEFAULT NULL,
+    `comment_content` VARCHAR(300) NOT NULL,
+    `comment_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`comment_no`),
+    CONSTRAINT `comment_to_article_article_no_fk`
+		FOREIGN KEY (`article_no`)
+        REFERENCES `article` (`article_no`),
+	CONSTRAINT `comment_to_member_member_no_fk`
+		FOREIGN KEY (`member_no`)
+        REFERENCES `member` (`member_no`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+```
+---
