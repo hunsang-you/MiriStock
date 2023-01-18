@@ -121,7 +121,7 @@ const options = {
         },
 
         }
-    
+
 }
 
 
@@ -144,8 +144,14 @@ export default App;
 
 ![](READMEBSH_assets/2023-01-18-01-18-47-image.png)
 
-
-
 결과그래프 x축 ticks 없애고 점없애고 radius늘림
 
 추가로 공부할것 fill gradient 색깔넣기
+
+
+
+# 0118
+
+- 프로토타입 피그마로 제작 시작
+
+- 
