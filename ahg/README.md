@@ -584,3 +584,202 @@ DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 ```
 ---
+### 2023-01-19
+
+
+- 종목명,종목코드 SQL , 연도별 사업보고서기준 매출액,당기순이익,영업이익 SQL 생성 코드
+```java
+package com.example.test;
+
+
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import com.example.DTO.Corp2;
+import com.example.DTO.Corporation;
+import com.example.DTO.DartCorp;
+import com.example.DTO.Financial;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+public class Main {
+    public static final String SERVICE_KEY = "587afc333f77de19b08c7971d93cc48706b90822";
+    public static final String SERVICE_KEY2 = "87fABOEIcdWtsvwjsYXjoVbKfO7Oms4Jap9J8psfwew3kVvfO5hmZo8TSM9qqBS49RD%2BV8S3rukAg3J9M%2FE%2Blg%3D%3D";
+    public static ArrayList<DartCorp> dartlist = new ArrayList<>();
+    private static ArrayList<String> corp;
+    private static ArrayList<String> corpname;
+    public static String[] year = new String[]{"2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022"};
+    public static String[] repocode = new String[]{"11011", "11013", "11012", "11014"};
+    public static ArrayList<Financial> finlist = new ArrayList<Financial>();
+    public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException, InterruptedException {
+        //getCorpList();
+        getDartList();
+        int k = 1;
+        corp=new Corp2().getCorplist();
+        corpname = new Corp2().getCorpname();
+//        dartlist.forEach(o -> System.out.println( "법인명 : " + o.getCorpName() + "\n" + "고유 코드 : " + o.getCorpCode() + "\n" + "종목코드 : " + o.getStock_code() + "\n" ));
+        System.out.println("총 " + dartlist.size());
+        System.out.println("총 " + corp.size());
+        File f1 = new File("c:\\stocksql.txt");
+        FileOutputStream op = new FileOutputStream (f1);
+        String sql = "";
+        for (int i =0; i < corp.size() ; i++){
+            sql += "INSERT INTO `stock` " +
+                    "VALUES (\"" + corp.get(i) + "\",\"" + corpname.get(i) + "\" );" + "\n";
+        }
+        byte[] by =sql.getBytes();
+        op.write(by);
+        op.close();
+        List<DartCorp> newdart = dartlist.stream()
+                .filter(dart -> corp.stream().anyMatch(c -> dart.getStock_code().equals(c)))
+                .collect(Collectors.toList());
+        newdart.forEach(n -> System.out.println(n.getCorpName() + " " + n.getStock_code()));
+        System.out.println(newdart.size());
+//        for (int i = 0; i < dartlist.size(); i++){
+//            System.out.println(corp.get(2280).getSrtnCd());
+//            if ( corp.get(2280).getSrtnCd().equals(dartlist.get(i).getStock_code())){
+//                System.out.println(dartlist.get(i).getCorpName() + " " + i);
+//                break;
+//            }
+//        }
+        String cCode = "";
+        int count =0;
+        String str="";
+        OutputStream output = new FileOutputStream("C:\\financialstatement.txt");
+        File file =new File("C:\\financialstatement.txt");
+        FileWriter fw =new FileWriter(file,true);
+        for (int i = 0; i < year.length; i++) {
+            for (int j = 0; j < newdart.size(); j++) {
+                count++;
+                System.out.println(count + " 번째 요청");
+                System.out.println("현재 위치 :" + newdart.get(j).getCorpCode() + "회사 " + year[i] + "년" );
+                if( count % 80 == 0){
+                    Thread.sleep(1000 * 60);
+                }
+                //System.out.println(dartlist.get(i).getCorpCode());
+                StringBuilder urlBuilder = new StringBuilder("https://opendart.fss.or.kr/api/fnlttSinglAcnt.json");
+                urlBuilder.append("?" + URLEncoder.encode("crtfc_key", "UTF-8") + "=" + SERVICE_KEY); /* Service Key */
+                urlBuilder.append("&" + URLEncoder.encode("corp_code", "UTF-8") + "=" + URLEncoder.encode(newdart.get(j).getCorpCode(), "UTF-8")); /* 페이지번호 */
+                urlBuilder.append("&" + URLEncoder.encode("bsns_year", "UTF-8") + "=" + URLEncoder.encode(year[i], "UTF-8")); /* 한 페이지 결과 수 */
+                urlBuilder.append("&" + URLEncoder.encode("reprt_code", "UTF-8") + "=" + URLEncoder.encode("11011", "UTF-8"));
+                //System.out.println(urlBuilder.toString());
+                URL url = new URL(urlBuilder.toString());
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("GET");
+                conn.setRequestProperty("Content-type", "application/json");
+
+                if (conn.getResponseCode() != 200) {
+                    System.out.println("에러발생");
+                }
+                BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                StringBuilder sb = new StringBuilder();
+
+                String line;
+
+
+                while ((line = rd.readLine()) != null) {
+                    //System.out.println(line);
+                    JSONObject item = new JSONObject(line);
+                    if (item.get("status").toString().equals("000")){
+                        JSONArray list = item.getJSONArray("list");
+                        Financial f = new Financial();
+
+                        for (int b= 0 ; b < list.length() ; b++){
+                            if (!list.getJSONObject(b).get("fs_nm").equals("연결재무제표")){
+                              //  System.out.println(list.getJSONObject(b).get("stock_code"));
+                              //  System.out.println(list.getJSONObject(b).get("bsns_year"));
+                             //   System.out.println(list.getJSONObject(b).get("account_nm")+ "  " + list.g         etJSONObject(b).get("thstrm_amount"));
+
+                                f.setStockCode(list.getJSONObject(b).get("stock_code").toString());
+                                f.setYear(list.getJSONObject(b).get("bsns_year").toString());
+                                if(list.getJSONObject(b).get("account_nm").toString().equals("매출액")){
+                                    f.setSalesRevenue(list.getJSONObject(b).get("thstrm_amount").toString().replaceAll(",",""));
+                                }
+                                if(list.getJSONObject(b).get("account_nm").toString().equals("당기순이익")){
+                                    f.setNetIncome(list.getJSONObject(b).get("thstrm_amount").toString().replaceAll(",",""));
+                                }
+                                if(list.getJSONObject(b).get("account_nm").toString().equals("영업이익")){
+                                    f.setOperating_profit(list.getJSONObject(b).get("thstrm_amount").toString().replaceAll(",",""));
+                                }
+
+                            }
+                        }
+                        if (f.getYear() != null  && f.getNetIncome() !=null && f.getStockCode()!= null && f.getOperating_profit() != null ) {
+                            finlist.add(f);
+                            System.out.println(i);
+                            System.out.println("종목코드 " + f.getStockCode());
+                            System.out.println(f.getYear() + "년");
+                            System.out.println("매출액" + f.getSalesRevenue());
+                            System.out.println("영업이익" + f.getOperating_profit());
+                            System.out.println("당기순이익" + f.getNetIncome());
+                            fw.write("INSERT INTO financialstatement (`stock_code`,`net_income`,`year`,`sales_revenue`,`operating_profit`) "+
+                                    "VALUES " + "(" + "\"" + f.getStockCode() + "\"," + f.getNetIncome() + "," + f.getYear() + "," + f.getSalesRevenue()+ "," + f.getOperating_profit()+ ");" + "\n");
+                        }
+                    }else{
+                        //System.out.println("해당년도의 데이터가 존재하지 않습니다");
+                    };
+                }
+            }
+        }
+        fw.flush();
+//        byte[] by=str.getBytes();
+//        output.write(by);
+    }
+
+
+    public static void getDartList() throws ParserConfigurationException, IOException, SAXException {
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+
+        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+
+        Document doc = dBuilder.parse("C:\\CORPCODE.xml");
+
+        doc.getDocumentElement().normalize();
+
+        Element root = doc.getDocumentElement();
+
+        NodeList n_list = root.getElementsByTagName("list");
+        Element el;
+
+        for (int i = 0; i < n_list.getLength(); i++) {
+            el = (Element) n_list.item(i);
+            if (!getTagValue("stock_code", el).equals(" ")) {
+                dartlist.add(DartCorp.builder()
+                        .corpCode(getTagValue("corp_code", el))
+                        .corpName(getTagValue("corp_name", el))
+                        .stock_code(getTagValue("stock_code", el))
+                        .modifyDate(getTagValue("modify_date", el))
+                        .build());
+            }
+
+        }
+
+    }
+
+    private static String getTagValue(String tag, Element eElement) {
+        NodeList nlList = eElement.getElementsByTagName(tag).item(0).getChildNodes();
+        Node nValue = (Node) nlList.item(0);
+        if (nValue == null)
+            return null;
+        return nValue.getNodeValue();
+    }
+
+
+}
+
+```
