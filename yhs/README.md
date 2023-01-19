@@ -158,21 +158,13 @@ labels의 개수보다 data의 수가 적으면 x축이 고정된 상태로 그�
 
 - 동작을 이해하기 위해 알아야 하는 코드 양이 아주 적다
 
-
-
 설치
 
 `npm i zustand`
 
-
-
-
-
 ### 간략한 Zustand 사용 방법
 
 - 스토어를 만들 때는 create 함수를 이용하여 상태와 그 상태를 변경하는 액션을 정의한다. 그러면 리액트 컴포넌트에서 사용할 수 있는 useStore 훅을 리턴한다.
-
-
 
 ```js
 import create from 'zustand';
@@ -203,8 +195,6 @@ export default useStore
 
 `bears`라는 초기값을 선언. 그 값을 조작 하는 `increasePopulation(bears를 1씩 증가)` 과 `removeAllBears(bears를 0으로 리셋)`를 선언합니다. 이때 `set`을 활용
 
-
-
 - store에 생성한 useStore를 불러와서 사용하기
 
 ```js
@@ -224,3 +214,7 @@ const App = () => {
 ```
 
 store에 선언한 값과 메서드를 useStore를 통해 불러와서 간단하게 사용.
+
+---
+
+# 23.01.19
