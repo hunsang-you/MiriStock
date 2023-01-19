@@ -355,3 +355,46 @@ public class FHKST03010100 {
 
 }
 ```
+
+# 1월 19일
+
+## 상속관계 매핑
+
+![image.png](TIL/hjy/readme-img/image1.png)
+
+객체에는 상속관계가 있지만 관계형 데이터베이스는 상속 관계가 없다
+
+관계형 데이터베이스에는 슈퍼타입 서브타입 관계라는 모델링 기법이 그나마 객체 상속과 유사하다.
+
+상속관계 매핑: 객체의 상속과 구조와 DB의 슈퍼타입 서브타입 관계를 매핑하는 것이다.
+
+- DB
+    - 논리 모델과 물리 모델이 있다.
+    - 논리 모델로 음반, 영화, 책을 구상한다.
+    - 가격이나 이름 등 공통적인 속성은 물품에 두고 각각에 맞는 데이터는 아래에 둔다.
+- 객체
+    - 명확하게 상속 관계가 있다.
+    - 아이템이라는 추상 타입을 만들고 그 아래에 상속 관계를 둔다.
+
+**데이터베이스에서 `슈퍼타입 서브타입 논리 모델`을 `실제 물리 모델`로 구현하는 3가지 방법**
+
+- 각각 테이블로 변환 → 조인 전략
+- Item 테이블을 Album, Movie, Book 테이블과 조인한다
+- 통합 테이블로 변환 → 단일 테이블 전략논리 모델을 하나의 테이블로 합친다.
+- 서브타입 테이블로 변환 → 구현 클래스마다 테이블 전략
+-데이터베이스 논리모델을 물리 모델로 구현하는 방법이 3가지지만, 객체 입장에서는 모두 동일하다.
+
+**`조인 전략` 과 `단일 테이블 전략` 중에서만 고민하면 된다. (`구현 클래스마다 테이블 전략`은 사용하지 말것)**
+
+- 비지니스적으로 중요하고 복잡한 경우 → 조인 전략
+- 비지니스적으로 단순한 경우 → 단일 테이블 전략
+
+
+**주요 어노테이션**
+
+- @Inheritance(strategy=InheritanceType.XXX)
+- @Inheritance(strategy=InheritanceType.JOINED) : 조인 전략
+- @Inheritance(strategy=InheritanceType.SINGLE_TABLE) : 단일 테이블 전략
+- @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS) : 구현 클래스마다 테이블 전략
+- @DiscriminatorColumn(name=“DTYPE”)운영상 DTYPE은 항상 있는게 좋다
+- @DiscriminatorValue(“XXX”)
