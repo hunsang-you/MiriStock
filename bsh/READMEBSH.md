@@ -180,8 +180,6 @@ export default App;
 
 - 아직 학습이 부족한게 많아 기존에 만들어진 프로젝트들의 폴더구조를 참고해서 공부중
 
-
-
 # 0119
 
 ![](READMEBSH_assets/2023-01-19-23-00-09-image.png)
@@ -189,3 +187,5 @@ export default App;
 ![](READMEBSH_assets/2023-01-19-23-00-28-image.png)
 
 하루종일 피그마함...
+
+mmm
