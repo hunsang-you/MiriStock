@@ -783,3 +783,202 @@ public class Main {
 }
 
 ```
+## 2023-01-20
+
+- 백 엔드 구조 작성 및 스켈레톤 코드 작성
+- Security 테스트
+```java
+package com.udteam.miristock.config;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+@Slf4j
+@Configuration
+@EnableWebSecurity
+@RequiredArgsConstructor
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception{
+        http
+                .httpBasic().disable()
+                .cors().and()
+                .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authorizeRequests()
+                .antMatchers("/**").permitAll()
+                .and()
+                .oauth2Login()
+                .userInfoEndpoint()
+                .userService(CustomOAuth2UserService);
+            
+//                .and()
+//                .oauth2Login()
+//                .authorizationEndpoint()
+//                .baseUri("/oauth2/authorization")
+//                .authorizationRequestRepository()
+//                .and()
+//                .redirectionEndpoint()
+//                .baseUri("/*/oauth2/code/*")
+//                .and()
+//                .userInfoEndpoint()
+//                .userService()
+//                .and()
+//                .successHandler()
+//                .failureHandler();
+
+    }
+
+
+}
+```
+Controller
+```java
+package com.udteam.miristock.controller;
+
+import com.udteam.miristock.dto.MemberDto;
+import com.udteam.miristock.service.MemberService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/member")
+public class MemberController {
+    private final MemberService memberservice;
+
+    @GetMapping
+    public ResponseEntity<List<MemberDto>> selectAllMember(){
+        return ResponseEntity.ok().body(memberservice.selectAllMember());
+    }
+}
+
+```
+Service
+```java 
+package com.udteam.miristock.service;
+
+import com.udteam.miristock.dto.MemberDto;
+import com.udteam.miristock.repository.MemberRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+@RequiredArgsConstructor
+public class MemberService {
+    private final MemberRepository memberrepository;
+
+    public List<MemberDto> selectAllMember(){
+        return memberrepository.findAll()
+                .stream()
+                .map(MemberDto::of)
+                .collect(Collectors.toList());
+    }
+}
+```
+repository
+```java
+package com.udteam.miristock.repository;
+
+import com.udteam.miristock.entity.MemberEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface MemberRepository extends JpaRepository<MemberEntity,Long>{
+
+}
+
+```
+entity
+```java
+package com.udteam.miristock.entity;
+
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
+
+import javax.persistence.*;
+import java.math.BigInteger;
+
+@Entity
+@Getter
+@Builder
+@NoArgsConstructor
+public class MemberEntity {
+
+    @Id
+    @Column(name="member_no")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long memberNo;
+
+    @Column(name="member_email",nullable = false,length = 320)
+    private String memberEmail;
+
+    @Column(name="member_nickname",nullable= false, length = 20)
+    private String memberNickname;
+
+    @Column(name="member_totalasset")
+    @ColumnDefault("50000000")
+    private Long memberTotalasset;
+
+    @Column(name="member_current_tile",nullable=false)
+    private int memberCurrentTime;
+
+    private Role role;
+
+}
+
+```
+DTO
+```java
+package com.udteam.miristock.dto;
+
+import com.udteam.miristock.entity.MemberEntity;
+import lombok.*;
+
+@Builder
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+public class MemberDto {
+    private long memberNo;
+    private String memberEmail;
+    private String memberNickname;
+    private Long memberTotalasset;
+    private int memberCurrentTime;
+
+    public static MemberDto of(MemberEntity member){
+        return MemberDto.builder()
+                .memberNo(member.getMemberNo())
+                .memberEmail(member.getMemberEmail())
+                .memberNickname(member.getMemberNickname())
+                .memberTotalasset(member.getMemberTotalasset())
+                .memberCurrentTime(member.getMemberCurrentTime())
+                .build();
+    }
+
+}
+
+```
