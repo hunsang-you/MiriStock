@@ -4,6 +4,171 @@
 
 ---
 
+23.01.20
+
+> html 긴 부분 컴포넌트로 만들어보기
+
+<div className="col-md-4"> 부분이 길고 복잡하고 자주 등장해서 컴포넌트로 만들어볼 것입니다.
+
+다른데서 사용할 일이 없으면 굳이 컴포넌트화 하는게 필요없을 것 같은데
+
+연습삼아서 아무튼 해봅시다.
+
+```
+function App(){
+  return (
+    <div className="App">
+      (생략)
+      <div className="container">
+        <div className="row">
+          <Card/>
+          <Card/>
+          <Card/>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function Card(){
+  return (
+    <div className="col-md-4">
+      <img src="<https://codingapple1.github.io/shop/shoes1.jpg>" width="80%" />
+      <h4>상품명</h4>
+      <p>상품정보</p>
+    </div>
+  )
+}
+```
+
+그래서 밑에 Card 라는 컴포넌트를 만들고 거기에 축약할 html을 담았습니다.
+
+> shoes에 있던거 Card 컴포넌트안에 꽂아넣기
+
+shoes라는 state는 App 컴포넌트에 있습니다.
+
+그걸 App의 자식인 Card 컴포넌트가 쓰고 싶으면
+
+App -> Card 이렇게 props 전송해주면 된다고 했습니다.
+
+```
+(function App 내부)
+
+<Card shoes={shoes}/>
+<Card shoes={shoes}/>
+<Card shoes={shoes}/>
+```
+
+이렇게 보내고
+
+```
+function Card(props){
+  return (
+    <div className="col-md-4">
+      <img src="<https://codingapple1.github.io/shop/shoes1.jpg>" width="80%" />
+      <h4>{ props.shoes[0].title }</h4>
+      <p>{ props.shoes[0].price }</p>
+    </div>
+  )
+}
+```
+
+props.보낸거 쓰면 됩니다.
+
+그럼 부모에 있던 shoes라는 state 사용가능합니다.
+
+근데 잘보면 똑같은 0번 상품만 3개나 보이고 있습니다.
+
+**Q. 왜 똑같은 카드만 3개 보이죠?**
+
+컴퓨터는 여러분이 명령한대로 움직일 뿐입니다. 다른거 보여달라고 명령주면 될듯
+
+> 컴포넌트를 매번 다르게 보여주고 싶으면
+
+예전에 모달창 만들었을 때
+
+**"props 활용하면 매번 다른 내용의 모달창 맘대로 만들 수 있다"**고 하지 않았습니까.
+
+그래서 props 이용하면 됩니다.
+
+<Card> 쓸 때 마다 각각 다른 정보를 props로 보내면 됩니다.
+
+```
+(function App 내부)
+
+<Card shoes={shoes[0]}/>
+<Card shoes={shoes[1]}/>
+<Card shoes={shoes[2]}/>
+```
+
+이렇게 보내면
+
+첫 째 <Card> 에는 {상품0 정보}
+
+둘 째 <Card> 에는 {상품1 정보} 만 보낼 수 있겠군요.
+
+```
+function Card(props){
+  return (
+    <div className="col-md-4">
+      <img src="<https://codingapple1.github.io/shop/shoes1.jpg>" width="80%" />
+      <h4>{ props.shoes.title }</h4>
+      <p>{ props.shoes.price }</p>
+    </div>
+  )
+}
+```
+
+{상품0 정보} 이런 object자료를 props로 보냈으니까
+
+데이터바인딩하는 문법도 약간 달라지겠네요.
+
+이렇게 하면 <Card> 쓸 때마다 각각 다른 내용의 <Card>를 보여줄 수 있지 않을까요.
+
+이거 말고도 방법은 여러가지가 있을 수 있겠군요.
+
+**Q. 상품 사진이 3개 다 똑같이 보이는데 뭐가 문제인건가요?**
+
+여러분이 shoes1.jpg만 보여달라고 코드 짜놔서 그런거지 컴퓨터는 죄가 없습니다.
+
+props 활용하면 매번 다른 내용의 <Card> 보여줄 수 있다고 했으니 그거 활용해보면 됩니다.
+
+```
+(function App 내부)
+
+<Card shoes={shoes[0]} i={1} />
+<Card shoes={shoes[1]} i={2} />
+<Card shoes={shoes[2]} i={3} />
+```
+
+이렇게 props로 숫자를 보내는겁니다. 대충 i라는 이름으로 보냈습니다.
+
+```
+function Card(props){
+  return (
+    <div className="col-md-4">
+      <img src={'<https://codingapple1.github.io/shop/shoes>' + props.i + '.jpg'} width="80%" />
+      <h4>{ props.shoes.title }</h4>
+      <p>{ props.shoes.price }</p>
+    </div>
+  )
+}
+```
+
+그럼 props.i 라고 출력하면 보냈던 0, 1, 2 이렇게 보냈던 숫자가 나옵니다.
+
+그걸 shoes0.jpg 자리에 집어넣는겁니다.
+
+그럼 매번 다른 신발이미지를 보여줄 수 있겠군요.
+
+문자 중간에 변수넣고 싶으면 **'문자' + 변수 + '문자'** 이렇게 쓰면 됩니다.
+
+
+
+---
+
+---
+
 23.01.19
 
 1. 오늘 만든 상품목록을 컴포넌트로 만들어봅시다. 컴포넌트도 길면 다른 파일로 빼도 상관없음
@@ -15,8 +180,6 @@
 여태까지 배웠던거 복습이라 새로운거 없습니다 혼자 힘으로 하도록 합시다.
 
 > 오늘 필요한 상품데이터
-
-
 
 ```jsx
 [
@@ -188,8 +351,6 @@ function App(){
   )
 }
 ```
-
-
 
 ---
 
