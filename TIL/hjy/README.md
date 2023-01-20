@@ -398,3 +398,122 @@ public class FHKST03010100 {
 - @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS) : 구현 클래스마다 테이블 전략
 - @DiscriminatorColumn(name=“DTYPE”)운영상 DTYPE은 항상 있는게 좋다
 - @DiscriminatorValue(“XXX”)
+
+# 1월 20일
+
+- 컨트롤러가 요청을 처리하기 전/후 처리
+- 로깅 모니터링 정보 수집, 접근제어 처리등의 실제 비지니스 로직과는 분리되어 처리햐야 하는 기능들을 넣고 싶을 때 유용
+- 인터셉터를 여러개 설정할 수 있다.
+
+# 레거시
+
+```java
+public class ConfirmInterceptor implements HandlerInterceptor  {
+
+	@Override
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+			throws Exception {
+		HttpSession session = request.getSession();
+		System.out.println("preHandle Check");
+		MemberDto memberDto = (MemberDto) session.getAttribute("userinfo");
+		if(memberDto == null) {
+			response.sendRedirect(request.getContextPath() + "/user/login");
+			return false;
+		}
+		return true;
+	}
+	
+}
+```
+
+servlet-context.xml
+
+```java
+<!-- interceptor setting -->
+<beans:bean id="confirmInterceptor" class="com.comp.interceptor.ConfirmInterceptor"></beans:bean>
+
+<interceptors>
+	<interceptor>
+		<!-- <mapping path="/boead/*"/> -->
+		<mapping path="/boead/write"/>
+		<mapping path="/boead/view"/>
+		<mapping path="/boead/modify"/>
+		<mapping path="/boead/delete"/>
+		<!-- exclude-mapping 은 해당 경로반 빼고 매핑해라  -->
+		<!-- <exclude-mapping path=""/> -->
+		<!-- 바깥에서 선언해도 되고 아래처럼 안에서 선언해도 된다-->
+		<beans:ref bean="confirmInterceptor""/>
+
+	</interceptor>
+</interceptors>
+```
+
+# 부트
+
+실습을 위한 예제 자바 파일 생성
+
+```java
+@Component
+public class CertificationInterceptor implements HandlerInterceptor{
+ 
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+            throws Exception {
+        HttpSession session = request.getSession();
+        UserVO loginVO = (UserVO) session.getAttribute("loginUser");
+ 
+        if(ObjectUtils.isEmpty(loginVO)){
+            response.sendRedirect("/moveLogin.go");
+            return false;
+        }else{
+            session.setMaxInactiveInterval(30*60);
+            return true;
+        }
+        
+    }
+ 
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+            ModelAndView modelAndView) throws Exception {
+        // TODO Auto-generated method stub
+        
+    }
+ 
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
+            throws Exception {
+        // TODO Auto-generated method stub
+        
+    }
+ 
+}
+Col
+
+```
+
+HandlerInterceptor 인터페이스를 상속받으면, 아래 3개의 메소드를 오버라이드한다.
+
+- preHandle : 클라이언트의 요청을 컨트롤러에 전달하기 전에 호출된다. 여기서 false를 리턴하면 다음 내용(Controller)을 실행하지 않는다.
+- postHandle : 클라이언트의 요청을 처리한 뒤에 호출된다. 컨트롤러에서 예외가 발생되면 실행되지 않는다.
+- afterCompletion : 클라이언트 요청을 마치고 클라이언트에서 뷰를 통해 응답을 전송한뒤 실행이 된다. 뷰를 생성할 때에 예외가 발생할 경우에도 실행이 된다.
+
+인터셉터에 대한 설정은 spring boot의 main 메소드가 있는 클래스에 해도 작동한다.
+
+하지만 @configuration 어노테이션을 사용한 configuration전용 클래스에 각종 자바로 해야하는 spring 설정들을 하는 것이 편리
+
+```java
+@Configuration
+public class WebConfig extends WebMvcConfigurerAdapter{
+
+	private final List<String> patterns = Arrays.asList("/board/*", "/admin", "/user/list");
+
+	@Autowired
+	private ConfirmInterceptor confirmInterceptor;
+    
+  @Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(confirmInterceptor).addPathPatterns(patterns);
+	}
+ 
+}
+```
