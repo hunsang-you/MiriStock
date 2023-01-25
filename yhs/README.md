@@ -354,3 +354,70 @@ store에 선언한 값과 메서드를 useStore를 통해 불러와서 간단하
 3) Redux는 상태를 읽기 전용으로 취급할 뿐, 실제 읽기 전용으로 만들어주지는 않습니다. 때문에 상태를 실수로 직접 변경하지 않도록 항상 주의해야 합니다. 이를 예방하기 위해 [Immutable.js](https://immutable-js.github.io/immutable-js/)같은 라이브러리도 존재합니다.
 
 4) 다른 것 다 필요 없고 상태 관리를 중앙화하는 것만 있어도 된다면 [Context](https://reactjs.org/docs/context.html) API 를 사용
+
+---
+
+# 23.01.25
+
+## Router
+
+```js
+import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
+```
+
+1. 페이지 이동기능 : useNavigate()
+
+```js
+function App(){
+  let navigate = useNavigate()
+
+  return (
+    // code
+    <button onClick={()=>{ navigate('/detail') }}> 다른 페이지로 이동</button>
+  )
+}
+```
+
+이때 `navigate(1)`로 표현하면 뒤로 1번 이동 가능
+
+
+
+2. 404 page
+
+`<Route path="*" element={ <div> Not Found</div> } />`
+
+- 존재하는 경로가 아닌 페이지는 모두 *로 이동 
+
+
+
+3. 서브 경로 nested routes
+- < Route>안에 < Route>를 넣음
+
+```js
+<Route path="/about/member" element={ <div>멤버들</div> } />
+<Route path="/about/location" element={ <div>회사위치</div> } />
+```
+
+도 가능하지만 
+
+```js
+<Route path="/about" element={ <About/> } >
+  <Route path="member" element={ <div>멤버들</div> } />
+  <Route path="location" element={ <div>회사위치</div> } />
+</Route>
+```
+
+로 만드는 것도 가능
+
+```js
+function About(){
+  return (
+    <div>
+      <h4>about페이지</h4>
+      <Outlet></Outlet>
+    </div>
+  )
+}
+```
+
+Outlet은 nested routes안의 element를 어디에 보여줄지 표기하는 곳
