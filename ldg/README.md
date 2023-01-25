@@ -4,6 +4,179 @@
 
 ---
 
+23.01.25 - 학습
+
+> 상세페이지에 상품명 넣어보자
+
+임시 글자들만 들어있으면 밋밋해서 그렇습니다.
+
+그래서 shoes 라는 state에 있던 상품정보들을 Detail 컴포넌트에 꽂아넣어봅시다.
+
+근데 안타깝게도 shoes는 App 컴포넌트에 있으니 App -> Detail 이렇게 전송하면 쓸 수 있겠군요.
+
+```jsx
+<Route path="/detail" element={ <Detail shoes={shoes}/> }/>
+```
+
+그래서 App.js 안에 <Detail> 쓰는 곳에서 일단 props 전송하고
+
+```jsx
+(Detail.js)
+<div className="container>
+  <div className="row">
+    <div className="col-md-6">
+      <img src="<https://codingapple1.github.io/shop/shoes1.jpg>" width="100%" />
+    </div>
+    <div className="col-md-6 mt-4">
+      <h4 className="pt-5">{props.shoes[0].title}</h4>
+      <p>{props.shoes[0].content}</p>
+      <p>{props.shoes[0].price}원</p>
+      <button className="btn btn-danger">주문하기</button>
+    </div>
+  </div>
+</div>
+```
+
+Detail 컴포넌트는 props 파라미터 등록해서 shoes를 자유롭게 사용했습니다.
+
+props.shoes[0].title 하면 0번째 상품명 나올듯
+
+**Q. 근데 shoes라는 state를 Detail.js 안에서 또 만들면 굳이 props 필요없지 않나요?**
+
+A. 나중에 수정이 필요하면 두군데 수정해야해서 귀찮으니 그러면 안됩니다.
+
+> 상세페이지 여러개 만들려면
+
+방금 만든건 0번 상품의 상세페이지일 뿐입니다.
+
+상품이 3개니까 상세페이지도 3개 필요할텐데
+
+그럼 이렇게 코드짜면 되겠군요.
+
+<Route> 쓰면 페이지하나 만들 수 있다고 했으니까...
+
+```jsx
+<Route path="/detail/0" element={ <Detail shoes={shoes}/> }/>
+<Route path="/detail/1" element={ <Detail shoes={shoes}/> }/>
+<Route path="/detail/2" element={ <Detail shoes={shoes}/> }/>
+```
+
+<Route>를 3개 만드는겁니다. 그럼 페이지 3개 완성
+
+path 작명시 슬래시 기호도 맘대로 사용가능한데 단어간 띄어쓰기용으로 많이 사용합니다.
+
+근데 상품이 100만개라면 <Route>도 100만개 만들것입니까?
+
+그건 너무 끔찍하기 때문에 다른 방법을 사용합니다.
+
+```jsx
+<Route path="/detail/:id" element={ <Detail shoes={shoes}/> }/>
+```
+
+페이지를 여러개 만들고 싶으면 URL 파라미터라는 문법을 사용가능합니다.
+
+path 작명할 때 /:어쩌구 이렇게 사용하면 **"아무 문자"**를 뜻합니다.
+
+그래서 위의 <Route>는 누군가 주소창에 **/detail/아무거나** 입력했을 때
+
+<Detail> 컴포넌트 보여달라는 뜻입니다.
+
+이제 그럼
+
+**/detail/0**
+
+**/detail/1**
+
+**/detail/2**
+
+이렇게 접속해도 <Detail> 컴포넌트 잘 보여줄 수 있습니다.
+
+문제해결
+
+> 페이지마다 똑같은 내용은 보여주기 싫은데요
+
+/detail/0
+
+/detail/1
+
+/detail/2
+
+이렇게 페이지는 여러개 만들어놨지만 접속해보면 다 똑같은 0번째 상품명만 보여주고 있습니다.
+
+왜냐면 0번째 상품명 보여달라고 여러분이 코드짰으니까요.
+
+이게 싫으면 이렇게 코드짤 수 있지않을까요.
+
+```jsx
+(Detail.js)
+
+<h4 className="pt-5">{props.shoes[현재url에입력된숫자].title}</h4>
+<p>{props.shoes[0].content}</p>
+<p>{props.shoes[0].price}원</p>
+<button className="btn btn-danger">주문하기</button>
+```
+
+0이라고 하드코딩해놨던 자리에
+
+**현재url파라미터에 입력된숫자**를 넣는겁니다.
+
+그럼 /detail/1로 접속하면 1번째 상품명을 보여줄 수 있을듯요.
+
+저런 숫자를 가져올 수 있냐고요?
+
+가져올 수 있습니다.
+
+```jsx
+import { useParams } from 'react-router-dom'
+
+function Detail(){
+  let {id} = useParams();
+  console.log(id)
+
+  return (
+    <div className="container>
+      <div className="row">
+        <div className="col-md-6">
+          <img src="<https://codingapple1.github.io/shop/shoes1.jpg>" width="100%" />
+        </div>
+        <div className="col-md-6 mt-4">
+        <h4 className="pt-5">{props.shoes[id].title}</h4>
+        <p>{props.shoes[0].content}</p>
+        <p>{props.shoes[0].price}원</p>
+        <button className="btn btn-danger">주문하기</button>
+      </div>
+    </div>
+  </div>
+  )
+}
+```
+
+useParams() 라는 함수를 상단에서 import 해오면 쓸 수 있는데
+
+이거 쓰면 현재 **/:url파라미터** 자리에 유저가 입력한 값을 가져올 수 있습니다.
+
+변수에 저장해서 쓰든가 하면 됩니다.
+
+그래서 위처럼 사용하면
+
+누가 /detail/1로 접속하면 id라는 변수에 1이 들어옵니다.
+
+누가 /detail/2로 접속하면 id라는 변수에 2가 들어옵니다.
+
+그래서 props.shoes[id].title 이러면 아까 의도했던 기능이 완성되겠군요.
+
+페이지마다 각각 다른 상품명이 보입니다.
+
+(참고)
+
+path 작명시 url 파라미터는 몇번이고 사용가능합니다. detail/:어쩌구/:저쩌구 이런식
+
+
+
+---
+
+---
+
 23.01.20
 
 > html 긴 부분 컴포넌트로 만들어보기
@@ -162,8 +335,6 @@ function Card(props){
 그럼 매번 다른 신발이미지를 보여줄 수 있겠군요.
 
 문자 중간에 변수넣고 싶으면 **'문자' + 변수 + '문자'** 이렇게 쓰면 됩니다.
-
-
 
 ---
 
