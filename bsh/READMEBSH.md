@@ -193,3 +193,43 @@ export default App;
 금요일날 저녁에 내려가서 월요일날 저녁에 올라옴.
 
 리액트 한번 다시 처음부터 공부했음
+
+
+
+# 1/25
+
+```javascript
+import {create} from 'zustand' 
+
+const useStore = create(set => ({
+  bears: 0,
+  increasePopulation: (a) => {
+    console.log(a);  
+    console.log(useStore.bears);
+    set(state => ({ bears : state.bears + 1 }));
+  },
+  removeAllBears: () => {
+    // set({ bears : 0 });
+    set(state => ({ bears : 0 }));
+  }
+}))
+
+const testStore = create(set => ({
+    cart : [
+        {id : 0, name : 'White and Black', count : 2},
+        {id : 1, name : 'Grey Yordan', count : 1}
+    ],
+    increaseCount : (id) => {
+      console.log(id);
+
+    }
+}))
+
+export {useStore, testStore}
+```
+
+zustand 상태관리 공부하는중인데 단일개체는 변환이 잘됨
+
+하지만 어레이형태 데이터는 수정이 안되고있다.
+
+우리의 자료들 대부분 형태가 어레이에 감싸져있는데 오브젝트이기 때문에 어떻게든 활로를 찾아야한다.
