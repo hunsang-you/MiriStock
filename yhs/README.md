@@ -380,16 +380,11 @@ function App(){
 
 이때 `navigate(1)`로 표현하면 뒤로 1번 이동 가능
 
-
-
 2. 404 page
 
 `<Route path="*" element={ <div> Not Found</div> } />`
 
 - 존재하는 경로가 아닌 페이지는 모두 *로 이동 
-
-
-
 3. 서브 경로 nested routes
 - < Route>안에 < Route>를 넣음
 
@@ -421,3 +416,7 @@ function About(){
 ```
 
 Outlet은 nested routes안의 element를 어디에 보여줄지 표기하는 곳
+
+--- 
+
+# 23.01.26
