@@ -233,3 +233,92 @@ zustand 상태관리 공부하는중인데 단일개체는 변환이 잘됨
 하지만 어레이형태 데이터는 수정이 안되고있다.
 
 우리의 자료들 대부분 형태가 어레이에 감싸져있는데 오브젝트이기 때문에 어떻게든 활로를 찾아야한다.
+
+
+# 0126
+# Zustand를 써보자!
+
+1. npm i zustand
+2. store.js 생성
+3. import { create } from ‘zustand’;
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5c86b066-ea16-4704-924b-83e330fcbcbb/Untitled.png)
+
+- state를 create한다. 타 상태관리 라이브러리와는 다르게 이게 끝임
+- bears → 변수명
+- increasePopulation → state 상태를 변경시킬 함수
+- set은 보통 두가지 방법으로 사용함
+
+```jsx
+set({ bears : 0 });
+set(state => ({ bears : 0 }));
+```
+
+우리는 무조건 아래방식으로 set쓸예정
+
+## 단일 변수들은 위와같은 방법으로 변경하면 됨
+
+## 하지만 우리가 받는 데이터들은 대부분 어레이속 오브젝트 형식일거라 생각
+
+## 위와 같은 방식으로는 단일개체값만 변경이 됨
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/42a72633-9531-4c23-b25f-7edc9ce763dd/Untitled.png)
+
+# 하지만 cart배열안에 첫번째 오브젝트의 count값을 바꾸고 싶다면?
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/de0ef8b1-6a15-49b9-85e4-7654fd4aa540/Untitled.png)
+
+- 먼저 testStore 안에 상태변경 함수를 만든다. 이 방법은 위에서 했던것과 동일하다.
+
+```jsx
+set 안이 좀 다른데
+({ cart : state.cart[id].count + 1 }) 이런 형식이 아니라
+({ cart : increaseCounts(state.cart, id) }) 이런 형식으로 함수를 호출해서 인자를 넘겨준다.
+```
+
+이때 호출한 함수는 testStore 바깥에 별도로 존재한다.
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/fcffc7ab-9c24-4da1-bc06-844aba425815/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1d2e6d8f-2e28-4f4e-b622-a44d0b1301f5/Untitled.png)
+
+- 여기서부턴 순수 자바스크립트 문법의 영역이라 좋다.
+- 마지막에 return으로 인자로 받았던 값만 반환을 해주면 된다.
+
+마지막으로 export 는
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5c829f50-7276-433e-a7b1-3f16c6a3340f/Untitled.png)
+
+이런식으로 하고 
+
+App.js 에서 사용을 예시로 보여주겠다.
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5cedc6a2-d0ea-4d88-95b2-ab87a4599259/Untitled.png)
+
+맨 윗단에 import를 이런형식으로 해오고
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/edbbad70-2097-40ea-80b0-4564a81e4381/Untitled.png)
+
+사용할 컴포넌트함수 안에 이렇게 불러온다.
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/306fc728-907b-43cc-a323-b9055e2ec971/Untitled.png)
+
+이런식으로 사용하면 끝!
+
+메모 : 온클릭이벤트에 ; 으로 여러개의 함수 넣을수있음.
+
+# 값들을 로컬스토리지에 저장해보자!
+
+store.js 에 persist를 import해준다. 
+
+zustand middleware에서 자체적으로 제공해줘서 별도의 라이브러리 설치는 필요없다.
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/07fd8f6e-cbd7-4926-ba5e-e103777dd228/Untitled.png)
+
+그리고 create(set ⇒ 원래 이부분이었던것을
+
+persist()로 크게 둘러준뒤
+
+스토리지 이름만 설정하면 끝이다.
+
+간단!
