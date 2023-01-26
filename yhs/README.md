@@ -420,3 +420,67 @@ Outlet은 nested routes안의 element를 어디에 보여줄지 표기하는 곳
 --- 
 
 # 23.01.26
+
+```js
+import './App.css';
+import React, { useState } from 'react';
+import { TextField } from '@mui/material';
+
+
+function App() {
+
+  const [text, setText] = useState('');
+  const [error, setError] = useState(["중복된 닉네임입니다.", "글자수가 초과되었습니다.", "특수문자는 사용할 수 없습니다." ]);
+  
+  
+  const changeText = (e) => {
+    // console.log(e.target.value)
+    setText(e.target.value);
+  }
+
+    
+    const validation = () => {
+      let check = /[~!@#$%^&*()_+-/|<>?:{}.,/;='"\\\[\]`]/;
+      // return check.test(text);
+      if (check.test(text) === true) {
+        return error[2]
+      } else if (text.length > 10) {
+        console.log(text.length)
+      }
+    }
+
+  return (
+    <div className="App">
+        <div>
+          <TextField
+            id="nickname"
+            placeholder="닉네임을 입력해주세요"
+            variant="standard"
+            onChange={ changeText }
+            value = { text }
+            error = { validation() }
+            helperText= {validation() ? error[2]:""}
+            
+            // label="Helper text"
+            // helperText="Some important text"
+            />
+            {/* <input onChange={changeText} value={ text }/> */}
+        </div>
+        
+
+    </div>
+  );
+}
+
+
+export default App;
+
+```
+
+
+
+ 첫 로그인시 닉네임 설정 유효성 검사 공부
+
+특수문자O 
+
+중복된 닉네임이 있거나 닉네임이 10글자가 초과될 경우의 에러표시 추가해야함
