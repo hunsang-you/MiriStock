@@ -666,3 +666,274 @@ select SQL_NO_CACHE  * from stockdata where stock_code in (
 ) 
 and stockdata_date between 20190101 and 20220101;
 ```
+
+# 1월 26일
+
+## 9-2. 임베디드 타입 (복합 값 타입)
+
+- 새로운 값 타입을 직접 정의할 수 있다.
+- 주로 기본 값 타입을 모아서 만들기 때문에 복합 값 타입이라고도 한다.
+- int, String처럼 임베디드 타입도 Entity가 아닌 그냥 **값 타입**이다.
+    - 변경해도 추적이 되지 않는다.
+
+![Untitled](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/f101e274-5d3e-4e5c-aaa8-3020feef8cfa/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20230126%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20230126T050830Z&X-Amz-Expires=86400&X-Amz-Signature=fd9348d8f814618db2e81d8908217744f940d27b5e04b21e095f255530867b7b&X-Amz-SignedHeaders=host&response-content-disposition=filename%3D%22Untitled.png%22&x-id=GetObject)
+
+- 근무 시작일, 근무 종료일과 도시, 우편 번호, 주소는 공통으로 묶을 수 있는 데이터다.
+
+![Untitled](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/a9f07adb-9347-415a-b471-ec019879291d/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20230126%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20230126T050909Z&X-Amz-Expires=86400&X-Amz-Signature=e9e4aaafb77427f6ad305335984f6997b3a3110ade308cf2bb1bdc9c4d724845&X-Amz-SignedHeaders=host&response-content-disposition=filename%3D%22Untitled.png%22&x-id=GetObject)
+
+- 이 데이터는 workPeriod, homeAddress처럼 묶어서 나타낼 수 있다.
+- 보통은 위와 같이 구체적으로 설명하지 않는다.
+- 회원 엔티티는 이름, 근무 기간, 집 주소를 가진다. 라고 추상적으로 설명한다.
+- ⇒ 이렇게 묶어낼 수 있는게 임베디드 타입이다.
+
+![Untitled](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/88dd8dd5-e17f-4174-884b-dbe6367bdd23/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20230126%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20230126T050928Z&X-Amz-Expires=86400&X-Amz-Signature=94e80fed1ee2941c7e4af6d051879bc988b6bd370b08beb56b2dce5b7187f5d0&X-Amz-SignedHeaders=host&response-content-disposition=filename%3D%22Untitled.png%22&x-id=GetObject)
+
+- workPeriod, homeAddress 클래스에 데이터를 정의한다.
+
+`Member`는 `id : Long`, `name : String`, `workPeriod : Period`, `homeAddress : Address` 라는 4가지 속성을 가진다.
+
+- `Period`는 `startDate, endDate` 라는 2가지 속성을 가지는 값 타입이다.
+- `Address`는 `city, street, zipcode` 라는 3가지 속성을 가지는 값 타입이다.⇒  `Period`, `Address` 가 바로 임베디드 타입
+
+## 사용법
+
+- 기본 생성자를 필수로 만들어야 한다.
+- **@Embeddable ⇒** 값을 정의하는 곳에 사용
+- **@Embedded ⇒** 값 타입을 사용하는 곳에 사용
+
+## 특징
+
+- 재사용이 가능하다.
+    - 기간이나 주소는 시스템 전체에서 재사용할 수 있는 데이터다.
+- 응집도가 높다.
+    - `Period.isWork()`처럼 **해당 값 타입만 사용하는 의미있는 메서드를 만들 수 있다**. **(객체지향적이다)**
+- **임베디드 타입을 포함한 모든 값 타입은 값 타입을 소유한 Entity에 생명주기를 의존한다.**
+
+### **임베디드 타입과 테이블 매핑**
+
+![Untitled](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/a682f777-8fa5-439d-9be4-299226f41ab4/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20230126%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20230126T050942Z&X-Amz-Expires=86400&X-Amz-Signature=5f406892b51c5cc944602d2febb63e7e2e358299edf070a4aaaa94f0ea7dabfe&X-Amz-SignedHeaders=host&response-content-disposition=filename%3D%22Untitled.png%22&x-id=GetObject)
+
+- 테이블 안의 칼럼은 똑같다.
+- 매핑만 그림과 같이 적절하게 해주면 된다.
+
+Member.java
+
+```java
+@Entity
+public class Member {
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @Column(name = "name")
+    private String username;
+
+    // period
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
+
+    // address
+    private String city;
+    private String street;
+    private String zipcode;
+}
+```
+
+![Untitled](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/69eb872b-8603-485c-b9fa-22a06573f0a3/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20230126%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20230126T050953Z&X-Amz-Expires=86400&X-Amz-Signature=1486fbd1c2dab999b9d020de5e021d4d1bfef02e1efba7eeb40b18e4afcd7673&X-Amz-SignedHeaders=host&response-content-disposition=filename%3D%22Untitled.png%22&x-id=GetObject)
+
+일단 개별 데이터로 정의해서 실행하면 테이블에 잘 생성된다.
+
+```java
+@Entity
+public class Member {
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @Column(name = "name")
+    private String username;
+
+    // 임베디드 타입으로 수정한다.
+    @Embedded
+    private Period period;
+
+    // 임베디드 타입으로 수정한다.
+    @Embedded
+    private Address address;
+
+    // 응집성 있는 로직 구현
+    public boolean isWork() {
+        return true;
+    }
+}
+```
+
+```java
+@Embeddable
+public class Period {
+
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
+}
+```
+
+```java
+@Embeddable
+public class Address {
+
+    private String city;
+    private String street;
+    private String zipcode;
+
+    // 기본 생성자 필수
+    public Address() {
+    }
+
+    public Address(String city, String street, String zipcode) {
+        this.city = city;
+        this.street = street;
+        this.zipcode = zipcode;
+    }
+}
+```
+
+```java
+public class JpaMain {
+
+    public static void main(String[] args) {
+        Member member = new Member();
+        member.setUsername("name");
+        member.setAddress(new Address("city", "street", "10001"));
+        member.setPeriod(new Period());
+
+        em.persist(member);
+
+        tx.commit();
+    }
+}
+```
+
+![Untitled](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/6191723f-7e01-4dc2-889f-58f48b2ad5f6/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20230126%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20230126T051010Z&X-Amz-Expires=86400&X-Amz-Signature=9daf52c77ff30f544e9f0f2d7c80514cb46425831cf4184de97e95553b0ae69f&X-Amz-SignedHeaders=host&response-content-disposition=filename%3D%22Untitled.png%22&x-id=GetObject)
+
+임베디드 값으로 넣어도 이전과 같은 형태로 insert 된다.
+
+## 임베디드 타입과 테이블 매핑
+
+- 임베디드 타입은 Entity의 값일 뿐이다.
+- 임베디드 타입을 사용하기 전과 후에 **매핑하는 테이블은 같다.**
+- 대신, 객체와 테이블을 아주 세밀하게 매핑하는 게 가능해진다.
+    - 잘 설계한 ORM 애플리케이션은 매핑한 테이블의 수보다 클래스의 수가 더 많다.
+- 공통으로 사용할 수 있는 도메인 언어가 많아지는 장점이 있다
+
+## 임베디드 타입과 연관 관계
+
+![Untitled](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/912b4d83-04ac-45ab-8a9c-939f49604b5a/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20230126%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20230126T051020Z&X-Amz-Expires=86400&X-Amz-Signature=fb66b07199b0f3411959568eada836a793cb90a7df969ace395dc71361aa8dd3&X-Amz-SignedHeaders=host&response-content-disposition=filename%3D%22Untitled.png%22&x-id=GetObject)
+
+```java
+@Embeddable // 값 타입을 정의하는 곳에 표시
+public class Address {
+
+    // Address 임베디드 타입으로
+    private String city;
+    private String street;
+    private String zipcode;
+
+    // 임베디드 타입은 엔티티를 가질 수 있다.
+    private Member member;
+
+    // 기본 생성자 필수
+    public Addr
+```
+
+- `Address`와 `ZipCode`처럼 임베디드 타입도 임베디드 타입을 가질 수 있다.
+- `PhoneNumber`와 `PhoneEntity`처럼 임베디드 타입이 Entity를 가질 수도 있다.
+    - FK만 가지고 있으면 가능하다. (임베디드 타입은 엔티티의 외래키 값만 가지고 있으면 되기 떄문에 가능하다.)
+    
+
+## @AttributeOverride
+
+- 한 엔티티에서 같은 값 타입을 사용할 때 적용한다.
+
+Member.java
+
+```java
+@Entity
+public class Member {
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @Column(name = "name")
+    private String username;
+
+    @Embedded
+    private Period period;
+
+    // 같은 임베디드 타입을 중복해서 사용할 경우 에러가 난다.
+    @Embedded
+    private Address homeAddress;
+
+    @Embedded
+    private Address workAddress;
+}
+```
+
+- 같은 값 타입을 사용하면 컬럼명이 중복되면서 에러가 발생한다.
+- Address homeAddress 와 Address workAddress처럼 한 엔티티에서 같은 값 타입 (Address)을 갖는 속성을 여러 개 사용하면 컬럼 명이 중복된다.
+
+```java
+@Entity
+public class Member {
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @Column(name = "name")
+    private String username;
+
+    @Embedded
+    private Period period;
+
+    @Embedded
+    private Address homeAddress;
+
+    // 칼럼 이름을 재정의 해준다.
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "city", column = @Column(name = "work_city")),
+            @AttributeOverride(name = "street", column = @Column(name = "work_street")),
+            @AttributeOverride(name = "zipcode", column = @Column(name = "work_zipcode"))
+    })
+    private Address workAddress;
+}
+```
+
+![Untitled](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/76d1562e-b065-4dbc-a8f1-5a0a8166cd93/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20230126%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20230126T051043Z&X-Amz-Expires=86400&X-Amz-Signature=e90c95f0dce321c249b29c23f34fcf7d532a2064db14ce3ee305df513e8491f9&X-Amz-SignedHeaders=host&response-content-disposition=filename%3D%22Untitled.png%22&x-id=GetObject)
+
+@AttributeOverrides, @AttributeOverride를 사용해서 컬러 명 속성을 재정의 할 수 있다. ⇒ 컬럼 명이 중복을 막을 수 있다
+
+칼럼 명을 새로 매핑해준다.
+
+## 임베디드 타입과 null
+
+임베디드 타입의 값이 null이면, 그 타입 안에 정의해서 매핑한 칼럼 값은 모두 null이다.
+
+`Period`가 null이면 그 안에 있는 `startDate` 등도 null이다.
+
+```java
+@Embedded // 값 타입을 사용하는 곳에 표시한다.
+private Period workPeriod = null; // 임베디드 타입이 null이면
+
+@Embeddable // 값 타입을 정의하는 곳에 표시
+public class Period {
+
+    private LocalDateTime startDate;
+    private LocalDateTime endDate; // startDate, endDate 도 null이다.
+
+}
+```
