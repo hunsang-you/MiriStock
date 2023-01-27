@@ -431,14 +431,14 @@ function App() {
 
   const [text, setText] = useState('');
   const [error, setError] = useState(["중복된 닉네임입니다.", "글자수가 초과되었습니다.", "특수문자는 사용할 수 없습니다." ]);
-  
-  
+
+
   const changeText = (e) => {
     // console.log(e.target.value)
     setText(e.target.value);
   }
 
-    
+
     const validation = () => {
       let check = /[~!@#$%^&*()_+-/|<>?:{}.,/;='"\\\[\]`]/;
       // return check.test(text);
@@ -460,13 +460,13 @@ function App() {
             value = { text }
             error = { validation() }
             helperText= {validation() ? error[2]:""}
-            
+
             // label="Helper text"
             // helperText="Some important text"
             />
             {/* <input onChange={changeText} value={ text }/> */}
         </div>
-        
+
 
     </div>
   );
@@ -474,13 +474,121 @@ function App() {
 
 
 export default App;
-
 ```
-
-
 
  첫 로그인시 닉네임 설정 유효성 검사 공부
 
 특수문자O 
 
 중복된 닉네임이 있거나 닉네임이 10글자가 초과될 경우의 에러표시 추가해야함
+
+---
+
+# 23.01.27
+
+```js
+import './App.css';
+import React, { useState } from 'react';
+import { TextField, Divider, Button } from '@mui/material';
+
+
+function App() {
+  
+  const [text, setText] = useState('');
+  // const [error, setError] = useState(false);
+ 
+  
+  const changeText = (e) => {
+    // console.log(e.target.value)
+    setText(e.target.value);
+  };
+
+  // 닉네임 가능여부 확인
+  const validation = () => {
+    let check_spe = /[~!@\#$%^&*\()\-=+_'\;<>\/.\`:\"\\,\[\]?|{}]/gi;      // 특수문자 제거
+    let check_str = /[ㄱ-ㅎㅏ-ㅣ]/gi;                                         // 자음, 모음 제거
+    let space = /\s/g;                                                      // 공백 제거
+    let check_name = ['kim', 'ssafy', '김싸피', '싸피']
+
+    if (check_spe.test(text) === true) {
+      return '특수문자는 사용할 수 없습니다.'
+    }
+      else if (check_str.test(text) === true) {
+      return '자음 혹은 모음만 사용할 수 없습니다'
+    } else if (space.test(text) === true) {
+      return '공백은 사용할 수 없습니다.'
+    } else if (text.length > 10) {
+      return '글자수가 초과되었습니다.'
+    } 
+    // else if (check_name.includes(text) === true) {
+    //   return '중복된 닉네임이 존재합니다.'
+    // }
+  }
+  
+  // 닉네임 오류시 색 변경
+  const changeRed = () => {
+    if (text.length > 10) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  return (
+    <div className="App">
+      <div className='container-center-horizontal'>
+        <div className='namePage screen'>
+          <div className='view'>
+
+            <div className='text-1 valign-text-middle'>
+              닉네임 설정
+            </div>
+
+            <div className='nameInput'>
+              <TextField
+                id="nickname"
+                placeholder="닉네임을 입력해주세요."
+                variant="standard"
+                onChange={ changeText }
+                value = { text }
+                error = { validation() }
+                helperText = { validation() ? validation() : "" }
+                inputProps = {{ maxLength: 15 }}
+                />
+                
+              <div className={ changeRed() ? 'lenError' : 'nameLength '} >
+                {text.length}/10
+              </div>
+              
+            </div>
+          </div>
+
+          <div className='createBtn'>
+            <Button id='createBtn' variant='outlined' size='large' >
+                미리하기
+            </Button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+export default App;
+
+
+```
+
+
+
+정규 표현식에 오류가 있었던 것 해결
+
+특수문자 제외, 자음모음 제외, 10글자 초과시 오류
+
+axios로 아이디 중복체크 까지 해야함
+
+
+
+주말동안 로그인 페이지를 시도해볼 예정
