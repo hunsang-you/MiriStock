@@ -937,3 +937,148 @@ public class Period {
 
 }
 ```
+
+# 1월 27일
+> 스프링 부트와 JPA만 사용해도 개발 생산성이 정말 많이 증가하고, 개발해야할 코드도 확연히 줄어듭니다. 
+여기에 스프링 데이터 JPA를 사용하면, 기존의 한계를 넘어 마치 마법처럼, 리포지토리에 구현 클래스 없이 인터페이스 만으로 개발을 완료할 수 있습니다. 
+그리고 반복 개발해온 기본 CRUD 기능도 스프링 데이터 JPA가 모두 제공합니다. 
+스프링 부트와 JPA라는 기반 위에, 스프링 데이터 JPA라는 환상적인 프레임워크를 더하면 개발이 정말 즐거워집니다. 
+지금까지 조금이라도 단순하고 반복이라 생각했던 개발 코드들이 확연하게 줄어듭니다. 
+따라서 개발자는 핵심 비즈니스 로직을 개발하는데, 집중할 수 있습니다. 
+실무에서 관계형 데이터베이스를 사용한다면 스프링 데이터 JPA는 이제 선택이 아니라 필수 입니다.
+> 
+
+주의: 스프링 데이터 JPA는 JPA를 편리하게 사용하도록 도와주는 기술입니다. 따라서 JPA를 먼저 학습한 후에 스프링 데이터 JPA를 학습해야 합니다.
+
+## **환경설정**
+
+설정은 JPA설정 그대로 사용함.
+
+```jsx
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	runtimeOnly 'com.h2database:h2'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+```
+
+`implementation 'org.springframework.boot:spring-boot-starter-data-jpa'`를 추가
+
+`spring-boot-starter-data-jpa`는 jdbc 관련 라이브러리도 포함
+
+## **스프링 데이터 JPA 회원 리포지토리**
+
+`SpringDataJpaMemberRepository` 인터페이스 생성
+
+```java
+package hello.hellospring.repository;
+
+import hello.hellospring.domain.Member;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
+public interface SpringDataJpaMemberRepository extends JpaRepository<Member, Long>, MemberRepository {
+
+    @Override
+    Optional<Member> findByName(String name);
+
+}
+```
+
+**Spring** Data Jpa 인터페이스인 **JpaRepository** 와 **기존에** **MemberRepository**를 상속시킨다 (`JpaRepository`, `MemberRepository` 는 인터페이스다. 따라서 다중 상속이 가능하다.)
+
+그리고 딱 하나의 메소드만 오버라이드 해주면, 구현은 끝난다.
+
+- 인터페이스가 인터페이스를 받을 때는 extends를 사용한다.
+- 인터페이스는 다중 상속이 가능하다.
+
+사실 위에 findByName 메서드를 작성했으면 우리가 이전에 했던 기능들을 전부 구현한 것이다
+
+어떻게 가능한지 분석을 해보면
+
+- `JpaRepository` 를 상속받으면 스프링 데이터 JPA가 컨테이너에 스프링 빈으로 자동 등록된다.
+- 아래 스프링 데이터 JPA 제공 클래스 사진처럼 `JpaRepository` 을 상속받는 `SpringDataJpaMemberRepository` 는 기본적인 CRUD(PK 기반의 쿼리), 페이징 기능을 제공받는다.
+- `findByName()`처럼 비지니스 로직에 의해 바뀔 수 있는 추상 메소드들은 JPA의 메소드 이름 규칙에 따라 작성해주면 알아서 구현체를 제공한다.
+- 예를 들면 `findByNameAndAge()` 추상 메소드를 생성하면 `Member` 테이블의 `Name`, `Age` 컬럼으로 찾는다.
+- 실무에서는 JPA와 스프링 데이터 JPA를 기본으로 사용하고, 복잡한 동적 쿼리는 Querydsl이라는 라이브러리를 사용하면 된다.
+- Querydsl을 사용하면 쿼리도 자바 코드로 안전하게 작성할 수 있고, 동적 쿼리도 편리하게 작성할 수 있다.
+- 이 조합으로 해결하기 어려운 쿼리는 JPA가 제공하는 네이티브 쿼리를 사용하거나, 앞서 학습한 스프링 JdbcTemplate를 사용하면 된다.
+- 참고로 스프링 데이터 JPA는 페이징 처리, 조회 기능도 제공한다.
+
+### ****스프링 데이터 JPA 제공 클래스****
+
+스프링 데이터 JPA가 기본적으로 JpaRepository에서 findAll(), save()등을 제공한다.
+
+CrudRepository에서 기본적인 save()등을 제공함.
+
+## **스프링 데이터 JPA를 사용하도록 스프링 설정 변경**
+
+`SpirngConfig` 수정
+
+```java
+package hello.hellospring;
+
+import hello.hellospring.repository.*;
+// import hello.hellospring.repository.JdbcTemplateMemberRepository;
+import hello.hellospring.service.MemberService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import javax.persistence.EntityManager;
+import javax.sql.DataSource;
+
+@Configuration
+public class SpringConfig {
+
+// JdbcTemplate 연결
+//    private final DataSource dataSource;
+//    @Autowired
+//    public SpringConfig(DataSource dataSource) {
+//        this.dataSource = dataSource;
+//    }
+
+// Jpa 연결
+//    private EntityManager em;
+//    public SpringConfig(EntityManager em) {
+//        this.em = em;
+//    }
+
+// SpringDataJpa 연결
+    private final MemberRepository memberRepository;
+    public SpringConfig(MemberRepository memberRepository){
+        this.memberRepository = memberRepository;
+    }
+
+//    @Bean
+//    public MemberService memberService() {
+//        return new MemberService(memberRepository());
+//    }
+
+    @Bean
+    public MemberService memberService() {
+        return new MemberService(memberRepository);
+    }
+
+//    @Bean
+//    public MemberRepository memberRepository() {
+// return new MemoryMemberRepository();
+//        return new JdbcMemberRepository(dataSource);
+//        return new JdbcTemplateMemberRepository(dataSource);
+//        return new JpaMemberRepository(em);
+//    }
+
+}
+```
+
+```java
+Hibernate: select member0_.id as id1_0_, member0_.name as name2_0_ from member member0_ where member0_.name=?
+Hibernate: insert into member (id, name) values (default, ?)
+```
+
+테스트를 실행해보면 Spring data JPA가 JPA 기술을 가져다 쓰는 것을 알 수 있다.
