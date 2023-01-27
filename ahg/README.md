@@ -1133,4 +1133,55 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 }
 ```
 
+## 2023-01-27
 
+- AWS EC2 로 Docker를 받아 스프링 + RDB를 테스트 배포하는 작업을 진행했음
+
+docker-compose.yml 설정
+```linux
+version: "3"
+services:
+
+    web:
+        container_name: nginx
+        image: nginx
+        ports:
+          - 80:80
+        volumes:
+          - ./nginx/conf.d:/etc/nginx/conf.d
+        depends_on:
+          - application
+
+    database:
+        image: mysql
+        restart: always
+        container_name: mysqldb
+        #        volumes:
+                #          - ~/db/var/lib/mysql:/var/lib/mysql
+        environment:
+               MYSQL_DATABASE: [dbname]
+               MYSQL_ROOT_PASSWORD: [password]
+               MYSQL_USER: miristock
+               MYSQL_PASSWORD: [userpassword]
+        command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+        ports:
+          - 3306:3306
+
+    application:
+```
+
+마운트 할 nginx conf파일 설정
+```linux
+server {
+   listen 80;
+   access_log off;
+
+   location / {
+        proxy_pass http://application:8080;
+        proxy_set_header Host $host:$server_port;
+        proxy_set_header X-Forwarded-Host $server_name;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+   }
+}
+```
