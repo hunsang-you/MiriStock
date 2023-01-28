@@ -4,6 +4,18 @@
 
 ---
 
+23.01.27
+
+pdf 업로드
+
+
+
+
+
+---
+
+---
+
 23.01.26
 
 1. npm i zustand
@@ -104,8 +116,6 @@ persist()로 크게 둘러준뒤
 간단!
 
 ![](C:\Users\SSAFY\AppData\Roaming\marktext\images\2023-01-26-14-04-49-image.png)
-
-
 
 ---
 
