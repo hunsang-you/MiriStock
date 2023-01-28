@@ -4,10 +4,10 @@ import { testStore } from './store.js';
 import { movieAPI } from './api.js';
 import { useState } from 'react';
 
+
 function App() {
   const { datas, insertData} = testStore(state => state);
   let [ searchMovies, setSearchMovies ] = useState([]);
-
   return (
     <div className="App">
       <div className="black-nav">
