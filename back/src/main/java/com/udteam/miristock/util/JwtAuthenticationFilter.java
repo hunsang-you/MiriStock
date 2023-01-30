@@ -9,6 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.FilterChain;
@@ -23,19 +24,25 @@ import java.util.Arrays;
 @Slf4j
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends GenericFilterBean{
-    TokenService tokenservice;
-    MemberRepository memberRepository;
+    private final TokenService tokenservice;
+    private final MemberRepository memberRepository;
+    private final RedisUtil redisUtil;
+
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         String token = HeaderUtil.getAccessToken((HttpServletRequest) request);
         log.info("Filter token = {}", token);
-        if (token!=null && tokenservice.verifyToken(token)){
-            SecurityContextHolder.getContext().setAuthentication(getAuthentication(memberRepository.findByMemberEmail(tokenservice.getUid(token))));
+        if (token!=null && tokenservice.verifyToken(token) && redisUtil.getData(tokenservice.getUid(token))==null){
+            String email=tokenservice.getUid(token);
+            MemberEntity m = memberRepository.findByMemberEmail(email);
+            log.info("멤버이메일 = {}",m.getMemberEmail());
+            SecurityContextHolder.getContext().setAuthentication(getAuthentication(email));
         }
         chain.doFilter(request,response);
     }
 
-    public Authentication getAuthentication(MemberEntity member){
-        return new UsernamePasswordAuthenticationToken(member.getMemberEmail(), "", Arrays.asList(new SimpleGrantedAuthority("ROLE_MEMBER")));
+    public Authentication getAuthentication(String email){
+        log.info("저장할 정보",email);
+        return new UsernamePasswordAuthenticationToken(email, "", Arrays.asList(new SimpleGrantedAuthority("ROLE_MEMBER")));
     }
 }
