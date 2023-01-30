@@ -5,6 +5,7 @@ import com.udteam.miristock.entity.RefreshTokenEntity;
 import com.udteam.miristock.entity.Role;
 import com.udteam.miristock.repository.MemberRepository;
 import com.udteam.miristock.repository.RefreshTokenRepository;
+import com.udteam.miristock.util.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -25,6 +26,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private final TokenService tokenservice;
     private final RefreshTokenRepository refreshTokenRepository;
     private final MemberRepository memberRepository;
+    private final RedisUtil redisUtil;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
@@ -38,35 +40,43 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             log.info("유저를 찾을 수 없습니다. 유저 정보를 등록합니다.");
             createMember(oAuth2User);
         }
-        if(member!=null && !member.getMemberProvider().equals(oAuth2User.getAttribute("provider"))){
+
+        if (member != null && !member.getMemberProvider().equals(oAuth2User.getAttribute("provider"))) {
             log.info("다른 소셜에 등록된 회원입니다");
             getRedirectStrategy().sendRedirect(request, response, UriComponentsBuilder.fromUriString("/error")
                     .build().toUriString());
             return;
         }
-        log.info("토큰 발행 시작");
-
-
-        if (refreshTokenRepository.findByEmail((String) oAuth2User.getAttribute("email")) == null) {
+        String nickname = memberRepository.findByMemberEmail((String) oAuth2User.getAttribute("email")).getMemberNickname();
+        //log.info("refreshToken = {}",redisUtil.getData((String) oAuth2User.getAttribute("email")));
+        if (redisUtil.getData((String) oAuth2User.getAttribute("email")) == null) {
             log.info("refresh token이 존재하지 않습니다. refresh token 생성");
 
-            // 테이블 생성 고려해 봐야할듯
-            updatetoken((String) oAuth2User.getAttribute("email"), tokenservice.generateToken(oAuth2User.getAttribute("email"), "MEMBER", "REFRESH"));
+            // Redis에 저장
+            String refreshtoken=tokenservice.generateToken((String) oAuth2User.getAttribute("email"), "MEMBER",nickname, "REFRESH");
+            redisUtil.setDataExpire((String) oAuth2User.getAttribute("email"),refreshtoken,1000L * 60L * 60L * 24L * 30L * 3L);
         }
 
-        String accesstoken = tokenservice.generateToken(oAuth2User.getAttribute("email"), "MEMBER", "ACCESS");
+        String accesstoken = tokenservice.generateToken(oAuth2User.getAttribute("email"), "MEMBER",nickname, "ACCESS");
         log.info("accecss_Token = {}", accesstoken);
 
-        // if문으로 만약 닉네임이 null 이면 닉네임 설정 페이지로 아니면 로그인 처리 후 메인으로로
-       getRedirectStrategy().sendRedirect(request, response, UriComponentsBuilder.fromUriString("/")
-                .queryParam("accesstoken", accesstoken)
-                .build().toUriString());
+        if (nickname == null){
+            // 닉네임 설정 화면으로
+            getRedirectStrategy().sendRedirect(request, response, UriComponentsBuilder.fromUriString("/")
+                    .queryParam("accesstoken", accesstoken)
+                    .build().toUriString());
+        }else {
+            // 메인으로
+            getRedirectStrategy().sendRedirect(request, response, UriComponentsBuilder.fromUriString("/")
+                    .queryParam("accesstoken", accesstoken)
+                    .build().toUriString());
+        }
     }
 
-    private RefreshTokenEntity updatetoken(String email, String token) {
+
+    private RefreshTokenEntity updatetoken(String email) {
         return refreshTokenRepository.save(RefreshTokenEntity.builder()
                 .email(email)
-                .refreshToken(token)
                 .build());
     }
 
@@ -74,6 +84,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         return memberRepository.saveAndFlush(MemberEntity.builder()
                 .memberEmail((String) oAuth2User.getAttribute("email"))
                 .memberCurrentTime(20150101)
+                .memberTotalasset(50000000L)
                 .role(Role.MEMBER)
                 .memberProvider(oAuth2User.getAttribute("provider"))
                 .build());
