@@ -19,7 +19,7 @@ public class MemberEntity {
     @Id
     @Column(name="member_no")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long memberNo;
+    private int memberNo;
 
     @Column(name="member_email",nullable = false,length = 320)
     private String memberEmail;

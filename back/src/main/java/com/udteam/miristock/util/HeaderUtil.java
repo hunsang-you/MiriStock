@@ -20,4 +20,15 @@ public class HeaderUtil {
 
         return null;
     }
+    public static String getAccessTokenString(String headerValue) {
+        if (headerValue == null) {
+            return null;
+        }
+
+        if (headerValue.startsWith(TOKEN_PREFIX)) {
+            return headerValue.substring(TOKEN_PREFIX.length());
+        }
+
+        return null;
+    }
 }
