@@ -1,9 +1,6 @@
 package com.udteam.miristock.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
@@ -11,9 +8,11 @@ import java.math.BigInteger;
 
 @Entity(name="member")
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class MemberEntity {
 
     @Id
