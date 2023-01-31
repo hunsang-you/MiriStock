@@ -1,0 +1,6 @@
+.space-between {
+    display: flex;
+    justify-content:space-between;
+    margin-top: 6vw;
+    margin-bottom: 6vw;
+}
