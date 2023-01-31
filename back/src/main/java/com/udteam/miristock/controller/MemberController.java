@@ -33,7 +33,6 @@ public class MemberController {
                 .body(memberservice.selectAllMember());
     }
 
-
     @DeleteMapping
     @ApiOperation(value = "해당 유저 회원 탈퇴 처리")
     public ResponseEntity<String> deleteMember(@RequestHeader String Authorization, Authentication auth){
