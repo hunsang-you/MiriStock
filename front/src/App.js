@@ -8,6 +8,7 @@ function App() {
   const location = useLocation();
   const pathName = location.pathname;
   const navigate = useNavigate();
+
   return (
     <div className="App">
       <h1>개발쉬작~</h1>

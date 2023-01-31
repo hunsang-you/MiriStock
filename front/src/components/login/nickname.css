@@ -1,0 +1,69 @@
+.namePage {
+  align-items: center;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  position: relative; 
+
+}
+
+.view {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  margin-top: 11.2vh;
+
+}
+
+.text-1 {
+  font-family: 'Nanum Gothic Coding';
+  font-weight: 400;
+  font-size: 20px;
+  margin-left: 6vw;
+  margin-right: 6vw;
+}
+
+
+#nickname {
+  font-family: 'Nanum Gothic Coding';
+  align-items: flex-start;
+
+}
+
+
+.nameInput {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 2.85vh;
+  margin-left: 6vw;;
+  
+}
+
+.noError {
+  color: black;
+  font-size: large;
+
+}
+
+.lenError {
+  color : red;
+  font-size: large;
+}
+
+.createBtn {
+  margin-top: 128px;
+}
+
+#createBtn {
+  border: 2px solid #6DCEF5;
+  color: #6DCEF5;
+  height: 64px;
+  width: 160px;
+  margin-left: 30vw;
+  margin-right: 30vw;
+}
+
+#createBtn:hover{
+  background-color: #6DCEF5;
+  color: white;
+}
