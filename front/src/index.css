@@ -12,3 +12,28 @@ code {
     monospace;
 }
 
+@font-face {
+	font-family: "NanumGothicCoding";
+	src: url(./static/fonts/Nanum_Gothic_Coding/NanumGothicCoding-Regular.ttf);
+}
+
+@font-face {
+	font-family: "IbmPlexSansKrLight";
+	src: url(./static/fonts/IBM_Plex_Sans_KR/IBMPlexSansKR-Light.ttf);
+}
+
+@font-face {
+	font-family: "IbmPlexSansKrLightMedium";
+	src: url(./static/fonts/IBM_Plex_Sans_KR/IBMPlexSansKR-Medium.ttf);
+}
+
+@font-face {
+	font-family: "digi";
+	src: url(./static/fonts/digital/DS-DIGI.TTF);
+}
+:root {
+  --font-NanumGothicCoding: "NanumGothicCoding";
+  --font-IbmPlexSansKrLight: "IbmPlexSansKrLight";
+  --font-IbmPlexSansKrLightMedium: "IbmPlexSansKrLightMedium";
+  --font-digi: "digi";
+}

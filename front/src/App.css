@@ -1,9 +1,14 @@
 * {
-  font-family: 'Nanum Gothic Coding';
+  font-family:  var(--font-NanumGothicCoding);
+}
+:root {
+  --vh : 100%;
 }
 
 .App {
+  overflow-x: hidden;
   text-align: center;
+  height: calc(var(--vh, 1vh) * 100);
 }
 
 .App-logo {
@@ -40,3 +45,11 @@
     transform: rotate(360deg);
   }
 }
+
+/* .body-content {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 10.5vh;
+} */
