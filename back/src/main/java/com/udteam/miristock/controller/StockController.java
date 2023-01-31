@@ -1,6 +1,6 @@
 package com.udteam.miristock.controller;
 
-import com.udteam.miristock.entity.Stock;
+import com.udteam.miristock.entity.StockEntity;
 import com.udteam.miristock.service.StockService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -20,7 +20,7 @@ public class StockController {
     private final StockService searchService;
 
     @GetMapping("/search")
-    public ResponseEntity<List<Stock>> findByStockName (@RequestParam String stockName) throws Exception{
+    public ResponseEntity<List<StockEntity>> findByStockName (@RequestParam String stockName) throws Exception{
         logger.info("종목검색 : {} :", stockName);
         return ResponseEntity.ok().body(searchService.findByStockName(stockName));
     }
