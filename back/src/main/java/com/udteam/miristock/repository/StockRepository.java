@@ -1,14 +1,14 @@
 package com.udteam.miristock.repository;
 
-import com.udteam.miristock.entity.Stock;
+import com.udteam.miristock.entity.StockEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface StockRepository extends JpaRepository<Stock, String> {
+public interface StockRepository extends JpaRepository<StockEntity, String> {
 
-    List<Stock> findByStockNameStartingWith(String stockName);
+    List<StockEntity> findByStockNameStartingWith(String stockName);
 
 }
