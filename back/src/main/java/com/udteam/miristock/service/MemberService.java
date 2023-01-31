@@ -37,16 +37,17 @@ public class MemberService {
     public MemberDto updateMember(String token,String nickname){
         String email = tokenservice.getUid(token);
         MemberEntity member = memberrepository.findByMemberEmail(email);
-        MemberEntity updatemember= MemberEntity.builder()
-                .memberNo(member.getMemberNo())
-                .memberEmail(member.getMemberEmail())
-                .memberNickname(nickname)
-                .memberProvider(member.getMemberProvider())
-                .memberTotalasset(member.getMemberTotalasset())
-                .memberCurrentTime(member.getMemberCurrentTime())
-                .role(member.getRole())
-                .build();
-        return MemberDto.of(memberrepository.saveAndFlush(updatemember));
+        member.setMemberNickname(nickname);
+//        MemberEntity updatemember= MemberEntity.builder()
+//                .memberNo(member.getMemberNo())
+//                .memberEmail(member.getMemberEmail())
+//                .memberNickname(nickname)
+//                .memberProvider(member.getMemberProvider())
+//                .memberTotalasset(member.getMemberTotalasset())
+//                .memberCurrentTime(member.getMemberCurrentTime())
+//                .role(member.getRole())
+//                .build();
+        return MemberDto.of(memberrepository.saveAndFlush(member));
     }
 
     public MemberDto selectOneMember(String token){
