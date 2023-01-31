@@ -1,12 +1,13 @@
 .wrapper {
   position: fixed;
-  bottom: 0;
   left: 0;
   right: 0;
-  height: 10.5vh;
+  bottom: 0;
+  height: 10vh;
 }
 
 nav {
+  background-color: white;
   overflow: hidden;
   border-top: 3px solid rgba(0, 0, 0, 0.15);
   border-top-left-radius: 10%;

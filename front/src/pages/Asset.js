@@ -1,9 +1,5 @@
 const Asset = () => {
-  return (
-    <div>
-      <p>자산페이지입니다.</p>
-    </div>
-  );
+  return <div>자산페이지입니다.</div>;
 };
 
 export default Asset;
