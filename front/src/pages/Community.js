@@ -1,4 +1,4 @@
-const Question = () => {
+const Community = () => {
   return (
     <div>
       <p>질문창입니다.</p>
@@ -6,4 +6,4 @@ const Question = () => {
   );
 };
 
-export default Question;
+export default Community;
