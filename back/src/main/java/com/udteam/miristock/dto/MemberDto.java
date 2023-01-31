@@ -5,6 +5,7 @@ import lombok.*;
 
 @Builder
 @Getter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class MemberDto {
@@ -23,5 +24,4 @@ public class MemberDto {
                 .memberCurrentTime(member.getMemberCurrentTime())
                 .build();
     }
-
 }

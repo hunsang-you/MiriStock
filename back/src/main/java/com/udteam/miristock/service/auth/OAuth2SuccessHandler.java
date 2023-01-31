@@ -1,10 +1,8 @@
 package com.udteam.miristock.service.auth;
 
 import com.udteam.miristock.entity.MemberEntity;
-import com.udteam.miristock.entity.RefreshTokenEntity;
 import com.udteam.miristock.entity.Role;
 import com.udteam.miristock.repository.MemberRepository;
-import com.udteam.miristock.repository.RefreshTokenRepository;
 import com.udteam.miristock.util.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,14 +15,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Map;
 
 @Slf4j
-@RequiredArgsConstructor
 @Component
+@RequiredArgsConstructor
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final TokenService tokenservice;
-    private final RefreshTokenRepository refreshTokenRepository;
     private final MemberRepository memberRepository;
     private final RedisUtil redisUtil;
 
@@ -71,13 +67,6 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                     .queryParam("accesstoken", accesstoken)
                     .build().toUriString());
         }
-    }
-
-
-    private RefreshTokenEntity updatetoken(String email) {
-        return refreshTokenRepository.save(RefreshTokenEntity.builder()
-                .email(email)
-                .build());
     }
 
     private MemberEntity createMember(OAuth2User oAuth2User) {
