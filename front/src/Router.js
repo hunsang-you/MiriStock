@@ -9,6 +9,7 @@ import {
   StockDetail,
 } from './pages';
 import TestChart from './components/chart/TestChart';
+import TestSample from './components/chart/TestSample';
 import React from 'react';
 
 const Router = () => {
@@ -22,6 +23,7 @@ const Router = () => {
       <Route path="/community" element={<Community />}></Route>
       <Route path="/more" element={<More />}></Route>
       <Route path="/testchart" element={<TestChart />}></Route>
+      <Route path="/testsample" element={<TestSample />}></Route>
       <Route></Route>
     </Routes>
   );
