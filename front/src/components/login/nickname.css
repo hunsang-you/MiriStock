@@ -12,6 +12,7 @@
   margin-top: 11.2vh;
   justify-content: center;
 }
+
 .setname {
   display: flex;
   flex-direction: column;
@@ -20,7 +21,6 @@
   position: relative;
   margin: auto;
 }
-
 
 .text-1 {
   text-align: start;

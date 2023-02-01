@@ -12,3 +12,15 @@ const navStore = create(
     { name: 'navStore' },
   ),
 );
+
+// const useStore = create(
+//   persist(
+//     (set) => ({
+//       watchList: [],
+//       setWatchList: (select) => {
+//         set((state) => ({ ...state, watchList: select }));
+//       },
+//     }),
+//     { name: 'watchStore' },
+//   ),
+// );
