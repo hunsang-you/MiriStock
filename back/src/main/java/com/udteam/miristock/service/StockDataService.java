@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class StockDataService {
 
     private final StockDataRepository stockDataRepository;

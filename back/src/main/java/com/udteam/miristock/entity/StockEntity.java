@@ -5,8 +5,10 @@ import lombok.*;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
-@Entity(name ="stock")
+@Entity
+@Table(name ="stock")
 @Getter
 @Setter
 @Builder
