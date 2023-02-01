@@ -4,7 +4,6 @@ import com.udteam.miristock.dto.MemberDto;
 import com.udteam.miristock.entity.MemberEntity;
 import com.udteam.miristock.repository.MemberRepository;
 import com.udteam.miristock.service.auth.TokenService;
-import com.udteam.miristock.util.HeaderUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.repository.Modifying;

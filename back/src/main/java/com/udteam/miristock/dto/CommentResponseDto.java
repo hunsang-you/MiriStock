@@ -1,10 +1,15 @@
 package com.udteam.miristock.dto;
 
 import com.udteam.miristock.entity.CommentEntity;
-import lombok.Getter;
+import lombok.*;
+
 import java.time.LocalDateTime;
 
+@Builder
 @Getter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class CommentResponseDto {
 
     private Long commentNo;

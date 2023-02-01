@@ -1,9 +1,13 @@
 package com.udteam.miristock.dto;
 
 import com.udteam.miristock.entity.StockDataEntity;
-import lombok.Getter;
+import lombok.*;
 
+@Builder
 @Getter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class StockDataResponseDto {
 
 //    private Long stockDataNo;

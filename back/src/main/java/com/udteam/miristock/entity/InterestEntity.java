@@ -4,7 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Entity(name="interest")
+@Entity
+@Table(name="interest")
 @Getter
 @Setter
 @Builder

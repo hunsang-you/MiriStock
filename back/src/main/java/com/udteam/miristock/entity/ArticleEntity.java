@@ -6,10 +6,14 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "article")
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class ArticleEntity {
 
     @Id
@@ -29,16 +33,5 @@ public class ArticleEntity {
     @OneToMany(mappedBy = "article", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @OrderBy("commentNo asc") // 댓글 정렬
     private List<CommentEntity> comments;
-
-
-    @Builder
-    public ArticleEntity (Long articleNo, String memberNickname, String articleTitle, String articleContent, LocalDateTime articleDate, List<CommentEntity> comments) {
-        this.articleNo = articleNo;
-        this.memberNickname = memberNickname;
-        this.articleTitle = articleTitle;
-        this.articleContent = articleContent;
-        this.articleDate = articleDate;
-        this.comments = comments;
-    }
 
 }
