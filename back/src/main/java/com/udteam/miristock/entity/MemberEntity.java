@@ -6,7 +6,8 @@ import org.hibernate.annotations.ColumnDefault;
 import javax.persistence.*;
 import java.math.BigInteger;
 
-@Entity(name="member")
+@Entity
+@Table(name="member")
 @Getter
 @Setter
 @Builder

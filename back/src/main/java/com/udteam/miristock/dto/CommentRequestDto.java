@@ -2,16 +2,15 @@ package com.udteam.miristock.dto;
 
 import com.udteam.miristock.entity.ArticleEntity;
 import com.udteam.miristock.entity.CommentEntity;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
-@NoArgsConstructor
+@Builder
 @Getter
 @ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class CommentRequestDto {
 
     private Long commentNo; // 댓글 번호
@@ -21,14 +20,6 @@ public class CommentRequestDto {
     private String commentContent; // 내용
     private LocalDateTime commentDate; // 작성시간
 
-    @Builder
-    public CommentRequestDto(Long commentNo, Long articleNo, String memberNickname, String commentContent, LocalDateTime commentDate) {
-        this.commentNo = commentNo;
-        this.articleNo = articleNo;
-        this.memberNickname = memberNickname;
-        this.commentContent = commentContent;
-        this.commentDate = commentDate;
-    }
 
     public CommentEntity toEntity() {
         return CommentEntity.builder()

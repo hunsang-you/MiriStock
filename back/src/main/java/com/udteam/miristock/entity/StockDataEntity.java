@@ -1,16 +1,17 @@
 package com.udteam.miristock.entity;
 
-
 import lombok.*;
 
 import javax.persistence.*;
 
-@Getter
-@Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "stockdata")
-
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class StockDataEntity {
 
     @Id
@@ -37,18 +38,5 @@ public class StockDataEntity {
 
     @Column(name = "stockdata_flucauation_rate")
     private Long stockDataFlucauationRate;
-
-    @Builder
-    public StockDataEntity (Long stockDataNo, String stockCode, String stockName, int stockDataDate, int stockDataClosingPrice,
-                            Long stockDataAmount, Long stockDataPriceIncreasement, Long stockDataFlucauationRate) {
-        this.stockDataNo = stockDataNo;
-        this.stockCode = stockCode;
-        this.stockName = stockName;
-        this.stockDataDate = stockDataDate;
-        this.stockDataClosingPrice = stockDataClosingPrice;
-        this.stockDataAmount = stockDataAmount;
-        this.stockDataPriceIncreasement = stockDataPriceIncreasement;
-        this.stockDataFlucauationRate = stockDataFlucauationRate;
-    }
 
 }
