@@ -5,7 +5,7 @@ import React from 'react';
 const Router = () => {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route path="/*" element={<Home />} />
       <Route path="/stockdetail/"></Route>
       <Route path="/login/*" element={<Login />}></Route>
       <Route path="/search" element={<Search />}></Route>
