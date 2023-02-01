@@ -4,7 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Entity(name="memberasset")
+@Entity
+@Table(name="memberasset")
 @Getter
 @Setter
 @Builder

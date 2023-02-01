@@ -1,14 +1,17 @@
 package com.udteam.miristock.dto;
 
 import com.udteam.miristock.entity.ArticleEntity;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Builder
 @Getter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class ArticleResponseDto {
     private Long articleNo; // 글 번호
     private String memberNickname; // 작성자 닉네임

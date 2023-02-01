@@ -1,29 +1,27 @@
 package com.udteam.miristock.controller;
 
-import com.udteam.miristock.entity.SearchRecord;
+import com.udteam.miristock.entity.SearchRecordEntity;
 import com.udteam.miristock.service.SearchRecordService;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequiredArgsConstructor
+@Slf4j
 @RestController
 @RequestMapping("/searchrecord")
+@RequiredArgsConstructor
 public class SearchRecordController {
 
     private final SearchRecordService searchRecordService;
 
-    private final Logger logger = LoggerFactory.getLogger(SearchRecordController.class);
-
     // 검색기록 출력
     @GetMapping("/list")
-    public ResponseEntity<List<SearchRecord>> save(@RequestHeader(value = "memberNo" ) Long memberNo) throws Exception{
-        logger.info("주식 종목 검색 기록 출력");
-        logger.info("memberNo : {} ", memberNo);
+    public ResponseEntity<List<SearchRecordEntity>> save(@RequestHeader(value = "memberNo" ) Long memberNo) throws Exception{
+        log.info("주식 종목 검색 기록 출력");
+        log.info("memberNo : {} ", memberNo);
         return ResponseEntity.ok().body(searchRecordService.findByMemberNo(memberNo));
     }
 
@@ -36,15 +34,15 @@ public class SearchRecordController {
 
     // 검색기록 등록
     @PostMapping
-    public Long save(@RequestBody SearchRecord searchRecord){
-        logger.info("searchRecord : {}", searchRecord);
-        return searchRecordService.save(searchRecord);
+    public Long save(@RequestBody SearchRecordEntity searchRecordEntity){
+        log.info("searchRecord : {}", searchRecordEntity);
+        return searchRecordService.save(searchRecordEntity);
     }
 
     //검색기록 제거
     @DeleteMapping
     public void delete(@RequestHeader(value = "searchNo" ) Long searchNo){
-        logger.info("searchNo : {}", searchNo);
+        log.info("searchNo : {}", searchNo);
         searchRecordService.delete(searchNo);
     }
 

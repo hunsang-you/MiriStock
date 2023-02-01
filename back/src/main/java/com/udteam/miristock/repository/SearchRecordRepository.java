@@ -1,11 +1,13 @@
 package com.udteam.miristock.repository;
 
-import com.udteam.miristock.entity.SearchRecord;
+import com.udteam.miristock.entity.SearchRecordEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface SearchRecordRepository extends JpaRepository<SearchRecord, Long> {
+@Repository
+public interface SearchRecordRepository extends JpaRepository<SearchRecordEntity, Long> {
 
-    List<SearchRecord> findByMemberNo (Long memberNo);
+    List<SearchRecordEntity> findByMemberNo (Long memberNo);
 }
