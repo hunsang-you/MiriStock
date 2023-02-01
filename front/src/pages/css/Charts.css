@@ -1,6 +1,21 @@
 .space-between {
     display: flex;
     justify-content:space-between;
-    margin-top: 6vw;
-    margin-bottom: 6vw;
+}
+ 
+.space-margin {
+    margin: 6vw;
+}
+
+.divbox {
+    background-color: F4F4F4;
+}
+
+.selectDay {
+    display: flex;
+    margin: 6vw;
+}
+
+.selectDay div {
+    margin: auto
 }
