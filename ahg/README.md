@@ -1,7 +1,9 @@
 ## 2023-01-16
+
 - 요구사항 명세서 작성
 - 사용 기술스택 명세서 작성
 - 재무제표 API 데이터 가져와서 필터링하고 추출하는 코드 작성 ( 연결재무제표,재무제표 어떤 데이터가 맞는지 확인 필요, 분기별 보고서 제한 생각해둬야함 (요청건수 제한이 1만건 언저리인데 요청건수가 10만건 가까이 되기 떄문))
+
 ```java
 package com.example.test;
 
@@ -98,11 +100,14 @@ public class Main {
 ```
 
 ---
+
 ### 2023-01-17
+
 - 기능 명세서 작성
 - 코딩 컨벤션 회의
 
 java stream을 이용한 제무재표 종목 필터링, XML 파일 파싱 , json 데이터 파싱 으로 원하는 데이터 추출하는 코드 작성
+
 ```java
 package com.example.test;
 
@@ -294,7 +299,9 @@ public class Main {
 
 }
 ```
+
 출력 내용
+
 ```json
 https://opendart.fss.or.kr/api/fnlttSinglAcnt.json?crtfc_key=API_KEY&corp_code=00126380&bsns_year=2018&reprt_code=11011
 {"status":"000","message":"정상","list":[{"rcept_no":"20190401004781","reprt_code":"11011","bsns_year":"2018","corp_code":"00126380","stock_code":"005930","fs_div":"CFS","fs_nm":"연결재무제표","sj_div":"BS","sj_nm":"재무상태표","account_nm":"유동자산","thstrm_nm":"제 50 기","thstrm_dt":"2018.12.31 현재","thstrm_amount":"174,697,424,000,000","frmtrm_nm":"제 49 기","frmtrm_dt":"2017.12.31 현재","frmtrm_amount":"146,982,464,000,000","bfefrmtrm_nm":"제 48 기","bfefrmtrm_dt":"2016.12.31 현재","bfefrmtrm_amount":"141,429,704,000,000","ord":"1","currency":"KRW"},{"rcept_no":"20190401004781","reprt_code":"11011","bsns_year":"2018","corp_code":"00126380","stock_code":"005930","fs_div":"CFS","fs_nm":"연결재무제표","sj_div":"BS","sj_nm":"재무상태표","account_nm":"비유동자산","thstrm_nm":"제 50 기","thstrm_dt":"2018.12.31 현재","thstrm_amount":"164,659,820,000,000","frmtrm_nm":"제 49 기","frmtrm_dt":"2017.12.31 현재","frmtrm_amount":"154,769,626,000,000","bfefrmtrm_nm":"제 48 기","bfefrmtrm_dt":"2016.12.31 현재","bfefrmtrm_amount":"120,744,620,000,000","ord":"3","currency":"KRW"},{"rcept_no":"20190401004781","reprt_code":"11011","bsns_year":"2018","corp_code":"00126380","stock_code":"005930","fs_div":"CFS","fs_nm":"연결재무제표","sj_div":"BS","sj_nm":"재무상태표","account_nm":"자산총계","thstrm_nm":"제 50 기","thstrm_dt":"2018.12.31 현재","thstrm_amount":"339,357,244,000,000","frmtrm_nm":"제 49 기","frmtrm_dt":"2017.12.31 현재","frmtrm_amount":"301,752,090,000,000","bfefrmtrm_nm":"제 48 기","bfefrmtrm_dt":"2016.12.31 현재","bfefrmtrm_amount":"262,174,324,000,000","ord":"5","currency":"KRW"},{"rcept_no":"20190401004781","reprt_code":"11011","bsns_year":"2018","corp_code":"00126380","stock_code":"005930","fs_div":"CFS","fs_nm":"연결재무제표","sj_div":"BS","sj_nm":"재무상태표","account_nm":"유동부채","thstrm_nm":"제 50 기","thstrm_dt":"2018.12.31 현재","thstrm_amount":"69,081,510,000,000","frmtrm_nm":"제 49 기","frmtrm_dt":"2017.12.31 현재","frmtrm_amount":"67,175,114,000,000","bfefrmtrm_nm":"제 48 기","bfefrmtrm_dt":"2016.12.31 현재","bfefrmtrm_amount":"54,704,095,000,000","ord":"7","currency":"KRW"},{"rcept_no":"20190401004781","reprt_code":"11011","bsns_year":"2018","corp_code":"00126380","stock_code":"005930","fs_div":"CFS","fs_nm":"연결재무제표","sj_div":"BS","sj_nm":"재무상태표","account_nm":"비유동부채","thstrm_nm":"제 50 기","thstrm_dt":"2018.12.31 현재","thstrm_amount":"22,522,557,000,000","frmtrm_nm":"제 49 기","frmtrm_dt":"2017.12.31 현재","frmtrm_amount":"20,085,548,000,000","bfefrmtrm_nm":"제 48 기","bfefrmtrm_dt":"2016.12.31 현재","bfefrmtrm_amount":"14,507,196,000,000","ord":"9","currency":"KRW"},{"rcept_no":"20190401004781","reprt_code":"11011","bsns_year":"2018","corp_code":"00126380","stock_code":"005930","fs_div":"CFS","fs_nm":"연결재무제표","sj_div":"BS","sj_nm":"재무상태표","account_nm":"부채총계","thstrm_nm":"제 50 기","thstrm_dt":"2018.12.31 현재","thstrm_amount":"91,604,067,000,000","frmtrm_nm":"제 49 기","frmtrm_dt":"2017.12.31 현재","frmtrm_amount":"87,260,662,000,000","bfefrmtrm_nm":"제 48 기","bfefrmtrm_dt":"2016.12.31 현재","bfefrmtrm_amount":"69,211,291,000,000","ord":"11","currency":"KRW"},{"rcept_no":"20190401004781","reprt_code":"11011","bsns_year":"2018","corp_code":"00126380","stock_code":"005930","fs_div":"CFS","fs_nm":"연결재무제표","sj_div":"BS","sj_nm":"재무상태표","account_nm":"자본금","thstrm_nm":"제 50 기","thstrm_dt":"2018.12.31 현재","thstrm_amount":"897,514,000,000","frmtrm_nm":"제 49 기","frmtrm_dt":"2017.12.31 현재","frmtrm_amount":"897,514,000,000","bfefrmtrm_nm":"제 48 기","bfefrmtrm_dt":"2016.12.31 현재","bfefrmtrm_amount":"897,514,000,000","ord":"13","currency":"KRW"},{"rcept_no":"20190401004781","reprt_code":"11011","bsns_year":"2018","corp_code":"00126380","stock_code":"005930","fs_div":"CFS","fs_nm":"연결재무제표","sj_div":"BS","sj_nm":"재무상태표","account_nm":"이익잉여금","thstrm_nm":"제 50 기","thstrm_dt":"2018.12.31 현재","thstrm_amount":"242,698,956,000,000","frmtrm_nm":"제 49 기","frmtrm_dt":"2017.12.31 현재","frmtrm_amount":"215,811,200,000,000","bfefrmtrm_nm":"제 48 기","bfefrmtrm_dt":"2016.12.31 현재","bfefrmtrm_amount":"193,086,317,000,000","ord":"17","currency":"KRW"},{"rcept_no":"20190401004781","reprt_code":"11011","bsns_year":"2018","corp_code":"00126380","stock_code":"005930","fs_div":"CFS","fs_nm":"연결재무제표","sj_div":"BS","sj_nm":"재무상태표","account_nm":"자본총계","thstrm_nm":"제 50 기","thstrm_dt":"2018.12.31 현재","thstrm_amount":"247,753,177,000,000","frmtrm_nm":"제 49 기","frmtrm_dt":"2017.12.31 현재","frmtrm_amount":"214,491,428,000,000","bfefrmtrm_nm":"제 48 기","bfefrmtrm_dt":"2016.12.31 현재","bfefrmtrm_amount":"192,963,033,000,000","ord":"21","currency":"KRW"},{"rcept_no":"20190401004781","reprt_code":"11011","bsns_year":"2018","corp_code":"00126380","stock_code":"005930","fs_div":"CFS","fs_nm":"연결재무제표","sj_div":"IS","sj_nm":"손익계산서","account_nm":"매출액","thstrm_nm":"제 50 기","thstrm_dt":"2018.01.01 ~ 2018.12.31","thstrm_amount":"243,771,415,000,000","frmtrm_nm":"제 49 기","frmtrm_dt":"2017.01.01 ~ 2017.12.31","frmtrm_amount":"239,575,376,000,000","bfefrmtrm_nm":"제 48 기","bfefrmtrm_dt":"2016.01.01 ~ 2016.12.31","bfefrmtrm_amount":"201,866,745,000,000","ord":"23","currency":"KRW"},{"rcept_no":"20190401004781","reprt_code":"11011","bsns_year":"2018","corp_code":"00126380","stock_code":"005930","fs_div":"CFS","fs_nm":"연결재무제표","sj_div":"IS","sj_nm":"손익계산서","account_nm":"영업이익","thstrm_nm":"제 50 기","thstrm_dt":"2018.01.01 ~ 2018.12.31","thstrm_amount":"58,886,669,000,000","frmtrm_nm":"제 49 기","frmtrm_dt":"2017.01.01 ~ 2017.12.31","frmtrm_amount":"53,645,038,000,000","bfefrmtrm_nm":"제 48 기","bfefrmtrm_dt":"2016.01.01 ~ 2016.12.31","bfefrmtrm_amount":"29,240,672,000,000","ord":"25","currency":"KRW"},{"rcept_no":"20190401004781","reprt_code":"11011","bsns_year":"2018","corp_code":"00126380","stock_code":"005930","fs_div":"CFS","fs_nm":"연결재무제표","sj_div":"IS","sj_nm":"손익계산서","account_nm":"법인세차감전 순이익","thstrm_nm":"제 50 기","thstrm_dt":"2018.01.01 ~ 2018.12.31","thstrm_amount":"61,159,958,000,000","frmtrm_nm":"제 49 기","frmtrm_dt":"2017.01.01 ~ 2017.12.31","frmtrm_amount":"56,195,967,000,000","bfefrmtrm_nm":"제 48 기","bfefrmtrm_dt":"2016.01.01 ~ 2016.12.31","bfefrmtrm_amount":"30,713,652,000,000","ord":"27","currency":"KRW"},{"rcept_no":"20190401004781","reprt_code":"11011","bsns_year":"2018","corp_code":"00126380","stock_code":"005930","fs_div":"CFS","fs_nm":"연결재무제표","sj_div":"IS","sj_nm":"손익계산서","account_nm":"당기순이익","thstrm_nm":"제 50 기","thstrm_dt":"2018.01.01 ~ 2018.12.31","thstrm_amount":"44,344,857,000,000","frmtrm_nm":"제 49 기","frmtrm_dt":"2017.01.01 ~ 2017.12.31","frmtrm_amount":"42,186,747,000,000","bfefrmtrm_nm":"제 48 기","bfefrmtrm_dt":"2016.01.01 ~ 2016.12.31","bfefrmtrm_amount":"22,726,092,000,000","ord":"29","currency":"KRW"},{"rcept_no":"20190401004781","reprt_code":"11011","bsns_year":"2018","corp_code":"00126380","stock_code":"005930","fs_div":"OFS","fs_nm":"재무제표","sj_div":"BS","sj_nm":"재무상태표","account_nm":"유동자산","thstrm_nm":"제 50 기","thstrm_dt":"2018.12.31 현재","thstrm_amount":"80,039,455,000,000","frmtrm_nm":"제 49 기","frmtrm_dt":"2017.12.31 현재","frmtrm_amount":"70,155,189,000,000","bfefrmtrm_nm":"제 48 기","bfefrmtrm_dt":"2016.12.31 현재","bfefrmtrm_amount":"69,981,128,000,000","ord":"2","currency":"KRW"},{"rcept_no":"20190401004781","reprt_code":"11011","bsns_year":"2018","corp_code":"00126380","stock_code":"005930","fs_div":"OFS","fs_nm":"재무제표","sj_div":"BS","sj_nm":"재무상태표","account_nm":"비유동자산","thstrm_nm":"제 50 기","thstrm_dt":"2018.12.31 현재","thstrm_amount":"138,981,902,000,000","frmtrm_nm":"제 49 기","frmtrm_dt":"2017.12.31 현재","frmtrm_amount":"128,086,171,000,000","bfefrmtrm_nm":"제 48 기","bfefrmtrm_dt":"2016.12.31 현재","bfefrmtrm_amount":"104,821,831,000,000","ord":"4","currency":"KRW"},{"rcept_no":"20190401004781","reprt_code":"11011","bsns_year":"2018","corp_code":"00126380","stock_code":"005930","fs_div":"OFS","fs_nm":"재무제표","sj_div":"BS","sj_nm":"재무상태표","account_nm":"자산총계","thstrm_nm":"제 50 기","thstrm_dt":"2018.12.31 현재","thstrm_amount":"219,021,357,000,000","frmtrm_nm":"제 49 기","frmtrm_dt":"2017.12.31 현재","frmtrm_amount":"198,241,360,000,000","bfefrmtrm_nm":"제 48 기","bfefrmtrm_dt":"2016.12.31 현재","bfefrmtrm_amount":"174,802,959,000,000","ord":"6","currency":"KRW"},{"rcept_no":"20190401004781","reprt_code":"11011","bsns_year":"2018","corp_code":"00126380","stock_code":"005930","fs_div":"OFS","fs_nm":"재무제표","sj_div":"BS","sj_nm":"재무상태표","account_nm":"유동부채","thstrm_nm":"제 50 기","thstrm_dt":"2018.12.31 현재","thstrm_amount":"43,145,053,000,000","frmtrm_nm":"제 49 기","frmtrm_dt":"2017.12.31 현재","frmtrm_amount":"44,495,084,000,000","bfefrmtrm_nm":"제 48 기","bfefrmtrm_dt":"2016.12.31 현재","bfefrmtrm_amount":"34,076,122,000,000","ord":"8","currency":"KRW"},{"rcept_no":"20190401004781","reprt_code":"11011","bsns_year":"2018","corp_code":"00126380","stock_code":"005930","fs_div":"OFS","fs_nm":"재무제표","sj_div":"BS","sj_nm":"재무상태표","account_nm":"비유동부채","thstrm_nm":"제 50 기","thstrm_dt":"2018.12.31 현재","thstrm_amount":"2,888,179,000,000","frmtrm_nm":"제 49 기","frmtrm_dt":"2017.12.31 현재","frmtrm_amount":"2,176,501,000,000","bfefrmtrm_nm":"제 48 기","bfefrmtrm_dt":"2016.12.31 현재","bfefrmtrm_amount":"3,180,075,000,000","ord":"10","currency":"KRW"},{"rcept_no":"20190401004781","reprt_code":"11011","bsns_year":"2018","corp_code":"00126380","stock_code":"005930","fs_div":"OFS","fs_nm":"재무제표","sj_div":"BS","sj_nm":"재무상태표","account_nm":"부채총계","thstrm_nm":"제 50 기","thstrm_dt":"2018.12.31 현재","thstrm_amount":"46,033,232,000,000","frmtrm_nm":"제 49 기","frmtrm_dt":"2017.12.31 현재","frmtrm_amount":"46,671,585,000,000","bfefrmtrm_nm":"제 48 기","bfefrmtrm_dt":"2016.12.31 현재","bfefrmtrm_amount":"37,256,197,000,000","ord":"12","currency":"KRW"},{"rcept_no":"20190401004781","reprt_code":"11011","bsns_year":"2018","corp_code":"00126380","stock_code":"005930","fs_div":"OFS","fs_nm":"재무제표","sj_div":"BS","sj_nm":"재무상태표","account_nm":"자본금","thstrm_nm":"제 50 기","thstrm_dt":"2018.12.31 현재","thstrm_amount":"897,514,000,000","frmtrm_nm":"제 49 기","frmtrm_dt":"2017.12.31 현재","frmtrm_amount":"897,514,000,000","bfefrmtrm_nm":"제 48 기","bfefrmtrm_dt":"2016.12.31 현재","bfefrmtrm_amount":"897,514,000,000","ord":"15","currency":"KRW"},{"rcept_no":"20190401004781","reprt_code":"11011","bsns_year":"2018","corp_code":"00126380","stock_code":"005930","fs_div":"OFS","fs_nm":"재무제표","sj_div":"BS","sj_nm":"재무상태표","account_nm":"이익잉여금","thstrm_nm":"제 50 기","thstrm_dt":"2018.12.31 현재","thstrm_amount":"166,555,532,000,000","frmtrm_nm":"제 49 기","frmtrm_dt":"2017.12.31 현재","frmtrm_amount":"150,928,724,000,000","bfefrmtrm_nm":"제 48 기","bfefrmtrm_dt":"2016.12.31 현재","bfefrmtrm_amount":"140,747,574,000,000","ord":"19","currency":"KRW"},{"rcept_no":"20190401004781","reprt_code":"11011","bsns_year":"2018","corp_code":"00126380","stock_code":"005930","fs_div":"OFS","fs_nm":"재무제표","sj_div":"BS","sj_nm":"재무상태표","account_nm":"자본총계","thstrm_nm":"제 50 기","thstrm_dt":"2018.12.31 현재","thstrm_amount":"172,988,125,000,000","frmtrm_nm":"제 49 기","frmtrm_dt":"2017.12.31 현재","frmtrm_amount":"151,569,775,000,000","bfefrmtrm_nm":"제 48 기","bfefrmtrm_dt":"2016.12.31 현재","bfefrmtrm_amount":"137,546,762,000,000","ord":"22","currency":"KRW"},{"rcept_no":"20190401004781","reprt_code":"11011","bsns_year":"2018","corp_code":"00126380","stock_code":"005930","fs_div":"OFS","fs_nm":"재무제표","sj_div":"IS","sj_nm":"손익계산서","account_nm":"매출액","thstrm_nm":"제 50 기","thstrm_dt":"2018.01.01 ~ 2018.12.31","thstrm_amount":"170,381,870,000,000","frmtrm_nm":"제 49 기","frmtrm_dt":"2017.01.01 ~ 2017.12.31","frmtrm_amount":"161,915,007,000,000","bfefrmtrm_nm":"제 48 기","bfefrmtrm_dt":"2016.01.01 ~ 2016.12.31","bfefrmtrm_amount":"133,947,204,000,000","ord":"24","currency":"KRW"},{"rcept_no":"20190401004781","reprt_code":"11011","bsns_year":"2018","corp_code":"00126380","stock_code":"005930","fs_div":"OFS","fs_nm":"재무제표","sj_div":"IS","sj_nm":"손익계산서","account_nm":"영업이익","thstrm_nm":"제 50 기","thstrm_dt":"2018.01.01 ~ 2018.12.31","thstrm_amount":"43,699,451,000,000","frmtrm_nm":"제 49 기","frmtrm_dt":"2017.01.01 ~ 2017.12.31","frmtrm_amount":"34,857,091,000,000","bfefrmtrm_nm":"제 48 기","bfefrmtrm_dt":"2016.01.01 ~ 2016.12.31","bfefrmtrm_amount":"13,647,436,000,000","ord":"26","currency":"KRW"},{"rcept_no":"20190401004781","reprt_code":"11011","bsns_year":"2018","corp_code":"00126380","stock_code":"005930","fs_div":"OFS","fs_nm":"재무제표","sj_div":"IS","sj_nm":"손익계산서","account_nm":"법인세차감전 순이익","thstrm_nm":"제 50 기","thstrm_dt":"2018.01.01 ~ 2018.12.31","thstrm_amount":"44,398,855,000,000","frmtrm_nm":"제 49 기","frmtrm_dt":"2017.01.01 ~ 2017.12.31","frmtrm_amount":"36,533,552,000,000","bfefrmtrm_nm":"제 48 기","bfefrmtrm_dt":"2016.01.01 ~ 2016.12.31","bfefrmtrm_amount":"14,725,074,000,000","ord":"28","currency":"KRW"},{"rcept_no":"20190401004781","reprt_code":"11011","bsns_year":"2018","corp_code":"00126380","stock_code":"005930","fs_div":"OFS","fs_nm":"재무제표","sj_div":"IS","sj_nm":"손익계산서","account_nm":"당기순이익","thstrm_nm":"제 50 기","thstrm_dt":"2018.01.01 ~ 2018.12.31","thstrm_amount":"32,815,127,000,000","frmtrm_nm":"제 49 기","frmtrm_dt":"2017.01.01 ~ 2017.12.31","frmtrm_amount":"28,800,837,000,000","bfefrmtrm_nm":"제 48 기","bfefrmtrm_dt":"2016.01.01 ~ 2016.12.31","bfefrmtrm_amount":"11,579,749,000,000","ord":"30","currency":"KRW"}]}
@@ -327,9 +334,11 @@ https://opendart.fss.or.kr/api/fnlttSinglAcnt.json?crtfc_key=API_KEY&corp_code=0
 종료 코드 0(으)로 완료된 프로세스
 
 ```
+
 스켈레톤코드. DB 설계와 같이 파싱할 데이터 확정하고 완성할 예정
 
 ---
+
 ### 2023-01-18
 
 - DB 테이블 작성
@@ -583,11 +592,13 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 ```
+
 ---
+
 ### 2023-01-19
 
-
 - 종목명,종목코드 SQL , 연도별 사업보고서기준 매출액,당기순이익,영업이익 SQL 생성 코드
+
 ```java
 package com.example.test;
 
@@ -783,10 +794,12 @@ public class Main {
 }
 
 ```
+
 ## 2023-01-20
 
 - 백 엔드 구조 작성 및 스켈레톤 코드 작성
 - Security 테스트
+
 ```java
 package com.udteam.miristock.config;
 
@@ -823,7 +836,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .oauth2Login()
                 .userInfoEndpoint()
                 .userService(CustomOAuth2UserService);
-            
+
 //                .and()
 //                .oauth2Login()
 //                .authorizationEndpoint()
@@ -844,7 +857,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 }
 ```
+
 Controller
+
 ```java
 package com.udteam.miristock.controller;
 
@@ -871,8 +886,10 @@ public class MemberController {
 }
 
 ```
+
 Service
-```java 
+
+```java
 package com.udteam.miristock.service;
 
 import com.udteam.miristock.dto.MemberDto;
@@ -896,7 +913,9 @@ public class MemberService {
     }
 }
 ```
+
 repository
+
 ```java
 package com.udteam.miristock.repository;
 
@@ -910,7 +929,9 @@ public interface MemberRepository extends JpaRepository<MemberEntity,Long>{
 }
 
 ```
+
 entity
+
 ```java
 package com.udteam.miristock.entity;
 
@@ -951,7 +972,9 @@ public class MemberEntity {
 }
 
 ```
+
 DTO
+
 ```java
 package com.udteam.miristock.dto;
 
@@ -982,12 +1005,13 @@ public class MemberDto {
 }
 
 ```
+
 ## 2023-01-25
 
 - OAuth2.0 인증 구현
 
-
 CustomOAuth2UserService.java
+
 ```java
 package com.udteam.miristock.service.auth;
 
@@ -1049,6 +1073,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 ```
 
 OAuth2SuccessHandler.java
+
 ```java
 package com.udteam.miristock.service.auth;
 
@@ -1138,6 +1163,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 - AWS EC2 로 Docker를 받아 스프링 + RDB를 테스트 배포하는 작업을 진행했음
 
 docker-compose.yml 설정
+
 ```linux
 version: "3"
 services:
@@ -1171,6 +1197,7 @@ services:
 ```
 
 마운트 할 nginx conf파일 설정
+
 ```linux
 server {
    listen 80;
@@ -1184,4 +1211,113 @@ server {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
    }
 }
+```
+
+### 2023-02-01
+
+- git jenkins 연동
+- ec2 jenkins 연동
+- 쉘 스크립트 작성 중
+
+deploy.sh
+
+```
+#!/bin/bash
+echo "> 현재 구동중인 profile 확인"
+CURRENT_PROFILE=$(curl -s http://localhost/utils/profile)
+echo "> $CURRENT_PROFILE"
+
+if [ $CURRENT_PROFILE == production-set1 ]
+then
+  IDLE_PROFILE=production-set2
+  IDLE_PORT=9002
+elif [ $CURRENT_PROFILE == production-set2 ]
+then
+  IDLE_PROFILE=production-set1
+  IDLE_PORT=9001
+else
+  echo "> 일치하는 Profile이 없습니다. Profile: $CURRENT_PROFILE"
+  echo "> set1을 할당합니다. IDLE_PROFILE: set1"
+  IDLE_PROFILE=production-set1
+  IDLE_PORT=9001
+fi
+
+IMAGE_NAME=app_server
+TAG_ID=$(docker images | sort -r -k2 -h | grep "${IMAGE_NAME}" | awk 'BEGIN{tag = 1} NR==1{tag += $2} END{print tag}')
+
+echo "> 도커 build 실행 : docker build --build-arg IDLE_PROFILE=${IDLE_PROFILE} -t ${IMAGE_NAME}:${TAG_ID} ."
+docker build --build-arg IDLE_PROFILE=${IDLE_PROFILE} -t ${IMAGE_NAME}:${TAG_ID} /home/ubuntu/app-server
+
+echo "> $IDLE_PROFILE 배포"
+echo "> 도커 run 실행 :  sudo docker run --name $IDLE_PROFILE -d --rm -p $IDLE_PORT:${IDLE_PORT} ${IMAGE_NAME}:${TAG_ID}"
+docker run --name $IDLE_PROFILE -d --rm -p $IDLE_PORT:${IDLE_PORT} ${IMAGE_NAME}:${TAG_ID}
+
+echo "> $IDLE_PROFILE 10초 후 Health check 시작"
+echo "> curl -s http://localhost:$IDLE_PORT/actuator/health "
+sleep 10
+
+for retry_count in {1..10}
+do
+  response=$(curl -s http://localhost:$IDLE_PORT/actuator/health)
+  up_count=$(echo $response | grep 'UP' | wc -l)
+
+  if [ $up_count -ge 1 ]
+  then
+    echo "> Health check 성공"
+    break
+  else
+    echo "> Health check의 응답을 알 수 없거나 혹은 status가 UP이 아닙니다."
+    echo "> Health check: ${response}"
+  fi
+
+  if [ $retry_count -eq 10 ]
+  then
+    echo "> Health check 실패. "
+    echo "> Nginx에 연결하지 않고 배포를 종료합니다."
+    exit 1
+  fi
+
+  echo "> Health check 연결 실패. 재시도..."
+  sleep 10
+done
+
+echo "> 스위칭을 시도합니다..."
+sleep 5
+
+/home/ubuntu/app-server/switch.sh
+```
+
+switch.sh
+
+```
+#!/bin/bash
+echo "> 현재 구동중인 Port 확인"
+CURRENT_PROFILE=$(curl -s http://localhost/utils/profile)
+
+if [ $CURRENT_PROFILE == production-set1 ]
+then
+  CURRENT_PORT=9001
+  IDLE_PORT=9002
+elif [ $CURRENT_PROFILE == production-set2 ]
+then
+  CURRENT_PORT=9002
+  IDLE_PORT=9001
+else
+  echo "> 일치하는 Profile이 없습니다. Profile:$CURRENT_PROFILE"
+  echo "> 9001을 할당합니다."
+  IDLE_PORT=9001
+fi
+
+echo "> 현재 구동중인 Port: $CURRENT_PORT"
+echo "> 전환할 Port : $IDLE_PORT"
+echo "> Port 전환"
+echo "set \$service_url http://127.0.0.1:${IDLE_PORT};" | sudo tee /etc/nginx/conf.d/service-url.inc
+
+echo "> ${CURRENT_PROFILE} 컨테이너 삭제"
+sudo docker stop $CURRENT_PROFILE
+sudo docker rm $CURRENT_PROFILE
+
+echo "> Nginx Reload"
+
+sudo service nginx reload
 ```
