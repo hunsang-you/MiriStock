@@ -17,7 +17,7 @@ public class InterestEntity {
     @Id
     @Column(name ="interest_no")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int interestNo;
+    private Integer interestNo;
 
     @ManyToOne
     @JoinColumn(name="stock_code")

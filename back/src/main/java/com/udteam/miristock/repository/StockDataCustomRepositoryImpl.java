@@ -34,8 +34,7 @@ public class StockDataCustomRepositoryImpl implements StockDataCustomRepository 
                     .where(stockDataEntity.stockCode.eq(searchStockCode)
                             .and(isSearchEndDateNull(searchStartDate, searchEndDate))
                     ).fetchAll();
-        List<StockDataEntity> result = query.fetch();
-        return result;
+        return query.fetch();
 
     }
 }

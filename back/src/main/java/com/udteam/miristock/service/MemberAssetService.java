@@ -13,7 +13,7 @@ public class MemberAssetService {
     private final MemberAssetRepository memberAssetRepository;
 
 
-    public MemberAssetDto selectMemberAsset(int id){
+    public MemberAssetDto selectMemberAsset(Integer id){
         return MemberAssetDto.of(memberAssetRepository.findById(id).get());
     }
 

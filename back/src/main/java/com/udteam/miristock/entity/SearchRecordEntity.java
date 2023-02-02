@@ -16,8 +16,8 @@ public class SearchRecordEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long searchNo;
-    private Long memberNo;
+    private Integer searchNo;
+    private Integer memberNo;
     private String stockCode;
     private String stockName;
 

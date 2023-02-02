@@ -24,25 +24,25 @@ public class ArticleController {
     }
 
     @GetMapping("/{articleNo}")
-    public ArticleResponseDto findOne(@PathVariable Long articleNo){
+    public ArticleResponseDto findOne(@PathVariable Integer articleNo){
         log.info("article 목록 한개");
         return articleService.findOne(articleNo);
     }
 
     @PostMapping
-    public Long save(@RequestBody ArticleRequestDto articleRequestDto){
+    public Integer save(@RequestBody ArticleRequestDto articleRequestDto){
         log.info("articleRequestDto : {}", articleRequestDto);
         return articleService.save(articleRequestDto);
     }
 
     @PutMapping
-    public Long update(@RequestBody ArticleRequestDto articleRequestDto){
+    public Integer update(@RequestBody ArticleRequestDto articleRequestDto){
         log.info("articleRequestDto : {}", articleRequestDto);
         return articleService.save(articleRequestDto);
     }
 
     @DeleteMapping
-    public void delete(@RequestParam Long articleNo){
+    public void delete(@RequestParam Integer articleNo){
         log.info("articleRequestDto : {}", articleNo);
         articleService.delete(articleNo);
     }

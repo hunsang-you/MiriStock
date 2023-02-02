@@ -11,12 +11,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CommentResponseDto {
-
-    private Long commentNo;
+    private Integer commentNo;
     private String commentContent;
     private String memberNickname;
     private LocalDateTime commentDate; // 작성시간
-    private Long articleNo; // 글 번호
+    private Integer articleNo; // 글 번호
 
     public CommentResponseDto(CommentEntity entity){
         this.commentNo = entity.getCommentNo();

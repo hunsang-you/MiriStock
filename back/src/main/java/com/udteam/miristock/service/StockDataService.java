@@ -21,7 +21,7 @@ public class StockDataService {
     private final StockDataCustomRepository stockDataCustomRepository;
 
     // 등락률 가장 낮은 5개 순서대로 가져오기
-    public List<StockDataResponseDto> findTop5BySFlucauationRateAsc(int stockDataDate){
+    public List<StockDataResponseDto> findTop5BySFlucauationRateAsc(Integer stockDataDate){
         List<StockDataResponseDto> stockDataEntityList
                 = stockDataRepository.findTop5ByStockDataDateOrderByStockDataFlucauationRateAsc(stockDataDate)
                 .stream().map(StockDataResponseDto::new)
@@ -30,7 +30,7 @@ public class StockDataService {
     }
 
     // 등락률 가장 높은 순서대로 5개 출력
-    public List<StockDataResponseDto> findTop5BySFlucauationRateDesc(int stockDataDate){
+    public List<StockDataResponseDto> findTop5BySFlucauationRateDesc(Integer stockDataDate){
         List<StockDataResponseDto> stockDataEntityList
                 = stockDataRepository.findTop5ByStockDataDateOrderByStockDataFlucauationRateDesc(stockDataDate)
                 .stream().map(StockDataResponseDto::new)

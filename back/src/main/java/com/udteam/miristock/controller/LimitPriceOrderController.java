@@ -28,12 +28,9 @@ public class LimitPriceOrderController {
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
         if (m == null){
             log.info(ErrorMessage.TOKEN_EXPIRE);
-            // 엑세스 토큰 재 발급 프로세스 필요
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } else {
-            return ResponseEntity.ok()
-                    .body(limitPriceOrderService.findAll((int) m.getMemberNo()));
+            return ResponseEntity.ok().body(limitPriceOrderService.findAll(m.getMemberNo()));
         }
     }
 
@@ -42,12 +39,10 @@ public class LimitPriceOrderController {
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
         if (m == null){
             log.info(ErrorMessage.TOKEN_EXPIRE);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } else {
-            limitPriceOrderDto.setMemberNo((int) m.getMemberNo());
-            return ResponseEntity.ok()
-                    .body(limitPriceOrderService.save(limitPriceOrderDto));
+            limitPriceOrderDto.setMemberNo(m.getMemberNo());
+            return ResponseEntity.ok().body(limitPriceOrderService.save(limitPriceOrderDto));
         }
     }
 
@@ -56,12 +51,10 @@ public class LimitPriceOrderController {
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
         if (m == null){
             log.info(ErrorMessage.TOKEN_EXPIRE);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } else {
-            limitPriceOrderDto.setMemberNo((int) m.getMemberNo());
-            return ResponseEntity.ok()
-                    .body(limitPriceOrderService.save(limitPriceOrderDto));
+            limitPriceOrderDto.setMemberNo(m.getMemberNo());
+            return ResponseEntity.ok().body(limitPriceOrderService.save(limitPriceOrderDto));
         }
     }
 
@@ -70,12 +63,10 @@ public class LimitPriceOrderController {
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
         if (m == null){
             log.info(ErrorMessage.TOKEN_EXPIRE);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } else {
             limitPriceOrderService.delete(limitPriceOrderNo);
-            return ResponseEntity.ok()
-                    .body(null);
+            return ResponseEntity.ok().body(null);
         }
     }
 

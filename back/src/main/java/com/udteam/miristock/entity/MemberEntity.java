@@ -19,7 +19,7 @@ public class MemberEntity {
     @Id
     @Column(name="member_no")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int memberNo;
+    private Integer memberNo;
 
     @Column(name="member_email",nullable = false,length = 320)
     private String memberEmail;
@@ -32,7 +32,7 @@ public class MemberEntity {
     private Long memberTotalasset;
 
     @Column(name="member_current_time",nullable=false)
-    private int memberCurrentTime;
+    private Integer memberCurrentTime;
 
     @Column(name="provider",nullable=false)
     private String memberProvider;

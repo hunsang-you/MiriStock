@@ -24,22 +24,22 @@ public class ArticleService {
                 .collect(Collectors.toList());
     }
 
-    public ArticleResponseDto findOne(Long articleNO) {
+    public ArticleResponseDto findOne(Integer articleNO) {
         return new ArticleResponseDto(articleRepository.findById(articleNO).get());
     }
 
     @Transactional // 메서드 실행시 트랜잭션 시작, 정상종료되면 커밋, 에러발생시 종료
-    public Long save(ArticleRequestDto articleRequestDto) {
+    public Integer save(ArticleRequestDto articleRequestDto) {
         return articleRepository.save(articleRequestDto.toEntity()).getArticleNo();
     }
 
     @Transactional
-    public Long update(ArticleRequestDto articleRequestDto) {
+    public Integer update(ArticleRequestDto articleRequestDto) {
         return articleRepository.save(articleRequestDto.toEntity()).getArticleNo();
     }
 
     @Transactional
-    public void delete(Long articleNo) {
+    public void delete(Integer articleNo) {
         articleRepository.delete(ArticleEntity.builder().articleNo(articleNo).build());
     }
 
