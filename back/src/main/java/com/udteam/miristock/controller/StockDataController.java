@@ -20,6 +20,12 @@ public class StockDataController {
 
     private final StockDataService stockDataService;
 
+    @GetMapping("/amount/top/{stockDataDate}")
+    public ResponseEntity<List<StockDataResponseDto>> findTop5AmountDesc(@PathVariable Integer stockDataDate) {
+        log.info("date : {} ", stockDataDate);
+        return ResponseEntity.ok().body(stockDataService.findTop5AmountDesc(stockDataDate));
+    }
+
     @GetMapping("/rate/decrease/{stockDataDate}")
     public ResponseEntity<List<StockDataResponseDto>> findTop5FlucauationRateAsc(@PathVariable Integer stockDataDate) {
         log.info("date : {} ", stockDataDate);

@@ -11,11 +11,14 @@ import java.util.List;
 @Repository
 public interface StockDataRepository extends JpaRepository<StockDataEntity, Integer> {
 
+    // 거래량 많은 5개 불러오기
+    List<StockDataEntity> findTopByStockCodeOrderByStockDataAmountDesc(Integer stockDataDate);
+
     // 등락률 가장 낮은 순서대로 5개 출력
-    public List<StockDataEntity> findTop5ByStockDataDateOrderByStockDataFlucauationRateAsc(Integer stockDataDate);
+    List<StockDataEntity> findTop5ByStockDataDateOrderByStockDataFlucauationRateAsc(Integer stockDataDate);
 
     // 등락률 가장 높은 순서대로 5개 출력
-    public List<StockDataEntity> findTop5ByStockDataDateOrderByStockDataFlucauationRateDesc(Integer stockDataDate);
+    List<StockDataEntity> findTop5ByStockDataDateOrderByStockDataFlucauationRateDesc(Integer stockDataDate);
 
 
 }
