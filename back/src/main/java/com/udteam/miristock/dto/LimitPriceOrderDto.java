@@ -1,11 +1,8 @@
 package com.udteam.miristock.dto;
 
-import com.udteam.miristock.entity.ArticleEntity;
 import com.udteam.miristock.entity.Deal;
 import com.udteam.miristock.entity.LimitPriceOrderEntity;
 import lombok.*;
-
-import java.util.stream.Collectors;
 
 @Builder
 @Getter
