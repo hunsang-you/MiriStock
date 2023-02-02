@@ -1,27 +1,25 @@
 import { useState } from 'react';
-import axios from 'axios';
 import { useNavigate, useParams, Route, Routes } from 'react-router-dom';
 import { AiOutlineHeart } from 'react-icons/ai';
 import { FaRegCommentDots } from 'react-icons/fa';
-import Detail from './Detail';
 import './css/ArticleItem.css';
 
-const ArticleItem = (item) => {
+const ArticleItem = (props) => {
   const navigate = useNavigate();
-
+  const item = props.item;
   return (
     <div
       className="article-item"
       onClick={() => {
-        navigate('detail/');
+        navigate('detail/' + item.id);
       }}
     >
       <div className="userid">
-        <span> {item.item.userId} </span>
+        <span> {item.userId} </span>
       </div>
 
       <div className="title">
-        <span> {item.item.title} </span>
+        <span> {item.title} </span>
       </div>
       <div className="icon">
         <div className="like">
