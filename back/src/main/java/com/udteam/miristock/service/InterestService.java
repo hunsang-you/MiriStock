@@ -21,21 +21,21 @@ public class InterestService {
     private final MemberRepository memberRepository;
     private final StockRepository stockRepository;
 
-    public List<InterestDto> selectMemberStock(int id){
+    public List<InterestDto> selectMemberStock(Integer id){
         return interestRepository.findAllById(Collections.singleton(id))
                 .stream()
                 .map(InterestDto::of)
                 .collect(Collectors.toList());
     }
 
-    public InterestDto insertIntereststock(long id,String stockCode) {
+    public InterestDto insertIntereststock(Integer id, String stockCode) {
         return InterestDto.of(interestRepository.saveAndFlush(InterestEntity.builder()
                 .member(memberRepository.findById(id).get())
                 .stock(stockRepository.findById(stockCode).get())
                 .build()));
     }
 
-    public String deleteIntereststock(int id,String stockCode){
+    public String deleteIntereststock(Integer id, String stockCode){
         interestRepository.deleteByMember_MemberNoAndStock_StockCode(id,stockCode);
         return "삭제 완료";
     }

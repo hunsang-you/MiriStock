@@ -29,8 +29,7 @@ public class MemberController {
     @GetMapping
     @ApiOperation(value ="모든 유저 호출 (TEST 용)")
     public ResponseEntity<List<MemberDto>> selectAllMember(){
-        return ResponseEntity.ok()
-                .body(memberservice.selectAllMember());
+        return ResponseEntity.ok().body(memberservice.selectAllMember());
     }
 
     @DeleteMapping
@@ -42,8 +41,7 @@ public class MemberController {
         if (memberservice.deleteMember(token)!= 0){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
         }
-        return ResponseEntity.ok()
-                .body("delete OK");
+        return ResponseEntity.ok().body("delete OK");
     }
 
     @PutMapping("/nickname")

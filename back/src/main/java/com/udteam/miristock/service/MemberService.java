@@ -26,7 +26,7 @@ public class MemberService {
                 .collect(Collectors.toList());
     }
 
-    public int deleteMember(String token){
+    public Integer deleteMember(String token){
         String email = tokenservice.getUid(token);
         log.info("이메일 출력={}",email);
         return memberrepository.deleteByMemberEmail(email);

@@ -39,7 +39,7 @@ public class SearchRecordController {
 
     // 검색기록 등록
     @PostMapping
-    public ResponseEntity<Long> save(@RequestHeader String Authorization, @RequestBody SearchRecordEntity searchRecordEntity){
+    public ResponseEntity<Integer> save(@RequestHeader String Authorization, @RequestBody SearchRecordEntity searchRecordEntity){
         log.info("searchRecord : {}", searchRecordEntity);
         log.info("주식 종목 검색 기록 등록");
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
@@ -58,7 +58,7 @@ public class SearchRecordController {
 
     //검색기록 제거
     @DeleteMapping
-    public ResponseEntity<Void> delete(@RequestHeader String Authorization, @PathVariable Long searchno){
+    public ResponseEntity<Void> delete(@RequestHeader String Authorization, @PathVariable Integer searchno){
         log.info("searchNo : {}", searchno);
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
 

@@ -17,19 +17,19 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping
-    public Long save(@RequestBody CommentRequestDto commentRequestDto){
+    public Integer save(@RequestBody CommentRequestDto commentRequestDto){
         log.info("CommentRequestDto : {}", commentRequestDto);
         return commentService.save(commentRequestDto);
     }
 
     @PutMapping
-    public Long update(@RequestBody CommentRequestDto commentRequestDto){
+    public Integer update(@RequestBody CommentRequestDto commentRequestDto){
         log.info("CommentRequestDto : {}", commentRequestDto);
         return commentService.save(commentRequestDto);
     }
 
     @DeleteMapping
-    public void delete(@RequestParam Long commentNo){
+    public void delete(@RequestParam Integer commentNo){
         log.info("CommentRequestDto : {}", commentNo);
         commentService.delete(commentNo);
     }

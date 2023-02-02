@@ -16,7 +16,7 @@ public class StockDataEntity {
 
     @Id
     @Column(name = "stockdata_no")
-    private Long stockDataNo;
+    private Integer stockDataNo;
 
     @Column(name = "stock_code")
     private String stockCode;
@@ -25,18 +25,18 @@ public class StockDataEntity {
     private String stockName;
 
     @Column(name = "stockdata_date")
-    private int stockDataDate;
+    private Integer stockDataDate;
 
     @Column(name = "stockdata_closing_price")
-    private int stockDataClosingPrice;
+    private Integer stockDataClosingPrice;
 
     @Column(name = "stockdata_amount")
     private Long stockDataAmount;
 
     @Column(name = "stockdata_price_increasement")
-    private Long stockDataPriceIncreasement;
+    private Integer stockDataPriceIncreasement;
 
     @Column(name = "stockdata_flucauation_rate")
-    private Long stockDataFlucauationRate;
+    private Float stockDataFlucauationRate;
 
 }

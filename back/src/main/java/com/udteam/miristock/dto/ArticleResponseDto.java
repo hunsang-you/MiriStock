@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ArticleResponseDto {
-    private Long articleNo; // 글 번호
+    private Integer articleNo; // 글 번호
     private String memberNickname; // 작성자 닉네임
     private String articleTitle; // 제목
     private String articleContent; // 내용
