@@ -57,7 +57,7 @@ public class SearchRecordController {
     }
 
     //검색기록 제거
-    @DeleteMapping
+    @DeleteMapping("/{searchno}")
     public ResponseEntity<Void> delete(@RequestHeader String Authorization, @PathVariable Integer searchno){
         log.info("searchNo : {}", searchno);
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
