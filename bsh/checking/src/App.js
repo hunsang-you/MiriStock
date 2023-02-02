@@ -21,7 +21,7 @@ function App() {
         .catch((err)=>{
           console.log(err);
         })
-      }}></input>
+      }}/>
       <p>{
         searchMovies.length !== 0 ? searchMovies.map((data,i)=>{
           return (
