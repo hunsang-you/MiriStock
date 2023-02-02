@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class ArticleResponseDto {
     private Integer articleNo; // 글 번호
+    private Integer memberNo;
     private String memberNickname; // 작성자 닉네임
     private String articleTitle; // 제목
     private String articleContent; // 내용
@@ -23,6 +24,7 @@ public class ArticleResponseDto {
 
     public ArticleResponseDto(ArticleEntity entity){
         this.articleNo = entity.getArticleNo();
+        this.memberNo = entity.getMemberNo();
         this.memberNickname = entity.getMemberNickname();
         this.articleTitle = entity.getArticleTitle();
         this.articleContent = entity.getArticleContent();
