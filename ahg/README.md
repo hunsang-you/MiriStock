@@ -1321,3 +1321,174 @@ echo "> Nginx Reload"
 
 sudo service nginx reload
 ```
+
+## 2023-02-03
+
+- 테스트 배포 설정 자료 (/하나 안썻다고 4시간을 썻다. 여기저기 다 뒤져봤다. 네트워크가 정신 나갈거 같음 정말..)
+
+docker-compose.yml
+
+```
+version: "3"
+services:
+    web:
+        container_name: nginx
+        image: nginx
+        ports:
+          - 80:80
+          - 443:443
+        volumes:
+          - ./nginx/conf.d:/etc/nginx/conf.d
+          - ./cert:/etc/letsencrypt/live/i8b111.p.ssafy.io
+        depends_on:
+          - application1
+          - reactapp1
+        networks:
+          - test2net
+
+
+    database:
+        image: mysql
+        restart: always
+        container_name: mysqldb
+        volumes:
+          - /home/ubuntu/db/var/lib/mysql:/var/lib/mysql
+        environment:
+               MYSQL_DATABASE:
+               MYSQL_ROOT_PASSWORD:
+               MYSQL_USER:
+               MYSQL_PASSWORD:
+        command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+        ports:
+          - 3306:3306
+        networks:
+          - test2net
+
+    application1:
+        container_name: application1
+        build: ./back
+        restart : always
+        environment:
+              SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/miristockdb?characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+              SPRING_DATASOURCE_USERNAME:
+              SPRING_DATASOURCE_PASSWORD:
+              #              SPRING_PROFILES_ACTIVE: blue
+              SPRING_REDIS_HOST: redis
+              SPRING_REDIS_PORT: 6379
+        ports:
+          - 8080:8080
+                depends_on:
+          - database
+        networks:
+          - test2net
+    reactapp1:
+        container_name: reactapp1
+        build: ./front
+        restart: always
+        ports:
+          - 3000:3000
+        environment:
+              REACT_APP_URL:
+        networks:
+          - test2net
+        depends_on:
+          - application1
+
+    redis:
+        image: redis
+        container_name: redis
+        command: redis-server --port 6379
+        ports:
+          - 6379:6379
+        networks:
+          - test2net
+
+networks:
+  test2net:
+    driver: bridge
+
+```
+
+/etc/nginx/conf.d/app.conf
+
+```
+server {
+   listen 80;
+   server_name i8b111.p.ssafy.io www.i8b111.p.ssafy.io;
+
+   location / {
+
+       return 301 https://i8b111.p.ssafy.io$request_uri;
+
+   }
+
+}
+
+server {
+   listen 443 ssl http2;
+   # listen [::]:80;
+   access_log off;
+
+   #server_name localhost
+   server_name i8b111.p.ssafy.io www.i8b111.p.ssafy.io;
+
+   ssl_certificate /etc/letsencrypt/live/i8b111.p.ssafy.io/fullchain.pem;
+   ssl_certificate_key /etc/letsencrypt/live/i8b111.p.ssafy.io/privkey.pem;
+   ssl on;
+
+   include /etc/nginx/conf.d/service-url.inc;
+
+   location / {
+        proxy_pass http://reactapp1:3000;
+        proxy_set_header Host $host:$server_port;
+        proxy_set_header X-Forwarded-Host $server_name;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        # allow all;
+        # root /var/www/html;
+   }
+   location /api/ {
+        proxy_pass http://application1:8080/;
+
+  }
+}
+```
+
+Dockerfile(front)
+
+```
+# 가져올 이미지를 정의
+FROM node:16.18.0
+# package.json 워킹 디렉토리에 복사 (.은 설정한 워킹 디렉토리를 뜻함)
+COPY package.json .
+# 명령어 실행 (의존성 설치)
+RUN npm install
+# 현재 디렉토리의 모든 파일을 도커 컨테이너의 워킹 디렉토리에 복사한다.
+COPY . .
+RUN npm run build
+# 각각의 명령어들은 한줄 한줄씩 캐싱되어 실행된다.
+# package.json의 내용은 자주 바뀌진 않을 거지만
+# 소스 코드는 자주 바뀌는데
+# npm install과 COPY . . 를 동시에 수행하면
+# 소스 코드가 조금 달라질때도 항상 npm install을 수행해서 리소스가 낭비된다.
+# 3000번 포트 노출
+EXPOSE 3000
+
+# npm start 스크립트 실행
+CMD ["npm", "start"]
+
+# 그리고 Dockerfile로 docker 이미지를 빌드해야한다.
+# $ docker build .
+```
+
+Dockerfile(back)
+
+```
+FROM azul/zulu-openjdk:11
+# Spring 2.5 버전 이상부터 jar파일이 두개가 생기니 build.gradle파일 수정 or 정확한 jar 파일 경로 설정 필요
+ARG JAR_FILE=build/libs/miristock-0.0.1-SNAPSHOT.jar
+
+COPY ${JAR_FILE} app.jar
+
+ENTRYPOINT ["java","-jar","/app.jar"]
+```
