@@ -1,9 +1,14 @@
 package com.udteam.miristock.controller;
 
+import com.udteam.miristock.config.ErrorMessage;
+import com.udteam.miristock.dto.MemberDto;
 import com.udteam.miristock.entity.SearchRecordEntity;
+import com.udteam.miristock.service.MemberService;
 import com.udteam.miristock.service.SearchRecordService;
+import com.udteam.miristock.util.HeaderUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,34 +21,56 @@ import java.util.List;
 public class SearchRecordController {
 
     private final SearchRecordService searchRecordService;
+    private final MemberService memberService;
 
     // 검색기록 출력
     @GetMapping("/list")
-    public ResponseEntity<List<SearchRecordEntity>> save(@RequestHeader(value = "memberNo" ) Long memberNo) throws Exception{
+    public ResponseEntity<List<SearchRecordEntity>> findAllList(@RequestHeader String Authorization) throws Exception{
         log.info("주식 종목 검색 기록 출력");
-        log.info("memberNo : {} ", memberNo);
-        return ResponseEntity.ok().body(searchRecordService.findByMemberNo(memberNo));
+        MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
+        if (m == null){
+            log.info(ErrorMessage.TOKEN_EXPIRE);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        } else {
+            log.info("memberNo : {} ", m.getMemberNo());
+            return ResponseEntity.ok().body(searchRecordService.findByMemberNo(m.getMemberNo()));
+        }
     }
-
-//    @GetMapping("/list/{memberNo}")
-//    public ResponseEntity<List<SearchRecord>> save(@PathVariable Long memberNo) throws Exception{
-//        logger.info("주식 종목 검색 기록 출력");
-//        logger.info("memberNo : {} ", memberNo);
-//        return ResponseEntity.ok().body(searchRecordService.findByMemberNo(memberNo));
-//    }
 
     // 검색기록 등록
     @PostMapping
-    public Long save(@RequestBody SearchRecordEntity searchRecordEntity){
+    public ResponseEntity<Integer> save(@RequestHeader String Authorization, @RequestBody SearchRecordEntity searchRecordEntity){
         log.info("searchRecord : {}", searchRecordEntity);
-        return searchRecordService.save(searchRecordEntity);
+        log.info("주식 종목 검색 기록 등록");
+        MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
+        if (m == null){
+            log.info(ErrorMessage.TOKEN_EXPIRE);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(null);
+        } else {
+            log.info("memberNo : {} ", m.getMemberNo());
+            searchRecordEntity.setMemberNo(m.getMemberNo());
+            log.info("searchRecord : {}", searchRecordEntity);
+            return ResponseEntity.ok().body(searchRecordService.save(searchRecordEntity));
+        }
+
     }
 
     //검색기록 제거
     @DeleteMapping
-    public void delete(@RequestHeader(value = "searchNo" ) Long searchNo){
-        log.info("searchNo : {}", searchNo);
-        searchRecordService.delete(searchNo);
+    public ResponseEntity<Void> delete(@RequestHeader String Authorization, @PathVariable Integer searchno){
+        log.info("searchNo : {}", searchno);
+        MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
+
+        if (m == null){
+            log.info(ErrorMessage.TOKEN_EXPIRE);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(null);
+        } else {
+            searchRecordService.delete(searchno);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(null);
+        }
     }
 
 }

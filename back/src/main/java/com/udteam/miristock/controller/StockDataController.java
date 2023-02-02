@@ -21,13 +21,13 @@ public class StockDataController {
     private final StockDataService stockDataService;
 
     @GetMapping("/rate/decrease/{stockDataDate}")
-    public ResponseEntity<List<StockDataResponseDto>> findTop5FlucauationRateAsc(@PathVariable int stockDataDate) {
+    public ResponseEntity<List<StockDataResponseDto>> findTop5FlucauationRateAsc(@PathVariable Integer stockDataDate) {
         log.info("date : {} ", stockDataDate);
         return ResponseEntity.ok().body(stockDataService.findTop5BySFlucauationRateAsc(stockDataDate));
     }
 
     @GetMapping("/rate/increase/{stockDataDate}")
-    public ResponseEntity<List<StockDataResponseDto>> findTop5FlucauationRateDesc(@PathVariable int stockDataDate) {
+    public ResponseEntity<List<StockDataResponseDto>> findTop5FlucauationRateDesc(@PathVariable Integer stockDataDate) {
         log.info("date : {} ", stockDataDate);
         return ResponseEntity.ok().body(stockDataService.findTop5BySFlucauationRateDesc(stockDataDate));
     }

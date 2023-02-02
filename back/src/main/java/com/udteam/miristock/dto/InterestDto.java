@@ -9,9 +9,9 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class InterestDto {
-    private int interestNo;
+    private Integer interestNo;
     private String stockCode;
-    private int memberNo;
+    private Integer memberNo;
 
     public static InterestDto of(InterestEntity i){
         return InterestDto.builder()

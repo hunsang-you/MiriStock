@@ -43,7 +43,9 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                     .build().toUriString());
             return;
         }
-        String nickname = member.getMemberNickname();
+
+        // String nickname = member.getMemberNickname();
+        String nickname = memberRepository.findByMemberEmail((String) oAuth2User.getAttribute("email")).getMemberNickname();
         //log.info("refreshToken = {}",redisUtil.getData((String) oAuth2User.getAttribute("email")));
         if (redisUtil.getData((String) oAuth2User.getAttribute("email")) == null) {
             log.info("refresh token이 존재하지 않습니다. refresh token 생성");

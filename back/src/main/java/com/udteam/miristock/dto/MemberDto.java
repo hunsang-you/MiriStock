@@ -9,11 +9,11 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MemberDto {
-    private long memberNo;
+    private Integer memberNo;
     private String memberEmail;
     private String memberNickname;
     private Long memberTotalasset;
-    private int memberCurrentTime;
+    private Integer memberCurrentTime;
 
     public static MemberDto of(MemberEntity member){
         return MemberDto.builder()

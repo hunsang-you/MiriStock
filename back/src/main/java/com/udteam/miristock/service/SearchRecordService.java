@@ -14,18 +14,18 @@ public class SearchRecordService {
 
     private final SearchRecordRepository searchRecordRepository;
 
-    public List<SearchRecordEntity> findByMemberNo(Long memberNo) {
+    public List<SearchRecordEntity> findByMemberNo(Integer memberNo) {
         List<SearchRecordEntity> articleEntityList = searchRecordRepository.findByMemberNo(memberNo);
         return articleEntityList;
     }
 
     @Transactional
-    public Long save(SearchRecordEntity searchRecordEntity) {
+    public Integer save(SearchRecordEntity searchRecordEntity) {
         return searchRecordRepository.save(searchRecordEntity).getMemberNo();
     }
 
     @Transactional
-    public void delete(Long searchNo) {
+    public void delete(Integer searchNo) {
         searchRecordRepository.delete(SearchRecordEntity.builder().searchNo(searchNo).build());
     }
 

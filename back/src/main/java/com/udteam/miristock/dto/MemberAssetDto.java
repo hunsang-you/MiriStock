@@ -9,11 +9,11 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MemberAssetDto {
-    private int memberassetNo;
-    private int memberNo;
-    private long memberassetTotalAsset;
-    private long memberassetAvailableAsset;
-    private long memberassetStockAsset;
+    private Integer memberassetNo;
+    private Integer memberNo;
+    private Long memberassetTotalAsset;
+    private Long memberassetAvailableAsset;
+    private Long memberassetStockAsset;
 
     public static MemberAssetDto of(MemberAssetEntity m){
         return MemberAssetDto.builder()

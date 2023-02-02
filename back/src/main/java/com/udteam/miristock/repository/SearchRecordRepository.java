@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface SearchRecordRepository extends JpaRepository<SearchRecordEntity, Long> {
+public interface SearchRecordRepository extends JpaRepository<SearchRecordEntity, Integer> {
 
-    List<SearchRecordEntity> findByMemberNo (Long memberNo);
+    List<SearchRecordEntity> findByMemberNo (Integer memberNo);
 }

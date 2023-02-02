@@ -18,10 +18,12 @@ public class ArticleEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long articleNo; // PK
+    private Integer articleNo; // PK
 
     @Column(columnDefinition = "TEXT", nullable = false)
     private String memberNickname; // 회원 닉네임
+
+    private Integer memberNo;
 
     private String articleTitle; // 제목
 

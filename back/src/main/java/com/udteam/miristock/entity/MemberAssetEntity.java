@@ -17,19 +17,19 @@ public class MemberAssetEntity {
     @Id
     @Column(name="memberasset_no")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int memberassetNo;
+    private Integer memberassetNo;
 
     @OneToOne
     @JoinColumn(name="member_no")
     private MemberEntity member;
 
     @Column(name="memberasset_total_asset")
-    private long memberassetTotalAsset;
+    private Long memberassetTotalAsset;
 
     @Column(name = "memberasset_available_asset")
-    private long memberassetAvailableAsset;
+    private Long memberassetAvailableAsset;
 
     @Column(name = "memberasset_stock_asset")
-    private long memberassetStockAsset;
+    private Long memberassetStockAsset;
 
 }

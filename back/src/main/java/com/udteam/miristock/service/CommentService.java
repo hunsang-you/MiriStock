@@ -18,7 +18,7 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
 
-    public List<CommentResponseDto> findByArticleNo(Long articleNo) {
+    public List<CommentResponseDto> findByArticleNo(Integer articleNo) {
 
         Optional<CommentEntity> CommentEntityList = Optional.ofNullable(commentRepository.findByArticle_ArticleNo(articleNo));
         return CommentEntityList.stream()
@@ -27,17 +27,17 @@ public class CommentService {
     }
 
     @Transactional // 메서드 실행시 트랜잭션 시작, 정상종료되면 커밋, 에러발생시 종료
-    public Long save(CommentRequestDto commentRequestDto) {
+    public Integer save(CommentRequestDto commentRequestDto) {
         return commentRepository.save(commentRequestDto.toEntity()).getCommentNo();
     }
 
     @Transactional
-    public Long update(CommentRequestDto commentRequestDto) {
+    public Integer update(CommentRequestDto commentRequestDto) {
         return commentRepository.save(commentRequestDto.toEntity()).getCommentNo();
     }
 
     @Transactional
-    public void delete(Long commentNo) {
+    public void delete(Integer commentNo) {
         commentRepository.delete(CommentEntity.builder().commentNo(commentNo).build());
     }
 
