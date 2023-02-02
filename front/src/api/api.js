@@ -21,7 +21,7 @@ export const memberAPI = {
 export const rankAPI = {
   increase: () => api.get(`/stockdata/rate/increase/${20210112}`),
   decrease: () => api.get(`/stockdata/rate/decrease/${20210112}`),
-  capital: () => api.get(`/stockdata/amount/top`),
+  capital: () => api.get(`/stockdata/amount/top`), //백에서 미완성
 };
 
 export const stockAPI = {
@@ -29,4 +29,9 @@ export const stockAPI = {
     api.get(`stockdata/detail`, {
       params: { stockCode: stockCode, startDate: startDate, endDate: endDate },
     }),
+};
+
+export const searchAPI = {
+  serachStock: (stock) =>
+    api.get(`stock/search`, { params: { stockName: stock } }),
 };
