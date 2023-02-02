@@ -1,0 +1,37 @@
+.main-container {
+    display: flex;
+    flex-direction: column;
+    position : relative;
+    padding-bottom: 12.5vh;
+    margin-left: 6vw;
+    margin-right: 6vw;    
+    margin-top : 2.5vh;
+}
+
+.space-between {
+    display: flex;
+    justify-content: space-between;
+}
+ 
+.space-margin {
+    margin: 6vw;
+}
+
+.divbox {
+    background-color: F4F4F4;
+    float : left;
+}
+
+.divbox > * {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.selectDay {
+    display: flex;
+    margin: 6vw;
+}
+
+.selectDay div {
+    margin: auto
+}
