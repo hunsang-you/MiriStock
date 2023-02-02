@@ -26,6 +26,10 @@ code {
 	font-family: "IbmPlexSansKrLightMedium";
 	src: url(./static/fonts/IBM_Plex_Sans_KR/IBMPlexSansKR-Medium.ttf);
 }
+@font-face {
+	font-family: "IbmPlexSansKrLightRegular";
+	src: url(./static/fonts/IBM_Plex_Sans_KR/IBMPlexSansKR-Regular.ttf);
+}
 
 @font-face {
 	font-family: "IbmPlexSansKrLightRegular";
