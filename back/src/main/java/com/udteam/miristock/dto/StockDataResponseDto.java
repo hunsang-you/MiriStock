@@ -13,11 +13,11 @@ public class StockDataResponseDto {
 //    private Long stockDataNo;
     private String stockCode;
     private String stockName;
-    private int stockDataDate;
-    private int stockDataClosingPrice;
+    private Integer stockDataDate;
+    private Integer stockDataClosingPrice;
     private Long stockDataAmount;
-    private Long stockDataPriceIncreasement;
-    private Long stockDataFlucauationRate;
+    private Integer stockDataPriceIncreasement;
+    private Float stockDataFlucauationRate;
 
     public StockDataResponseDto(StockDataEntity entity){
 //        this.stockDataNo = entity.getStockDataNo();

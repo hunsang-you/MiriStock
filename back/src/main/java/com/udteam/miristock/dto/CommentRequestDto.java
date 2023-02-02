@@ -13,9 +13,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class CommentRequestDto {
 
-    private Long commentNo; // 댓글 번호
-
-    private Long articleNo;
+    private Integer commentNo; // 댓글 번호
+    private Integer articleNo;
     private String memberNickname; // 작성자 닉네임
     private String commentContent; // 내용
     private LocalDateTime commentDate; // 작성시간

@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 
 @Repository
-public interface StockDataRepository extends JpaRepository<StockDataEntity, Long> {
+public interface StockDataRepository extends JpaRepository<StockDataEntity, Integer> {
 
     // 등락률 가장 낮은 순서대로 5개 출력
-    public List<StockDataEntity> findTop5ByStockDataDateOrderByStockDataFlucauationRateAsc(int stockDataDate);
+    public List<StockDataEntity> findTop5ByStockDataDateOrderByStockDataFlucauationRateAsc(Integer stockDataDate);
 
     // 등락률 가장 높은 순서대로 5개 출력
-    public List<StockDataEntity> findTop5ByStockDataDateOrderByStockDataFlucauationRateDesc(int stockDataDate);
+    public List<StockDataEntity> findTop5ByStockDataDateOrderByStockDataFlucauationRateDesc(Integer stockDataDate);
 
 
 }
