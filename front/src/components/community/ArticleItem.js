@@ -10,6 +10,14 @@ const ArticleItem = (props) => {
   const item = props.item;
   const comment = props.comment;
 
+  // content 글자 제한, 더보기
+  const [closed, setClosed] = useState(false);
+  const handlerBtn = () => {
+    setClosed(!closed);
+  };
+  console.log(closed);
+
+  // 좋아요 확인
   const [like, setLike] = useState(false);
 
   return (
@@ -23,12 +31,14 @@ const ArticleItem = (props) => {
       </div>
 
       {/* 제목 */}
-      <div className="title">
+      <div className="title" onClick={handlerBtn}>
         <span> {item.title} </span>
       </div>
       {/* 내용 */}
-      <div className="content">
-        <span> {item.content}</span>
+      <div className="content" onClick={handlerBtn}>
+        <span className={closed ? 'content-open' : 'content-close'}>
+          {item.content}
+        </span>
       </div>
 
       {/* 버튼 */}
