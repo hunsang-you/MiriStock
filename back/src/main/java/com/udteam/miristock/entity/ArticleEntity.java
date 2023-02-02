@@ -23,6 +23,8 @@ public class ArticleEntity {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String memberNickname; // 회원 닉네임
 
+    private Integer memberNo;
+
     private String articleTitle; // 제목
 
     private String articleContent; // 내용

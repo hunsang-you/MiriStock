@@ -19,6 +19,8 @@ public class CommentEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer commentNo;
 
+    private Integer memberNo;
+
     private String commentContent;
 
     private String memberNickname;
