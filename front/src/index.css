@@ -32,6 +32,11 @@ code {
 }
 
 @font-face {
+	font-family: "IbmPlexSansKrLightRegular";
+	src: url(./static/fonts/IBM_Plex_Sans_KR/IBMPlexSansKR-Regular.ttf);
+}
+
+@font-face {
 	font-family: "digi";
 	src: url(./static/fonts/digital/DS-DIGI.TTF);
 }

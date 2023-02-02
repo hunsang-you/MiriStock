@@ -1,27 +1,15 @@
 import './css/Home.css';
-import Simulation from '../components/home/Simulation';
-import AssetStatus from '../components/home/AssetStatus';
+import HomeFavorite from './HomeFavorite';
+import HomeMain from './HomeMain';
+import { Routes, Route } from 'react-router-dom';
 
 const Home = () => {
   return (
     <div className="main-container">
-      <Simulation />
-      <AssetStatus />
-      <h1>따르르릉</h1>
-      <h1>따르르릉</h1>
-      <h1>따르르릉</h1>
-      <h1>따르르릉</h1>
-      <h1>따르르릉</h1>
-      <h1>따르르릉</h1>
-      <h1>따르르릉</h1>
-      <h1>따르르릉</h1>
-      <h1>따르르릉</h1>
-      <h1>따르르릉</h1>
-      <h1>따르르릉</h1>
-      <h1>따르르릉</h1>
-      <h1>따르르릉</h1>
-      <h1>따르르릉</h1>
-      <h1>따르르릉</h1>
+      <Routes>
+        <Route path="" element={<HomeMain />} />;
+        <Route path="homeFavorite" element={<HomeFavorite />} />;
+      </Routes>
     </div>
   );
 };
