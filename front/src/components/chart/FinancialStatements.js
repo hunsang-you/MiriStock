@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import ApexCharts from 'apexcharts';
 import ReactApexChart from 'react-apexcharts';
 
-const TlqkfBar = () => {
+const FinancialStatements = () => {
   const state = {
     series: [
       {
@@ -77,4 +77,4 @@ const TlqkfBar = () => {
   );
 };
 
-export default TlqkfBar;
+export default FinancialStatements;

@@ -3,7 +3,7 @@ import ApexCharts from 'apexcharts';
 import ReactApexChart from 'react-apexcharts';
 import { stockAPI } from '../../api/api'; // api 통신
 
-const Tlqkf = () => {
+const RealChart = () => {
   const [toDay, setToDay] = useState([20221213]);
   const [startDay, setStartDay] = useState([toDay]);
   const [stockName, setStockName] = useState([]);
@@ -269,7 +269,7 @@ const Tlqkf = () => {
   );
 };
 
-export default Tlqkf;
+export default RealChart;
 
 // {
 //   stockCode: '005930';   // 종목 코드
