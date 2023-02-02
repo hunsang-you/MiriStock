@@ -1,0 +1,30 @@
+.search-list {
+    /* display: flex; */
+    align-items: center;
+    font-size: large;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+.search-list .stock-list {    
+    width: 100%;
+    display: flex;
+    padding-bottom: 2vh;
+    padding-top: 2vh;
+    justify-content: space-between;
+    border-bottom: 1px dashed grey;
+}
+
+#name {
+    font-family: var(--font-IbmPlexSansKrLightRegular);
+    margin-right: 4vh;
+
+}
+
+#code {
+    font-family: var(--font-IbmPlexSansKrLightRegular);
+
+
+}

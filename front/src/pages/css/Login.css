@@ -1,7 +1,6 @@
 
 .logo {
   margin-top: 17.14vh;
-  /* margin-bottom: 29.04vh; */
   margin-bottom: 20.04vh;
 }
 
@@ -15,7 +14,7 @@
   height: 56px;
   cursor: pointer;
   margin-top: 2vh;
-  /* margin-bottom: 2vh; */
+
 }
 
 .loginbtn {
@@ -25,6 +24,3 @@
   margin-bottom: 13.45vh;
 }
 
-.cos {
-  color : red;
-}
