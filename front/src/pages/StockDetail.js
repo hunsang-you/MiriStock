@@ -41,6 +41,7 @@ const StockDetail = () => {
       <div>
         <Tlqkf />
       </div>
+
       <div className="space-between space-margin">
         <Button
           style={{ width: '49%' }}
