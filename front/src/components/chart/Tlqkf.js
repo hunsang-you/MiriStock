@@ -1,8 +1,17 @@
 import { useState, useEffect } from 'react';
 import ApexCharts from 'apexcharts';
 import ReactApexChart from 'react-apexcharts';
+import { stockAPI } from '../../api/api'; // api 통신
 
 const Tlqkf = () => {
+  const [toDay, setToDay] = useState([20221213]);
+  const [startDay, setStartDay] = useState([toDay]);
+  const [stockName, setStockName] = useState([]);
+  const [stockDataAmount, setStockDataAmount] = useState([]);
+  const [stockDataFlucauationRate, setStockDataFlucauationRate] = useState([]);
+  const [stockDataPriceIncreasement, setStockDataPriceIncreasement] = useState(
+    [],
+  );
   const [select, setSelect] = useState('one_year');
   const state = {
     series: [
@@ -16,11 +25,6 @@ const Tlqkf = () => {
         type: 'column',
         data: [1.4, 2, 2.5, 1.5, 2.5, 2.8, 3.8, 4],
       },
-      // {
-      //   name: 'Cashflow',
-      //   type: 'column',
-      //   data: [1.1, 3, 3.1, 4, 4.1, 4.9, 6.5, 8.5],
-      // },
     ],
     options: {
       chart: {
@@ -103,28 +107,6 @@ const Tlqkf = () => {
             },
           },
         },
-        // {
-        //   seriesName: 'Income',
-        //   opposite: true,
-        //   axisTicks: {
-        //     show: true,
-        //   },
-        //   axisBorder: {
-        //     show: true,
-        //     color: '#00E396',
-        //   },
-        //   labels: {
-        //     style: {
-        //       colors: '#00E396',
-        //     },
-        //   },
-        //   title: {
-        //     text: 'Operating Cashflow (thousand crores)',
-        //     style: {
-        //       color: '#00E396',
-        //     },
-        //   },
-        // },
       ],
       tooltip: {
         fixed: {
@@ -191,6 +173,26 @@ const Tlqkf = () => {
     }
   }; // 1w, 1m, 6m, 1y, all 토글 스위치 함수
 
+  const ymdReturn = (stockcode, before, now) => {
+    stockAPI
+      .stockDetail(stockcode, before, now)
+      .then((request) => {
+        console.log(request.data);
+        return request.data;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  // useEffect(() => {
+  //   let todayday = ymdReturn('005930', toDay, toDay);
+  //   setStockName(todayday.stockName);
+  //   setStockDataAmount(todayday.stockDataAmount);
+  //   setStockDataFlucauationRate(todayday.stockDataFlucauationRate);
+  //   setStockDataPriceIncreasement(todayday.stockDataPriceIncreasement);
+  // }, []);
+
   return (
     <div id="chart">
       <ReactApexChart
@@ -240,8 +242,41 @@ const Tlqkf = () => {
           ALL
         </button>
       </div>
+      <div>
+        <button
+          onClick={() => {
+            stockAPI
+              .stockDetail('005930', 20220330, 20220502)
+              .then((request) => {
+                console.log(request.data);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          }}
+        >
+          stockdetail
+        </button>
+        <button
+          onClick={() => {
+            console.log(ymdReturn('005930', 20220330, 20220502));
+          }}
+        >
+          asdasd
+        </button>
+      </div>
     </div>
   );
 };
 
 export default Tlqkf;
+
+// {
+//   stockCode: '005930';   // 종목 코드
+//   stockDataAmount: 12670187;  // 거래량
+//   stockDataClosingPrice: 69900;    // 종가
+//   stockDataDate: 20220330;   // 날짜
+//   stockDataFlucauationRate: -0.42735;    // 전일 등락률
+//   stockDataPriceIncreasement: -300;      // 전일 떨어진 금액
+//   stockName: '삼성전자';     // 종목 명
+// }
