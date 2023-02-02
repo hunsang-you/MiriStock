@@ -50,10 +50,10 @@ const BottomNav = (props) => {
       </div>
       <div
         onClick={() => {
-          navigate('/question');
+          navigate('/community');
         }}
       >
-        {pathName.indexOf('question') === -1 ? (
+        {pathName.indexOf('community') === -1 ? (
           <RiQuestionAnswerLine size={40} />
         ) : (
           <RiQuestionAnswerFill size={40} color="#6DCEF5" />
