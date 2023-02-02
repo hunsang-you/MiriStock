@@ -14,10 +14,11 @@ nav {
   border-top-right-radius: 10%;
 }
 nav > div {
+  border-radius: 10%;
   text-align: center;
   float: left;
   width: 20%;
-  height: 10.5vh;
+  height: 7vh;
   margin-top: 1.5vh;
   line-height: 10.5vh;
 }

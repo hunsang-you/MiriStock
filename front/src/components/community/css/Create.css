@@ -1,0 +1,27 @@
+.create-page {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10vh;
+}
+
+.create-page > .btn-form {
+    justify-content: center;
+}
+
+.btn-form {
+    display: flex;
+    margin-top: 3.8vh;
+
+}
+
+.create-title {
+    margin-bottom: 4vh;
+}
+
+#create-btn {
+    margin-left: 2vh;
+}
+
+#cancel-btn {
+    margin-right: 2vh;
+}

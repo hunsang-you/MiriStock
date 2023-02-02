@@ -1,0 +1,37 @@
+.favorite-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.favorite-container  div {
+    font-family: var(--font-IbmPlexSansKrLightRegular);
+}
+
+.favorite-container  span {
+    font-family: var(--font-IbmPlexSansKrLightRegular);
+}
+
+.favorite {
+    font-size: 24px;
+    text-align: start;
+    font-weight: bold;
+}
+
+.favorite-list {
+    margin-top: 16px;
+}
+
+.favorite-top {
+    font-size: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.favorite-bottom {
+    font-size : 16px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+

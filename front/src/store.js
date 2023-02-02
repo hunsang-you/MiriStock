@@ -12,3 +12,5 @@ const navStore = create(
     { name: 'navStore' },
   ),
 );
+
+export { navStore };
