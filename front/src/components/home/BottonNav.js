@@ -1,4 +1,5 @@
 import './css/BottonNav.css';
+// import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   RiHome5Line,
@@ -9,67 +10,86 @@ import {
 import { AiOutlineSearch } from 'react-icons/ai'; // 돋보기
 import { IoWalletOutline, IoWalletSharp } from 'react-icons/io5'; // 지갑 안채워진거 , 채워진거
 import { FiMoreHorizontal } from 'react-icons/fi';
+import { motion } from 'framer-motion';
+import { navStore } from '../../store.js';
 
-const BottomNav = (props) => {
+const BottomNav = () => {
   const navigate = useNavigate();
-  let pathName = props.location.pathname;
+  const { page } = navStore((state) => state);
+  const boxVariants = {
+    click: {
+      opacity: 0.4,
+      scale: 1.2,
+      backgroundColor: '#6DCEF5',
+    },
+  };
   return (
     <nav className="wrapper">
-      <div
+      <motion.div
         onClick={() => {
           navigate('/');
         }}
+        whileTap="click"
+        variants={boxVariants}
       >
-        {pathName.length === 1 || pathName.indexOf('home') !== -1 ? (
+        {page.length === 1 || page.indexOf('home') !== -1 ? (
           <RiHome5Fill size={40} color="#6DCEF5" />
         ) : (
           <RiHome5Line size={40} />
         )}
-      </div>
-      <div
+      </motion.div>
+      <motion.div
         onClick={() => {
           navigate('/search');
         }}
+        whileTap="click"
+        variants={boxVariants}
       >
-        {pathName.indexOf('search') === -1 ? (
+        {page.indexOf('search') === -1 ? (
           <AiOutlineSearch size={40} />
         ) : (
           <AiOutlineSearch size={40} color="#6DCEF5" />
         )}
-      </div>
-      <div
+      </motion.div>
+      <motion.div
         onClick={() => {
           navigate('/asset');
         }}
+        whileTap="click"
+        variants={boxVariants}
       >
-        {pathName.indexOf('asset') === -1 ? (
+        {page.indexOf('asset') === -1 ? (
           <IoWalletOutline size={40} />
         ) : (
           <IoWalletSharp size={40} color="#6DCEF5" />
         )}
-      </div>
-      <div
+      </motion.div>
+      <motion.div
         onClick={() => {
-          navigate('/question');
+          navigate('/community');
         }}
+        whileTap="click"
+        variants={boxVariants}
       >
-        {pathName.indexOf('question') === -1 ? (
+        {page.indexOf('community') === -1 ? (
           <RiQuestionAnswerLine size={40} />
         ) : (
           <RiQuestionAnswerFill size={40} color="#6DCEF5" />
         )}
-      </div>
-      <div
+      </motion.div>
+      <motion.div
         onClick={() => {
           navigate('/more');
         }}
+        whileTap="click"
+        variants={boxVariants}
       >
-        {pathName.indexOf('more') === -1 ? (
+        {page.indexOf('more') === -1 ? (
           <FiMoreHorizontal size={40} />
         ) : (
           <FiMoreHorizontal size={40} color="#6DCEF5" />
         )}
-      </div>
+      </motion.div>
     </nav>
   );
 };

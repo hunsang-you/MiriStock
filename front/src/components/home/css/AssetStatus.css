@@ -5,7 +5,7 @@
 }
 .asset > div {
     font-size: 20px;
-    font-family: var(--font-IbmPlexSansKrLight);
+    font-family: var(--font-IbmPlexSansKrLightRegular);
 }
 .asset-status {
     text-align: start;
@@ -40,5 +40,5 @@
 .change {
     text-align: start;
     font-size: 16px;
-    font-family: var(--font-IbmPlexSansKrLightMedium);
+    font-family: var(--font-IbmPlexSansKrLightRegular);
 }
