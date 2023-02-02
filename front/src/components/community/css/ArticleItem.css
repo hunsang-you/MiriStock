@@ -1,0 +1,43 @@
+.article-item {
+    display: flex;
+    flex-direction: column;
+    padding-top: 0.95vh;
+    margin-bottom: 2.85vh;
+    border-top: 1px solid grey;
+    border-bottom: 1px solid grey;
+}
+
+.userid {
+    text-align: left;
+    padding-bottom: 1.9vh;
+    font-size: 1rem;
+    margin-left: 4vw;
+}
+
+.title {
+    text-align: left;
+    font-size: 1.2rem;
+    margin-top: auto;
+    margin-bottom: 1.43vh;
+    margin-left: 4vw;
+
+}
+
+
+.icon {
+    display: flex;
+}
+
+.like {
+    text-align: left;
+    margin-left: 4vw;
+    margin-right: 2vw;
+    font-size: xx-large;
+}
+
+.comment {
+    text-align: left;
+    margin-left: 4vw;
+    margin-right: 2vw;
+    font-size: xx-large;
+}

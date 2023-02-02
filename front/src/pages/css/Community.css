@@ -1,0 +1,22 @@
+.main-container {
+    display: flex;
+    flex-direction: column;
+    position : relative;
+    padding-bottom: 12.5vh;
+    margin-left: 6vw;
+    margin-right: 6vw;    
+    margin-top : 2.5vh;
+}
+
+.board {
+    margin-top: 6vh;
+    text-align: left;
+    font-size: 1.5rem;
+}
+
+.create-item {
+    justify-content: end;
+    margin-top: 1vh;
+    text-align: end;
+    font-size: 300%;
+}

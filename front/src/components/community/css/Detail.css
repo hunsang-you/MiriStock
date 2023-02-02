@@ -1,0 +1,20 @@
+.detail-page {
+    margin-top: 6vh;
+    text-align: start;
+}
+
+.detail-userId {
+    display: flex;
+    margin-bottom: 2.85vh;
+}
+
+
+.detail-title {
+    display: flex;
+}
+
+.detail-content {
+    display: flex
+}
+
+
