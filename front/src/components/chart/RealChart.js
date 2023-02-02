@@ -4,15 +4,25 @@ import ReactApexChart from 'react-apexcharts';
 import { stockAPI } from '../../api/api'; // api 통신
 
 const RealChart = () => {
+  // 오늘날짜
   const [toDay, setToDay] = useState([20221213]);
+  // 시작날짜
   const [startDay, setStartDay] = useState([toDay]);
-  const [stockName, setStockName] = useState([]);
-  const [stockDataAmount, setStockDataAmount] = useState([]);
-  const [stockDataFlucauationRate, setStockDataFlucauationRate] = useState([]);
-  const [stockDataPriceIncreasement, setStockDataPriceIncreasement] = useState(
-    [],
-  );
-  const [select, setSelect] = useState('one_year');
+  // 종목명
+  const [stockName, setStockName] = useState(['']);
+  // 거래량
+  const [stockDataAmount, setStockDataAmount] = useState(['']);
+  // 등락률
+  const [stockDataFlucauationRate, setStockDataFlucauationRate] = useState([
+    '',
+  ]);
+  // 등락금액
+  const [stockDataPriceIncreasement, setStockDataPriceIncreasement] = useState([
+    '',
+  ]);
+  // 보여주는 일자 선택 (디폴트 -> 일주일)
+  const [select, setSelect] = useState('one_week');
+  // 차트 설정 (수정해야함)
   const state = {
     series: [
       {
@@ -122,7 +132,7 @@ const RealChart = () => {
       },
     },
   };
-
+  // 1w, 1m, 6m, 1y, all 토글 스위치 함수
   const updateData = (timeline) => {
     setSelect({
       selection: timeline,
@@ -171,13 +181,13 @@ const RealChart = () => {
         break;
       default:
     }
-  }; // 1w, 1m, 6m, 1y, all 토글 스위치 함수
-
+  };
+  // axios 통신 (종목코드, 시작 날짜, 끝나는 날짜)
   const ymdReturn = (stockcode, before, now) => {
     stockAPI
       .stockDetail(stockcode, before, now)
       .then((request) => {
-        console.log(request.data);
+        // console.log(request.data);
         return request.data;
       })
       .catch((err) => {
@@ -185,13 +195,25 @@ const RealChart = () => {
       });
   };
 
-  // useEffect(() => {
-  //   let todayday = ymdReturn('005930', toDay, toDay);
-  //   setStockName(todayday.stockName);
-  //   setStockDataAmount(todayday.stockDataAmount);
-  //   setStockDataFlucauationRate(todayday.stockDataFlucauationRate);
-  //   setStockDataPriceIncreasement(todayday.stockDataPriceIncreasement);
-  // }, []);
+  useEffect(() => {
+    const test = async () => {
+      let testt = await stockAPI.stockDetail('005930', 20220330, 20220502);
+      console.log(1);
+      console.log(testt);
+    };
+    test();
+    console.log(2);
+    console.log(test.testt);
+    // const todaystart = async () => {
+    //   await stockAPI
+    //     .stockDetail('005930', 20220330, 20220502)
+    //     .then((request) => {
+    //       console.log(request.data);
+    //     });
+    //   console.log(4);
+    // };
+    // todaystart();
+  }, []);
 
   return (
     <div id="chart">
@@ -259,10 +281,10 @@ const RealChart = () => {
         </button>
         <button
           onClick={() => {
-            console.log(ymdReturn('005930', 20220330, 20220502));
+            ymdReturn('005930', 20220330, 20220502);
           }}
         >
-          asdasd
+          차트데이터추가
         </button>
       </div>
     </div>
