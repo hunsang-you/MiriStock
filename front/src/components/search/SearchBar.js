@@ -2,6 +2,9 @@ import { TextField } from '@mui/material';
 import { AiOutlineSearch } from 'react-icons/ai';
 import SearchView from './SearchView';
 import History from './History';
+import { searchAPI } from '../../api/api';
+import { useState } from 'react';
+
 // import { useStore } from '../../store';
 
 import './css/SearchBar.css';
@@ -9,6 +12,7 @@ import './css/SearchBar.css';
 // 키워드, 결과값들, 업데이트필드를 전달받는다
 const SearchBar = ({ keyword, results, updateField }) => {
   //
+  const [searchResult, setSearchResult] = useState([]);
   const updateText = (text) => {
     //console.log('update text', text);
     updateField('keyword', text, false);
@@ -16,7 +20,7 @@ const SearchBar = ({ keyword, results, updateField }) => {
   };
 
   let renderResults;
-  const InputStk = results['results'];
+  let InputStk = [];
   if (InputStk) {
     // InputStk 에 검색어에 대한 결과가 담기면, SearchView 호출
     renderResults = InputStk.map((stock, i) => {
@@ -24,9 +28,9 @@ const SearchBar = ({ keyword, results, updateField }) => {
         <div key={i}>
           <SearchView
             updateText={updateText}
-            name={stock.name}
-            code={stock.code}
-            key={stock.code}
+            name={stock.stockName}
+            code={stock.stockCode}
+            key={stock.stockCode}
           />
         </div>
       );
@@ -58,10 +62,30 @@ const SearchBar = ({ keyword, results, updateField }) => {
             placeholder="종목명 또는 종목코드 입력"
             variant="standard"
             value={keyword}
-            onChange={(e) => updateField('keyword', e.target.value)}
+            onChange={(e) => {
+              searchAPI
+                .serachStock(e.target.value)
+                .then((request) => {
+                  console.log(request.data);
+                  setSearchResult(request.data);
+                })
+                .catch((err) => console.log(err));
+            }}
           />
         </div>
       </div>
+      {searchResult.map((stock, i) => {
+        return (
+          <div key={i}>
+            <SearchView
+              updateText={updateText}
+              name={stock.stockName}
+              code={stock.stockCode}
+              key={stock.stockCode}
+            />
+          </div>
+        );
+      })}
       <div className="search-stocks">{renderResults}</div>
       <div className="search-list">{Recent()}</div>
     </div>
