@@ -1,7 +1,6 @@
 import ArticleItem from './ArticleItem';
 import { IoCreateOutline } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
-import './css/ArticleList.css';
 
 const ArticleList = (props) => {
   const navigate = useNavigate();
