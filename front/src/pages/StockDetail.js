@@ -1,8 +1,8 @@
 import './css/Charts.css';
 import { useState, useEffect } from 'react';
 
-import Tlqkf from '../components/chart/Tlqkf';
-import TlqkfBar from '../components/chart/TlqkfBar';
+import RealChart from '../components/chart/RealChart';
+import FinancialStatements from '../components/chart/FinancialStatements';
 import { Button } from '@mui/material';
 
 const StockDetail = () => {
@@ -39,8 +39,9 @@ const StockDetail = () => {
     <div className="main-container">
       <h1>Detail</h1>
       <div>
-        <Tlqkf />
+        <RealChart />
       </div>
+
       <div className="space-between space-margin">
         <Button
           style={{ width: '49%' }}
@@ -69,7 +70,7 @@ const StockDetail = () => {
       <div className="space-margin divbox">
         <h3>재무 제표</h3>
         <div>
-          <TlqkfBar />
+          <FinancialStatements />
         </div>
         {/* <div style={{ height: 400 }}></div> */}
       </div>
