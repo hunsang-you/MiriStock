@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://192.168.31.160';
+// const BASE_URL = 'http://192.168.31.160';
+const BASE_URL = 'http://59.27.27.137:21111';
 const token =
   'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0a2RndXNkbDYzQG5hdmVyLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJleHAiOjE2NzUzMTY2MDZ9.yE2kwDnuQvR4B9ypwHElsJ9jngDk-aeIrf-rxwnMnQw';
 const api = axios.create({
