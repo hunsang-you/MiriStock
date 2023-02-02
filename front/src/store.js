@@ -13,14 +13,4 @@ const navStore = create(
   ),
 );
 
-// const useStore = create(
-//   persist(
-//     (set) => ({
-//       watchList: [],
-//       setWatchList: (select) => {
-//         set((state) => ({ ...state, watchList: select }));
-//       },
-//     }),
-//     { name: 'watchStore' },
-//   ),
-// );
+export { navStore };
