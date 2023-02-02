@@ -2,7 +2,6 @@
 import './css/Search.css';
 import { useState } from 'react';
 import SearchBar from '../components/search/SearchBar';
-import axios from 'axios';
 
 const Search = () => {
   // 나중에 DB에서 종목 가져옴

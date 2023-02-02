@@ -19,9 +19,9 @@ const SearchBar = ({ keyword, results, updateField }) => {
   const InputStk = results['results'];
   if (InputStk) {
     // InputStk 에 검색어에 대한 결과가 담기면, SearchView 호출
-    renderResults = InputStk.map((stock) => {
+    renderResults = InputStk.map((stock, i) => {
       return (
-        <div>
+        <div key={i}>
           <SearchView
             updateText={updateText}
             name={stock.name}

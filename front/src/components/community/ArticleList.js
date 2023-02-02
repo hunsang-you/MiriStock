@@ -4,9 +4,10 @@ import { IoCreateOutline } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
 import './css/ArticleList.css';
 
-const ArticleList = (items) => {
+const ArticleList = (props) => {
   const navigate = useNavigate();
-  const qna = items.items;
+
+  const qna = props.items;
 
   return (
     <div className="article-list">
@@ -22,9 +23,13 @@ const ArticleList = (items) => {
         </div>
       </div>
       {/* <ArticleList items={items} /> */}
-      {qna.map((item) => (
-        <ArticleItem item={item} />
-      ))}
+      {qna.map((item, i) => {
+        return (
+          <div key={i}>
+            <ArticleItem item={item} />
+          </div>
+        );
+      })}
     </div>
   );
 };

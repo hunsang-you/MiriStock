@@ -65,8 +65,8 @@ const Community = () => {
       <Routes>
         <Route path="" element={<ArticleList items={items} />} />;
         <Route path="detail/:id" element={<Detail items={items} />} />;
-        <Route path="create" element={<Create />} />;
-        <Route path="update" element={<Update />} />;
+        {/* <Route path="create" element={<Create />} />;
+        <Route path="update" element={<Update />} />; */}
       </Routes>
     </div>
   );
