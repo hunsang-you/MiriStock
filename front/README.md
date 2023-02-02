@@ -1,3 +1,5 @@
+# api.js에 BASE_URL TOKEN부분만 고치면됨
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
