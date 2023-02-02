@@ -2,106 +2,246 @@ import { useState, useEffect } from 'react';
 import ApexCharts from 'apexcharts';
 import ReactApexChart from 'react-apexcharts';
 
-const TestSample = () => {
-  function generateDayWiseTimeSeries(baseval, count, yrange) {
-    var i = 0;
-    var series = [];
-    while (i < count) {
-      var x = baseval;
-      var y =
-        Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
-
-      series.push([x, y]);
-      baseval += 86400000;
-      i++;
-    }
-    return series;
-  }
-
+const Tlqkf = () => {
+  const [select, setSelect] = useState('one_year');
   const state = {
     series: [
       {
-        data: generateDayWiseTimeSeries(new Date('11 Feb 2017').getTime(), 20, {
-          min: 10,
-          max: 60,
-        }),
+        name: 'Revenue',
+        type: 'line',
+        data: [20, 29, 37, 36, 44, 45, 50, 58],
       },
+      {
+        name: 'Income',
+        type: 'column',
+        data: [1.4, 2, 2.5, 1.5, 2.5, 2.8, 3.8, 4],
+      },
+      // {
+      //   name: 'Cashflow',
+      //   type: 'column',
+      //   data: [1.1, 3, 3.1, 4, 4.1, 4.9, 6.5, 8.5],
+      // },
     ],
     options: {
       chart: {
-        id: 'fb',
-        group: 'social',
+        height: 500,
         type: 'line',
-        height: 160,
+        stacked: false,
+        zoom: {
+          enabled: false,
+          autoScaleYaxis: true,
+        },
       },
-      colors: ['#008FFB'],
-    },
-
-    seriesLine2: [
-      {
-        data: generateDayWiseTimeSeries(new Date('11 Feb 2017').getTime(), 20, {
-          min: 10,
+      colors: ['#6DCEF5', '#FF0000'],
+      dataLabels: {
+        enabled: false,
+      },
+      stroke: {
+        curve: 'smooth',
+        width: [5, 1],
+      },
+      // title: {
+      //   text: 'XYZ - Stock Analysis (2009 - 2016)',
+      //   align: 'left',
+      //   offsetX: 10,
+      // }, // 표 상단에 이름 없어도 될듯
+      tooltip: {
+        // x: {
+        //   format: 'dd MMM yyyy',
+        // }, x 축 표시 형식
+        enabled: true,
+      },
+      xaxis: {
+        categories: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016],
+        //   type: 'datetime',
+        //   min: new Date('01 Feb 2017').getTime(), // 랜더링시 시작하는 부분 옵션인거같음 이부분을 스위칭에 맞게 조절하는 함수 만들어서 작성 해야함
+        //   tickAmount: 6, // 표시 틱 간격
+      }, // x 축
+      yaxis: [
+        {
+          show: false, // y 축 보여줄지 안보여줄지
+          seriesName: 'Revenue',
+          axisTicks: {
+            show: true,
+          },
+          axisBorder: {
+            show: true,
+            color: '#FEB019',
+          },
+          labels: {
+            style: {
+              colors: '#FEB019',
+            },
+          },
+          title: {
+            text: 'Revenue (thousand crores)',
+            style: {
+              color: '#FEB019',
+            },
+          },
+        },
+        {
+          show: false, // y 축 보여줄지 안보여줄지
+          opposite: true, // 오른쪽으로 보내는 옵션
+          axisTicks: {
+            show: true,
+          },
           max: 30,
-        }),
+          axisBorder: {
+            show: true,
+            color: '#008FFB',
+          },
+          labels: {
+            style: {
+              colors: '#008FFB',
+            },
+          },
+          title: {
+            text: 'Income (thousand crores)',
+            style: {
+              color: '#008FFB',
+            },
+          },
+        },
+        // {
+        //   seriesName: 'Income',
+        //   opposite: true,
+        //   axisTicks: {
+        //     show: true,
+        //   },
+        //   axisBorder: {
+        //     show: true,
+        //     color: '#00E396',
+        //   },
+        //   labels: {
+        //     style: {
+        //       colors: '#00E396',
+        //     },
+        //   },
+        //   title: {
+        //     text: 'Operating Cashflow (thousand crores)',
+        //     style: {
+        //       color: '#00E396',
+        //     },
+        //   },
+        // },
+      ],
+      tooltip: {
+        fixed: {
+          enabled: true,
+          position: 'topLeft', // topRight, topLeft, bottomRight, bottomLeft
+          offsetY: 30,
+          offsetX: 60,
+        },
       },
-    ],
-    optionsLine2: {
-      chart: {
-        id: 'tw',
-        group: 'social',
-        type: 'line',
-        height: 160,
+      legend: {
+        horizontalAlign: 'left',
+        offsetX: 40,
       },
-      colors: ['#546E7A'],
-    },
-
-    seriesArea: [
-      {
-        data: generateDayWiseTimeSeries(new Date('11 Feb 2017').getTime(), 20, {
-          min: 10,
-          max: 60,
-        }),
-      },
-    ],
-    optionsArea: {
-      chart: {
-        id: 'yt',
-        group: 'social',
-        type: 'area',
-        height: 160,
-      },
-      colors: ['#00E396'],
     },
   };
 
+  const updateData = (timeline) => {
+    setSelect({
+      selection: timeline,
+    });
+
+    switch (timeline) {
+      case 'one_week':
+        ApexCharts.exec(
+          'area-datetime',
+          'zoomX',
+          new Date(2022, 9, 4).getTime(),
+          new Date(2022, 9, 11).getTime(),
+        );
+        break;
+      case 'one_month':
+        ApexCharts.exec(
+          'area-datetime',
+          'zoomX',
+          new Date(2022, 8, 11).getTime(),
+          new Date(2022, 9, 11).getTime(),
+        );
+        break;
+      case 'six_months':
+        ApexCharts.exec(
+          'area-datetime',
+          'zoomX',
+          new Date(2022, 3, 11).getTime(),
+          new Date(2022, 9, 11).getTime(),
+        );
+        break;
+      case 'one_year':
+        ApexCharts.exec(
+          'area-datetime',
+          'zoomX',
+          new Date(2021, 9, 11).getTime(),
+          new Date(2022, 9, 11).getTime(),
+        );
+        break;
+      case 'all':
+        ApexCharts.exec(
+          'area-datetime',
+          'zoomX',
+          new Date(2017, 1, 1).getTime(),
+          new Date(2022, 12, 30).getTime(),
+        );
+        break;
+      default:
+    }
+  }; // 1w, 1m, 6m, 1y, all 토글 스위치 함수
+
   return (
-    <div id="wrapper">
-      <div id="chart-line">
-        <ReactApexChart
-          options={state.options}
-          series={state.series}
-          type="line"
-          height={160}
-        />
-      </div>
-      <div id="chart-line2">
-        <ReactApexChart
-          options={state.optionsLine2}
-          series={state.seriesLine2}
-          type="line"
-          height={160}
-        />
-      </div>
-      <div id="chart-area">
-        <ReactApexChart
-          options={state.optionsArea}
-          series={state.seriesArea}
-          type="area"
-          height={160}
-        />
+    <div id="chart">
+      <ReactApexChart
+        options={state.options}
+        series={state.series}
+        type="line"
+        height={350}
+      />
+      <div>
+        <button
+          id="one_week"
+          onClick={() => updateData('one_week')}
+          className={state.selection === 'one_week' ? 'active' : ''}
+        >
+          1W
+        </button>
+        &nbsp;
+        <button
+          id="one_month"
+          onClick={() => updateData('one_month')}
+          className={state.selection === 'one_month' ? 'active' : ''}
+        >
+          1M
+        </button>
+        &nbsp;
+        <button
+          id="six_months"
+          onClick={() => updateData('six_months')}
+          className={state.selection === 'six_months' ? 'active' : ''}
+        >
+          6M
+        </button>
+        &nbsp;
+        <button
+          id="one_year"
+          onClick={() => updateData('one_year')}
+          className={state.selection === 'one_year' ? 'active' : ''}
+        >
+          1Y
+        </button>
+        &nbsp;
+        <button
+          id="all"
+          onClick={() => updateData('all')}
+          className={state.selection === 'all' ? 'active' : ''}
+        >
+          ALL
+        </button>
       </div>
     </div>
   );
 };
 
-export default TestSample;
+export default Tlqkf;

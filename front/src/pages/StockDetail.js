@@ -1,7 +1,8 @@
 import './css/Charts.css';
 import { useState, useEffect } from 'react';
 
-import TestChart from '../components/chart/TestChart';
+import Tlqkf from '../components/chart/Tlqkf';
+import TlqkfBar from '../components/chart/TlqkfBar';
 import { Button } from '@mui/material';
 
 const StockDetail = () => {
@@ -35,10 +36,10 @@ const StockDetail = () => {
   };
 
   return (
-    <div>
+    <div className="main-container">
       <h1>Detail</h1>
       <div>
-        <TestChart />
+        <Tlqkf />
       </div>
       <div className="space-between space-margin">
         <Button
@@ -59,7 +60,7 @@ const StockDetail = () => {
         </Button>
       </div>
       <div className="space-margin divbox">
-        <h3>주요 뉴스</h3>
+        <h3 className="divleft">주요 뉴스</h3>
         <div>낄낄 뉴스내용</div>
         <div>낄낄 뉴스내용</div>
         <div>낄낄 뉴스내용</div>
@@ -67,12 +68,10 @@ const StockDetail = () => {
       </div>
       <div className="space-margin divbox">
         <h3>재무 제표</h3>
-        <div>낄낄 또 차트 들어가야됨</div>
-        <div>낄낄 또 차트 들어가야됨</div>
-        <div>낄낄 또 차트 들어가야됨</div>
-        <div>낄낄 또 차트 들어가야됨</div>
-        <div>낄낄 또 차트 들어가야됨</div>
-        <div>낄낄 또 차트 들어가야됨</div>
+        <div>
+          <TlqkfBar />
+        </div>
+        {/* <div style={{ height: 400 }}></div> */}
       </div>
     </div>
   );
