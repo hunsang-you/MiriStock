@@ -7,6 +7,7 @@ import {
   Community,
   More,
   StockDetail,
+  Redirect,
 } from './pages';
 import React from 'react';
 
@@ -20,6 +21,7 @@ const Router = () => {
       <Route path="/asset" element={<Asset />}></Route>
       <Route path="/community/*" element={<Community />}></Route>
       <Route path="/more" element={<More />}></Route>
+      <Route path="/redirect" element={<Redirect />} />
       <Route></Route>
     </Routes>
   );
