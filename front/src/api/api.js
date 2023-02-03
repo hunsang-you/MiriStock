@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://59.27.27.137:21111';
+const BASE_URL = 'http://192.168.31.160:80';
 const token =
-  'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0a2RndXNkbDYzQG5hdmVyLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJuaWNrbmFtZSI6IuyCvOyEsSDqsKTrn63si5wg7KKL7JWE7JqUIiwiZXhwIjoxNjc1MzM2NjIxfQ.E78mLpCsewEZUct2wABPX5FJFPq6yiLSG3DVXI6MQKg';
-const api = axios.create({
+  'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkb2d5ZW9tMkBrYWthby5jb20iLCJyb2xlIjoiTUVNQkVSIiwiZXhwIjoxNjc1Mzg3Mzc5fQ.oNnTWUfpoj5gQRrkORvGJ4HP6p-NrCHue2PgdT1t-cs';
+export const api = axios.create({
   baseURL: BASE_URL,
   headers: {
     headers: {
