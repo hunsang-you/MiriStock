@@ -60,12 +60,12 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         if (nickname == null){
             // 닉네임 설정 화면으로
-            getRedirectStrategy().sendRedirect(request, response, UriComponentsBuilder.fromUriString("http://192.168.31.208:3000/")
+            getRedirectStrategy().sendRedirect(request, response, UriComponentsBuilder.fromUriString("http://192.168.31.208:3000/redirect")
                     .queryParam("accesstoken", accesstoken)
                     .build().toUriString());
         }else {
             // 메인으로
-            getRedirectStrategy().sendRedirect(request, response, UriComponentsBuilder.fromUriString("http://192.168.31.208:3000/")
+            getRedirectStrategy().sendRedirect(request, response, UriComponentsBuilder.fromUriString("http://192.168.31.208:3000/redirect")
                     .queryParam("accesstoken", accesstoken)
                     .build().toUriString());
         }
@@ -74,8 +74,6 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private MemberEntity createMember(OAuth2User oAuth2User) {
         return memberRepository.saveAndFlush(MemberEntity.builder()
                 .memberEmail((String) oAuth2User.getAttribute("email"))
-                .memberCurrentTime(20150101)
-                .memberTotalasset(50000000L)
                 .role(Role.MEMBER)
                 .memberProvider(oAuth2User.getAttribute("provider"))
                 .build());

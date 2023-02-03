@@ -5,6 +5,7 @@ import lombok.*;
 
 @Builder
 @Getter
+@Setter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,6 +15,7 @@ public class MemberAssetDto {
     private Long memberassetTotalAsset;
     private Long memberassetAvailableAsset;
     private Long memberassetStockAsset;
+    private Integer memberassetCurrentTime;
 
     public static MemberAssetDto of(MemberAssetEntity m){
         return MemberAssetDto.builder()
@@ -22,6 +24,7 @@ public class MemberAssetDto {
                 .memberassetTotalAsset(m.getMemberassetTotalAsset())
                 .memberassetAvailableAsset(m.getMemberassetAvailableAsset())
                 .memberassetStockAsset(m.getMemberassetStockAsset())
+                .memberassetCurrentTime(m.getMemberassetCurrentTime())
                 .build();
     }
 }
