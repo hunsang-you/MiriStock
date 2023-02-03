@@ -61,19 +61,34 @@ const Community = () => {
     },
     {
       id: 7,
-      title:
-        '리액트가 뭔가요 리액트가 뭔가요 리액트가 뭔가요 리액트가 뭔가요 리액트가 뭔가요 ',
+      title: '리액트가 뭔가요',
       userId: '박박박',
+      content:
+        '박박박박박박박박박박박박박박박박박박박박박박박박박박박박박박박박박박박박박박박박',
       createAt: '2022-01-31',
     },
   ]);
 
   const [comment, setComment] = useState([
-    { commentId: 0, userId: 1, content: '모름', articleNo: 0 },
-    { commentId: 1, userId: 1, content: '모름', articleNo: 0 },
-    { commentId: 2, userId: 1, content: '모름', articleNo: 1 },
-    { commentId: 3, userId: 1, content: '모름', articleNo: 2 },
-    { commentId: 0, userId: 1, content: '모름', articleNo: 2 },
+    { commentId: 0, userId: '한재윤', content: '모름모름', articleNo: 0 },
+    { commentId: 1, userId: '안효관', content: '모름알음', articleNo: 0 },
+    { commentId: 2, userId: '이도겸', content: '알음모름', articleNo: 1 },
+    { commentId: 3, userId: '배상현', content: '알음알음', articleNo: 2 },
+    { commentId: 4, userId: '유헌상', content: '모름름모', articleNo: 2 },
+    {
+      commentId: 5,
+      userId: '박박박박박박박박',
+      content:
+        '벅벅벅벅벅벅벅벅벅벅벅벅벅벅벅벅벅벅벅벅벅벅벅벅벅벅벅벅복복복북보굽고북',
+      articleNo: 0,
+    },
+    {
+      commentId: 6,
+      userId: '김김김김김김김김김김',
+      content:
+        '햄버거햄버거햄버거햄버거햄버거햄버거햄버거햄버거햄버거햄버거햄버거햄버거햄버거햄버거햄버거햄버거햄버거햄버거햄버거햄버거',
+      articleNo: 0,
+    },
   ]);
 
   return (

@@ -11,11 +11,27 @@ const ArticleItem = (props) => {
   const comment = props.comment;
 
   // content 글자 제한, 더보기
-  const [closed, setClosed] = useState(false);
+  const [isclosed, setIsClosed] = useState(false);
   const handlerBtn = () => {
-    setClosed(!closed);
+    setIsClosed(!isclosed);
   };
-  console.log(closed);
+
+  // comment list 활성화
+  const [iscomment, setIsComment] = useState(false);
+  const CommentBtn = () => {
+    if (iscomment === true) {
+      setIsComment(!iscomment);
+    } else {
+      setIsComment(!iscomment);
+    }
+  };
+
+  // 댓글창 출력
+  const CommentBox = () => {
+    if (iscomment === true) {
+      return <Comment comment={comment} item={item} />;
+    }
+  };
 
   // 좋아요 확인
   const [like, setLike] = useState(false);
@@ -36,7 +52,7 @@ const ArticleItem = (props) => {
       </div>
       {/* 내용 */}
       <div className="content" onClick={handlerBtn}>
-        <span className={closed ? 'content-open' : 'content-close'}>
+        <span className={isclosed ? 'content-open' : 'content-close'}>
           {item.content}
         </span>
       </div>
@@ -52,11 +68,10 @@ const ArticleItem = (props) => {
           <HeartBtn like={like} item={item} />
         </div>
         <div className="comment">
-          <FaRegCommentDots />
-          <span> 2 </span>
+          <FaRegCommentDots onClick={CommentBtn} />
         </div>
         <div className="item-btn">
-          <Button id="delete-btn" variant="outlined" size="large">
+          <Button id="delete-btn" variant="outlined" size="middle">
             삭제
           </Button>
           {/* <Button id="update-btn" variant="outlined" size="large">
@@ -64,6 +79,7 @@ const ArticleItem = (props) => {
           </Button> */}
         </div>
       </div>
+      <div> {CommentBox()} </div>
     </div>
   );
 };
