@@ -34,6 +34,7 @@ public class CommentController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } else {
             commentRequestDto.setMemberNo(m.getMemberNo());
+            commentRequestDto.setMemberNickname(m.getMemberNickname());
             return ResponseEntity.ok().body(commentService.save(commentRequestDto));
         }
     }
