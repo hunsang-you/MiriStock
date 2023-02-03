@@ -8,7 +8,7 @@ function Login() {
   return (
     <div>
       <Routes>
-        <Route path="" element={LoginBtn()} />;
+        <Route path="" element={<LoginBtn />} />;
         <Route path="nickname" element={<Nickname />} />;
       </Routes>
     </div>
