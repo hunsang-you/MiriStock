@@ -1,22 +1,18 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://192.168.31.160';
-// const BASE_URL = 'http://59.27.27.137:21111';
-const token =
-  'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0a2RndXNkbDYzQG5hdmVyLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJleHAiOjE2NzUzMTY2MDZ9.yE2kwDnuQvR4B9ypwHElsJ9jngDk-aeIrf-rxwnMnQw';
+const BASE_URL = process.env.REACT_APP_BASE_UR;
+const accessToken = localStorage.getItem('accessToken');
 const api = axios.create({
   baseURL: BASE_URL,
   headers: {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    Authorization: `Bearer ${accessToken}`,
   },
 });
 
 export default api;
 
 export const memberAPI = {
-  test: () => api.get(`/login/oauth2/code/kakao`),
+  asset: () => api.get(`/asset`),
 };
 
 export const rankAPI = {

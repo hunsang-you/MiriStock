@@ -2,7 +2,10 @@ import mirilogo from '../../static/mirilogo.png';
 import kakaobtn from '../../static/kakaobtn.png';
 import naverbtn from '../../static/naverbtn.png';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
+const BASE_URL = process.env.REACT_APP_BASE_UR;
+const KAKAO_URL = `${BASE_URL}/oauth2/authorization/kakao`;
 const LoginBtn = () => {
   const navigate = useNavigate();
 
@@ -20,7 +23,17 @@ const LoginBtn = () => {
             className="btn"
             alt="kakao"
             onClick={() => {
-              navigate('nickname');
+              // navigate('nickname');
+              // window.open('http://192.168.31.160/oauth2/authorization/kakao');
+              // axios
+              //   .get(`${BASE_URL}/oauth2/authorization/kakao`)
+              //   .then((request) => {
+              //     console.log(request);
+              //   })
+              //   .catch((err) => {
+              //     console.log(err);
+              //   });
+              window.location.href = KAKAO_URL;
             }}
           />
         </div>
