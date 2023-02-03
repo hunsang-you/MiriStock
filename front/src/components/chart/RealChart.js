@@ -1,39 +1,33 @@
 import { useState, useEffect } from 'react';
 import ApexCharts from 'apexcharts';
 import ReactApexChart from 'react-apexcharts';
-import { stockAPI } from '../../api/api'; // api 통신
+import { stockAPI, api } from '../../api/api'; // api 통신
 
 const RealChart = () => {
   // 오늘날짜
   const [toDay, setToDay] = useState([20221213]);
   // 시작날짜
   const [startDay, setStartDay] = useState([toDay]);
-  // 종목명
-  const [stockName, setStockName] = useState(['']);
+  // 오늘날짜 -> [종목명, 종목코드, 등락금액, 등락률]
+  const [stockInfo, setStockInfo] = useState([]);
+  //
+  const [todayPrice, setTodayPrice] = useState([]);
   // 거래량
   const [stockDataAmount, setStockDataAmount] = useState(['']);
-  // 등락률
-  const [stockDataFlucauationRate, setStockDataFlucauationRate] = useState([
-    '',
-  ]);
-  // 등락금액
-  const [stockDataPriceIncreasement, setStockDataPriceIncreasement] = useState([
-    '',
-  ]);
   // 보여주는 일자 선택 (디폴트 -> 일주일)
   const [select, setSelect] = useState('one_week');
   // 차트 설정 (수정해야함)
-  const state = {
+  const [state, setState] = useState({
     series: [
       {
-        name: 'Revenue',
+        name: 'stockDataClosingPrice',
         type: 'line',
-        data: [20, 29, 37, 36, 44, 45, 50, 58],
+        data: [],
       },
       {
-        name: 'Income',
+        name: 'stockDataAmount',
         type: 'column',
-        data: [1.4, 2, 2.5, 1.5, 2.5, 2.8, 3.8, 4],
+        data: [],
       },
     ],
     options: {
@@ -66,7 +60,7 @@ const RealChart = () => {
         enabled: true,
       },
       xaxis: {
-        categories: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016],
+        categories: [],
         //   type: 'datetime',
         //   min: new Date('01 Feb 2017').getTime(), // 랜더링시 시작하는 부분 옵션인거같음 이부분을 스위칭에 맞게 조절하는 함수 만들어서 작성 해야함
         //   tickAmount: 6, // 표시 틱 간격
@@ -131,7 +125,7 @@ const RealChart = () => {
         offsetX: 40,
       },
     },
-  };
+  });
   // 1w, 1m, 6m, 1y, all 토글 스위치 함수
   const updateData = (timeline) => {
     setSelect({
@@ -182,41 +176,70 @@ const RealChart = () => {
       default:
     }
   };
+
   // axios 통신 (종목코드, 시작 날짜, 끝나는 날짜)
   const ymdReturn = (stockcode, before, now) => {
     stockAPI
       .stockDetail(stockcode, before, now)
       .then((request) => {
-        // console.log(request.data);
+        console.log(request.data);
         return request.data;
       })
       .catch((err) => {
         console.log(err);
       });
   };
+  // 날짜데이터를 시간으로 변환하는 함수
+  const dayToTime = (date) => {
+    let year, month, day, time;
+    year = parseInt(date / 10000);
+    month = parseInt((date - year * 10000) / 100);
+    day = date - year * 10000 - month * 100;
+    time = new Date(year, month, day);
+    console.log(time.getTime());
+    console.log(year, month, day);
+    return time.getTime();
+  };
 
   useEffect(() => {
-    const test = async () => {
-      let testt = await stockAPI.stockDetail('005930', 20220330, 20220502);
-      console.log(1);
-      console.log(testt);
+    const getValueData = async (data1, data2, data3) => {
+      const newPrice = [];
+      const newDataAmount = [];
+      const newDate = [];
+      const reqData = await api.get(`stockdata/detail`, {
+        params: {
+          stockCode: data1,
+          startDate: data2,
+          endDate: data3,
+        },
+      });
+      console.log(reqData.data);
+      const today = reqData.data.length - 1;
+      setStockInfo([
+        reqData.data[today].stockName,
+        reqData.data[today].stockCode,
+        reqData.data[today].stockDataPriceIncreasement,
+        reqData.data[today].stockDataFlucauationRate,
+      ]);
+      setTodayPrice(reqData.data[today].stockDataClosingPrice);
+      for (let i = 0; i <= today; i++) {
+        newPrice.push(reqData.data[i].stockDataClosingPrice);
+        newDataAmount.push(reqData.data[i].stockDataAmount);
+        newDate.push(dayToTime(reqData.data[i].stockDataDate));
+      }
     };
-    test();
-    console.log(2);
-    console.log(test.testt);
-    // const todaystart = async () => {
-    //   await stockAPI
-    //     .stockDetail('005930', 20220330, 20220502)
-    //     .then((request) => {
-    //       console.log(request.data);
-    //     });
-    //   console.log(4);
-    // };
-    // todaystart();
+    getValueData('005930', 20180101, 20221202);
+    dayToTime(20221111);
   }, []);
 
   return (
     <div id="chart">
+      <h2>{stockInfo[0]}</h2>
+      <h4>{stockInfo[1]}</h4>
+      <h1>{todayPrice}원</h1>
+      <h4>
+        전일대비 {stockInfo[2]}원{stockInfo[3]}
+      </h4>
       <ReactApexChart
         options={state.options}
         series={state.series}
