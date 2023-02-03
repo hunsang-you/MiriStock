@@ -4,7 +4,7 @@ import SearchView from './SearchView';
 import History from './History';
 import { searchAPI } from '../../api/api';
 import { useState } from 'react';
-
+import InfiniteScroll from 'react-infinite-scroll-component';
 // import { useStore } from '../../store';
 
 import './css/SearchBar.css';
@@ -45,7 +45,6 @@ const SearchBar = ({ keyword, updateField }) => {
             id="search-bar"
             placeholder="종목명 또는 종목코드 입력"
             variant="standard"
-            value={keyword}
             onChange={(e) => {
               searchAPI
                 .serachStock(e.target.value)
@@ -80,7 +79,6 @@ const SearchBar = ({ keyword, updateField }) => {
             }}
           >
             <SearchView
-              updateText={updateText}
               name={stock.stockName}
               code={stock.stockCode}
               key={stock.stockCode}
