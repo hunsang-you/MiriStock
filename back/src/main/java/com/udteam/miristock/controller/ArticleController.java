@@ -36,18 +36,19 @@ public class ArticleController {
         }
     }
 
-    @GetMapping
-    public ResponseEntity<ArticleResponseDto> findOne(@RequestHeader String Authorization, @PathVariable Integer articleNo){
+    @GetMapping("/{articleno}")
+    public ResponseEntity<ArticleResponseDto> findOne(@RequestHeader String Authorization, @PathVariable Integer articleno){
         log.info("articel 목록");
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
         if (m == null){
             log.info(ErrorMessage.TOKEN_EXPIRE);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } else {
-            return ResponseEntity.ok().body(articleService.findOne(articleNo));
+            return ResponseEntity.ok().body(articleService.findOne(articleno));
         }
     }
 
+    @PostMapping
     public ResponseEntity<Integer> save(@RequestHeader String Authorization, @RequestBody ArticleRequestDto articleRequestDto) {
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
         log.info("articleRequestDto : {}", articleRequestDto);
@@ -55,10 +56,13 @@ public class ArticleController {
             log.info(ErrorMessage.TOKEN_EXPIRE);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } else {
+            articleRequestDto.setMemberNo(m.getMemberNo());
+            articleRequestDto.setMemberNickname(m.getMemberNickname());
             return ResponseEntity.ok().body(articleService.save(articleRequestDto));
         }
     }
 
+    @PutMapping
     public ResponseEntity<Integer> update(@RequestHeader String Authorization, @RequestBody ArticleRequestDto articleRequestDto) {
         log.info("articleRequestDto : {}", articleRequestDto);
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
@@ -67,6 +71,7 @@ public class ArticleController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } else {
             articleRequestDto.setMemberNo(m.getMemberNo());
+            articleRequestDto.setMemberNickname(m.getMemberNickname());
             return ResponseEntity.ok().body(articleService.save(articleRequestDto));
         }
     }
