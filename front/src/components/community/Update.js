@@ -1,5 +1,7 @@
-const Update = () => {
-  return <div>1</div>;
+const Update = (props) => {
+  console.log(props);
+
+  return <div className="update-page">1</div>;
 };
 
 export default Update;

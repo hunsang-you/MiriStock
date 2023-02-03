@@ -78,6 +78,11 @@
 }
 
 .item-btn {
+    display: flex;
     margin-left: auto;
     margin-right: 4vw;
+}
+
+.item-btn > div {
+    margin-left: 8px;
 }

@@ -11,7 +11,7 @@ const ArticleList = (props) => {
   return (
     <div className="article-list">
       <div className="board">
-        QnA 게시판
+        <h2>질문방</h2>
         <div className="create-item">
           <IoCreateOutline
             onClick={() => {

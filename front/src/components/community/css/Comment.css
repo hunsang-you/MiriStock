@@ -17,6 +17,7 @@
     min-width: 80px;
     margin-top: auto;
     margin-bottom: auto;
+    font-weight: bold;
 
 }
 
@@ -24,6 +25,7 @@
     display: flex;
     text-align: left;
     margin-right: 24px;
+
 
 }
 
