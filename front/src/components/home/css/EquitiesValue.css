@@ -1,0 +1,38 @@
+.equities-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.equities-container  div {
+    font-family: var(--font-IbmPlexSansKrLightRegular);
+}
+
+.equities-container  span {
+    font-family: var(--font-IbmPlexSansKrLightRegular);
+}
+
+.stock {
+    margin-top: 16px;
+}
+
+.evaluation {
+    text-align: start;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+
+
+.stock-top {
+    font-size: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.stock-bottom {
+    font-size : 16px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

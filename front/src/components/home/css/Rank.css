@@ -1,0 +1,51 @@
+.rank-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.rank-container div {
+    font-family: var(--font-IbmPlexSansKrLightRegular);
+}
+
+.rank-container span {
+    font-family: var(--font-IbmPlexSansKrLightRegular);
+}
+
+.rank {
+    font-size: 24px;
+    text-align: start;
+    font-weight: bold;
+}
+
+.rank-button {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.rank-choose {
+    font-size : 20px;
+    margin-top: 16px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.incrdecr-list {
+    margin-top: 16px;
+}
+
+.incrdecr-top {
+    font-size: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.incrdecr-bottom {
+    font-size : 16px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

@@ -1,0 +1,21 @@
+.simulation {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 2vh;
+    align-items: center;
+
+}
+
+#lines {
+    border : 0;
+    height: 8px;
+    width: 100vw;
+    background-color: #F4F4F4;
+    border-color: white;
+    text-align: left;
+    margin-left: -6vw;
+}
+.date {
+    font-family: var(--font-digi);
+    font-size: 40px;
+}

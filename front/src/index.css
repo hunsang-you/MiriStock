@@ -1,0 +1,49 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+@font-face {
+	font-family: "NanumGothicCoding";
+	src: url(./static/fonts/Nanum_Gothic_Coding/NanumGothicCoding-Regular.ttf);
+}
+
+@font-face {
+	font-family: "IbmPlexSansKrLight";
+	src: url(./static/fonts/IBM_Plex_Sans_KR/IBMPlexSansKR-Light.ttf);
+}
+
+@font-face {
+	font-family: "IbmPlexSansKrLightMedium";
+	src: url(./static/fonts/IBM_Plex_Sans_KR/IBMPlexSansKR-Medium.ttf);
+}
+@font-face {
+	font-family: "IbmPlexSansKrLightRegular";
+	src: url(./static/fonts/IBM_Plex_Sans_KR/IBMPlexSansKR-Regular.ttf);
+}
+
+@font-face {
+	font-family: "IbmPlexSansKrLightRegular";
+	src: url(./static/fonts/IBM_Plex_Sans_KR/IBMPlexSansKR-Regular.ttf);
+}
+
+@font-face {
+	font-family: "digi";
+	src: url(./static/fonts/digital/DS-DIGI.TTF);
+}
+:root {
+  --font-NanumGothicCoding: "NanumGothicCoding";
+  --font-IbmPlexSansKrLight: "IbmPlexSansKrLight";
+  --font-IbmPlexSansKrLightMedium: "IbmPlexSansKrLightMedium";
+  --font-IbmPlexSansKrLightRegular: "IbmPlexSansKrLightRegular";
+  --font-digi: "digi";
+}

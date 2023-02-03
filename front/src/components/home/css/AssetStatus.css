@@ -1,0 +1,44 @@
+.asset {
+    display: flex;
+    flex-direction: column;
+
+}
+.asset > div {
+    font-size: 20px;
+    font-family: var(--font-IbmPlexSansKrLightRegular);
+}
+.asset-status {
+    text-align: start;
+}
+
+.money-unit {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    
+}
+#lines {
+    border : 0;
+    height: 8px;
+    width: 100vw;
+    background-color: #F4F4F4;
+    border-color: white;
+    text-align: left;
+    margin-left: -6vw;
+}
+
+.money {
+    font-size: 40px;
+    font-family: var(--font-IbmPlexSansKrLightMedium);
+}
+
+.unit {
+    font-size: 30px;
+    font-family: var(--font-IbmPlexSansKrLightMedium);
+}
+.change {
+    text-align: start;
+    font-size: 16px;
+    font-family: var(--font-IbmPlexSansKrLightRegular);
+}
