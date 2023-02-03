@@ -10,7 +10,7 @@ import { useState } from 'react';
 import './css/SearchBar.css';
 
 // 키워드, 결과값들, 업데이트필드를 전달받는다
-const SearchBar = ({ keyword, results, updateField }) => {
+const SearchBar = ({ keyword, updateField }) => {
   //
   const [searchResult, setSearchResult] = useState([]);
   const updateText = (text) => {
@@ -19,43 +19,27 @@ const SearchBar = ({ keyword, results, updateField }) => {
     updateField('results', []);
   };
 
-  let renderResults;
-  let InputStk = [];
-  if (InputStk) {
-    // InputStk 에 검색어에 대한 결과가 담기면, SearchView 호출
-    renderResults = InputStk.map((stock, i) => {
-      return (
-        <div key={i}>
-          <SearchView
-            updateText={updateText}
-            name={stock.stockName}
-            code={stock.stockCode}
-            key={stock.stockCode}
-          />
-        </div>
-      );
-    });
-  }
-
   // 검색 입력이 없으면 최근 조회한 항목 표시
-  const Recent = () => {
-    if ((keyword === '') | (results.length === 0)) {
-      return (
-        <div>
-          <History />
-        </div>
-      );
+
+  // const { watchData, setWatchData } = useStore();
+  const [watchData, setWatchData] = useState([]);
+
+  // 하단 조건부렌더링 bool 체크
+  const [isCheck, setIsCheck] = useState(true);
+
+  // isCheck == true(검색결과가 0개라면) 최근 조회목록 출력
+  const HistoryView = () => {
+    if (isCheck === true) {
+      return <History watchData={watchData} />;
     }
   };
-
-  // const { watchData, setWatchData } = useStore(); // zustand 전역변수
-
   // onChange를 사용하여 글자를 입력할때마다 updateField호출, renderResults 렌더링.
   return (
     <div className="search-bar">
       <div className="search-top">
         <AiOutlineSearch size={40} />
         <div className="text-field">
+          {/* 검색 textfield */}
           <TextField
             sx={{ width: { xs: 300, sm: 540, md: 720, lg: 960, xl: 1140 } }}
             id="search-bar"
@@ -66,17 +50,35 @@ const SearchBar = ({ keyword, results, updateField }) => {
               searchAPI
                 .serachStock(e.target.value)
                 .then((request) => {
-                  console.log(request.data);
-                  setSearchResult(request.data);
+                  // 검색어O -> 결과 출력, 검색어X 검색 결과 초기화
+                  if (e.target.value.length > 0) {
+                    setIsCheck(false);
+                    setSearchResult(request.data);
+                  } else {
+                    setIsCheck(true);
+                    setSearchResult([]);
+                  }
                 })
                 .catch((err) => console.log(err));
             }}
           />
         </div>
       </div>
+
+      {/* 종목 검색 결과 */}
+      <div className="search-title"></div>
       {searchResult.map((stock, i) => {
         return (
-          <div key={i}>
+          <div
+            key={i}
+            onClick={(e) => {
+              setWatchData([
+                ...watchData,
+                { name: stock.stockName, code: stock.stockCode },
+              ]);
+              // console.log(watchData);
+            }}
+          >
             <SearchView
               updateText={updateText}
               name={stock.stockName}
@@ -86,8 +88,9 @@ const SearchBar = ({ keyword, results, updateField }) => {
           </div>
         );
       })}
-      <div className="search-stocks">{renderResults}</div>
-      <div className="search-list">{Recent()}</div>
+
+      {/* 최근 조회 목록 */}
+      <div className="search-list">{HistoryView()}</div>
     </div>
   );
 };

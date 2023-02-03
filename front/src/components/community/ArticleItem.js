@@ -3,6 +3,7 @@ import { FaRegCommentDots } from 'react-icons/fa';
 import Comment from './Comment';
 import { Button } from '@mui/material';
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import './css/ArticleItem.css';
 
 const ArticleItem = (props) => {
@@ -35,6 +36,13 @@ const ArticleItem = (props) => {
 
   // 좋아요 확인
   const [like, setLike] = useState(false);
+  const likeVariant = {
+    click: {
+      opacity: 0.6,
+      scale: 1.0,
+      backgroundColor: '#D2143C',
+    },
+  };
 
   return (
     <div className="article-item">
@@ -65,7 +73,9 @@ const ArticleItem = (props) => {
             setLike(!like);
           }}
         >
-          <HeartBtn like={like} item={item} />
+          <motion.div variants={likeVariant} whileTap="click">
+            <HeartBtn like={like} item={item} />
+          </motion.div>
         </div>
         <div className="comment">
           <FaRegCommentDots onClick={CommentBtn} />

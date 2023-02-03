@@ -1,8 +1,8 @@
 import './css/Community.css';
 import { Routes, Route } from 'react-router-dom';
 import ArticleList from '../components/community/ArticleList';
-import Create from '../components/community/Create';
-// import Update from '../components/community/Update';
+import ArticleCreate from '../components/community/ArticleCreate';
+import Update from '../components/community/Update';
 
 import { useState } from 'react';
 
@@ -99,8 +99,8 @@ const Community = () => {
           element={<ArticleList items={items} comment={comment} />}
         />
         ;
-        <Route path="create" element={<Create />} />;
-        {/* <Route path="update" element={<Update />} />; */}
+        <Route path="create" element={<ArticleCreate />} />;
+        <Route path="update" element={<Update />} />;
       </Routes>
     </div>
   );
