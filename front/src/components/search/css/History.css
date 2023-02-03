@@ -1,0 +1,21 @@
+.watch-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.watch-title > h3 {
+    text-align: left;
+}
+
+.watch-item {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+    padding-bottom: 2vh;
+    border-bottom: 1px dashed grey;
+}
+
+.watch-item > * {
+    font-family: var(--font-IbmPlexSansKrLightRegular);
+}
