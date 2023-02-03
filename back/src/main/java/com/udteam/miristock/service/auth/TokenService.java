@@ -20,7 +20,7 @@ public class TokenService {
     private final RedisUtil redisUtil;
 
     private String secretKey = "token-secret-key";
-    private final long tokenPeriod = 1000L * 60L * 10L;
+    private final long tokenPeriod = 1000L * 60L * 60L * 3L;
     private final long refreshPeriod = 1000L * 60L * 60L * 24L * 30L * 3L; // 3년
 
 
