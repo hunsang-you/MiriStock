@@ -1,0 +1,26 @@
+
+.logo {
+  margin-top: 17.14vh;
+  margin-bottom: 20.04vh;
+}
+
+.loginpage {
+  margin-left: 6vw;
+  margin-right: 6vw;
+}
+
+.btn {
+  width: 248px;
+  height: 56px;
+  cursor: pointer;
+  margin-top: 2vh;
+
+}
+
+.loginbtn {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin-bottom: 13.45vh;
+}
+
