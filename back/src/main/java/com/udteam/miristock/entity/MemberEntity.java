@@ -27,13 +27,6 @@ public class MemberEntity {
     @Column(name="member_nickname", length = 20)
     private String memberNickname;
 
-    @Column(name="member_totalasset")
-    @ColumnDefault("50000000")
-    private Long memberTotalasset;
-
-    @Column(name="member_current_time",nullable=false)
-    private Integer memberCurrentTime;
-
     @Column(name="provider",nullable=false)
     private String memberProvider;
 
