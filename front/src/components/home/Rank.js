@@ -1,9 +1,46 @@
 import './css/Rank.css';
 import Button from '@mui/material/Button';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { rankAPI } from '../../api/api';
 
 const Rank = () => {
   const [choose, setChoose] = useState(0);
+  const [trades, setTrades] = useState([]);
+  const [increases, setIncreases] = useState([]);
+  const [decreases, setDecreases] = useState([]);
+  const tempDate = 20200525;
+  useEffect(() => {
+    // const getTrades = async (date) => {
+    //   await rankAPI
+    //     .increase(date)
+    //     .then((request) => {
+    //       setTrades(request.data);
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+    // };
+    // getTrades(tempDate);
+    rankAPI
+      .increase(tempDate)
+      .then((request) => {
+        setIncreases(request.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    rankAPI
+      .decrease(tempDate)
+      .then((request) => {
+        setDecreases(request.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    // rankAPI.todayTop(tempDate).then((request) => {
+    //   console.log(request.data);
+    // });
+  }, []);
   const trade = [
     {
       stockName: '삼성전자',
@@ -161,8 +198,8 @@ const Rank = () => {
         </Button>
       </div>
       {choose === 0 ? <Trade trade={trade} /> : null}
-      {choose === 1 ? <BestIncrease increase={increase} /> : null}
-      {choose === 2 ? <BestDecrease decrease={decrease} /> : null}
+      {choose === 1 ? <BestIncrease increase={increases} /> : null}
+      {choose === 2 ? <BestDecrease decrease={decreases} /> : null}
     </div>
   );
 };
@@ -170,10 +207,10 @@ const Rank = () => {
 export default Rank;
 
 const Trade = (props) => {
-  const trade = props.trade;
+  const trades = props.trade;
   return (
     <div>
-      {trade.map((stock, i) => {
+      {trades.map((stock, i) => {
         return (
           <div className="rank-choose" key={i}>
             <span>{stock.stockName}</span>
