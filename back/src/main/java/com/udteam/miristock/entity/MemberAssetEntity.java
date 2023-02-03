@@ -1,6 +1,8 @@
 package com.udteam.miristock.entity;
 
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
@@ -12,6 +14,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@DynamicInsert
+@DynamicUpdate
 public class MemberAssetEntity {
 
     @Id
@@ -32,4 +36,6 @@ public class MemberAssetEntity {
     @Column(name = "memberasset_stock_asset")
     private Long memberassetStockAsset;
 
+    @Column(name = "memberasset_current_time")
+    private Integer memberassetCurrentTime;
 }
