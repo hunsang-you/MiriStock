@@ -33,10 +33,10 @@ function App() {
   return (
     <div className="App">
       <div>
-        {localStorage.getItem('accessToken') === null &&
+        {/* {localStorage.getItem('accessToken') === null &&
         page.indexOf('login') === -1
           ? navigate('/login')
-          : null}
+          : null} */}
         <Router />
       </div>
       {page.indexOf('login') === -1 ? <BottomNav /> : null}
