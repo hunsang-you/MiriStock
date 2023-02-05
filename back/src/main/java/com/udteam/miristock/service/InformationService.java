@@ -64,10 +64,20 @@ public class InformationService {
                 .append(startDateEncord,6,8)
                 .append("&hl=ko&gl=KR&ceid=KR:ko");
 
-        System.out.println(sb.toString());
+//        System.out.println(sb.toString());
         RSSFeedParser parser = new RSSFeedParser(sb.toString());
         NewsResponseDto newsResponseDto = parser.readFeed();
-        System.out.println("NEWS output :" + newsResponseDto);
+//        System.out.println("NEWS output :" + newsResponseDto);
+        StringBuilder returnsb = new StringBuilder("https://news.google.com/search?q=");
+        returnsb.append(keywordEncord)
+                .append("+before:").append(endDateEncord, 0, 4).append("/")
+                .append(endDateEncord,4,6).append("/")
+                .append(endDateEncord,6,8)
+                .append("+after:").append(startDateEncord, 0, 4).append("/")
+                .append(startDateEncord,4,6).append("/")
+                .append(startDateEncord,6,8)
+                .append("&hl=ko&gl=KR&ceid=KR:ko");
+        newsResponseDto.setLink(returnsb.toString());
         return newsResponseDto;
     }
 
