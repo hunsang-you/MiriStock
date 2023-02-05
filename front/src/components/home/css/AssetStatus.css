@@ -38,6 +38,7 @@
     font-family: var(--font-IbmPlexSansKrLightMedium);
 }
 .change {
+    display: flex;
     text-align: start;
     font-size: 16px;
     font-family: var(--font-IbmPlexSansKrLightRegular);

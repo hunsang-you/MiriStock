@@ -1,19 +1,18 @@
-import { useState } from 'react';
 import ArticleItem from './ArticleItem';
 import { IoCreateOutline } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
-import './css/ArticleList.css';
 
-const ArticleList = (items) => {
+const ArticleList = (props) => {
   const navigate = useNavigate();
-  const qna = items.items;
+
+  const qna = props.items;
+  const comment = props.comment;
 
   return (
     <div className="article-list">
       <div className="board">
-        QnA 게시판
+        <h2>질문방</h2>
         <div className="create-item">
-          {' '}
           <IoCreateOutline
             onClick={() => {
               navigate('create');
@@ -21,10 +20,14 @@ const ArticleList = (items) => {
           />
         </div>
       </div>
-      {/* <ArticleList items={items} /> */}
-      {qna.map((item) => (
-        <ArticleItem item={item} />
-      ))}
+
+      {qna.map((item, i) => {
+        return (
+          <div key={i}>
+            <ArticleItem item={item} comment={comment} />
+          </div>
+        );
+      })}
     </div>
   );
 };

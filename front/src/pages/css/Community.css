@@ -9,14 +9,13 @@
 }
 
 .board {
-    margin-top: 6vh;
+    margin-top: 3vh;
     text-align: left;
     font-size: 1.5rem;
 }
 
 .create-item {
     justify-content: end;
-    margin-top: 1vh;
     text-align: end;
-    font-size: 300%;
+    font-size: 200%;
 }
