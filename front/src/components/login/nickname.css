@@ -48,6 +48,9 @@
 
 .createBtn {
   margin-top: 128px;
+  display: flex;
+  flex-direction: row;
+  
 }
 
 #createBtn {
