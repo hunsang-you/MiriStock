@@ -22,7 +22,7 @@ public class StockDataService {
 
     // 거래량 가장 많은 5개 출력
     public List<StockDataResponseDto> findTop5AmountDesc(Integer stockDataDate) {
-        return stockDataRepository.findTopByStockCodeOrderByStockDataAmountDesc(stockDataDate)
+        return stockDataRepository.findTop5ByStockDataDateOrderByStockDataAmountDesc(stockDataDate)
         .stream().map(StockDataResponseDto::new)
         .collect(Collectors.toList());
     }
