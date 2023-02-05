@@ -3,7 +3,6 @@ package com.udteam.miristock.dto;
 import com.udteam.miristock.entity.FinancialstatementEntity;
 import lombok.*;
 
-@Builder
 @Getter
 @Setter
 @ToString
@@ -17,7 +16,6 @@ public class FinancialstatementDto {
     private Long salesRevenue;
     private Long operatingProfit;
 
-    @Builder
     public FinancialstatementDto(FinancialstatementEntity entity) {
         this.stockCode = entity.getStockCode();
         this.newIncome = entity.getNewIncome();
