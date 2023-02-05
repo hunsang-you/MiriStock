@@ -9,6 +9,10 @@ import java.util.List;
 @Repository
 public interface StockRepository extends JpaRepository<StockEntity, String> {
 
-    List<StockEntity> findByStockNameStartingWith(String stockName);
+    // 코드로 검색
+    List<StockEntity> findByStockCodeStartingWithOrderByStockCodeAsc(String stockCode);
+
+    // 종목명으로 검색
+    List<StockEntity> findByStockNameStartingWithOrderByStockCodeAsc(String stockName);
 
 }
