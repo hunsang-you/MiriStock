@@ -3,6 +3,7 @@ package com.udteam.miristock.controller;
 import com.udteam.miristock.dto.InterestDto;
 import com.udteam.miristock.dto.MemberAssetDto;
 import com.udteam.miristock.dto.MemberDto;
+import com.udteam.miristock.dto.StockDataResponseDto;
 import com.udteam.miristock.service.InterestService;
 import com.udteam.miristock.service.MemberAssetService;
 import com.udteam.miristock.service.MemberService;
@@ -58,46 +59,42 @@ public class AssetController {
         return null;
     }
 
-    @GetMapping("/intereststock")
+    @GetMapping("/intereststock/{stockDate}")
     @ApiOperation(value = "회원 관심 주식 목록 출력")
-    public ResponseEntity<List<InterestDto>> selectIntereststcok(@RequestHeader String Authorization) {
+    public ResponseEntity<List<StockDataResponseDto>> selectIntereststcok(@RequestHeader String Authorization, @PathVariable Integer stockDate) {
+        log.info("회원 관심 주식 목록 출력 호출됨 / 날짜 : {} ", stockDate);
         String token= HeaderUtil.getAccessTokenString(Authorization);
         MemberDto m = memberService.selectOneMember(token);
         if (m==null ){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }else{
-            return ResponseEntity.ok()
-                    .body(interestService.selectMemberStock((int) m.getMemberNo()));
+            log.info("회원 고유 식별번호 : {}", m.getMemberNo());
+            log.info("날짜 : {}", stockDate);
+            return ResponseEntity.ok().body(interestService.selectInterestStock(stockDate, m.getMemberNo()));
         }
-
     }
 
-    @PostMapping
+    @PostMapping("/intereststock")
     @ApiOperation(value = "회원 관심주식 추가")
-    public ResponseEntity<InterestDto> insertIntereststock(@RequestHeader String Authorization, @RequestBody String stockCode) {
+    public ResponseEntity<InterestDto> insertIntereststock(@RequestHeader String Authorization, @RequestParam String stockcode) {
         String token= HeaderUtil.getAccessTokenString(Authorization);
         MemberDto m = memberService.selectOneMember(token);
-        if (m==null){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(null);
+        if (m == null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }else {
-            return ResponseEntity.ok()
-                    .body(interestService.insertIntereststock((int) m.getMemberNo(),stockCode));
+            return ResponseEntity.ok().body(interestService.insertIntereststock(m.getMemberNo(), stockcode));
         }
     }
 
-    @DeleteMapping
+    @DeleteMapping("/intereststock")
     @ApiOperation(value = "회원 관심주식 제거")
-    public ResponseEntity<String> deleteIntereststock(@RequestHeader String Authorization,@RequestBody String stockCode) {
+    public ResponseEntity<String> deleteIntereststock(@RequestHeader String Authorization,@RequestParam String stockcode) {
         String token= HeaderUtil.getAccessTokenString(Authorization);
         MemberDto m = memberService.selectOneMember(token);
-        if(m==null){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(null);
+        if(m == null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }else{
-            return ResponseEntity.ok()
-                    .body(interestService.deleteIntereststock((int) m.getMemberNo(),stockCode));
+            return ResponseEntity.ok().body(interestService.deleteIntereststock(m.getMemberNo(), stockcode));
         }
     }
 

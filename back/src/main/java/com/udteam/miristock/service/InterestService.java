@@ -1,7 +1,9 @@
 package com.udteam.miristock.service;
 
 import com.udteam.miristock.dto.InterestDto;
+import com.udteam.miristock.dto.StockDataResponseDto;
 import com.udteam.miristock.entity.InterestEntity;
+import com.udteam.miristock.entity.StockDataEntity;
 import com.udteam.miristock.repository.InterestRepository;
 import com.udteam.miristock.repository.MemberRepository;
 import com.udteam.miristock.repository.StockRepository;
@@ -9,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,11 +24,9 @@ public class InterestService {
     private final MemberRepository memberRepository;
     private final StockRepository stockRepository;
 
-    public List<InterestDto> selectMemberStock(Integer id){
-        return interestRepository.findAllById(Collections.singleton(id))
-                .stream()
-                .map(InterestDto::of)
-                .collect(Collectors.toList());
+    public List<StockDataResponseDto> selectInterestStock(Integer stockDataDate, Integer memberNo){
+        List<StockDataEntity> stockDataEntityList = interestRepository.selectInterestStock(stockDataDate, memberNo);
+        return stockDataEntityList.stream().map(StockDataResponseDto::new).collect(Collectors.toList());
     }
 
     public InterestDto insertIntereststock(Integer id, String stockCode) {
