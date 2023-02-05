@@ -1,6 +1,8 @@
 package com.udteam.miristock.service;
 
-import com.udteam.miristock.dto.*;
+import com.udteam.miristock.dto.FinancialstatementDto;
+import com.udteam.miristock.dto.NewsRequestDto;
+import com.udteam.miristock.dto.NewsResponseDto;
 import com.udteam.miristock.repository.FinancialstatementRepository;
 import com.udteam.miristock.util.RSSFeedParser;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +12,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
