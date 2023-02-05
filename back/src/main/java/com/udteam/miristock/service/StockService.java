@@ -13,7 +13,14 @@ public class StockService {
 
     private final StockRepository stockRepository;
 
-    public List<StockEntity> findByStockName(String stockName) {
-        return stockRepository.findByStockNameStartingWith(stockName);
+    public List<StockEntity> findByStockName(String keyword) {
+        try {
+            Double.parseDouble(keyword);
+            return stockRepository.findByStockCodeStartingWithOrderByStockCodeAsc(keyword);
+        } catch (NumberFormatException e){
+            return stockRepository.findByStockNameStartingWithOrderByStockCodeAsc(keyword);
+        } catch (Exception e) {
+            return null;
+        }
     }
 }
