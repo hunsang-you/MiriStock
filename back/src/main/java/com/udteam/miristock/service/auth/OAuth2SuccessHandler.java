@@ -60,12 +60,12 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         if (nickname == null){
             // 닉네임 설정 화면으로
-            getRedirectStrategy().sendRedirect(request, response, UriComponentsBuilder.fromUriString("http://192.168.31.208:3000/redirect")
+            getRedirectStrategy().sendRedirect(request, response, UriComponentsBuilder.fromUriString("/")
                     .queryParam("accesstoken", accesstoken)
                     .build().toUriString());
         }else {
             // 메인으로
-            getRedirectStrategy().sendRedirect(request, response, UriComponentsBuilder.fromUriString("http://192.168.31.208:3000/redirect")
+            getRedirectStrategy().sendRedirect(request, response, UriComponentsBuilder.fromUriString("/")
                     .queryParam("accesstoken", accesstoken)
                     .build().toUriString());
         }
