@@ -22,6 +22,7 @@ const FinancialStatements = () => {
       chart: {
         type: 'bar',
         height: 350,
+        width: '100%',
       },
       plotOptions: {
         bar: {
