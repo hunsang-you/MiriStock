@@ -13,20 +13,39 @@ const navStore = create(
   ),
 );
 
-const searchHistoryStore = create(
+const insertWatchData = (history, data) => {
+  history.push(data);
+  const set = new Set(history);
+  const result = [...set];
+  return result;
+};
+
+// const searchHistoryStore = create(
+//   persist(
+//     (set) => ({
+//       searchHistory: [],
+//       setsearchHistory: (data) => {
+//         set((state) => ({
+//           searchHistory: insertWatchData(state.searchHistory, data),
+//         }));
+//       },
+//     }),
+//     { name: 'watchDataStore' },
+//   ),
+// );
+
+const searchStore = create(
   persist(
     (set) => ({
       searchHistory: [],
-      setsearchHistory: (data) => {
-        set((state) => ({ searchHistory: insertWatchData(state, data) }));
+      setSearchHistory: (data) => {
+        set((state) => ({
+          searchHistory: insertWatchData(state.searchHistory, data),
+        }));
       },
     }),
-    { name: 'watchDataStore' },
+    { name: 'searchStore' },
   ),
 );
-const insertWatchData = (state, data) => {
-  console.log(state);
-  console.log(data);
-};
 
-export { navStore, searchHistoryStore };
+export { navStore, searchStore };
