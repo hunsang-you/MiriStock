@@ -4,17 +4,14 @@ import SearchView from './SearchView';
 import History from './History';
 import { searchAPI } from '../../api/api';
 import { useState } from 'react';
-import { searchHistoryStore } from '../../store';
+import { navStore, searchStore } from '../../store.js';
 import './css/SearchBar.css';
 
 // 키워드, 결과값들, 업데이트필드를 전달받는다
 const SearchBar = () => {
   //최근검색기록
-  const { searchHistroy, setSearchHistory } = searchHistoryStore(
-    (state) => state,
-  );
+  const { searchHistory, setSearchHistory } = searchStore((state) => state);
   const [searchResult, setSearchResult] = useState([]);
-
   // 하단 조건부렌더링 bool 체크
   const [isCheck, setIsCheck] = useState(true);
 
@@ -67,9 +64,7 @@ const SearchBar = () => {
           </div>
         );
       })}
-
-      {/* 최근 조회 목록 */}
-      {/* <div className="search-list">{HistoryView()}</div> */}
+      {isCheck ? <History /> : null}
     </div>
   );
 };
