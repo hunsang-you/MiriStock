@@ -2,11 +2,11 @@ import './css/assetstatus.css';
 import ReactApexChart from 'react-apexcharts';
 
 const AssetStatus = () => {
-  const money = 555555;
-  const money2 = 333333;
+  const money = 44462050;
+  const money2 = 98381300;
   const sumss = money + money2;
   const donutData = {
-    series: [555553, 333333],
+    series: [money, money2],
     options: {
       chart: {
         type: 'donut',
@@ -23,11 +23,17 @@ const AssetStatus = () => {
       ],
       grid: {
         padding: {
-          bottom: -100,
+          bottom: -130,
         },
       },
       colors: ['#ccccff', '#ffccff'],
       labels: ['보유주식', '보유현금'],
+      dataLabels: {
+        enabled: false,
+      },
+      tooltip: {
+        enabled: false,
+      },
       plotOptions: {
         pie: {
           startAngle: -90,
@@ -40,6 +46,7 @@ const AssetStatus = () => {
                 show: true,
                 fontSize: '22px',
                 fontWeight: 600,
+                fontFamily: 'D2coding',
                 offsetY: -40,
               },
               total: {

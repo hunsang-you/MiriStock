@@ -18,7 +18,7 @@ const HomeMain = () => {
       <button
         onClick={() => {
           rankAPI
-            .increase(20210524)
+            .todayTop(20210524)
             .then((request) => {
               console.log(request.data);
             })
