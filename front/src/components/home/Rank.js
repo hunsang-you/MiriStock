@@ -1,9 +1,43 @@
 import './css/Rank.css';
 import Button from '@mui/material/Button';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { rankAPI } from '../../api/api';
 
 const Rank = () => {
   const [choose, setChoose] = useState(0);
+  const [trades, setTrades] = useState([]);
+  const [increases, setIncreases] = useState([]);
+  const [decreases, setDecreases] = useState([]);
+  const tempDate = 20200525;
+  useEffect(() => {
+    rankAPI
+      .todayTop(tempDate)
+      .then((request) => {
+        setTrades(request.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    rankAPI
+      .increase(tempDate)
+      .then((request) => {
+        setIncreases(request.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    rankAPI
+      .decrease(tempDate)
+      .then((request) => {
+        setDecreases(request.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    // rankAPI.todayTop(tempDate).then((request) => {
+    //   console.log(request.data);
+    // });
+  }, []);
   const trade = [
     {
       stockName: '삼성전자',
@@ -27,101 +61,6 @@ const Rank = () => {
     },
   ];
 
-  const increase = [
-    {
-      stockCode: '003850',
-      stockName: '보령',
-      stockDataDate: 20210111,
-      stockDataClosingPrice: 21201,
-      stockDataAmount: 15380632,
-      stockDataPriceIncreasement: 4889,
-      stockDataFlucauationRate: 29,
-    },
-    {
-      stockCode: '011090',
-      stockName: '에넥스',
-      stockDataDate: 20210111,
-      stockDataClosingPrice: 1735,
-      stockDataAmount: 99691584,
-      stockDataPriceIncreasement: 400,
-      stockDataFlucauationRate: 29,
-    },
-    {
-      stockCode: '044060',
-      stockName: '조광ILI',
-      stockDataDate: 20210111,
-      stockDataClosingPrice: 2322,
-      stockDataAmount: 25561592,
-      stockDataPriceIncreasement: 535,
-      stockDataFlucauationRate: 29,
-    },
-    {
-      stockCode: '004140',
-      stockName: '동방',
-      stockDataDate: 20210111,
-      stockDataClosingPrice: 2908,
-      stockDataAmount: 64074876,
-      stockDataPriceIncreasement: 670,
-      stockDataFlucauationRate: 29,
-    },
-    {
-      stockCode: '265740',
-      stockName: '엔에프씨',
-      stockDataDate: 20210111,
-      stockDataClosingPrice: 18250,
-      stockDataAmount: 3560074,
-      stockDataPriceIncreasement: 4200,
-      stockDataFlucauationRate: 29,
-    },
-  ];
-
-  const decrease = [
-    {
-      stockCode: '353810',
-      stockName: '이지바이오',
-      stockDataDate: 20210111,
-      stockDataClosingPrice: 8170,
-      stockDataAmount: 12261084,
-      stockDataPriceIncreasement: -2180,
-      stockDataFlucauationRate: -21,
-    },
-    {
-      stockCode: '035810',
-      stockName: '이지홀딩스',
-      stockDataDate: 20210111,
-      stockDataClosingPrice: 4695,
-      stockDataAmount: 14475992,
-      stockDataPriceIncreasement: -1115,
-      stockDataFlucauationRate: -19,
-    },
-    {
-      stockCode: '001360',
-      stockName: '삼성제약',
-      stockDataDate: 20210111,
-      stockDataClosingPrice: 9800,
-      stockDataAmount: 17780774,
-      stockDataPriceIncreasement: -1850,
-      stockDataFlucauationRate: -15,
-    },
-    {
-      stockCode: '036090',
-      stockName: '위지트',
-      stockDataDate: 20210111,
-      stockDataClosingPrice: 1655,
-      stockDataAmount: 25770296,
-      stockDataPriceIncreasement: -290,
-      stockDataFlucauationRate: -14,
-    },
-    {
-      stockCode: '092590',
-      stockName: '럭스피아',
-      stockDataDate: 20210111,
-      stockDataClosingPrice: 1410,
-      stockDataAmount: 300,
-      stockDataPriceIncreasement: -245,
-      stockDataFlucauationRate: -14,
-    },
-  ];
   return (
     <div className="rank-container">
       <div className="rank">순위별 확인</div>
@@ -160,9 +99,9 @@ const Rank = () => {
           하락
         </Button>
       </div>
-      {choose === 0 ? <Trade trade={trade} /> : null}
-      {choose === 1 ? <BestIncrease increase={increase} /> : null}
-      {choose === 2 ? <BestDecrease decrease={decrease} /> : null}
+      {choose === 0 ? <Trade trades={trades} /> : null}
+      {choose === 1 ? <BestIncrease increase={increases} /> : null}
+      {choose === 2 ? <BestDecrease decrease={decreases} /> : null}
     </div>
   );
 };
@@ -170,14 +109,14 @@ const Rank = () => {
 export default Rank;
 
 const Trade = (props) => {
-  const trade = props.trade;
+  const trades = props.trades;
   return (
     <div>
-      {trade.map((stock, i) => {
+      {trades.map((stock, i) => {
         return (
           <div className="rank-choose" key={i}>
             <span>{stock.stockName}</span>
-            <span>{stock.stockDateAmount.toLocaleString()}</span>
+            <span>{stock.stockDataAmount.toLocaleString()}</span>
           </div>
         );
       })}

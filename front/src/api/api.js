@@ -1,32 +1,41 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://59.27.27.137:21111/';
-const token =
-  'RSPgx-GPDXxB9T7kOBzo-s6i3_I-1LiBWp3tVowE5Om9A4H_goLQN5sCtPugj90_FlfNDgo9cpgAAAGGISaxuw&state=7a8j2jTc09hOBhtfIjwFF7fxrNp9w1YPR7y6xxGpPdg%3D';
-export const api = axios.create({
+const BASE_URL = process.env.REACT_APP_BASE_UR;
+// const accessToken = localStorage.getItem('accessToken');
+const accessToken =
+  'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0a2RndXNkbDYzQG5hdmVyLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJuaWNrbmFtZSI6IuyCvOyEsSDqsKTrn63si5wg7KKL7JWE7JqUIiwiZXhwIjoxNjc1NjA0MTY5fQ.f9u52Kgww08WwYqBtZiQzFszrceQuMxW-oExPKQzkco';
+const api = axios.create({
   baseURL: BASE_URL,
   headers: {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    Authorization: `Bearer ${accessToken}`,
   },
+  withCredentials: true,
 });
 
 export default api;
 
 export const memberAPI = {
-  test: () => api.get(`/login/oauth2/code/kakao`),
+  asset: () => api.get(`/asset`),
 };
 
 export const rankAPI = {
-  increase: () => api.get(`/stockdata/rate/increase/${20210112}`),
-  decrease: () => api.get(`/stockdata/rate/decrease/${20210112}`),
-  capital: () => api.get(`/stockdata/amount/top`),
+  increase: (date) => api.get(`/stockdata/rate/increase/${date}`),
+  decrease: (date) => api.get(`/stockdata/rate/decrease/${date}`),
+  todayTop: (date) => api.get(`/stockdata/amount/top/${date}`), //백에서 미완성
 };
 
 export const stockAPI = {
+  financialStatement: (stockCode) =>
+    api.get(`/info/financialstatement/${stockCode}`),
   stockDetail: (stockCode, startDate, endDate) =>
-    api.get(`stockdata/detail`, {
+    api.get(`/stockdata/detail`, {
       params: { stockCode: stockCode, startDate: startDate, endDate: endDate },
     }),
 };
+
+export const searchAPI = {
+  serachStock: (stock) =>
+    api.get(`/stock/search`, { params: { keyword: stock } }),
+};
+
+export const communityAPI = {};
