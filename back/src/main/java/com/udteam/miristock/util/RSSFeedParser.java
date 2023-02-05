@@ -76,8 +76,6 @@ public class RSSFeedParser {
                         case DESCRIPTION:
                             description = getCharacterData(event, eventReader);
                             break;
-
-
                     }
                 } else if (event.isEndElement()) {
                     if (event.asEndElement().getName().getLocalPart() == (ITEM)) {
