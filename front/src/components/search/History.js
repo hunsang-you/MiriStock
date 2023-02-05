@@ -1,7 +1,8 @@
 import './css/History.css';
+import { searchStore } from '../../store';
 
-const History = (props) => {
-  const watchData = props.watchData;
+const History = () => {
+  const { searchHistory } = searchStore((state) => state);
 
   return (
     <div className="watch-list">
@@ -9,11 +10,11 @@ const History = (props) => {
         <h3> 최근 조회한 종목</h3>
       </div>
       <div className="watch-items">
-        {watchData.map((data, i) => {
+        {searchHistory.map((data, i) => {
           return (
             <div className="watch-item" key={i}>
-              <div>{data.name}</div>
-              <div>{data.code}</div>
+              <div>{data.stockName}</div>
+              <div>{data.stockCode}</div>
             </div>
           );
         })}
