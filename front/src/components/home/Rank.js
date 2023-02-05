@@ -10,17 +10,14 @@ const Rank = () => {
   const [decreases, setDecreases] = useState([]);
   const tempDate = 20200525;
   useEffect(() => {
-    // const getTrades = async (date) => {
-    //   await rankAPI
-    //     .increase(date)
-    //     .then((request) => {
-    //       setTrades(request.data);
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    // };
-    // getTrades(tempDate);
+    rankAPI
+      .todayTop(tempDate)
+      .then((request) => {
+        setTrades(request.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     rankAPI
       .increase(tempDate)
       .then((request) => {
@@ -102,7 +99,7 @@ const Rank = () => {
           하락
         </Button>
       </div>
-      {choose === 0 ? <Trade trade={trade} /> : null}
+      {choose === 0 ? <Trade trades={trades} /> : null}
       {choose === 1 ? <BestIncrease increase={increases} /> : null}
       {choose === 2 ? <BestDecrease decrease={decreases} /> : null}
     </div>
@@ -112,14 +109,14 @@ const Rank = () => {
 export default Rank;
 
 const Trade = (props) => {
-  const trades = props.trade;
+  const trades = props.trades;
   return (
     <div>
       {trades.map((stock, i) => {
         return (
           <div className="rank-choose" key={i}>
             <span>{stock.stockName}</span>
-            <span>{stock.stockDateAmount.toLocaleString()}</span>
+            <span>{stock.stockDataAmount.toLocaleString()}</span>
           </div>
         );
       })}

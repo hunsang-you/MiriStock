@@ -3,7 +3,7 @@ import axios from 'axios';
 const BASE_URL = process.env.REACT_APP_BASE_UR;
 // const accessToken = localStorage.getItem('accessToken');
 const accessToken =
-  'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0a2RndXNkbDYzQG5hdmVyLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJuaWNrbmFtZSI6IuyCvOyEsSDqsKTrn63si5wg7KKL7JWE7JqUIiwiZXhwIjoxNjc1NTM0NjI1fQ.LbbHIKLyHuDHkzJjP2guHXKaJeLubSoCaxoX2MAXT3A';
+  'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0a2RndXNkbDYzQG5hdmVyLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJuaWNrbmFtZSI6IuyCvOyEsSDqsKTrn63si5wg7KKL7JWE7JqUIiwiZXhwIjoxNjc1NjA0MTY5fQ.f9u52Kgww08WwYqBtZiQzFszrceQuMxW-oExPKQzkco';
 const api = axios.create({
   baseURL: BASE_URL,
   headers: {
@@ -35,7 +35,7 @@ export const stockAPI = {
 
 export const searchAPI = {
   serachStock: (stock) =>
-    api.get(`/stock/search`, { params: { stockName: stock } }),
+    api.get(`/stock/search`, { params: { keyword: stock } }),
 };
 
 export const communityAPI = {};
