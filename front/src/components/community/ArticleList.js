@@ -9,7 +9,7 @@ const ArticleList = () => {
   const [articles, setArticles] = useState([]);
   useEffect(() => {
     communityAPI
-      .getCom()
+      .getArticle()
       .then((request) => {
         setArticles(request.data);
       })

@@ -65,10 +65,11 @@ const Create = () => {
           size="large"
           onClick={() => {
             communityAPI
-              .createCom(title, content)
+              .createArticle(title, content)
               .then((request) => console.log(request.data))
               .catch((err) => console.log(err));
-            navigate('/community');
+            //새로고침페이지
+            window.location.replace('/community');
           }}
         >
           작성
