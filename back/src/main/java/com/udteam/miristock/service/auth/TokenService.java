@@ -17,7 +17,7 @@ public class TokenService {
     private final RedisUtil redisUtil;
 
     private String secretKey = "token-secret-key";
-    public static long accessPeriod = 1000L * 30L;
+    public static long accessPeriod = 1000L * 30L * 60L;
     public static long refreshPeriod = 1000L * 60L * 60L;
 
 
