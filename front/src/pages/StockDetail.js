@@ -1,7 +1,7 @@
 import './css/Charts.css';
 import { useState, useEffect } from 'react';
 
-import RealChart from '../components/chart/RealChart';
+import LineChart from '../components/chart/LineChart';
 import FinancialStatements from '../components/chart/FinancialStatements';
 import { Button } from '@mui/material';
 
@@ -39,7 +39,7 @@ const StockDetail = () => {
     <div className="main-container">
       <h1>Detail</h1>
       <div>
-        <RealChart />
+        <LineChart />
       </div>
 
       <div className="space-between space-margin">
