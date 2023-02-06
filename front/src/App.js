@@ -13,6 +13,10 @@ function App() {
     let vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty('--vh', `${vh}px`);
   }
+  localStorage.setItem(
+    'accessToken',
+    '_oSUiMTGmVZxaSt-lXh2k0gZDA5LUsFkWLXLSFTXf212uJGkRTKNbwm5-5bSV5Se3ASzoAo9c-sAAAGGG_MIkA&state=VdS__AcSOV3N3UV-6s76mJeSwhikV68bqv18UGHq4yU%3D',
+  );
   useEffect(() => {
     setScreenSize();
   });

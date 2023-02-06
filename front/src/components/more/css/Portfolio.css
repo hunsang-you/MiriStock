@@ -1,0 +1,81 @@
+.portfolio-page {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 100px;
+}
+
+.portfolio-page * {
+    font-family: var(--font-IbmPlexSansKrLightRegular);
+}
+
+.portfolio-asset {
+    margin-left: 6vw;
+    margin-right: 6vw;
+    border: 2px solid #6DCEF5;
+    border-radius: 10px;
+    justify-content: space-between;
+    
+}
+
+.portfolio-stats {
+    justify-content: space-between;
+}
+
+
+#start-asset {
+    /* width: 40%; */
+    font-family: var(--font-IbmPlexSansKrLightRegular);
+}
+
+#end-rate {
+    /* width: 40%; */
+    font-family: var(--font-IbmPlexSansKrLightRegular);
+}
+
+.portfolio-result2 {
+    margin-top: 24px;
+    margin-left: 6vw;
+    margin-right: 6vw;
+    border: 2px solid #6DCEF5;
+    border-radius: 10px;
+    
+    /* justify-content: space-between; */
+}
+
+.portfolio-result2 p {
+    margin-left: 16px;
+    text-align: left;
+}
+
+.portfolio-best {
+    display: flex;
+    justify-content: space-around;
+}
+
+.portfolio-best > span {
+    margin-bottom: 8px;
+}
+
+.portfolio-worst {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 16px;
+}
+
+#result-lines {
+    border : 0;
+    /* height: 4px; */
+    background-color: #F4F4F4;
+    border-color: #C9C3C3;
+    text-align: left;  
+    border-top: dashed #C9C3C3; 
+  }
+
+
+#port-revenue {
+    color: #D2143C;
+}
+
+#port-loss {
+    color: #1E90FF;
+}
