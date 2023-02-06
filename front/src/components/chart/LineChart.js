@@ -31,6 +31,8 @@ const LineChart = (props) => {
   const [priceIncreasement, setStockPriceIncreasement] = useState([]);
   // 18.01 ~ 등락률
   const [dataFlucauationRate, setDataFlucauationRate] = useState([]);
+  // 18.01 ~ 등락률 대비 양수 음수
+  const [trueFalse, setTrueFalse] = useState([]);
   // 차트 설정
   const [state, setState] = useState({
     series: [
@@ -150,6 +152,8 @@ const LineChart = (props) => {
   return (
     <div id="chart">
       <LineChartData
+        stockCode={props.stockCode}
+        setStockInfo={props.setStockInfo}
         toDay={props.toDay}
         dayToTime={props.dayToTime}
         setIndex={setIndex}
@@ -164,15 +168,20 @@ const LineChart = (props) => {
         dataFlucauationRate={dataFlucauationRate}
         setDataFlucauationRate={setDataFlucauationRate}
         setState={setState}
+        setTrueFalse={setTrueFalse}
       />
-
-      <h1>
-        <Counter from={0} to={stockPrice[index]} />원
-      </h1>
-      <h4>
-        전일대비 <Counter from={0} to={priceIncreasement[index]} />원
-        <CounterPer from={0} to={dataFlucauationRate[index]} />
-      </h4>
+      <div className="stock-content">
+        <span>
+          <Counter from={0} to={stockPrice[index]} />원
+        </span>
+        <span>전일대비</span>
+        <span
+          style={trueFalse[index] ? { color: '#D2143C' } : { color: '#1E90FF' }}
+        >
+          <Counter from={0} to={priceIncreasement[index]} />원
+          <CounterPer from={0} to={dataFlucauationRate[index]} />
+        </span>
+      </div>
       <ReactApexChart
         options={state.options}
         series={state.series}

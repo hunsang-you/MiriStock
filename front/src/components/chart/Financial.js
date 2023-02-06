@@ -40,9 +40,9 @@ const Financial = (props) => {
     options: {
       chart: {
         type: 'bar',
-        height: 350,
-        width: '100%',
+        // width: '100%',
       },
+      colors: ['#F2A3B3', '#94CAEF', '#9FD9D9'],
       plotOptions: {
         bar: {
           horizontal: false,
@@ -93,7 +93,7 @@ const Financial = (props) => {
       setIdx(4);
     } else if (year === 2020) {
       setIdx(5);
-    } else if (year === 2021) {
+    } else if (year >= 2021) {
       setIdx(6);
     }
   }, [props.toDay]);
@@ -103,7 +103,8 @@ const Financial = (props) => {
         options={financialState.options}
         series={financialState.series}
         type="bar"
-        height={350}
+        height={250}
+        width={'100%'}
       />
       <FinancialData
         idx={idx}
