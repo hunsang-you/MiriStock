@@ -1,7 +1,7 @@
 const ShowDate = (props) => {
   // 날짜 변환해주는 함수 (86400000은 1일 -> 초)
   const updateData = (num) => {
-    console.log(props.toDay);
+    // console.log(props.toDay);
     let change = props.dayToTime(props.toDay) - 86400000 * num;
     if (change <= 1514732400000) {
       change = 1514732400000;
