@@ -20,8 +20,8 @@ public class MemberStockDto {
     private Long memberStockAvgPriceSum;
     private Long memberStockCurPrice;
     private Long memberStockCurPriceSum;
-    private Float memberStockEarnRate;
-    private Long memberStockEarnPrice;
+    private Float memberStockAccEarnRate;
+    private Long memberStockAccEarnPrice;
 
     @Builder
     public MemberStockDto(MemberStockEntity entity) {
@@ -34,8 +34,8 @@ public class MemberStockDto {
         this.memberStockAvgPriceSum = entity.getMemberStockAvgPriceSum();
         this.memberStockCurPrice = entity.getMemberStockCurPrice();
         this.memberStockCurPriceSum = entity.getMemberStockCurPriceSum();
-        this.memberStockEarnRate = entity.getMemberStockEarnRate();
-        this.memberStockEarnPrice = entity.getMemberStockEarnPrice();
+        this.memberStockAccEarnRate = entity.getMemberStockAccEarnRate();
+        this.memberStockAccEarnPrice = entity.getMemberStockAccEarnPrice();
     }
 
     public MemberStockEntity toEntity() {
@@ -49,8 +49,8 @@ public class MemberStockDto {
                 .memberStockAvgPriceSum(memberStockAvgPriceSum)
                 .memberStockCurPrice(memberStockCurPrice)
                 .memberStockCurPriceSum(memberStockCurPriceSum)
-                .memberStockEarnRate(memberStockEarnRate)
-                .memberStockEarnPrice(memberStockEarnPrice)
+                .memberStockAccEarnRate(memberStockAccEarnRate)
+                .memberStockAccEarnPrice(memberStockAccEarnPrice)
                 .build();
     }
 }

@@ -19,6 +19,7 @@ public class MemberStockService {
 
     private final MemberStockRepository memberStockRepository;
 
+    // 회원 보유 주식 목록 출력하기
     public List<MemberStockDto> findAll(Integer memberNo) {
         List<MemberStockEntity> memberStockDtoList = memberStockRepository.findAllByMemberNo(memberNo);
         return memberStockDtoList.stream()
@@ -26,11 +27,13 @@ public class MemberStockService {
                 .collect(Collectors.toList());
     }
 
+    // 회원 보유 주식 등록하기
     @Transactional
     public MemberStockDto save(MemberStockDto memberStockDto) {
         return new MemberStockDto(memberStockRepository.save(memberStockDto.toEntity()));
     }
 
+    // 회원 보유 주식 삭제하기
     @Transactional
     public void delete(Integer memberNo, String stockCode) {
         memberStockRepository.deleteByMemberNoAndStockCode(memberNo, stockCode);
