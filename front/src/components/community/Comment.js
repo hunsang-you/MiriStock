@@ -11,11 +11,10 @@ const Comment = (props) => {
   let comm = article.comments;
   useEffect(() => {
     communityAPI
-      .getCom()
+      .getArticle()
       .then((request) => setArticles(request.data))
       .catch((err) => console.log(err));
-    console.log('dkdkd');
-  }, [comNo]);
+  }, [comNo, setArticles]);
   // 댓글하나씩
 
   // 댓글입력창

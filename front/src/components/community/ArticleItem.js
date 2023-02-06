@@ -4,6 +4,7 @@ import Comment from './Comment';
 import { Button } from '@mui/material';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { communityAPI } from '../../api/api';
 import './css/ArticleItem.css';
 
 const ArticleItem = (props) => {
@@ -83,7 +84,17 @@ const ArticleItem = (props) => {
           <FaRegCommentDots onClick={CommentBtn} />
         </div>
         <div className="item-btn">
-          <Button id="delete-btn" variant="outlined" size="middle">
+          <Button
+            id="delete-btn"
+            variant="outlined"
+            size="middle"
+            onClick={() => {
+              communityAPI
+                .deleteArticle(article.articleNo)
+                .then((request) => console.log(request.data))
+                .catch((err) => console.log(err));
+            }}
+          >
             삭제
           </Button>
           <Button id="update-btn" variant="outlined" size="large">

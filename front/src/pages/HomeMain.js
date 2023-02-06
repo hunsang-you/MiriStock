@@ -5,7 +5,7 @@ import {
   FavoriteStock,
   Rank,
 } from '../components/home';
-import { communityAPI, stockAPI, memberAPI } from '../api/api';
+import { communityAPI, stockAPI, memberAPI, tradeAPI } from '../api/api';
 
 const HomeMain = () => {
   return (
@@ -17,8 +17,8 @@ const HomeMain = () => {
       <Rank />
       <button
         onClick={() => {
-          communityAPI
-            .getCom()
+          tradeAPI
+            .getAllTrades()
             .then((request) => {
               console.log(request.data);
             })
@@ -27,12 +27,12 @@ const HomeMain = () => {
             });
         }}
       >
-        글불러오기테스트
+        거래내역테스트
       </button>
       <button
         onClick={() => {
-          communityAPI
-            .createCom('dddd', 'ddddd')
+          tradeAPI
+            .buyStock('000660', '하이닉스', 2, 500000, 200, 'SELL')
             .then((request) => {
               console.log(request.data);
             })
@@ -41,12 +41,12 @@ const HomeMain = () => {
             });
         }}
       >
-        글작성 테스트
+        구매테스트
       </button>
       <button
         onClick={() => {
-          stockAPI
-            .financialStatement('005930')
+          tradeAPI
+            .checkTrades()
             .then((request) => {
               console.log(request.data);
             })
@@ -55,7 +55,7 @@ const HomeMain = () => {
             });
         }}
       >
-        재무
+        거래예정
       </button>
       <button
         onClick={() => {
