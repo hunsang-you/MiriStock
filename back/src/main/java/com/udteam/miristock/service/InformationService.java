@@ -82,7 +82,7 @@ public class InformationService {
         return newsResponseDto;
     }
 
-    private static String AddDate(String strDate, int year, int month, int day) {
+    public static String AddDate(String strDate, int year, int month, int day) {
 
         SimpleDateFormat dtFormat = new SimpleDateFormat("yyyyMMdd");
         Calendar cal = Calendar.getInstance();
