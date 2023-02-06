@@ -8,4 +8,6 @@ public class DateTimeUtils {
     public static LocalDateTime nowFromZone() {
         return ZonedDateTime.now(ZoneId.of("Asia/Seoul")).toLocalDateTime();
     }
+
+
 }
