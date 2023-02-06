@@ -13,11 +13,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.List;
+import java.util.StringTokenizer;
 
 @Slf4j
 @RestController
-@RequestMapping("/article")
+@RequestMapping("/qna")
 @RequiredArgsConstructor
 public class ArticleController {
 
