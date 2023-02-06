@@ -1,7 +1,6 @@
 .portfolio-page {
     display: flex;
     flex-direction: column;
-    margin-bottom: 100px;
 }
 
 .portfolio-page * {
@@ -9,6 +8,7 @@
 }
 
 .portfolio-asset {
+    display: flex;
     margin-left: 6vw;
     margin-right: 6vw;
     border: 2px solid #6DCEF5;
@@ -17,19 +17,28 @@
     
 }
 
-.portfolio-stats {
-    justify-content: space-between;
+
+#start-asset {
+    margin-top: 2vh;
+    font-weight: bold;
+}
+
+#end-asset {
+    font-weight: bold;
 }
 
 
-#start-asset {
-    /* width: 40%; */
-    font-family: var(--font-IbmPlexSansKrLightRegular);
+#end-profit {
+    margin-bottom: 2vh;
+    font-weight: bold;
 }
 
 #end-rate {
-    /* width: 40%; */
-    font-family: var(--font-IbmPlexSansKrLightRegular);
+    font-weight: bold;
+}
+.portfolio-result1 {
+    margin-right: 6vw;
+    margin-left: 6vw;
 }
 
 .portfolio-result2 {
@@ -38,33 +47,39 @@
     margin-right: 6vw;
     border: 2px solid #6DCEF5;
     border-radius: 10px;
-    
-    /* justify-content: space-between; */
+    margin-bottom: 4vh;
 }
 
 .portfolio-result2 p {
-    margin-left: 16px;
+    margin-left: 6vw;
     text-align: left;
+    font-weight: bold;
 }
 
 .portfolio-best {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
+    margin-bottom: 1vh;
 }
 
 .portfolio-best > span {
-    margin-bottom: 8px;
+    margin-left: 8vw;
+    margin-right: 8vw;
 }
 
 .portfolio-worst {
     display: flex;
-    justify-content: space-around;
-    margin-bottom: 16px;
+    justify-content: space-between;
+    margin-bottom: 1vh;
+}
+
+.portfolio-worst > span {
+    margin-left: 8vw;
+    margin-right: 8vw;
 }
 
 #result-lines {
     border : 0;
-    /* height: 4px; */
     background-color: #F4F4F4;
     border-color: #C9C3C3;
     text-align: left;  
@@ -79,3 +94,13 @@
 #port-loss {
     color: #1E90FF;
 }
+
+#restart {
+    border: 2px solid #6DCEF5;
+    color: #6DCEF5;
+    height: 4rem;
+    width: 40vw;
+    margin-left: auto;
+    margin-right: auto;
+    
+  }

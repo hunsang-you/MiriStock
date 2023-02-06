@@ -6,8 +6,6 @@ import { MdOutlineRestartAlt } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import './css/MoreMain.css';
 
-// import Portfolio from './Portfolio';
-
 const MoreMain = () => {
   const navigate = useNavigate();
 

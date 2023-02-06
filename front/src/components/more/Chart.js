@@ -1,12 +1,13 @@
 import ReactApexChart from 'react-apexcharts';
+import './css/Chart.css';
 
 const PortChart = () => {
   // 수익률이 가장 높은 top5
-  const up_stock1 = 50;
-  const up_stock2 = 40;
-  const up_stock3 = 30;
-  const up_stock4 = 20;
-  const up_stock5 = 10;
+  const up_stock1 = 9999;
+  const up_stock2 = 6666;
+  const up_stock3 = 3000;
+  const up_stock4 = 2000;
+  const up_stock5 = 1000;
   // const up_stockname = [
   //   '삼성전자',
   //   '삼성카드',
@@ -16,11 +17,11 @@ const PortChart = () => {
   // ];
 
   // 손실률이 가장 낮은 top5
-  const down_stock1 = 30;
-  const down_stock2 = 20;
-  const down_stock3 = 15;
-  const down_stock4 = 10;
-  const down_stock5 = 5;
+  const down_stock1 = 66666666;
+  const down_stock2 = 55555555;
+  const down_stock3 = 33333333;
+  const down_stock4 = 22222222;
+  const down_stock5 = 11111111;
   // const down_stockname = ['카카오', '2등~', '3등~', '4등~', '5등~'];
 
   const donutData1 = {
@@ -41,7 +42,7 @@ const PortChart = () => {
       ],
       grid: {
         padding: {
-          bottom: -120,
+          bottom: -160,
         },
       },
       colors: ['#D2143C', '#ef4444', '#f87171', '#fca5a5', '#fecaca'],
@@ -51,25 +52,35 @@ const PortChart = () => {
           startAngle: -90,
           endAngle: 90,
           offsetY: 10,
+          // customScale: 0.6,
           donut: {
+            size: '60%',
             labels: {
               show: true,
               name: {
                 show: true,
                 fontSize: '22px',
                 fontWeight: 600,
-                offsetY: -40,
+                offsetY: -50,
               },
               total: {
                 showAlways: true,
                 show: true,
-                label: '최고 수익률',
+                label: '최고 수익금',
                 fontSize: '16px',
+                fontWeight: 600,
+                color: '#D2143C ',
+                formatter: function (val) {
+                  let best = '삼성전자 ';
+                  let worth = `${up_stock1}`;
+                  return best + worth + ' 원';
+                },
               },
               value: {
-                offsetY: -30,
+                offsetY: -40,
                 fontSize: '16px',
                 show: true,
+                fontWeight: 600,
               },
             },
           },
@@ -105,6 +116,7 @@ const PortChart = () => {
           startAngle: -90,
           endAngle: 90,
           offsetY: 10,
+          // customScale: 0.6,
           donut: {
             labels: {
               show: true,
@@ -112,18 +124,26 @@ const PortChart = () => {
                 show: true,
                 fontSize: '22px',
                 fontWeight: 600,
-                offsetY: -40,
+                offsetY: -50,
               },
               total: {
                 showAlways: true,
                 show: true,
-                label: '최저 수익률',
+                label: '최고 손실금',
                 fontSize: '16px',
+                fontWeight: 600,
+                color: '#1E90FF',
+                formatter: function (val) {
+                  let worst = '카카오 ';
+                  let worth = `${down_stock1}`;
+                  return worst + worth + '원';
+                },
               },
               value: {
-                offsetY: -30,
+                offsetY: -40,
                 fontSize: '16px',
                 show: true,
+                fontWeight: 600,
               },
             },
           },
