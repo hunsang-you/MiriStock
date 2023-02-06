@@ -23,7 +23,6 @@ const Comment = (props) => {
   // 댓글입력창
   const [text, setText] = useState('');
   const ChangeText = (e) => {
-    console.log(text);
     setText(e.target.value);
   };
 
