@@ -43,10 +43,10 @@ public class MemberStockEntity {
     @Column(name = "memberstock_curpricesum")
     private Long memberStockCurPriceSum;
 
-    @Column(name = "memberstock_earnrate")
-    private Float memberStockEarnRate;
+    @Column(name = "memberstock_acc_earnrate")
+    private Float memberStockAccEarnRate;
 
-    @Column(name = "memberstock_earnprice")
-    private Long memberStockEarnPrice;
+    @Column(name = "memberstock_acc_earnprice")
+    private Long memberStockAccEarnPrice;
 
 }

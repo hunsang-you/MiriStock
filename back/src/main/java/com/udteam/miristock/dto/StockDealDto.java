@@ -4,6 +4,8 @@ import com.udteam.miristock.entity.Deal;
 import com.udteam.miristock.entity.StockDealEntity;
 import lombok.*;
 
+import javax.persistence.Column;
+
 @Builder
 @Getter
 @Setter
@@ -11,15 +13,17 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StockDealDto {
-
     private Integer stockDealNo;
     private String stockCode;
     private String stockName;
     private Integer memberNo;
     private Integer stockDealDate;
-    private Integer stockDealClosingPrice;
+    private Integer stockDealBuyClosingPrice;
+    private Integer stockDealSellClosingPrice;
     private Integer stockDealAmount;
     private Deal stockDealType;
+    private Float stockDealEarnRate;
+    private Long stockDealEarnPrice;
 
     @Builder
     public StockDealDto(StockDealEntity entity) {
@@ -28,9 +32,12 @@ public class StockDealDto {
         this.stockName = entity.getStockName();
         this.memberNo = entity.getMemberNo();
         this.stockDealDate = entity.getStockDealDate();
-        this.stockDealClosingPrice = entity.getStockDealClosingPrice();
+        this.stockDealBuyClosingPrice = entity.getStockDealBuyClosingPrice();
+        this.stockDealSellClosingPrice = entity.getStockDealSellClosingPrice();
         this.stockDealAmount = entity.getStockDealAmount();
         this.stockDealType = entity.getStockDealType();
+        this.stockDealEarnRate = entity.getStockDealEarnRate();
+        this.stockDealEarnPrice = entity.getStockDealEarnPrice();
     }
 
     public StockDealEntity toEntity() {
@@ -40,9 +47,12 @@ public class StockDealDto {
                 .stockName(stockName)
                 .memberNo(memberNo)
                 .stockDealDate(stockDealDate)
-                .stockDealClosingPrice(stockDealClosingPrice)
+                .stockDealBuyClosingPrice(stockDealBuyClosingPrice)
+                .stockDealSellClosingPrice(stockDealSellClosingPrice)
                 .stockDealAmount(stockDealAmount)
                 .stockDealType(stockDealType)
+                .stockDealEarnRate(stockDealEarnRate)
+                .stockDealEarnPrice(stockDealEarnPrice)
                 .build();
     }
 }

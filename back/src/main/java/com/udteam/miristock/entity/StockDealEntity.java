@@ -31,8 +31,11 @@ public class StockDealEntity {
     @Column(name = "stockdeal_date")
     private Integer stockDealDate;
 
-    @Column(name = "stockdeal_closing_price")
-    private Integer stockDealClosingPrice;
+    @Column(name = "stockdeal_buy_closing_price")
+    private Integer stockDealBuyClosingPrice;
+
+    @Column(name = "stockdeal_sell_closing_price")
+    private Integer stockDealSellClosingPrice;
 
     @Column(name = "stockdeal_amount")
     private Integer stockDealAmount;
@@ -40,4 +43,10 @@ public class StockDealEntity {
     @Column(name = "stockdeal_type")
     @Enumerated(EnumType.STRING)
     private Deal stockDealType;
+
+    @Column(name = "stockdeal_earn_rate")
+    private Float stockDealEarnRate;
+
+    @Column(name = "stockdeal_earn_price")
+    private Long stockDealEarnPrice;
 }
