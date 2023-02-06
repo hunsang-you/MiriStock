@@ -49,12 +49,11 @@ const FinancialData = (props) => {
         options: {
           chart: {
             type: 'bar',
-            height: 350,
-            width: '100%',
             toolbar: {
               show: false,
             }, // 햄버거 메뉴 지우는거 사진저장옵션인데 필요x
           },
+          colors: ['#F2A3B3', '#94CAEF', '#9FD9D9'],
           plotOptions: {
             bar: {
               horizontal: false,

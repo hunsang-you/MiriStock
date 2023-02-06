@@ -8,7 +8,8 @@ import { Button } from '@mui/material';
 
 const StockDetail = () => {
   // 오늘 날짜
-  const [toDay, setToDay] = useState(20210401);
+  const [toDay, setToDay] = useState(20181003);
+  const stockCode = '005930';
   // 날짜데이터를 시간으로 변환하는 함수
   const dayToTime = (date) => {
     let year, month, day, time;
@@ -23,8 +24,8 @@ const StockDetail = () => {
     // console.log(year, month, day);
     return time.getTime();
   };
-  // 오늘날짜 -> 종목명, 종목코드
-  const [stockInfo, setStockInfo] = useState({ stockName: '', stockCode: '' });
+  // 오늘날짜 -> 종목명
+  const [stockInfo, setStockInfo] = useState('');
 
   // 왜 했던건지 기억이 나지않아 주석 =================================
   // const [stockData, setStockData] = useState([]);
@@ -54,32 +55,25 @@ const StockDetail = () => {
   //     setStockData([...stockData, Math.random() * 100]);
   //   }
   // };  // ===========================================================
-  useEffect(() => {
-    const getValueData = async (data1, data2, data3) => {
-      const reqData = await api.get(`stockdata/detail`, {
-        params: {
-          stockCode: data1,
-          startDate: data2,
-          endDate: data3,
-        },
-      });
-      setStockInfo([reqData.data[0].stockName, reqData.data[0].stockCode]);
-    };
-    getValueData('005930', toDay, toDay);
-  }, []);
 
   return (
     <div className="main-container">
       <h1>Detail</h1>
-      <div>
-        <h2>{stockInfo[0]}</h2>
-        <h4>{stockInfo[1]}</h4>
-        <LineChart toDay={toDay} setToDay={setToDay} dayToTime={dayToTime} />
+      <div className="stock-content">
+        <div>{stockInfo}</div>
+        <div>{stockCode}</div>
+        <LineChart
+          stockCode={stockCode}
+          toDay={toDay}
+          setToDay={setToDay}
+          dayToTime={dayToTime}
+          setStockInfo={setStockInfo}
+        />
       </div>
 
       <div className="space-between space-margin">
         <Button
-          style={{ width: '49%' }}
+          style={{ width: '48%' }}
           variant="contained"
           color="primary"
           disableElevation
@@ -87,7 +81,7 @@ const StockDetail = () => {
           매수
         </Button>
         <Button
-          style={{ width: '49%' }}
+          style={{ width: '48%' }}
           variant="contained"
           color="primary"
           disableElevation
@@ -96,18 +90,19 @@ const StockDetail = () => {
         </Button>
       </div>
       <div className="space-margin divbox">
-        <h3 className="divleft">주요 뉴스</h3>
-        <div>낄낄 뉴스내용</div>
-        <div>낄낄 뉴스내용</div>
-        <div>낄낄 뉴스내용</div>
-        <div>낄낄 뉴스내용</div>
+        <div className="charts-title">주요 뉴스</div>
+        <div className="charts-content">
+          <div>낄낄 뉴스내용</div>
+          <div>낄낄 뉴스내용</div>
+          <div>낄낄 뉴스내용</div>
+          <div>낄낄 뉴스내용</div>
+        </div>
       </div>
       <div className="space-margin divbox">
-        <h3>재무 제표</h3>
+        <div className="div-title">재무 제표</div>
         <div>
           <Financial toDay={toDay} />
         </div>
-        {/* <div style={{ height: 400 }}></div> */}
       </div>
     </div>
   );
