@@ -68,11 +68,11 @@ public class SimulationController {
         }
     }
 
-    @GetMapping("/hello/{date}")
-    public ResponseEntity<?> test(@PathVariable Integer date) {
-        simulationService.updateSimulationDate(1, date);
-        return null;
-    }
+//    @GetMapping("/hello/{date}")
+//    public ResponseEntity<?> test(@PathVariable Integer date) {
+//        simulationService.updateSimulationDate(1, date);
+//        return null;
+//    }
 
 
 //    @PutMapping("/member/time")
