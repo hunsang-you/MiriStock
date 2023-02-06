@@ -23,7 +23,7 @@ public class MemberAssetEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer memberassetNo;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="member_no")
     private MemberEntity member;
 
