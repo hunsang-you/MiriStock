@@ -6,7 +6,7 @@ import { MdOutlineRestartAlt } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import './css/MoreMain.css';
 
-import Portfolio from './Portfolio';
+// import Portfolio from './Portfolio';
 
 const MoreMain = () => {
   const navigate = useNavigate();
@@ -14,7 +14,7 @@ const MoreMain = () => {
   return (
     <div className="more-page">
       <div className="more-logo">
-        <img src={mirilogo} width="200px" />
+        <img src={mirilogo} width="200px" alt="Logo" />
       </div>
       <div className="more-btn">
         <Button

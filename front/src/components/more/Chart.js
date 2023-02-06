@@ -7,13 +7,13 @@ const PortChart = () => {
   const up_stock3 = 30;
   const up_stock4 = 20;
   const up_stock5 = 10;
-  const up_stockname = [
-    '삼성전자',
-    '삼성카드',
-    'LG에너지솔루션',
-    '룰루',
-    '랄라',
-  ];
+  // const up_stockname = [
+  //   '삼성전자',
+  //   '삼성카드',
+  //   'LG에너지솔루션',
+  //   '룰루',
+  //   '랄라',
+  // ];
 
   // 손실률이 가장 낮은 top5
   const down_stock1 = 30;
@@ -21,7 +21,7 @@ const PortChart = () => {
   const down_stock3 = 15;
   const down_stock4 = 10;
   const down_stock5 = 5;
-  const down_stockname = ['카카오', '2등~', '3등~', '4등~', '5등~'];
+  // const down_stockname = ['카카오', '2등~', '3등~', '4등~', '5등~'];
 
   const donutData1 = {
     series: [up_stock1, up_stock2, up_stock3, up_stock4, up_stock5],
