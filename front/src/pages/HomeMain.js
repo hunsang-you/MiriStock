@@ -5,7 +5,7 @@ import {
   FavoriteStock,
   Rank,
 } from '../components/home';
-import { rankAPI, stockAPI, memberAPI } from '../api/api';
+import { communityAPI, stockAPI, memberAPI } from '../api/api';
 
 const HomeMain = () => {
   return (
@@ -17,8 +17,8 @@ const HomeMain = () => {
       <Rank />
       <button
         onClick={() => {
-          rankAPI
-            .todayTop(20210524)
+          communityAPI
+            .getCom()
             .then((request) => {
               console.log(request.data);
             })
@@ -27,12 +27,12 @@ const HomeMain = () => {
             });
         }}
       >
-        increase
+        글불러오기테스트
       </button>
       <button
         onClick={() => {
-          rankAPI
-            .decrease()
+          communityAPI
+            .createCom('dddd', 'ddddd')
             .then((request) => {
               console.log(request.data);
             })
@@ -41,7 +41,7 @@ const HomeMain = () => {
             });
         }}
       >
-        decrease
+        글작성 테스트
       </button>
       <button
         onClick={() => {

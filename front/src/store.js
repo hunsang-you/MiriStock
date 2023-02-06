@@ -13,26 +13,26 @@ const navStore = create(
   ),
 );
 
+//멤버정보 저장
+const userStore = create(
+  persist(
+    (set) => ({
+      user: {},
+      setUser: (userInfo) => {
+        set((state) => ({ user: userInfo }));
+      },
+    }),
+    { name: 'userStore' },
+  ),
+);
+
+//검색기록 스토리지용
 const insertWatchData = (history, data) => {
   history.push(data);
   const set = new Set(history);
   const result = [...set];
   return result;
 };
-
-// const searchHistoryStore = create(
-//   persist(
-//     (set) => ({
-//       searchHistory: [],
-//       setsearchHistory: (data) => {
-//         set((state) => ({
-//           searchHistory: insertWatchData(state.searchHistory, data),
-//         }));
-//       },
-//     }),
-//     { name: 'watchDataStore' },
-//   ),
-// );
 
 const searchStore = create(
   persist(
@@ -48,4 +48,4 @@ const searchStore = create(
   ),
 );
 
-export { navStore, searchStore };
+export { navStore, searchStore, userStore };

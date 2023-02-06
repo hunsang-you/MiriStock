@@ -1,12 +1,20 @@
 import ArticleItem from './ArticleItem';
 import { IoCreateOutline } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { communityAPI } from '../../api/api';
 
-const ArticleList = (props) => {
+const ArticleList = () => {
   const navigate = useNavigate();
-
-  const qna = props.items;
-  const comment = props.comment;
+  const [articles, setArticles] = useState([]);
+  useEffect(() => {
+    communityAPI
+      .getCom()
+      .then((request) => {
+        setArticles(request.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   return (
     <div className="article-list">
@@ -21,10 +29,10 @@ const ArticleList = (props) => {
         </div>
       </div>
 
-      {qna.map((item, i) => {
+      {articles.reverse().map((article, i) => {
         return (
           <div key={i}>
-            <ArticleItem item={item} comment={comment} />
+            <ArticleItem article={article} setArticles={setArticles} />
           </div>
         );
       })}

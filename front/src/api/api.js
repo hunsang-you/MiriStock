@@ -3,8 +3,8 @@ import axios from 'axios';
 const BASE_URL = process.env.REACT_APP_BASE_UR;
 // const accessToken = localStorage.getItem('accessToken');
 const accessToken =
-  'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0a2RndXNkbDYzQG5hdmVyLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJuaWNrbmFtZSI6IuyCvOyEsSDqsKTrn63si5wg7KKL7JWE7JqUIiwiZXhwIjoxNjc1NjA0MTY5fQ.f9u52Kgww08WwYqBtZiQzFszrceQuMxW-oExPKQzkco';
-const api = axios.create({
+  'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0a2RndXNkbDYzQG5hdmVyLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJuaWNrbmFtZSI6IuyCvOyEsSDqsKTrn63si5wg7KKL7JWE7JqUIiwiZXhwIjoxNjc1NzMyMTM1fQ.vzdbQSMm6wlyg3PuGCqvx53oMg8DN4Cqbz-xWDc0AvQ';
+export const api = axios.create({
   baseURL: BASE_URL,
   headers: {
     Authorization: `Bearer ${accessToken}`,
@@ -38,4 +38,12 @@ export const searchAPI = {
     api.get(`/stock/search`, { params: { keyword: stock } }),
 };
 
-export const communityAPI = {};
+export const communityAPI = {
+  getCom: () => api.get(`/qna`),
+  createCom: (title, content) =>
+    api.post(`/qna`, { articleTitle: title, articleContent: content }),
+
+  createComment: (articleId, content) =>
+    api.post(`/qna/comment`, { articleNo: articleId, commentContent: content }),
+  getComment: (articleId) => api.get(`/qna/comment`, { articleNo: articleId }),
+};

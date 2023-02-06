@@ -2,23 +2,21 @@
 import './css/Comment.css';
 import CommentItem from './CommentItem';
 import { TextField, Button } from '@mui/material';
-import { useState } from 'react';
-
+import { useState, useEffect } from 'react';
+import { communityAPI } from '../../api/api';
 const Comment = (props) => {
-  const item = props.item;
-  const comments = props.comment;
-
+  const article = props.article;
+  const setArticles = props.setArticles;
+  const [comNo, setComNo] = useState(0);
+  let comm = article.comments;
+  useEffect(() => {
+    communityAPI
+      .getCom()
+      .then((request) => setArticles(request.data))
+      .catch((err) => console.log(err));
+    console.log('dkdkd');
+  }, [comNo]);
   // 댓글하나씩
-  const EachComment = () =>
-    comments.map((comment, i) => {
-      if (item.id === comment.articleNo) {
-        return (
-          <div key={i}>
-            <CommentItem comment={comment} />
-          </div>
-        );
-      }
-    });
 
   // 댓글입력창
   const [text, setText] = useState('');
@@ -38,12 +36,30 @@ const Comment = (props) => {
             onChange={ChangeText}
           />
           <div className="comment-createbtn">
-            <Button id="comment-btn" variant="outlined" size="middle">
+            <Button
+              id="comment-btn"
+              variant="outlined"
+              size="middle"
+              onClick={() => {
+                communityAPI
+                  .createComment(article.articleNo, text)
+                  .then((request) => setComNo(request.data))
+                  .catch((err) => console.log(err));
+              }}
+            >
               등록
             </Button>
           </div>
         </div>
-        <div>{EachComment()}</div>
+        <div>
+          {comm.reverse().map((comment, i) => {
+            return (
+              <div key={i}>
+                <CommentItem comment={comment} />
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
