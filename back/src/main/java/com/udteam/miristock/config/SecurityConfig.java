@@ -1,10 +1,12 @@
 package com.udteam.miristock.config;
 
 import com.udteam.miristock.repository.MemberRepository;
+import com.udteam.miristock.repository.RedisRepository;
 import com.udteam.miristock.service.auth.CustomLogoutSuccessHandler;
 import com.udteam.miristock.service.auth.CustomOAuth2UserService;
 import com.udteam.miristock.service.auth.OAuth2SuccessHandler;
 import com.udteam.miristock.service.auth.TokenService;
+import com.udteam.miristock.util.CookieUtil;
 import com.udteam.miristock.util.JwtAuthenticationFilter;
 import com.udteam.miristock.util.RedisUtil;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +38,8 @@ public class SecurityConfig{
     private final MemberRepository memberRepository;
     private final CustomLogoutSuccessHandler logoutSuccessHandler;
     private final RedisUtil redisUtil;
+    private final RedisRepository redisRepository;
+    private final CookieUtil cookieUtil;
 
     @Bean
     protected SecurityFilterChain configure(HttpSecurity http) throws Exception{
@@ -54,7 +58,7 @@ public class SecurityConfig{
                 .logoutSuccessHandler(logoutSuccessHandler)
                 .logoutSuccessUrl("/")
                 .and()
-                .addFilterBefore(new JwtAuthenticationFilter(tokenservice,memberRepository,redisUtil), OAuth2LoginAuthenticationFilter.class)
+                .addFilterBefore(new JwtAuthenticationFilter(tokenservice,redisUtil,cookieUtil,redisRepository), UsernamePasswordAuthenticationFilter.class)
                 .oauth2Login()
                 .successHandler(oAuth2SuccessHandler)
                 .userInfoEndpoint()

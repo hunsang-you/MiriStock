@@ -1,16 +1,19 @@
 package com.udteam.miristock.util;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 @Component
 @RequiredArgsConstructor
 public class RedisUtil {
     private final StringRedisTemplate stringRedisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     public String getData(String key){
         ValueOperations<String,String> valueOperations = stringRedisTemplate.opsForValue();
@@ -24,8 +27,11 @@ public class RedisUtil {
 
     public void setDataExpire(String key,String value,long duration){
         ValueOperations<String,String> valueOperations = stringRedisTemplate.opsForValue();
-        Duration expireDuration = Duration.ofSeconds(duration);
+        Duration expireDuration = Duration.ofMillis(duration);
         valueOperations.set(key,value,expireDuration);
     }
 
+    public void delData(String key){
+        redisTemplate.delete(key);
+    }
 }
