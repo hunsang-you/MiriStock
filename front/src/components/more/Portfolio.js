@@ -20,7 +20,7 @@ const Portfolio = () => {
           <p> 가장 큰 수익을 낸 종목</p>
           <div className="portfolio-best">
             <span> 삼성전자 </span>
-            <span> 48,512,200 원</span>
+            <span id="port-revenue"> 48,512,200 원</span>
           </div>
         </div>
         <hr id="result-lines" />
@@ -28,7 +28,7 @@ const Portfolio = () => {
           <p> 가장 큰 손실을 낸 종목</p>
           <div className="portfolio-worst">
             <span> 카카오뱅크 </span>
-            <span> 4,214,250원 </span>
+            <span id="port-loss"> 4,214,250원 </span>
           </div>
         </div>
       </div>

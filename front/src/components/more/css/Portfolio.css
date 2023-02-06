@@ -70,3 +70,12 @@
     text-align: left;  
     border-top: dashed #C9C3C3; 
   }
+
+
+#port-revenue {
+    color: #D2143C;
+}
+
+#port-loss {
+    color: #1E90FF;
+}
