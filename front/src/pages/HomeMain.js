@@ -5,7 +5,7 @@ import {
   FavoriteStock,
   Rank,
 } from '../components/home';
-import { rankAPI, memberAPI } from '../api/api';
+import { rankAPI, stockAPI, memberAPI } from '../api/api';
 
 const HomeMain = () => {
   return (
@@ -18,7 +18,7 @@ const HomeMain = () => {
       <button
         onClick={() => {
           rankAPI
-            .increase()
+            .todayTop(20210524)
             .then((request) => {
               console.log(request.data);
             })
@@ -45,6 +45,20 @@ const HomeMain = () => {
       </button>
       <button
         onClick={() => {
+          stockAPI
+            .financialStatement('005930')
+            .then((request) => {
+              console.log(request.data);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }}
+      >
+        재무
+      </button>
+      <button
+        onClick={() => {
           memberAPI
             .asset()
             .then((request) => {
@@ -55,7 +69,7 @@ const HomeMain = () => {
             });
         }}
       >
-        stockdetail
+        멤버
       </button>
     </div>
   );

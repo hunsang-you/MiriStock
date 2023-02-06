@@ -4,35 +4,17 @@ import SearchView from './SearchView';
 import History from './History';
 import { searchAPI } from '../../api/api';
 import { useState } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
-// import { useStore } from '../../store';
-
+import { navStore, searchStore } from '../../store.js';
 import './css/SearchBar.css';
 
 // 키워드, 결과값들, 업데이트필드를 전달받는다
-const SearchBar = ({ keyword, updateField }) => {
-  //
+const SearchBar = () => {
+  //최근검색기록
+  const { searchHistory, setSearchHistory } = searchStore((state) => state);
   const [searchResult, setSearchResult] = useState([]);
-  const updateText = (text) => {
-    //console.log('update text', text);
-    updateField('keyword', text, false);
-    updateField('results', []);
-  };
-
-  // 검색 입력이 없으면 최근 조회한 항목 표시
-
-  // const { watchData, setWatchData } = useStore();
-  const [watchData, setWatchData] = useState([]);
-
   // 하단 조건부렌더링 bool 체크
   const [isCheck, setIsCheck] = useState(true);
 
-  // isCheck == true(검색결과가 0개라면) 최근 조회목록 출력
-  const HistoryView = () => {
-    if (isCheck === true) {
-      return <History watchData={watchData} />;
-    }
-  };
   // onChange를 사용하여 글자를 입력할때마다 updateField호출, renderResults 렌더링.
   return (
     <div className="search-bar">
@@ -70,12 +52,8 @@ const SearchBar = ({ keyword, updateField }) => {
         return (
           <div
             key={i}
-            onClick={(e) => {
-              setWatchData([
-                ...watchData,
-                { name: stock.stockName, code: stock.stockCode },
-              ]);
-              // console.log(watchData);
+            onClick={() => {
+              setSearchHistory(stock);
             }}
           >
             <SearchView
@@ -86,9 +64,7 @@ const SearchBar = ({ keyword, updateField }) => {
           </div>
         );
       })}
-
-      {/* 최근 조회 목록 */}
-      <div className="search-list">{HistoryView()}</div>
+      {isCheck ? <History /> : null}
     </div>
   );
 };
