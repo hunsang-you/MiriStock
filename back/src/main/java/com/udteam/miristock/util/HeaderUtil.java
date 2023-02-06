@@ -1,7 +1,10 @@
 package com.udteam.miristock.util;
 
+import lombok.extern.slf4j.Slf4j;
+
 import javax.servlet.http.HttpServletRequest;
 
+@Slf4j
 public class HeaderUtil {
 
     private final static String HEADER_AUTHORIZATION = "Authorization";
@@ -9,7 +12,7 @@ public class HeaderUtil {
 
     public static String getAccessToken(HttpServletRequest request) {
         String headerValue = request.getHeader(HEADER_AUTHORIZATION);
-
+        log.info("Access Token = {}", headerValue);
         if (headerValue == null) {
             return null;
         }
