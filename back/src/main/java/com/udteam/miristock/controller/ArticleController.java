@@ -20,7 +20,7 @@ import java.util.StringTokenizer;
 
 @Slf4j
 @RestController
-@RequestMapping("/article")
+@RequestMapping("/qna")
 @RequiredArgsConstructor
 public class ArticleController {
 

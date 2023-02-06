@@ -19,6 +19,7 @@ public class StockDealService {
     private final StockDealRepository stockDealRepository;
     private final StockDealCustomRepository stockDealCustomRepository;
 
+    // 회원 거래내역 조회
     public List<StockDealDto> findAllByMemberNoAndStockDealType(Integer memberNo, Deal stockDealType) {
         List<StockDealEntity> stockDealEntityList = stockDealCustomRepository.findAllByMemberNoAndStockDealType(memberNo, stockDealType);
         return stockDealEntityList.stream()
@@ -26,13 +27,16 @@ public class StockDealService {
                 .collect(Collectors.toList());
     }
 
+    // 회원 거래내역 등록
     @Transactional
     public Integer save(StockDealDto stockDealDto) {
         return stockDealRepository.save(stockDealDto.toEntity()).getStockDealNo();
     }
 
+    // 회원 거래내역 삭제
     @Transactional
     public void delete(Integer memberNo) {
         stockDealRepository.deleteAllByMemberNo(memberNo);
     }
+
 }
