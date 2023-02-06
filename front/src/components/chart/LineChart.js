@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import ApexCharts from 'apexcharts';
 import ReactApexChart from 'react-apexcharts';
-import { stockAPI, api } from '../../api/api'; // api 통신
 import LineChartData from './LineChartData';
 import ShowDate from './ShowDate';
+import Counter from './countanimation';
+import CounterPer from './counterperanimation';
 
 // {
 //   stockCode: '005930';   // 종목 코드
@@ -15,28 +16,11 @@ import ShowDate from './ShowDate';
 //   stockName: '삼성전자';     // 종목 명
 // }
 
-const LineChart = () => {
-  // 오늘날짜
-  const totoday = 20180401;
-  const [toDay, setToDay] = useState(20200401);
-  // 날짜데이터를 시간으로 변환하는 함수
-  const dayToTime = (date) => {
-    let year, month, day, time;
-    year = parseInt(date / 10000);
-    // console.log(year);
-    month = parseInt((date - year * 10000) / 100) - 1;
-    // console.log(month);
-    day = date - year * 10000 - (month + 1) * 100;
-    // console.log(day);
-    time = new Date(year, month, day);
-    // console.log(time.getTime());
-    // console.log(year, month, day);
-    return time.getTime();
-  };
+const LineChart = (props) => {
+  // 오늘날짜 = props.toDay;
+  // 날짜데이터를 시간으로 변환하는 함수 = props.dayToTime
   // 배열 인덱스
   const [index, setIndex] = useState();
-  // 오늘날짜 -> 종목명, 종목코드
-  const [stockInfo, setStockInfo] = useState({ stockName: '', stockCode: '' });
   // 18.01 ~ 오늘 까지 금액
   const [stockPrice, setStockPrice] = useState([]);
   // 18.01 ~ 거래량
@@ -162,77 +146,12 @@ const LineChart = () => {
       ],
     },
   }); // ==================================================> setState 종료
-  // 1w, 1m, 6m, 1y, all 토글 스위치 함수
-  // const updateData = (timeline) => {
-  //   setSelect({
-  //     selection: timeline,
-  //   });
-
-  //   switch (timeline) {
-  //     case 'one_week':
-  //       ApexCharts.exec(
-  //         'area-datetime',
-  //         'zoomX',
-  //         new Date(2022, 9, 4).getTime(),
-  //         new Date(dayToTime(toDay)).getTime(),
-  //       );
-  //       break;
-  //     case 'one_month':
-  //       ApexCharts.exec(
-  //         'area-datetime',
-  //         'zoomX',
-  //         new Date(2022, 8, 11).getTime(),
-  //         new Date(dayToTime(toDay)).getTime(),
-  //       );
-  //       break;
-  //     case 'six_months':
-  //       ApexCharts.exec(
-  //         'area-datetime',
-  //         'zoomX',
-  //         new Date(2022, 3, 11).getTime(),
-  //         new Date(dayToTime(toDay)).getTime(),
-  //       );
-  //       break;
-  //     case 'one_year':
-  //       ApexCharts.exec(
-  //         'area-datetime',
-  //         'zoomX',
-  //         new Date(2021, 9, 11).getTime(),
-  //         new Date(dayToTime(toDay)).getTime(),
-  //       );
-  //       break;
-  //     case 'all':
-  //       ApexCharts.exec(
-  //         'area-datetime',
-  //         'zoomX',
-  //         new Date(2017, 1, 1).getTime(),
-  //         new Date(dayToTime(toDay)).getTime(),
-  //       );
-  //       break;
-  //     default:
-  //   }
-  // };
-
-  useEffect(() => {
-    const getValueData = async (data1, data2, data3) => {
-      const reqData = await api.get(`stockdata/detail`, {
-        params: {
-          stockCode: data1,
-          startDate: data2,
-          endDate: data3,
-        },
-      });
-      setStockInfo([reqData.data.stockName, reqData.data.stockCode]);
-    };
-    getValueData('005930', toDay, toDay);
-  }, []);
 
   return (
     <div id="chart">
       <LineChartData
-        totoday={totoday}
-        toDay={toDay}
-        dayToTime={dayToTime}
+        toDay={props.toDay}
+        dayToTime={props.dayToTime}
         setIndex={setIndex}
         stockPrice={stockPrice}
         setStockPrice={setStockPrice}
@@ -246,11 +165,13 @@ const LineChart = () => {
         setDataFlucauationRate={setDataFlucauationRate}
         setState={setState}
       />
-      <h2>{stockInfo[0]}</h2>
-      <h4>{stockInfo[1]}</h4>
-      <h1>{stockPrice[index]}원</h1>
+
+      <h1>
+        <Counter from={0} to={stockPrice[index]} />원
+      </h1>
       <h4>
-        전일대비 {priceIncreasement[index]}원{dataFlucauationRate[index]}
+        전일대비 <Counter from={0} to={priceIncreasement[index]} />원
+        <CounterPer from={0} to={dataFlucauationRate[index]} />
       </h4>
       <ReactApexChart
         options={state.options}
@@ -259,8 +180,8 @@ const LineChart = () => {
         height={350}
       />
       <ShowDate
-        toDay={toDay}
-        dayToTime={dayToTime}
+        toDay={props.toDay}
+        dayToTime={props.dayToTime}
         stockPrice={stockPrice}
         dataAmount={dataAmount}
         totalDate={totalDate}
@@ -268,82 +189,42 @@ const LineChart = () => {
         state={state}
         setState={setState}
       />
-      {/* <div>
-        <button
-          id="one_week"
-          onClick={() => updateData('one_week')}
-          className={state.selection === 'one_week' ? 'active' : ''}
-        >
-          1W
-        </button>
-        &nbsp;
-        <button
-          id="one_month"
-          onClick={() => updateData('one_month')}
-          className={state.selection === 'one_month' ? 'active' : ''}
-        >
-          1M
-        </button>
-        &nbsp;
-        <button
-          id="six_months"
-          onClick={() => updateData('six_months')}
-          className={state.selection === 'six_months' ? 'active' : ''}
-        >
-          6M
-        </button>
-        &nbsp;
-        <button
-          id="one_year"
-          onClick={() => updateData('one_year')}
-          className={state.selection === 'one_year' ? 'active' : ''}
-        >
-          1Y
-        </button>
-        &nbsp;
-        <button
-          id="all"
-          onClick={() => updateData('all')}
-          className={state.selection === 'all' ? 'active' : ''}
-        >
-          ALL
-        </button>
-      </div> */}
       <div>
         <button
           onClick={() => {
-            setToDay(toDay + 1);
+            props.setToDay(props.toDay + 1);
           }}
         >
           하루+
         </button>
       </div>
-      {/* 차트 데이터 확인해볼 때 쓴 버튼 */}
-      {/* <div>
-        <button
-          onClick={() => {
-            stockAPI
-              .stockDetail('005930', 20200123, 20200126)
-              .then((request) => {
-                console.log(request.data);
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-          }}
-        >
-          stockdetail
-        </button>
-        <button
-          onClick={() => {
-            ymdReturn('005930', 20220330, 20220502);
-          }}
-        >
-          차트데이터추가
-        </button>
-      </div> */}
     </div>
   );
 };
 
 export default LineChart;
+
+// 차트 데이터 확인해볼 때 쓴 버튼
+// <div>
+//   <button
+//     onClick={() => {
+//       stockAPI
+//         .stockDetail('005930', 20200123, 20200126)
+//         .then((request) => {
+//           console.log(request.data);
+//         })
+//         .catch((err) => {
+//           console.log(err);
+//         });
+//     }}
+//   >
+//     stockdetail
+//   </button>
+//   <button
+//     onClick={() => {
+//       ymdReturn('005930', 20220330, 20220502);
+//     }}
+//   >
+//     차트데이터추가
+//   </button>
+// </div>
