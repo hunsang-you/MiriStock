@@ -2,6 +2,7 @@ package com.udteam.miristock.controller;
 
 import com.udteam.miristock.config.ErrorMessage;
 import com.udteam.miristock.dto.CommentRequestDto;
+import com.udteam.miristock.dto.CommentResponseDto;
 import com.udteam.miristock.dto.LimitPriceOrderDto;
 import com.udteam.miristock.dto.MemberDto;
 import com.udteam.miristock.service.CommentService;
@@ -27,7 +28,7 @@ public class CommentController {
     private final MemberService memberService;
 
     @PostMapping
-    public ResponseEntity<Integer> save(@RequestHeader String Authorization, @RequestBody CommentRequestDto commentRequestDto) {
+    public ResponseEntity<CommentResponseDto> save(@RequestHeader String Authorization, @RequestBody CommentRequestDto commentRequestDto) {
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
         if (m == null){
             log.info(ErrorMessage.TOKEN_EXPIRE);
@@ -40,7 +41,7 @@ public class CommentController {
     }
 
     @PutMapping
-    public ResponseEntity<Integer> update(@RequestHeader String Authorization, @RequestBody CommentRequestDto commentRequestDto) {
+    public ResponseEntity<CommentResponseDto> update(@RequestHeader String Authorization, @RequestBody CommentRequestDto commentRequestDto) {
         log.info("CommentRequestDto : {}", commentRequestDto);
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
         if (m == null){
@@ -48,20 +49,21 @@ public class CommentController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } else {
             commentRequestDto.setMemberNo(m.getMemberNo());
+            commentRequestDto.setMemberNickname(m.getMemberNickname());
             return ResponseEntity.ok().body(commentService.save(commentRequestDto));
         }
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void> delete(@RequestHeader String Authorization, @RequestParam Integer commentNo) {
-        log.info("CommentRequestDto : {}", commentNo);
+    @DeleteMapping("/{commentno}")
+    public ResponseEntity<String> delete(@RequestHeader String Authorization, @PathVariable Integer commentno) {
+        log.info("CommentRequestDto : {}", commentno);
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
         if (m == null){
             log.info(ErrorMessage.TOKEN_EXPIRE);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } else {
-            commentService.delete(commentNo);
-            return ResponseEntity.ok().body(null);
+            commentService.delete(m.getMemberNo(), commentno);
+            return ResponseEntity.ok().body("success");
         }
     }
 }
