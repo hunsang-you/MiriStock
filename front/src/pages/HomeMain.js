@@ -66,6 +66,16 @@ const HomeMain = () => {
       >
         디테일로가주세요~
       </button>
+      <button
+        onClick={() => {
+          memberAPI
+            .asset()
+            .then((request) => console.log(request.data))
+            .catch((err) => console.log(err));
+        }}
+      >
+        멤버
+      </button>
     </div>
   );
 };
