@@ -1,8 +1,20 @@
 import { useEffect } from 'react';
 import { api } from '../../api/api'; // api 통신
+import Counter from './countanimation';
+import CounterPer from './counterperanimation';
+
+import './css/detail.css';
 
 // 디테일 차트를 시작 날짜 부터 현재 날짜까지 불러오는 컴포넌트
 const LineChartData = (props) => {
+  const truefalse = (num) => {
+    if (num >= 0) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   useEffect(() => {
     const getValueData = async (data1, data2, data3) => {
       let change = props.dayToTime(props.toDay) - 86400000 * 31;
@@ -14,6 +26,7 @@ const LineChartData = (props) => {
       const newDate = []; // 날짜
       const newPriceIncreasement = [];
       const newDataFlucauationRate = [];
+      const newTrueFalse = [];
       const reqData = await api.get(`stockdata/detail`, {
         params: {
           stockCode: data1,
@@ -23,19 +36,22 @@ const LineChartData = (props) => {
       });
       const todayidx = reqData.data.length - 1;
       props.setIndex(todayidx);
-      // console.log(todayidx);
+      // console.log(reqData.data);
+      props.setStockInfo(reqData.data[0].stockName);
       for (let i = 0; i <= todayidx; i++) {
         newPrice.push(reqData.data[i].stockDataClosingPrice);
         newDataAmount.push(reqData.data[i].stockDataAmount);
         newDate.push(props.dayToTime(reqData.data[i].stockDataDate));
         newPriceIncreasement.push(reqData.data[i].stockDataPriceIncreasement);
         newDataFlucauationRate.push(reqData.data[i].stockDataFlucauationRate);
+        newTrueFalse.push(truefalse(reqData.data[i].stockDataFlucauationRate));
       }
       props.setStockPrice(newPrice);
       props.setDataAmount(newDataAmount);
       props.setTotalDate(newDate);
       props.setStockPriceIncreasement(newPriceIncreasement);
       props.setDataFlucauationRate(newDataFlucauationRate);
+      props.setTrueFalse(newTrueFalse);
       // 차트 데이터 받아서 입력 ====================================================
       props.setState({
         series: [
@@ -154,13 +170,25 @@ const LineChartData = (props) => {
         selection: props.select,
       }); // ==================================================================> 처음에 차트 데이터 넣기함수
     };
-    getValueData('005930', 20180101, props.toDay); // 페이지가 켜졌을때 차트 데이터 넣기
+    getValueData(props.stockCode, 20180101, props.toDay); // 페이지가 켜졌을때 차트 데이터 넣기
     // setTimeout(() => {
     //   setToDay(toDay + 1);
     //   console.log(1);
     // }, 1000);    // 날짜 하루씩 추가해보는 함수
   }, [props.toDay]);
-  return <div></div>;
+  return (
+    <div>
+      {/* 제발되라
+      <h1>
+        <Counter from={0} to={props.stockPrice[props.index]} />원
+      </h1>
+      <h4>
+        전일대비 <Counter from={0} to={props.priceIncreasement[props.index]} />
+        원
+        <CounterPer from={0} to={props.dataFlucauationRate[props.index]} />
+      </h4> */}
+    </div>
+  );
 };
 
 export default LineChartData;
