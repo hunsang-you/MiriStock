@@ -1,20 +1,23 @@
 import './css/assettotal.css';
 import Counter from '../home/countanimation';
 import CounterPer from '../home/counterperanimation';
+import { userStore } from '../../store';
 
 const AssetTotal = () => {
+  const { user } = userStore((state) => state);
+  //memberassetAvailableAsset memberassetStockAsset memberassetTotalAsset
   return (
     <div className="asset-total">
       <div className="asset-cash">
         <div>현금</div>
         <div>
-          <Counter from={0} to={44462050} />원
+          <Counter from={0} to={user.memberassetAvailableAsset} />원
         </div>
       </div>
       <div className="asset-cash">
         <div>주식</div>
         <div>
-          <Counter from={0} to={98381300} />원
+          <Counter from={0} to={user.memberassetStockAsset} />원
         </div>
       </div>
       <div className="asset-cash">
