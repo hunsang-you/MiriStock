@@ -76,3 +76,12 @@ export const tradeAPI = {
       limitPriceOrderType: type,
     }),
 };
+
+export const newsAPI = {
+  getNews: (stockCode, today) =>
+    api.post(`/info/news`, {
+      searchKeyword: stockCode,
+      startDate: today,
+      endDate: today + 1,
+    }),
+};

@@ -1,7 +1,5 @@
 import { useEffect } from 'react';
 import { api } from '../../api/api'; // api 통신
-import Counter from './countanimation';
-import CounterPer from './counterperanimation';
 
 import './css/detail.css';
 
@@ -176,19 +174,7 @@ const LineChartData = (props) => {
     //   console.log(1);
     // }, 1000);    // 날짜 하루씩 추가해보는 함수
   }, [props.toDay]);
-  return (
-    <div>
-      {/* 제발되라
-      <h1>
-        <Counter from={0} to={props.stockPrice[props.index]} />원
-      </h1>
-      <h4>
-        전일대비 <Counter from={0} to={props.priceIncreasement[props.index]} />
-        원
-        <CounterPer from={0} to={props.dataFlucauationRate[props.index]} />
-      </h4> */}
-    </div>
-  );
+  return <div></div>;
 };
 
 export default LineChartData;
