@@ -68,11 +68,12 @@ public class SimulationController {
         }
     }
 
-//    @GetMapping("/hello/{date}")
-//    public ResponseEntity<?> test(@PathVariable Integer date) {
-//        simulationService.updateSimulationDate(1, date);
-//        return null;
-//    }
+    // 쿼리문 테스트용..
+    @GetMapping("/hello/{date}")
+    public ResponseEntity<?> test(@PathVariable Integer date) {
+        simulationService.updateSimulationDate(1, date);
+        return null;
+    }
 
 
 //    @PutMapping("/member/time")

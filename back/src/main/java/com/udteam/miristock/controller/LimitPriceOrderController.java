@@ -35,7 +35,7 @@ public class LimitPriceOrderController {
     }
 
     @PostMapping
-    public ResponseEntity<Integer> save(@RequestHeader String Authorization, @RequestBody LimitPriceOrderDto limitPriceOrderDto) {
+    public ResponseEntity<LimitPriceOrderDto> save(@RequestHeader String Authorization, @RequestBody LimitPriceOrderDto limitPriceOrderDto) {
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
         if (m == null){
             log.info(ErrorMessage.TOKEN_EXPIRE);
@@ -47,7 +47,7 @@ public class LimitPriceOrderController {
     }
 
     @PutMapping
-    public ResponseEntity<Integer> update(@RequestHeader String Authorization, @RequestBody LimitPriceOrderDto limitPriceOrderDto) {
+    public ResponseEntity<LimitPriceOrderDto> update(@RequestHeader String Authorization, @RequestBody LimitPriceOrderDto limitPriceOrderDto) {
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
         if (m == null){
             log.info(ErrorMessage.TOKEN_EXPIRE);
@@ -59,14 +59,14 @@ public class LimitPriceOrderController {
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> delete(@RequestHeader String Authorization, @RequestHeader Integer limitPriceOrderNo) {
+    public ResponseEntity<String> delete(@RequestHeader String Authorization, @RequestHeader Integer limitPriceOrderNo) {
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
         if (m == null){
             log.info(ErrorMessage.TOKEN_EXPIRE);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } else {
             limitPriceOrderService.delete(limitPriceOrderNo);
-            return ResponseEntity.ok().body(null);
+            return ResponseEntity.ok().body("Success");
         }
     }
 
