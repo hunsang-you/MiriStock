@@ -1,7 +1,9 @@
+import { Button } from '@mui/material';
+
 const ShowDate = (props) => {
   // 날짜 변환해주는 함수 (86400000은 1일 -> 초)
   const updateData = (num) => {
-    console.log(props.toDay);
+    // console.log(props.toDay);
     let change = props.dayToTime(props.toDay) - 86400000 * num;
     if (change <= 1514732400000) {
       change = 1514732400000;
@@ -124,25 +126,41 @@ const ShowDate = (props) => {
 
   return (
     <div>
-      <button id="one_week" onClick={() => updateData(7)}>
-        1W
-      </button>
-      &nbsp;
-      <button id="one_month" onClick={() => updateData(31)}>
+      <Button
+        id="one_month"
+        onClick={() => updateData(31)}
+        disableElevation
+        style={{ width: '22%' }}
+      >
         1M
-      </button>
+      </Button>
       &nbsp;
-      <button id="six_months" onClick={() => updateData(185)}>
+      <Button
+        id="six_months"
+        onClick={() => updateData(185)}
+        disableElevation
+        style={{ width: '22%' }}
+      >
         6M
-      </button>
+      </Button>
       &nbsp;
-      <button id="one_year" onClick={() => updateData(365)}>
+      <Button
+        id="one_year"
+        onClick={() => updateData(365)}
+        disableElevation
+        style={{ width: '22%' }}
+      >
         1Y
-      </button>
+      </Button>
       &nbsp;
-      <button id="all" onClick={() => updateData(1850)}>
+      <Button
+        id="all"
+        onClick={() => updateData(1850)}
+        disableElevation
+        style={{ width: '22%' }}
+      >
         ALL
-      </button>
+      </Button>
     </div>
   );
 };
