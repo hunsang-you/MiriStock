@@ -1,0 +1,41 @@
+.Chart-page {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.Chart-Circle {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.port-income {
+    display: flex;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 24px;
+}
+
+.high-revenue {
+    margin-right: 12px;
+}
+
+.high-revenue > span {
+    font-weight: bold;
+    font-size: 20px;
+    color:#D2143C;
+}
+
+.high-loss {
+    margin-left: 12px;
+}
+
+.high-loss > span {
+    font-weight: bold;
+    font-size: 20px;
+    color: #1e40af;
+}
