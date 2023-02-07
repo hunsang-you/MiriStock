@@ -51,34 +51,52 @@ public class InformationService {
 
         String startDateEncord = AddDate(tempstartDateEncord, 0,0,-1);
         String keywordEncord = null;
+        String originStartDateEncord = startDateEncord;
+        String originEndDateEncord = endDateEncord;
         try {
             keywordEncord = URLEncoder.encode(newsRequestDto.getSearchKeyword(), "UTF-8");
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
 
-        Integer newsDataSize = 0;
         NewsResponseDto newsResponseDto = null;
-        int weekCount = 0;
+
+        for (int i = 0; i <= 4; i++) {
 
             String url = createRssURL("https://news.google.com/rss/search?q=",keywordEncord, startDateEncord, endDateEncord);
 
             RSSFeedParser parser = new RSSFeedParser(url);
             newsResponseDto = parser.readFeed();
 
-            // 뉴스 개수가 35개 이상일때까지 일주일씩 뒤로 탐색
-//            newsDataSize = newsResponseDto.getMessages().size();
-
-//            if(newsDataSize == null) newsDataSize = 0;
-//            log.info("총 뉴스 메세지 개수 : {}", newsDataSize);
             log.info("탐색 스타트 날짜 : {}", startDateEncord);
+            log.info("객체있는가? : {}", newsResponseDto != null);
+            if(newsResponseDto != null) log.info("리스트 갯수 : {}", newsResponseDto.getMessages().size());
+            if(newsResponseDto == null || newsResponseDto.getMessages().size() < 35){
+                startDateEncord =  AddDate(startDateEncord, 0,0,-7);
+            } else if (newsResponseDto.getMessages().size() > 35) {
+                newsResponseDto.setLink(createRssURL("https://news.google.com/search?q=",keywordEncord, startDateEncord, endDateEncord));
+                return newsResponseDto;
+            }
 
-//            startDateEncord =  AddDate(tempstartDateEncord, 0,0,-6);
-//            weekCount++;
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
 
-            newsResponseDto.setLink(createRssURL("https://news.google.com/search?q=",keywordEncord, startDateEncord, endDateEncord));
+        }
+        try {
+            keywordEncord = URLEncoder.encode("경제", "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
 
+        String rurl = createRssURL("https://news.google.com/rss/search?q=",keywordEncord, originStartDateEncord, originEndDateEncord);
+        System.out.println(rurl);
+        RSSFeedParser parser = new RSSFeedParser(rurl);
+        newsResponseDto = parser.readFeed();
         // 뉴스 더보기 링크 설정 (구글 뉴스)
+        newsResponseDto.setLink(createRssURL("https://news.google.com/search?q=",keywordEncord, originStartDateEncord, originEndDateEncord));
 
         return newsResponseDto;
     }
