@@ -4,7 +4,7 @@ import SearchView from './SearchView';
 import History from './History';
 import { searchAPI } from '../../api/api';
 import { useState } from 'react';
-import { navStore, searchStore } from '../../store.js';
+import { searchStore } from '../../store.js';
 import './css/SearchBar.css';
 
 // 키워드, 결과값들, 업데이트필드를 전달받는다
@@ -53,7 +53,10 @@ const SearchBar = () => {
           <div
             key={i}
             onClick={() => {
-              setSearchHistory(stock);
+              searchAPI
+                .createSearchHis(stock.stockName, stock.stockCode)
+                .then((request) => console.log(request.data))
+                .catch((err) => console.log(err));
             }}
           >
             <SearchView
