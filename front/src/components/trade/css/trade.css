@@ -1,0 +1,17 @@
+.layout {
+    width: 100%;
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.layout > div {   
+    width: auto;
+    height: 64px;
+    vertical-align: middle;
+  }
+
+  .layout > div > b {
+    font-size: 32px;
+  }
