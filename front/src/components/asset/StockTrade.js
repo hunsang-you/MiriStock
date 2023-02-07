@@ -1,7 +1,7 @@
 import './css/stocktrade.css';
 import Button from '@mui/material/Button';
 import { useState, useEffect } from 'react';
-import { rankAPI } from '../../api/api';
+import { tradeAPI } from '../../api/api';
 import { fontSize } from '@mui/system';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
@@ -9,7 +9,8 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 const StockTrade = () => {
   const [choose, setChoose] = useState(0);
   //   const [holdingStock, setHoldingStock] = useState([]);
-  //   const [transaction, setTransaction] = useState([]);
+  const [transaction, setTransaction] = useState([]);
+  const tr = [];
   //   const [expectedTransaction, setExpectedTransaction] = useState([]);
   const holdingStock = [
     {
@@ -37,26 +38,23 @@ const StockTrade = () => {
   ];
   const tempDate = 20200525;
   useEffect(() => {
-    // rankAPI
-    //   .increase(tempDate)
-    //   .then((request) => {
-    //     setIncreases(request.data);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-    // rankAPI
-    //   .decrease(tempDate)
-    //   .then((request) => {
-    //     setDecreases(request.data);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-    // rankAPI.todayTop(tempDate).then((request) => {
-    //   console.log(request.data);
-    // });
+    const allTrades = async (type) => {
+      await tradeAPI
+        .getAllTrades(type)
+        .then((request) => {
+          console.log(request.data);
+          setTransaction(request.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    allTrades();
   }, []);
+  const dayDay = (date) => {
+    date = String(date);
+    return date.slice(2, 4) + '.' + date.slice(4, 6) + '.' + date.slice(6, 8);
+  };
 
   return (
     <div className="stock-container">
@@ -97,11 +95,19 @@ const StockTrade = () => {
         </Button>
       </div>
       {choose === 0 ? <HoldingStock holdingStock={holdingStock} /> : null}
-      {choose === 1 ? (
-        <div>
-          <TransactionSell /> <TransactionBuy />{' '}
-        </div>
-      ) : null}
+      {choose === 1
+        ? transaction.map((stock, i) => {
+            return (
+              <div key={i}>
+                {stock.stockDealType === 'BUY' ? (
+                  <TransactionBuy stock={stock} dayDay={dayDay} />
+                ) : (
+                  <TransactionSell stock={stock} dayDay={dayDay} />
+                )}
+              </div>
+            );
+          })
+        : null}
       {/* {choose === 0 ? <Trade trade={trade} /> : null}
       {choose === 1 ? <BestIncrease increase={increases} /> : null}
       {choose === 2 ? <BestDecrease decrease={decreases} /> : null} */}
@@ -145,30 +151,38 @@ const HoldingStock = (props) => {
   );
 };
 
-const TransactionSell = () => {
+const TransactionSell = (props) => {
   //판매컴포넌트
+  const stock = props.stock;
+  const dayDay = props.dayDay;
   return (
     <div className="transaction-sell-container">
       <div className="transaction-sell-items">
         <div>매도완료</div>
-        <div>21.01.19</div>
-        <div className="transaction-sell-last">100주</div>
+        <div>{dayDay(stock.stockDealDate)}</div>
+        <div className="transaction-sell-last">{stock.stockDealAmount}주</div>
       </div>
       <div className="transaction-sell-items">
-        <div>삼성전자는언젠가오를까요</div>
-        <div>005930</div>
+        <div>{stock.stockName}</div>
+        <div>{stock.stockCode}</div>
       </div>
       <div className="transaction-sell-items">
-        <div>주당판매가</div>
-        <div>64,294원</div>
-        <div className="transaction-sell-last">6,429,400원</div>
+        <div>주당구매가</div>
+        <div>{stock.stockDealSellClosingPrice.toLocaleString()}원</div>
+        <div className="transaction-sell-last">
+          {(
+            stock.stockDealSellClosingPrice * stock.stockDealAmount
+          ).toLocaleString()}{' '}
+          원
+        </div>
       </div>
     </div>
   );
 };
 
-const TransactionBuy = () => {
+const TransactionBuy = (props) => {
   //구매컴포넌트
+  const stock = props.data;
   return (
     <div className="transaction-buy-container">
       <div className="transaction-buy-items">
