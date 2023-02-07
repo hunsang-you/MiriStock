@@ -2,15 +2,17 @@ import './css/AssetStatus.css';
 import { useState } from 'react';
 import Counter from './countanimation';
 import CounterPer from './counterperanimation';
+import { userStore } from '../../store';
 
 const AssetStatus = () => {
   let [isUpDown, setIsUpDown] = useState(true);
+  const { user } = userStore((state) => state);
   return (
     <div className="asset">
       <div className="asset-status">보유 현황</div>
       <div className="money-unit">
         <span className="money">
-          <Counter from={0} to={142342560} />
+          <Counter from={0} to={user.memberassetTotalAsset} />
         </span>
         <span className="unit">원</span>
       </div>
