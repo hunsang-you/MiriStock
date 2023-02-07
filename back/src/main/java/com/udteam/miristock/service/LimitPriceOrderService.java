@@ -4,7 +4,9 @@ import com.udteam.miristock.dto.ArticleRequestDto;
 import com.udteam.miristock.dto.ArticleResponseDto;
 import com.udteam.miristock.dto.LimitPriceOrderDto;
 import com.udteam.miristock.entity.ArticleEntity;
+import com.udteam.miristock.entity.Deal;
 import com.udteam.miristock.entity.LimitPriceOrderEntity;
+import com.udteam.miristock.repository.LimitPriceOrderCustomRepository;
 import com.udteam.miristock.repository.LimitPriceOrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,13 +22,15 @@ import java.util.stream.Collectors;
 public class LimitPriceOrderService {
 
     private final LimitPriceOrderRepository limitPriceOrderRepository;
+    private final LimitPriceOrderCustomRepository limitPriceOrderCustomRepository;
 
-    public List<LimitPriceOrderDto> findAll(Integer memberNo) {
-        List<LimitPriceOrderEntity> limitPriceOrderEntityList = limitPriceOrderRepository.findAllByMemberNo(memberNo);
+    public List<LimitPriceOrderDto> findAll(Integer memberNo, Deal limitPriceOrderType) {
+        List<LimitPriceOrderEntity> limitPriceOrderEntityList = limitPriceOrderCustomRepository.findAllByMemberNoAndLimitPriceOrderType(memberNo, limitPriceOrderType);
         return limitPriceOrderEntityList.stream()
                 .map(LimitPriceOrderDto::new)
                 .collect(Collectors.toList());
     }
+
 
     @Transactional
     public LimitPriceOrderDto save(LimitPriceOrderDto limitPriceOrderDto) {
