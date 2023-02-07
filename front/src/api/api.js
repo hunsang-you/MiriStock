@@ -3,7 +3,7 @@ import axios from 'axios';
 const BASE_URL = process.env.REACT_APP_BASE_UR;
 // const accessToken = localStorage.getItem('accessToken');
 const accessToken =
-  'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0a2RndXNkbDYzQG5hdmVyLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJuaWNrbmFtZSI6IuyCvOyEsSDqsKTrn63si5wg7KKL7JWE7JqUIiwiZXhwIjoxNjc1NzY3MTE3fQ.f09j6hYPuZ__HI7MCs1CHay4fp-9YVXIh4sStfdmF-s';
+  'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkb2d5ZW9tMkBrYWthby5jb20iLCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE2NzU3Nzc3NjF9.Ge9OBefyvLGpQbLG9bvHUEAajjUt0VdyZZuKrkcWgVI';
 export const api = axios.create({
   baseURL: BASE_URL,
   headers: {
@@ -73,5 +73,14 @@ export const tradeAPI = {
       limitPriceOrderPrice: limitPriceOrderPrice,
       limitPriceOrderAmount: limitPriceOrderAmount,
       limitPriceOrderType: type,
+    }),
+};
+
+export const newsAPI = {
+  getNews: (stockCode, today) =>
+    api.post(`/info/news`, {
+      searchKeyword: stockCode,
+      startDate: today,
+      endDate: today + 1,
     }),
 };
