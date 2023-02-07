@@ -9,13 +9,13 @@ const CommentItem = (props) => {
 
   return (
     <div className="comment-item">
-      <div className="item-id">{comment.userId}</div>
+      <div className="item-id">{comment.memberNickname}</div>
       <div className="item-content">
         <div
           className={isclosed ? 'content-open' : 'content-close'}
           onClick={handlerBtn}
         >
-          {comment.content}
+          {comment.commentContent}
         </div>
       </div>
     </div>
