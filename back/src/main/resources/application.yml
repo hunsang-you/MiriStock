@@ -31,7 +31,7 @@ spring:
   redis:
     host: 127.0.0.1
     port: 6379
-    password: 'miriSt@ckredis4365#'
+    password: ssafy
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
