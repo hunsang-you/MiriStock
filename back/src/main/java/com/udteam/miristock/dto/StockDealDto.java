@@ -20,7 +20,7 @@ public class StockDealDto {
     private Integer stockDealDate;
     private Integer stockDealBuyClosingPrice;
     private Integer stockDealSellClosingPrice;
-    private Integer stockDealAmount;
+    private Long stockDealAmount;
     private Deal stockDealType;
     private Float stockDealEarnRate;
     private Long stockDealEarnPrice;

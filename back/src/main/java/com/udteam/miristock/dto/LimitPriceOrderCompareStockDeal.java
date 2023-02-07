@@ -11,7 +11,6 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LimitPriceOrderCompareStockDeal {
-
     private Integer stockDataNo;
     private String stockCode;
     private String stockName;
@@ -21,6 +20,7 @@ public class LimitPriceOrderCompareStockDeal {
     private Integer stockDataPriceIncreasement;
     private Float stockDataFlucauationRate;
     private Integer memberNo;
+    private Integer limitPriceOrderNo;
     private Integer limitPriceOrderPrice;
     private Integer limitPriceOrderAmount;
     private Deal limitPriceOrderType;
@@ -36,6 +36,7 @@ public class LimitPriceOrderCompareStockDeal {
         this.stockDataPriceIncreasement = stockDataEntity.getStockDataPriceIncreasement();
         this.stockDataFlucauationRate = stockDataEntity.getStockDataFlucauationRate();
         this.memberNo = limitPriceOrderEntity.getMemberNo();
+        this.limitPriceOrderNo = limitPriceOrderEntity.getLimitPriceOrderNo();
         this.limitPriceOrderPrice = limitPriceOrderEntity.getLimitPriceOrderPrice();
         this.limitPriceOrderAmount = limitPriceOrderEntity.getLimitPriceOrderAmount();
         this.limitPriceOrderType = limitPriceOrderEntity.getLimitPriceOrderType();

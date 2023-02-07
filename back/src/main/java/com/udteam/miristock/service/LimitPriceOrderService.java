@@ -29,8 +29,9 @@ public class LimitPriceOrderService {
     }
 
     @Transactional
-    public Integer save(LimitPriceOrderDto limitPriceOrderDto) {
-        return limitPriceOrderRepository.save(limitPriceOrderDto.toEntity()).getLimitPriceOrderNo();
+    public LimitPriceOrderDto save(LimitPriceOrderDto limitPriceOrderDto) {
+        limitPriceOrderRepository.save(limitPriceOrderDto.toEntity());
+        return limitPriceOrderDto;
     }
 
     @Transactional

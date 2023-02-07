@@ -23,7 +23,7 @@ public class InformationController {
          return ResponseEntity.ok().body(informationService.findAllFinancialstatement(stockCode));
     }
 
-    @GetMapping("/news")
+    @PostMapping("/news")
     public ResponseEntity<NewsResponseDto> findNews(@RequestBody NewsRequestDto newsRequestDto) {
         log.info("뉴스 호출 요청됨 : newsRequestDto -> {}", newsRequestDto);
         return ResponseEntity.ok().body(informationService.findNews(newsRequestDto));

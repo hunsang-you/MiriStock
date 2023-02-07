@@ -38,7 +38,7 @@ public class StockDealEntity {
     private Integer stockDealSellClosingPrice;
 
     @Column(name = "stockdeal_amount")
-    private Integer stockDealAmount;
+    private Long stockDealAmount;
 
     @Column(name = "stockdeal_type")
     @Enumerated(EnumType.STRING)
