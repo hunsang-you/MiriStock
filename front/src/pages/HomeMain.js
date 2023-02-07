@@ -62,12 +62,12 @@ const HomeMain = () => {
       <button
         onClick={() => {
           memberAPI
-            .intersetStocks()
+            .stocks()
             .then((request) => console.log(request))
             .catch((err) => console.log(err));
         }}
       >
-        디테일로가주세요~
+        보유주식목록
       </button>
       <button
         onClick={() => {

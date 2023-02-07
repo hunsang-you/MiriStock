@@ -10,15 +10,18 @@ const Home = () => {
   const { user, setUser } = userStore((state) => state);
   //일단 마운트될때마다로 설정 추후에 데이변할때 하게 해야함
   useEffect(() => {
-    memberAPI
-      .asset()
-      .then((request) => {
-        setUser(request.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    const getMember = async () => {
+      await memberAPI
+        .asset()
+        .then((request) => {
+          setUser(request.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    getMember();
+  }, []); //추후에 데이트 값
   return (
     <div className="main-container">
       <Routes>
