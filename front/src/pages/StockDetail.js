@@ -5,11 +5,14 @@ import { stockAPI, api } from '../api/api'; // api 통신
 import LineChart from '../components/chart/LineChart';
 import Financial from '../components/chart/Financial';
 import { Button } from '@mui/material';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 
 const StockDetail = () => {
   // 오늘 날짜
   const [toDay, setToDay] = useState(20181003);
-  const stockCode = '005930';
+  let { stockCode } = useParams();
+  const location = useLocation();
+  const navigate = useNavigate();
   // 날짜데이터를 시간으로 변환하는 함수
   const dayToTime = (date) => {
     let year, month, day, time;
@@ -26,7 +29,14 @@ const StockDetail = () => {
   };
   // 오늘날짜 -> 종목명
   const [stockInfo, setStockInfo] = useState('');
-
+  useEffect(() => {
+    if (location.state) {
+      console.log(location.state);
+      setStockInfo(location.state.stockName);
+    } else {
+      navigate('/');
+    }
+  }, [location]);
   // 왜 했던건지 기억이 나지않아 주석 =================================
   // const [stockData, setStockData] = useState([]);
   // const [series, setSeries] = useState([
