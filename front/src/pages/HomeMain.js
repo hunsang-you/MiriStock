@@ -6,8 +6,10 @@ import {
   Rank,
 } from '../components/home';
 import { communityAPI, stockAPI, memberAPI, tradeAPI } from '../api/api';
+import { useNavigate } from 'react-router-dom';
 
 const HomeMain = () => {
+  const navigate = useNavigate();
   return (
     <div>
       <Simulation />
@@ -59,17 +61,10 @@ const HomeMain = () => {
       </button>
       <button
         onClick={() => {
-          memberAPI
-            .asset()
-            .then((request) => {
-              console.log(request.data);
-            })
-            .catch((err) => {
-              console.log(err);
-            });
+          navigate('/stockdetail/1');
         }}
       >
-        멤버
+        디테일로가주세요~
       </button>
     </div>
   );
