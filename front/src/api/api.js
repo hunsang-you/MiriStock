@@ -3,7 +3,7 @@ import axios from 'axios';
 const BASE_URL = process.env.REACT_APP_BASE_UR;
 // const accessToken = localStorage.getItem('accessToken');
 const accessToken =
-  'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0a2RndXNkbDYzQG5hdmVyLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJuaWNrbmFtZSI6IuyCvOyEsSDqsKTrn63si5wg7KKL7JWE7JqUIiwiZXhwIjoxNjc1NzY3MTE3fQ.f09j6hYPuZ__HI7MCs1CHay4fp-9YVXIh4sStfdmF-s';
+  'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0a2RndXNkbDYzQG5hdmVyLmNvbSIsInJvbGUiOiJST0xFX01FTUJFUiIsIm5pY2tuYW1lIjoi7IK87ISxIOqwpOufreyLnCDsoovslYTsmpQiLCJleHAiOjE2NzU3NzgwNDV9.jnKJDgIejGqVOTz_rszsOrY9J8hzCKR-zLoNz_4iBGU';
 export const api = axios.create({
   baseURL: BASE_URL,
   headers: {
@@ -16,12 +16,14 @@ export default api;
 
 export const memberAPI = {
   asset: () => api.get(`/asset`),
+  stocks: () => api.get(`/asset/memberstock`),
+  intersetStocks: () => api.get(`/asset/intereststock`), //확인안됨
 };
 
 export const rankAPI = {
   increase: (date) => api.get(`/stockdata/rate/increase/${date}`),
   decrease: (date) => api.get(`/stockdata/rate/decrease/${date}`),
-  todayTop: (date) => api.get(`/stockdata/amount/top/${date}`), //백에서 미완성
+  todayTop: (date) => api.get(`/stockdata/amount/top/${date}`),
 };
 
 export const stockAPI = {
@@ -54,8 +56,7 @@ export const communityAPI = {
 };
 
 export const tradeAPI = {
-  getAllTrades: () => api.get(`/stockdeal`),
-  getBuyTrades: (types) =>
+  getAllTrades: (types) =>
     api.get(`/stockdeal`, { params: { stockdealtype: types } }),
   checkTrades: () => api.get(`/limitpriceorder`),
   buyStock: (
