@@ -5,9 +5,11 @@ import {
   FavoriteStock,
   Rank,
 } from '../components/home';
-import { rankAPI, stockAPI, memberAPI } from '../api/api';
+import { communityAPI, stockAPI, memberAPI, tradeAPI } from '../api/api';
+import { useNavigate } from 'react-router-dom';
 
 const HomeMain = () => {
+  const navigate = useNavigate();
   return (
     <div>
       <Simulation />
@@ -17,8 +19,8 @@ const HomeMain = () => {
       <Rank />
       <button
         onClick={() => {
-          rankAPI
-            .todayTop(20210524)
+          tradeAPI
+            .getAllTrades()
             .then((request) => {
               console.log(request.data);
             })
@@ -27,12 +29,12 @@ const HomeMain = () => {
             });
         }}
       >
-        increase
+        거래내역테스트
       </button>
       <button
         onClick={() => {
-          rankAPI
-            .decrease()
+          tradeAPI
+            .buyStock('000660', '하이닉스', 2, 500000, 200, 'SELL')
             .then((request) => {
               console.log(request.data);
             })
@@ -41,12 +43,12 @@ const HomeMain = () => {
             });
         }}
       >
-        decrease
+        구매테스트
       </button>
       <button
         onClick={() => {
-          stockAPI
-            .financialStatement('005930')
+          tradeAPI
+            .checkTrades()
             .then((request) => {
               console.log(request.data);
             })
@@ -55,21 +57,14 @@ const HomeMain = () => {
             });
         }}
       >
-        재무
+        거래예정
       </button>
       <button
         onClick={() => {
-          memberAPI
-            .asset()
-            .then((request) => {
-              console.log(request.data);
-            })
-            .catch((err) => {
-              console.log(err);
-            });
+          navigate('/stockdetail/1');
         }}
       >
-        멤버
+        디테일로가주세요~
       </button>
     </div>
   );

@@ -1,9 +1,10 @@
 import './css/HomeFavorite.css';
+import FavoriteList from '../components/favorite/FavoriteList';
 
 const HomeFavorite = (props) => {
   return (
     <div>
-      <h1>테스트테스트테스트테스트</h1>
+      <FavoriteList />
     </div>
   );
 };

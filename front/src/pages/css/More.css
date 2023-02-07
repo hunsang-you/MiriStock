@@ -1,10 +1,9 @@
-.search-page {
+.main-container {
     display: flex;
     flex-direction: column;
     position : relative;
     padding-bottom: 12.5vh;
     margin-left: 6vw;
     margin-right: 6vw;    
-    margin-top : 8.57vh;
+    margin-top : 2.5vh;
 }
-

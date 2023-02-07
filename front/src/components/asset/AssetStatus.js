@@ -1,12 +1,11 @@
 import './css/assetstatus.css';
 import ReactApexChart from 'react-apexcharts';
+import { userStore } from '../../store';
 
 const AssetStatus = () => {
-  const money = 44462050;
-  const money2 = 98381300;
-  const sumss = money + money2;
+  const { user } = userStore((state) => state);
   const donutData = {
-    series: [money, money2],
+    series: [user.memberassetAvailableAsset, user.memberassetStockAsset],
     options: {
       chart: {
         type: 'donut',
@@ -55,7 +54,8 @@ const AssetStatus = () => {
                 label: '총 자산',
                 fontSize: '16px',
                 formatter: function (val) {
-                  let asset = sumss.toLocaleString() + '원';
+                  let asset =
+                    user.memberassetTotalAsset.toLocaleString() + '원';
                   return asset;
                 },
               },

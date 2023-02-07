@@ -1,0 +1,58 @@
+.favorite-page {
+    font-family: var(--font-IbmPlexSansKrLightRegular);  
+}
+
+.favorite-page > p {
+    font-weight: bold;
+    font-size:24px;
+    text-align: left;
+    margin-top: 6.67vh;
+    margin-left: 24px;
+    margin-bottom: 24px;    
+}
+
+.favorite-title {
+    text-align: start;
+    font-size: 24px;
+    font-weight: bold;
+
+}
+
+.favorite-item {
+    display: flex;
+    text-align: left;
+    margin-left: 16px;
+    margin-top: 8px;
+    margin-bottom: 24px;
+    
+}
+
+.favorite-item * {
+    font-family: var(--font-IbmPlexSansKrLightRegular);  
+}
+
+.favorite-stock {
+    font-size: 20px;
+    display: flex;
+    flex-direction: column;
+    margin-right: auto;
+}
+
+#favorite-code {
+    margin-left: 24px;
+    color: #AAA7A7;
+}
+
+.favorite-info {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    margin-right: 16px;
+    font-size: 16px;
+    
+}
+
+.favorite-icon {
+    margin-top: auto;
+    margin-bottom: auto;
+}
