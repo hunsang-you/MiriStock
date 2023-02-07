@@ -2,6 +2,7 @@ package com.udteam.miristock.util;
 
 import com.udteam.miristock.dto.NewsResponseDto;
 import com.udteam.miristock.dto.NewsMessage;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,6 +14,8 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Characters;
 import javax.xml.stream.events.XMLEvent;
+
+@Slf4j
 public class RSSFeedParser {
     static final String TITLE = "title";
     static final String LINK = "link";
@@ -48,6 +51,7 @@ public class RSSFeedParser {
             InputStream in = read();
             XMLEventReader eventReader = inputFactory.createXMLEventReader(in);
             // read the XML document
+            int newsCount = 0;
             while (eventReader.hasNext()) {
                 XMLEvent event = eventReader.nextEvent();
                 if (event.isStartElement()) {
@@ -83,11 +87,14 @@ public class RSSFeedParser {
                         message.setTitle(title);
                         message.setLink(link);
                         message.setPubDate(pubdate);
+                        assert newsResponseDto != null;
                         newsResponseDto.getMessages().add(message);
                         event = eventReader.nextEvent();
+                        newsCount++;
                         continue;
                     }
                 }
+                if(newsCount >=35) break;
             }
         } catch (XMLStreamException e) {
             throw new RuntimeException(e);
