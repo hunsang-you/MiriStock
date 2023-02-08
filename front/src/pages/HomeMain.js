@@ -20,7 +20,7 @@ const HomeMain = () => {
       <button
         onClick={() => {
           tradeAPI
-            .getAllTrades()
+            .getAllTrades('SELL')
             .then((request) => {
               console.log(request.data);
             })
@@ -61,10 +61,13 @@ const HomeMain = () => {
       </button>
       <button
         onClick={() => {
-          navigate('/stockdetail/1');
+          memberAPI
+            .intersetStocks(20180102)
+            .then((request) => console.log(request.data))
+            .catch((err) => console.log(err));
         }}
       >
-        디테일로가주세요~
+        보유주식목록
       </button>
       <button
         onClick={() => {

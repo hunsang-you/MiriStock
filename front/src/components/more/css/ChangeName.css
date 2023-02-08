@@ -1,9 +1,6 @@
-.more-back {
-    margin-right: 24px;
-    margin-left: auto;
-}
-
-.more-ok {
-    margin-left: 24px;
-    margin-right: auto;
+.Btn {
+    margin-top: 128px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
