@@ -1,6 +1,5 @@
 package com.udteam.miristock.repository;
 
-import com.udteam.miristock.entity.Deal;
 import com.udteam.miristock.entity.LimitPriceOrderEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,5 +16,6 @@ public interface LimitPriceOrderRepository extends JpaRepository<LimitPriceOrder
         " WHERE s.stockDataDate=:stockDataDate AND l.memberNo=:memberNo ")
     List<Object[]> compareLimitPriceOrderWithTodayStockData(@Param("memberNo") Integer memberNo, @Param("stockDataDate") Integer stockDataDate);
 
-    Void deleteAllByMemberNoAndLimitPriceOrderNo(Integer memberNo, Integer limitPriceOrderNo);
+    void deleteAllByMemberNoAndLimitPriceOrderNo(Integer memberNo, Integer limitPriceOrderNo);
+
 }

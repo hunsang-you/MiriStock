@@ -34,13 +34,12 @@ public class LimitPriceOrderService {
 
     @Transactional
     public LimitPriceOrderDto save(LimitPriceOrderDto limitPriceOrderDto) {
-        limitPriceOrderRepository.save(limitPriceOrderDto.toEntity());
-        return limitPriceOrderDto;
+        return new LimitPriceOrderDto(limitPriceOrderRepository.saveAndFlush(limitPriceOrderDto.toEntity()));
     }
 
     @Transactional
-    public void delete(Integer limitPriceOrderNo) {
-        limitPriceOrderRepository.delete(LimitPriceOrderEntity.builder().limitPriceOrderNo(limitPriceOrderNo).build());
+    public void delete(Integer memberNo, Integer limitPriceOrderNo) {
+        limitPriceOrderRepository.deleteAllByMemberNoAndLimitPriceOrderNo(memberNo, limitPriceOrderNo);
     }
 
 

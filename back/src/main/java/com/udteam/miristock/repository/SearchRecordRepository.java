@@ -10,4 +10,6 @@ import java.util.List;
 public interface SearchRecordRepository extends JpaRepository<SearchRecordEntity, Integer> {
 
     List<SearchRecordEntity> findByMemberNo (Integer memberNo);
+
+    void deleteByMemberNoAndStockCode(Integer memberNo, String stockCode);
 }
