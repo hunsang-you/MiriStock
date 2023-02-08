@@ -29,7 +29,8 @@ api.interceptors.response.use(
       return axios(originalReq);
     } else {
       console.log('checkchekchekchekchekchchekcchekcchekchekchek');
-      return window.location.replace(`https://i8b111.p.ssafy.io/login`);
+      // return window.location.replace(`https://i8b111.p.ssafy.io/login`);
+      return err;
     }
   },
 );
