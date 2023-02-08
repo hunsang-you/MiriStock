@@ -12,31 +12,42 @@ const Rank = () => {
   const [decreases, setDecreases] = useState([]);
   const { user } = userStore((state) => state);
   const navigate = useNavigate();
+
   useEffect(() => {
-    rankAPI
-      .todayTop(user.memberassetCurrentTime)
-      .then((request) => {
-        setTrades(request.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    rankAPI
-      .increase(user.memberassetCurrentTime)
-      .then((request) => {
-        setIncreases(request.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    rankAPI
-      .decrease(user.memberassetCurrentTime)
-      .then((request) => {
-        setDecreases(request.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const todayTop = async () => {
+      await rankAPI
+        .todayTop(user.memberassetCurrentTime)
+        .then((request) => {
+          setTrades(request.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    const increase = async () => {
+      await rankAPI
+        .increase(user.memberassetCurrentTime)
+        .then((request) => {
+          setIncreases(request.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    const decrease = async () => {
+      await rankAPI
+        .decrease(user.memberassetCurrentTime)
+        .then((request) => {
+          setDecreases(request.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    todayTop();
+    increase();
+    decrease();
+
     // rankAPI.todayTop(tempDate).then((request) => {
     //   console.log(request.data);
     // });
