@@ -52,7 +52,6 @@ const MoreMain = () => {
           }}
         >
           <ImMap2 size={50} id="more-icon" />
-
           <div>튜토리얼</div>
         </Button>
       </div>

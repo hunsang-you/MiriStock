@@ -3,6 +3,7 @@ import kakaobtn from '../../static/kakaobtn.png';
 import naverbtn from '../../static/naverbtn.png';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import './nickname.css';
 
 const BASE_URL = process.env.REACT_APP_BASE_UR;
 const KAKAO_URL = `${BASE_URL}/oauth2/authorization/kakao`;
@@ -12,7 +13,11 @@ const LoginBtn = () => {
   return (
     <div className="loginpage">
       <div className="logo">
-        <img src={mirilogo} className="mirilogo" alt="logo" />
+        <img
+          src={mirilogo}
+          style={{ width: '100%', height: '100%', objectFit: 'fill' }}
+          alt="logo"
+        />
       </div>
 
       {/*  소셜 로그인 버튼 */}
