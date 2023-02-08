@@ -3,8 +3,8 @@
     flex-direction: column;
     padding-top: 0.95vh;
     margin-bottom: 5.85vh;
-    border-top: 1px solid #6DCEF5;
-    border-bottom: 1px solid #6DCEF5;
+    border-top: 3px solid #6DCEF5;
+    border-bottom: 3px solid #6DCEF5;
 }
 
 .userid {
@@ -39,7 +39,7 @@
     text-align: left;
     padding-bottom: 1.9vh;
     font-size: 1rem;
-    margin-left: 4vw;
+    margin-left: 6vw;
     margin-right: 4vw;
     font-size: large;
 }
@@ -81,8 +81,10 @@
     display: flex;
     margin-left: auto;
     margin-right: 4vw;
+    justify-content: space-around;
 }
 
-.item-btn > div {
+.item-btn * {
     margin-left: 8px;
+    margin-right: 8px;
 }

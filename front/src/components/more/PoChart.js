@@ -12,28 +12,23 @@ const PoChart = () => {
     RevenueData: [
       {
         StockName: '삼성전자',
-        StockPrice: 555555,
-        CellNo: 0,
+        StockPrice: 3333333,
       },
       {
         StockName: '삼성카드',
-        StockPrice: 44444,
-        CellNo: 1,
+        StockPrice: 2222222,
       },
       {
         StockName: 'SK하이닉스',
-        StockPrice: 33333,
-        CellNo: 2,
+        StockPrice: 1822828,
       },
       {
         StockName: 'LG전자',
-        StockPrice: 22222,
-        CellNo: 3,
+        StockPrice: 1115151,
       },
       {
         StockName: '현대차',
-        StockPrice: 11111,
-        CellNo: 4,
+        StockPrice: 930202,
       },
     ],
     LossData: [
@@ -75,10 +70,8 @@ const PoChart = () => {
   return (
     <div className="Chart-page">
       <div className="Chart-Circle">
-        <div className="port-income">
-          <div className="high-revenue">
-            <span> 수익 Top 5</span>
-          </div>
+        <div className="high-revenue">
+          <span> 수익 Top 5</span>
         </div>
         <PieChart width={320} height={360}>
           {/* 최고 수익금 */}
@@ -105,7 +98,7 @@ const PoChart = () => {
               }
             />
 
-            {/* Cell 색깔 변화 */}
+            {/* Cell 색깔 변화 + 클릭시 종목,수익 변화*/}
             {state.RevenueData.map((entry, index) => (
               <Cell
                 key={`cell-${index}`}
@@ -140,7 +133,7 @@ const PoChart = () => {
                 />
               }
             />
-            {/* Cell 색깔 변화 */}
+            {/* Cell 색깔 변화 + 클릭시 종목,수익 변화*/}
             {state.LossData.map((entry, index) => (
               <Cell
                 key={`cell-${index}`}
@@ -152,10 +145,9 @@ const PoChart = () => {
             ))}
           </Pie>
         </PieChart>
-        <div className="port-income">
-          <div className="high-loss">
-            <span> 손실 Top 5</span>
-          </div>
+
+        <div className="high-loss">
+          <span> 손실 Top 5</span>
         </div>
       </div>
     </div>

@@ -11,7 +11,7 @@ const ArticleItem = (props) => {
   const article = props.article;
   const setArticles = props.setArticles;
   //서버에 9시간 늦게 저장돼있어 9시간만큼 빼줌
-  let nowTime = new Date(article.articleDate).getTime() - 32400000;
+  let nowTime = new Date(article.articleCreateDate).getTime() - 32400000;
 
   //api에 있는 detailPost.createdAt를 바꿔주는 것
   // content 글자 제한, 더보기
@@ -84,22 +84,26 @@ const ArticleItem = (props) => {
           <FaRegCommentDots onClick={CommentBtn} />
         </div>
         <div className="item-btn">
-          <Button
-            id="delete-btn"
-            variant="outlined"
-            size="middle"
-            onClick={() => {
-              communityAPI
-                .deleteArticle(article.articleNo)
-                .then((request) => console.log(request.data))
-                .catch((err) => console.log(err));
-            }}
-          >
-            삭제
-          </Button>
-          <Button id="update-btn" variant="outlined" size="large">
-            수정
-          </Button>
+          <div>
+            <Button
+              id="delete-btn"
+              variant="outlined"
+              size="large"
+              onClick={() => {
+                communityAPI
+                  .deleteArticle(article.articleNo)
+                  .then((request) => console.log(request.data))
+                  .catch((err) => console.log(err));
+              }}
+            >
+              삭제
+            </Button>
+          </div>
+          <div>
+            <Button id="update-btn" variant="outlined" size="large">
+              수정
+            </Button>
+          </div>
         </div>
       </div>
       <div> {CommentBox()} </div>
