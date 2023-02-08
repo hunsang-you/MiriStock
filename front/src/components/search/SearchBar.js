@@ -5,6 +5,7 @@ import History from './History';
 import { searchAPI } from '../../api/api';
 import { useState } from 'react';
 import { searchStore } from '../../store.js';
+import { useNavigate } from 'react-router-dom';
 import './css/SearchBar.css';
 
 // 키워드, 결과값들, 업데이트필드를 전달받는다
@@ -14,7 +15,7 @@ const SearchBar = () => {
   const [searchResult, setSearchResult] = useState([]);
   // 하단 조건부렌더링 bool 체크
   const [isCheck, setIsCheck] = useState(true);
-
+  const navigate = useNavigate();
   // onChange를 사용하여 글자를 입력할때마다 updateField호출, renderResults 렌더링.
   return (
     <div className="search-bar">
@@ -57,6 +58,9 @@ const SearchBar = () => {
                 .createSearchHis(stock.stockName, stock.stockCode)
                 .then((request) => console.log(request.data))
                 .catch((err) => console.log(err));
+              navigate(`/stock/${stock.stockCode}`, {
+                state: { stockName: stock.stockName },
+              });
             }}
           >
             <SearchView

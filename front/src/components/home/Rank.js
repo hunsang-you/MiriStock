@@ -2,64 +2,56 @@ import './css/Rank.css';
 import Button from '@mui/material/Button';
 import { useState, useEffect } from 'react';
 import { rankAPI } from '../../api/api';
+import { useNavigate } from 'react-router-dom';
+import { userStore } from '../../store';
 
 const Rank = () => {
   const [choose, setChoose] = useState(0);
   const [trades, setTrades] = useState([]);
   const [increases, setIncreases] = useState([]);
   const [decreases, setDecreases] = useState([]);
-  const tempDate = 20200525;
+  const { user } = userStore((state) => state);
+  const navigate = useNavigate();
+
   useEffect(() => {
-    rankAPI
-      .todayTop(tempDate)
-      .then((request) => {
-        setTrades(request.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    rankAPI
-      .increase(tempDate)
-      .then((request) => {
-        setIncreases(request.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    rankAPI
-      .decrease(tempDate)
-      .then((request) => {
-        setDecreases(request.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const todayTop = async () => {
+      await rankAPI
+        .todayTop(user.memberassetCurrentTime)
+        .then((request) => {
+          setTrades(request.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    const increase = async () => {
+      await rankAPI
+        .increase(user.memberassetCurrentTime)
+        .then((request) => {
+          setIncreases(request.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    const decrease = async () => {
+      await rankAPI
+        .decrease(user.memberassetCurrentTime)
+        .then((request) => {
+          setDecreases(request.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    todayTop();
+    increase();
+    decrease();
+
     // rankAPI.todayTop(tempDate).then((request) => {
     //   console.log(request.data);
     // });
   }, []);
-  const trade = [
-    {
-      stockName: '삼성전자',
-      stockDateAmount: 123456834,
-    },
-    {
-      stockName: '똥카오',
-      stockDateAmount: 5348941418,
-    },
-    {
-      stockName: '상현전자',
-      stockDateAmount: 658294834,
-    },
-    {
-      stockName: '애플',
-      stockDateAmount: 89684868,
-    },
-    {
-      stockName: '동양데이타시스템',
-      stockDateAmount: 125858283884,
-    },
-  ];
 
   return (
     <div className="rank-container">
@@ -99,9 +91,13 @@ const Rank = () => {
           하락
         </Button>
       </div>
-      {choose === 0 ? <Trade trades={trades} /> : null}
-      {choose === 1 ? <BestIncrease increase={increases} /> : null}
-      {choose === 2 ? <BestDecrease decrease={decreases} /> : null}
+      {choose === 0 ? <Trade trades={trades} navigate={navigate} /> : null}
+      {choose === 1 ? (
+        <BestIncrease increase={increases} navigate={navigate} />
+      ) : null}
+      {choose === 2 ? (
+        <BestDecrease decrease={decreases} navigate={navigate} />
+      ) : null}
     </div>
   );
 };
@@ -109,12 +105,21 @@ const Rank = () => {
 export default Rank;
 
 const Trade = (props) => {
+  const navigate = props.navigate;
   const trades = props.trades;
   return (
     <div>
       {trades.map((stock, i) => {
         return (
-          <div className="rank-choose" key={i}>
+          <div
+            className="rank-choose"
+            key={i}
+            onClick={() => {
+              navigate(`stock/${stock.stockCode}`, {
+                state: { stockName: stock.stockName },
+              });
+            }}
+          >
             <span>{stock.stockName}</span>
             <span>{stock.stockDataAmount.toLocaleString()}</span>
           </div>
@@ -125,12 +130,21 @@ const Trade = (props) => {
 };
 
 const BestIncrease = (props) => {
+  const navigate = props.navigate;
   const increase = props.increase;
   return (
     <>
       {increase.map((stock, i) => {
         return (
-          <div className="incrdecr-list" key={i}>
+          <div
+            className="incrdecr-list"
+            key={i}
+            onClick={() => {
+              navigate(`stock/${stock.stockCode}`, {
+                state: { stockName: stock.stockName },
+              });
+            }}
+          >
             <div className="incrdecr-top">
               <span>{stock.stockName}</span>
               <span>{stock.stockDataClosingPrice.toLocaleString()}원</span>
@@ -156,12 +170,21 @@ const BestIncrease = (props) => {
 };
 
 const BestDecrease = (props) => {
+  const navigate = props.navigate;
   const decrease = props.decrease;
   return (
     <>
       {decrease.map((stock, i) => {
         return (
-          <div className="incrdecr-list" key={i}>
+          <div
+            className="incrdecr-list"
+            key={i}
+            onClick={() => {
+              navigate(`stock/${stock.stockCode}`, {
+                state: { stockName: stock.stockName },
+              });
+            }}
+          >
             <div className="incrdecr-top">
               <span>{stock.stockName}</span>
               <span>{stock.stockDataClosingPrice.toLocaleString()}원</span>

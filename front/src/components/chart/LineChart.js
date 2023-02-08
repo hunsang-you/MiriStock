@@ -20,17 +20,17 @@ const LineChart = (props) => {
   // 오늘날짜 = props.toDay;
   // 날짜데이터를 시간으로 변환하는 함수 = props.dayToTime
   // 배열 인덱스
-  const [index, setIndex] = useState();
+  const [index, setIndex] = useState(0);
   // 18.01 ~ 오늘 까지 금액
-  const [stockPrice, setStockPrice] = useState([]);
+  const [stockPrice, setStockPrice] = useState([0]);
   // 18.01 ~ 거래량
   const [dataAmount, setDataAmount] = useState([]);
   // 18.01 ~ 날짜
   const [totalDate, setTotalDate] = useState([]);
   // 18.01 ~ 등락금액
-  const [priceIncreasement, setStockPriceIncreasement] = useState([]);
+  const [priceIncreasement, setStockPriceIncreasement] = useState([0]);
   // 18.01 ~ 등락률
-  const [dataFlucauationRate, setDataFlucauationRate] = useState([]);
+  const [dataFlucauationRate, setDataFlucauationRate] = useState([0]);
   // 18.01 ~ 등락률 대비 양수 음수
   const [trueFalse, setTrueFalse] = useState([]);
   // 차트 설정
@@ -171,33 +171,48 @@ const LineChart = (props) => {
         setTrueFalse={setTrueFalse}
       />
       <div className="stock-content">
-        <span>
+        <strong className="stock-price">
           <Counter from={0} to={stockPrice[index]} />원
-        </span>
-        <span>전일대비</span>
-        <span
-          style={trueFalse[index] ? { color: '#D2143C' } : { color: '#1E90FF' }}
-        >
-          <Counter from={0} to={priceIncreasement[index]} />원
-          <CounterPer from={0} to={dataFlucauationRate[index]} />
-        </span>
+        </strong>
+        <div className="befor-after">
+          <span>전일대비</span>
+          <div
+            style={
+              trueFalse[index] ? { color: '#D2143C' } : { color: '#1E90FF' }
+            }
+          >
+            <div>
+              {trueFalse[index] ? <span>▲</span> : <span>▼</span>}
+              <Counter from={0} to={priceIncreasement[index]} />
+              원(
+              <CounterPer from={0} to={dataFlucauationRate[index]} />)
+            </div>
+          </div>
+        </div>
       </div>
-      <ReactApexChart
-        options={state.options}
-        series={state.series}
-        type="line"
-        height={350}
-      />
-      <ShowDate
-        toDay={props.toDay}
-        dayToTime={props.dayToTime}
-        stockPrice={stockPrice}
-        dataAmount={dataAmount}
-        totalDate={totalDate}
-        setIndex={setIndex}
-        state={state}
-        setState={setState}
-      />
+
+      <div className="stock-chart">
+        <div>
+          <ReactApexChart
+            options={state.options}
+            series={state.series}
+            type="line"
+            height={350}
+          />
+        </div>
+        <div>
+          <ShowDate
+            toDay={props.toDay}
+            dayToTime={props.dayToTime}
+            stockPrice={stockPrice}
+            dataAmount={dataAmount}
+            totalDate={totalDate}
+            setIndex={setIndex}
+            state={state}
+            setState={setState}
+          />
+        </div>
+      </div>
       <div>
         <button
           onClick={() => {

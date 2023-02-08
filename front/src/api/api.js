@@ -1,27 +1,71 @@
 import axios from 'axios';
 
 const BASE_URL = process.env.REACT_APP_BASE_UR;
-// const accessToken = localStorage.getItem('accessToken');
-const accessToken =
-  'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMmRidGtkQG5hdmVyLmNvbSIsInJvbGUiOiJST0xFX01FTUJFUiIsImV4cCI6MTY3NTkyODA5MX0.l8PakVypPfknRNDYzVqf5ZWabLipofBoPm6EjaKK6Gw';
+const accessToken = localStorage.getItem('accessToken');
 export const api = axios.create({
   baseURL: BASE_URL,
-  headers: {
-    Authorization: `Bearer ${accessToken}`,
-  },
   withCredentials: true,
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
+
+api.interceptors.request.use(function (config) {
+  const token = localStorage.getItem('accessToken');
+  config.headers.Authorization = token;
+
+  return config;
+});
+
+api.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (err) => {
+    const originalReq = err.config;
+    localStorage.setItem('accessToken', err.response.headers.authorization);
+    originalReq.headers['Authorization'] = err.response.headers.authorization;
+    return axios(originalReq);
+  },
+);
+//     return new Promise((resolve, reject) => {
+//       const originalReq = err.config;
+//       console.log(originalReq);
+//       if (err.response.status === 401) {
+//         let redirects = () => {
+//           return window.location.replace(`${BASE_URL}/login`);
+//         };
+//         resolve(redirects);
+//       } else {
+//         let res = () => {
+//           console.log(err.response.headers.Authorization);
+//           localStorage.setItem(
+//             'accessToken',
+//             err.response.headers.Authorization,
+//           );
+//           originalReq.headers['Authorization'] =
+//             err.response.headers.Authorization;
+//           return axios(originalReq);
+//         };
+//         resolve(res);
+//       }
+//       return reject(err);
+//     });
+//   },
+// );
 
 export default api;
 
 export const memberAPI = {
   asset: () => api.get(`/asset`),
+  stocks: () => api.get(`/asset/memberstock`),
+  intersetStocks: (date) => api.get(`/asset/intereststock/${date}`), //확인안됨
 };
 
 export const rankAPI = {
   increase: (date) => api.get(`/stockdata/rate/increase/${date}`),
   decrease: (date) => api.get(`/stockdata/rate/decrease/${date}`),
-  todayTop: (date) => api.get(`/stockdata/amount/top/${date}`), //백에서 미완성
+  todayTop: (date) => api.get(`/stockdata/amount/top/${date}`),
 };
 
 export const stockAPI = {
@@ -54,8 +98,7 @@ export const communityAPI = {
 };
 
 export const tradeAPI = {
-  getAllTrades: () => api.get(`/stockdeal`),
-  getBuyTrades: (types) =>
+  getAllTrades: (types) =>
     api.get(`/stockdeal`, { params: { stockdealtype: types } }),
   checkTrades: () => api.get(`/limitpriceorder`),
   buyStock: (
@@ -73,5 +116,14 @@ export const tradeAPI = {
       limitPriceOrderPrice: limitPriceOrderPrice,
       limitPriceOrderAmount: limitPriceOrderAmount,
       limitPriceOrderType: type,
+    }),
+};
+
+export const newsAPI = {
+  getNews: (stockCode, today) =>
+    api.post(`/info/news`, {
+      searchKeyword: stockCode,
+      startDate: today,
+      endDate: today + 1,
     }),
 };
