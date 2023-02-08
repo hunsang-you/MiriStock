@@ -1,23 +1,65 @@
 import axios from 'axios';
 
 const BASE_URL = process.env.REACT_APP_BASE_UR;
-// const accessToken = localStorage.getItem('accessToken');
-const accessToken =
-  'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0a2RndXNkbDYzQG5hdmVyLmNvbSIsInJvbGUiOiJST0xFX01FTUJFUiIsIm5pY2tuYW1lIjoi7IK87ISxIOqwpOufreyLnCDsoovslYTsmpQiLCJleHAiOjE2NzU3NzgwNDV9.jnKJDgIejGqVOTz_rszsOrY9J8hzCKR-zLoNz_4iBGU';
+const accessToken = localStorage.getItem('accessToken');
 export const api = axios.create({
   baseURL: BASE_URL,
-  headers: {
-    Authorization: `Bearer ${accessToken}`,
-  },
   withCredentials: true,
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
+
+api.interceptors.request.use(function (config) {
+  const token = localStorage.getItem('accessToken');
+  config.headers.Authorization = token;
+
+  return config;
+});
+
+api.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (err) => {
+    const originalReq = err.config;
+    localStorage.setItem('accessToken', err.response.headers.authorization);
+    originalReq.headers['Authorization'] = err.response.headers.authorization;
+    return axios(originalReq);
+  },
+);
+//     return new Promise((resolve, reject) => {
+//       const originalReq = err.config;
+//       console.log(originalReq);
+//       if (err.response.status === 401) {
+//         let redirects = () => {
+//           return window.location.replace(`${BASE_URL}/login`);
+//         };
+//         resolve(redirects);
+//       } else {
+//         let res = () => {
+//           console.log(err.response.headers.Authorization);
+//           localStorage.setItem(
+//             'accessToken',
+//             err.response.headers.Authorization,
+//           );
+//           originalReq.headers['Authorization'] =
+//             err.response.headers.Authorization;
+//           return axios(originalReq);
+//         };
+//         resolve(res);
+//       }
+//       return reject(err);
+//     });
+//   },
+// );
 
 export default api;
 
 export const memberAPI = {
   asset: () => api.get(`/asset`),
   stocks: () => api.get(`/asset/memberstock`),
-  intersetStocks: () => api.get(`/asset/intereststock`), //확인안됨
+  intersetStocks: (date) => api.get(`/asset/intereststock/${date}`), //확인안됨
 };
 
 export const rankAPI = {

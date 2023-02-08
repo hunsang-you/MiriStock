@@ -1,6 +1,5 @@
 import './css/Charts.css';
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 // import { stockAPI, api } from '../api/api'; // api 통신
 import mirilogo2 from '../static/mirilogo2.png';
 
@@ -8,11 +7,8 @@ import LineChart from '../components/chart/LineChart';
 import Financial from '../components/chart/Financial';
 import News from '../components/detail/News';
 import { Button } from '@mui/material';
-<<<<<<< front/src/pages/StockDetail.js
 import { AiFillStar } from 'react-icons/ai';
-=======
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
->>>>>>> front/src/pages/StockDetail.js
 
 const StockDetail = () => {
   const navigate = useNavigate();
@@ -20,7 +16,6 @@ const StockDetail = () => {
   const [toDay, setToDay] = useState(20181003);
   let { stockCode } = useParams();
   const location = useLocation();
-  const navigate = useNavigate();
   // 날짜데이터를 시간으로 변환하는 함수
   const dayToTime = (date) => {
     let year, month, day, time;
@@ -37,9 +32,7 @@ const StockDetail = () => {
   };
   // 오늘날짜 -> 종목명
   const [stockInfo, setStockInfo] = useState('');
-<<<<<<< front/src/pages/StockDetail.js
   const [isFavorite, setIsFavorite] = useState(true);
-=======
   useEffect(() => {
     if (location.state) {
       console.log(location.state);
@@ -48,35 +41,6 @@ const StockDetail = () => {
       navigate('/');
     }
   }, [location]);
-  // 왜 했던건지 기억이 나지않아 주석 =================================
-  // const [stockData, setStockData] = useState([]);
-  // const [series, setSeries] = useState([
-  //   {
-  //     name: '오늘의 주식 종가',
-  //     data: stockData,
-  //   },
-  // ]);
-
-  // useEffect(() => {
-  //   //   console.log("들어가버려");
-  //   setSeries([
-  //     {
-  //       name: '오늘의 주식 종가',
-  //       data: stockData,
-  //     },
-  //   ]);
-  // }, [stockData]);
-  // const inserData = () => {
-  //   if (stockData.length === 50) {
-  //     let copy = [...stockData];
-  //     copy.shift();
-  //     copy.push(Math.random() * 100);
-  //     setStockData(copy);
-  //   } else {
-  //     setStockData([...stockData, Math.random() * 100]);
-  //   }
-  // };  // ===========================================================
->>>>>>> front/src/pages/StockDetail.js
 
   return (
     <div className="main-container">
