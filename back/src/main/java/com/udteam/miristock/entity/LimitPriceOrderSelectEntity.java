@@ -21,16 +21,16 @@ public class LimitPriceOrderSelectEntity {
     @Column(name = "stock_name")
     String stockName;
     @Column(name = "stockdata_closing_price")
-    Long stockDataClosingPrice;
+    Integer stockDataClosingPrice;
     @Column(name = "stockdata_amount")
     Long stockDataAmount;
     @Column(name = "stockdata_price_increasement")
-    Long stockDataPriceIncreasement;
+    Integer stockDataPriceIncreasement;
     @Column(name = "stockdata_flucauationrate")
     Float stockDataFlucauationRate;
 
     @Column(name = "limitpriceorder_price")
-    Long limitPriceOrderPrice;
+    Integer limitPriceOrderPrice;
 
     @Column(name = "limitpriceorder_amount")
     Long limitPriceOrderAmount;

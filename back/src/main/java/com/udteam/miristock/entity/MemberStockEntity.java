@@ -34,19 +34,12 @@ public class MemberStockEntity {
     @Column(name = "memberstock_avgprice")
     private Long memberStockAvgPrice;
 
-    @Column(name = "memberstock_avgpricesum")
-    private Long memberStockAvgPriceSum;
+    @Column(name = "memberstock_acc_purchaseprice")
+    private Long memberStockAccPurchasePrice;
 
-    @Column(name = "memberstock_curprice")
-    private Long memberStockCurPrice;
-
-    @Column(name = "memberstock_curpricesum")
-    private Long memberStockCurPriceSum;
+    @Column(name = "memberstock_acc_sellprice")
+    private Long memberStockAccSellPrice;
 
     @Column(name = "memberstock_acc_earnrate")
     private Float memberStockAccEarnRate;
-
-    @Column(name = "memberstock_acc_earnprice")
-    private Long memberStockAccEarnPrice;
-
 }

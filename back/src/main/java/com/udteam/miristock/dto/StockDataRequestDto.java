@@ -14,9 +14,9 @@ public class StockDataRequestDto {
     private String stockCode;
     private String stockName;
     private Integer stockDataDate;
-    private Integer stockDataClosingPrice;
+    private Long stockDataClosingPrice;
     private Long stockDataAmount;
-    private Integer stockDataPriceIncreasement;
+    private Long stockDataPriceIncreasement;
     private Float stockDataFlucauationRate;
 
     public StockDataEntity toEntity(){

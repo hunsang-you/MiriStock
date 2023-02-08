@@ -31,11 +31,11 @@ public class StockDealEntity {
     @Column(name = "stockdeal_date")
     private Integer stockDealDate;
 
-    @Column(name = "stockdeal_buy_closing_price")
-    private Integer stockDealBuyClosingPrice;
+    @Column(name = "stockdeal_order_closing_price")
+    private Long stockDealOrderClosingPrice;
 
-    @Column(name = "stockdeal_sell_closing_price")
-    private Integer stockDealSellClosingPrice;
+    @Column(name = "stockdeal_avg_closing_price")
+    private Long stockDealAvgClosingPrice;
 
     @Column(name = "stockdeal_amount")
     private Long stockDealAmount;

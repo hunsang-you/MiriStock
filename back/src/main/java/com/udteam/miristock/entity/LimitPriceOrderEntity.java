@@ -33,10 +33,10 @@ public class LimitPriceOrderEntity {
     private Integer memberNo;
 
     @Column(name = "limitpriceorder_price")
-    private Integer limitPriceOrderPrice;
+    private Long limitPriceOrderPrice;
 
     @Column(name = "limitpriceorder_amount")
-    private Integer limitPriceOrderAmount;
+    private Long limitPriceOrderAmount;
 
     @Column(name = "limitpriceorder_type")
     @Enumerated(EnumType.STRING)
