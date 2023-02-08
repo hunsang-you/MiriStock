@@ -17,6 +17,16 @@ api.interceptors.request.use(function (config) {
   return config;
 });
 
+api.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  async (error) => {
+    console.log(error);
+    return error;
+  },
+);
+
 export default api;
 
 export const memberAPI = {
