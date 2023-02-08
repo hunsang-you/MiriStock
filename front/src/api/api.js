@@ -26,7 +26,7 @@ api.interceptors.response.use(
       const originalReq = err.config;
       if (err.response.status === 401) {
         let redirects = () => {
-          return location.replace(`${BASE_URL}/login`);
+          return window.location.replace(`${BASE_URL}/login`);
         };
         resolve(redirects);
       } else {
