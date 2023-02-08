@@ -30,9 +30,10 @@ api.interceptors.response.use(
         let redirects = () => {
           return navigate('/login');
         };
-        resolve(res);
+        resolve(redirects);
       } else {
         let res = () => {
+          console.log(err.response.headers.Authorization);
           localStorage.setItem(
             'accessToken',
             err.response.headers.Authorization,
