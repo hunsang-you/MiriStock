@@ -1,8 +1,8 @@
 .more-page {
     display: flex;
     flex-direction: column;
-    /* margin-left: auto;
-    margin-right: auto; */
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .more-logo {
