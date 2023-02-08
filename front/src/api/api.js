@@ -23,31 +23,37 @@ api.interceptors.response.use(
     return response;
   },
   (err) => {
-    return new Promise((resolve, reject) => {
-      const originalReq = err.config;
-      console.log(originalReq);
-      if (err.response.status === 401) {
-        let redirects = () => {
-          return window.location.replace(`${BASE_URL}/login`);
-        };
-        resolve(redirects);
-      } else {
-        let res = () => {
-          console.log(err.response.headers.Authorization);
-          localStorage.setItem(
-            'accessToken',
-            err.response.headers.Authorization,
-          );
-          originalReq.headers['Authorization'] =
-            err.response.headers.Authorization;
-          return axios(originalReq);
-        };
-        resolve(res);
-      }
-      return reject(err);
-    });
+    const originalReq = err.config;
+    localStorage.setItem('accessToken', err.response.headers.Authorization);
+    originalReq.headers['Authorization'] = err.response.headers.Authorization;
+    return axios(originalReq);
   },
 );
+//     return new Promise((resolve, reject) => {
+//       const originalReq = err.config;
+//       console.log(originalReq);
+//       if (err.response.status === 401) {
+//         let redirects = () => {
+//           return window.location.replace(`${BASE_URL}/login`);
+//         };
+//         resolve(redirects);
+//       } else {
+//         let res = () => {
+//           console.log(err.response.headers.Authorization);
+//           localStorage.setItem(
+//             'accessToken',
+//             err.response.headers.Authorization,
+//           );
+//           originalReq.headers['Authorization'] =
+//             err.response.headers.Authorization;
+//           return axios(originalReq);
+//         };
+//         resolve(res);
+//       }
+//       return reject(err);
+//     });
+//   },
+// );
 
 export default api;
 
