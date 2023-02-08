@@ -8,12 +8,15 @@ const History = () => {
   const [searchHistory, setSearchHistory] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
-    searchAPI
-      .getSearchHis()
-      .then((request) => {
-        setSearchHistory(request.data);
-      })
-      .catch((err) => console.log(err));
+    const getHistory = async () => {
+      await searchAPI
+        .getSearchHis()
+        .then((request) => {
+          setSearchHistory(request.data);
+        })
+        .catch((err) => console.log(err));
+    };
+    getHistory();
   }, []);
   return (
     <div className="watch-list">
@@ -35,7 +38,8 @@ const History = () => {
               <div>{stock.stockName}</div>
               <div>{stock.stockCode}</div>
               <button
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   console.log(stock.searchNo);
                   searchAPI
                     .deleteSearchHis(stock.searchNo)

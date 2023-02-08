@@ -1,7 +1,9 @@
 .portfolio-page {
     display: flex;
     flex-direction: column;
+
 }
+
 
 .portfolio-page * {
     font-family: var(--font-IbmPlexSansKrLightRegular);
@@ -9,14 +11,26 @@
 
 .portfolio-asset {
     display: flex;
-    margin-left: 6vw;
-    margin-right: 6vw;
     border: 2px solid #6DCEF5;
     border-radius: 10px;
-    justify-content: space-between;
-    
+    justify-content: space-between;   
 }
 
+.port-name {
+    text-align: left;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.portfolio-charts {
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.port-result {
+    position: relative;
+}
 
 #start-asset {
     margin-top: 2vh;
@@ -43,8 +57,6 @@
 
 .portfolio-result2 {
     margin-top: 24px;
-    margin-left: 6vw;
-    margin-right: 6vw;
     border: 2px solid #6DCEF5;
     border-radius: 10px;
     margin-bottom: 4vh;
