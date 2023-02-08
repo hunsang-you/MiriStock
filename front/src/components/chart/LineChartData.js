@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { api } from '../../api/api'; // api 통신
+import { stockAPI } from '../../api/api'; // api 통신
 
 import './css/detail.css';
 
@@ -25,14 +25,8 @@ const LineChartData = (props) => {
       const newPriceIncreasement = [];
       const newDataFlucauationRate = [];
       const newTrueFalse = [];
-      await api
-        .get(`/stockdata/detail`, {
-          params: {
-            stockCode: data1,
-            startDate: data2,
-            endDate: data3,
-          },
-        })
+      await stockAPI
+        .stockDetail(data1, data2, data3)
         .then((request) => {
           const reqData = request;
           const todayidx = reqData.data.length - 1;

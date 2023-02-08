@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { api } from '../../api/api'; // api 통신
+import { stockAPI } from '../../api/api'; // api 통신
 
 const FinancialData = (props) => {
   // financialYear={financialYear}
@@ -16,8 +16,8 @@ const FinancialData = (props) => {
       let salesData = [];
       let operatingData = [];
       let incomeData = [];
-      await api
-        .get(`/info/financialstatement/${stockCode}`)
+      await stockAPI
+        .financialStatement(stockCode)
         .then((request) => {
           const reqData = request;
           for (let i = 0; i < props.idx; i++) {
