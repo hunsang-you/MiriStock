@@ -24,8 +24,8 @@ api.interceptors.response.use(
   },
   (err) => {
     const originalReq = err.config;
-    localStorage.setItem('accessToken', err.response.headers.Authorization);
-    originalReq.headers['Authorization'] = err.response.headers.Authorization;
+    localStorage.setItem('accessToken', err.response.headers.authorization);
+    originalReq.headers['Authorization'] = err.response.headers.authorization;
     return axios(originalReq);
   },
 );
