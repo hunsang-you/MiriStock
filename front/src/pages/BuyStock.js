@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { userStore } from '../store';
 import { stockAPI } from '../api/api';
 
-import Keypad from '../components/trade/Keypad';
+import { Persent, Keypad, TradeBotton } from '../components/trade';
 
 const BuyStock = () => {
   const { user } = userStore((state) => state);
@@ -13,20 +13,34 @@ const BuyStock = () => {
 
   const [stockInfo, setStockInfo] = useState();
 
+  const [hopePrice, setHopePrice] = useState(0);
   // console.log(stockCode);
   useEffect(() => {
     const use = async () => {
       const reqData = await stockAPI.stockDetail(stockCode, today, today);
+      console.log(reqData.data);
       setStockInfo({ ...reqData.data });
       console.log(stockInfo);
     };
     use();
   }, []);
-
   return (
     <div>
-      <h1>Trade</h1>
-      <Keypad />
+      <div className="detail-header">
+        <strong
+          style={{ fontSize: '24px' }}
+          onClick={() => {
+            navigate(-1);
+          }}
+        >
+          〈
+        </strong>
+        <div>123</div>
+      </div>
+      <h1>{hopePrice}</h1>
+      <Persent />
+      <Keypad hopePrice={hopePrice} setHopePrice={setHopePrice} />
+      <TradeBotton />
     </div>
   );
 };
