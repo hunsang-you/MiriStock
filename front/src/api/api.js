@@ -4,15 +4,17 @@ const BASE_URL = process.env.REACT_APP_BASE_UR;
 const accessToken = localStorage.getItem('accessToken');
 export const api = axios.create({
   baseURL: BASE_URL,
-  headers: {
-    Authorization: `Bearer ${accessToken}`,
-  },
   withCredentials: true,
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
 
-api.interceptors.response.use(function (response) {
-  console.log(response);
-  return response;
+api.interceptors.request.use(function (config) {
+  const token = localStorage.getItem('accessToken');
+  config.headers.Authorization = 'Bearer' + token;
+
+  return config;
 });
 
 export default api;
