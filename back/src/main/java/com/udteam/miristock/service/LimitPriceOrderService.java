@@ -8,6 +8,7 @@ import com.udteam.miristock.entity.Deal;
 import com.udteam.miristock.entity.LimitPriceOrderEntity;
 import com.udteam.miristock.repository.LimitPriceOrderCustomRepository;
 import com.udteam.miristock.repository.LimitPriceOrderRepository;
+import com.udteam.miristock.repository.MemberAssetRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ public class LimitPriceOrderService {
     private final LimitPriceOrderCustomRepository limitPriceOrderCustomRepository;
 
     public List<LimitPriceOrderDto> findAll(Integer memberNo, Deal limitPriceOrderType) {
+
         List<LimitPriceOrderEntity> limitPriceOrderEntityList = limitPriceOrderCustomRepository.findAllByMemberNoAndLimitPriceOrderType(memberNo, limitPriceOrderType);
         return limitPriceOrderEntityList.stream()
                 .map(LimitPriceOrderDto::new)
