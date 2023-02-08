@@ -60,7 +60,7 @@ public class SecurityConfig{
                 .logoutSuccessHandler(logoutSuccessHandler)
                 .logoutSuccessUrl("/")
                 .and()
-//                .addFilterBefore(new JwtAuthenticationFilter(tokenservice,redisUtil,cookieUtil,redisRepository), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtAuthenticationFilter(tokenservice,redisUtil,cookieUtil,redisRepository), UsernamePasswordAuthenticationFilter.class)
                 .oauth2Login()
                 .successHandler(oAuth2SuccessHandler)
                 .userInfoEndpoint()

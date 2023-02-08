@@ -65,13 +65,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             try {
                 // request의 Cookie에서 refresh token 추출
                 refreshtoken = cookieUtil.getRefreshTokenCookie(request);
-                String email = tokenservice.getEmail(refreshtoken);
+                String email=null;
+                try {
+                    email = tokenservice.getEmail(refreshtoken);
+                }catch(Exception a){
+                    throw new JwtException("RefreshToken Expired or Error");
+                }
                 // Redis를 통한 리프레쉬 토큰 검증
-                log.info("Redis Refresh check = {}",redisUtil.getData(email));
+//                log.info("Redis Refresh check = {}",redisUtil.getData(email));
                 if(redisUtil.getData(email)==null || tokenservice.getExpiredTokenClaims(refreshtoken)){
                     log.info ("Refreshtoken Expired");
                     throw new JwtException("RefreshToken Expired");
                 }
+
                 String nickname = tokenservice.getPayload(refreshtoken,"nickname");
                 String role = tokenservice.getPayload(refreshtoken,"role");
                 log.info("ROLE = {}" ,role);
