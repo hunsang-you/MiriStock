@@ -1,7 +1,5 @@
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
-const navigate = useNavigate();
 const BASE_URL = process.env.REACT_APP_BASE_UR;
 const accessToken = localStorage.getItem('accessToken');
 export const api = axios.create({
@@ -28,7 +26,7 @@ api.interceptors.response.use(
       const originalReq = err.config;
       if (err.response.status === 401) {
         let redirects = () => {
-          return navigate('/login');
+          return location.replace(`${BASE_URL}/login`);
         };
         resolve(redirects);
       } else {
