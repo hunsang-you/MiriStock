@@ -1,5 +1,7 @@
 import axios from 'axios';
+import { Navigate } from 'react-router-dom';
 
+const navigate = Navigate();
 const BASE_URL = process.env.REACT_APP_BASE_UR;
 const accessToken = localStorage.getItem('accessToken');
 export const api = axios.create({
@@ -12,7 +14,7 @@ export const api = axios.create({
 
 api.interceptors.request.use(function (config) {
   const token = localStorage.getItem('accessToken');
-  config.headers.Authorization = 'Bearer ' + token;
+  config.headers.Authorization = token;
 
   return config;
 });
@@ -21,9 +23,28 @@ api.interceptors.response.use(
   (response) => {
     return response;
   },
-  async (error) => {
-    console.log(error);
-    return error;
+  (error) => {
+    return new Promise((resolve, reject) => {
+      const originalReq = err.config;
+      if (err.response.status === 401) {
+        let redirects = () => {
+          return navigate('/login');
+        };
+        resolve(res);
+      } else {
+        let res = () => {
+          localStorage.setItem(
+            'accessToken',
+            err.response.headers.Authorization,
+          );
+          originalReq.headers['Authorization'] =
+            err.response.headers.Authorization;
+          return axios(originalReq);
+        };
+        resolve(res);
+      }
+      return reject(err);
+    });
   },
 );
 
