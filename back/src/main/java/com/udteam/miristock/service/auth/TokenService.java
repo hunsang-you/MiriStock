@@ -33,6 +33,7 @@ public class TokenService {
         claims.put("role", role);
         claims.put("nickname", nickname);
         Date now = new Date();
+        log.info("Expire Time = {}",new Date(now.getTime()+ (tokentype.equals("ACCESS") ? accessPeriod : refreshPeriod)));
         return Jwts.builder()
                 .setClaims(claims)
                 .setExpiration(new Date(now.getTime() + (tokentype.equals("ACCESS") ? accessPeriod : refreshPeriod)))
@@ -64,16 +65,16 @@ public class TokenService {
         return (String) Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get(className,String.class);
     }
 
-    public Claims getExpiredTokenClaims(String token) {
+    public boolean getExpiredTokenClaims(String token) {
         try {
             Jwts.parser()
                     .setSigningKey(secretKey)
                     .parseClaimsJws(token)
                     .getBody();
         } catch (ExpiredJwtException e) {
-            log.info("Expired JWT token");
-            return e.getClaims();
+            log.info("Expired JWT Refresh token");
+            return true;
         }
-        return null;
+        return false;
     }
 }

@@ -68,7 +68,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 String email = tokenservice.getEmail(refreshtoken);
                 // Redis를 통한 리프레쉬 토큰 검증
                 log.info("Redis Refresh check = {}",redisUtil.getData(email));
-                if(redisUtil.getData(email)==null){
+                if(redisUtil.getData(email)==null || tokenservice.getExpiredTokenClaims(refreshtoken)){
                     log.info ("Refreshtoken Expired");
                     throw new JwtException("RefreshToken Expired");
                 }
