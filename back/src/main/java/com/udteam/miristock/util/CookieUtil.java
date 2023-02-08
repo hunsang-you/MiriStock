@@ -19,7 +19,7 @@ public class CookieUtil {
                 .maxAge(time)
                 .path("/")
                 .secure(true)
-                .sameSite("Lax")
+                .sameSite("None")
                 .httpOnly(true)
                 .build();
     }

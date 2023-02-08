@@ -1,22 +1,17 @@
 package com.udteam.miristock.controller;
 
-import com.udteam.miristock.config.ErrorMessage;
+import com.udteam.miristock.util.ErrorMessage;
 import com.udteam.miristock.dto.CommentRequestDto;
 import com.udteam.miristock.dto.CommentResponseDto;
-import com.udteam.miristock.dto.LimitPriceOrderDto;
 import com.udteam.miristock.dto.MemberDto;
 import com.udteam.miristock.service.CommentService;
 import com.udteam.miristock.service.MemberService;
 import com.udteam.miristock.util.HeaderUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Slf4j
 @RestController

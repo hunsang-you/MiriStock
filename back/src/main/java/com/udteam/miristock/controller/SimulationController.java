@@ -1,6 +1,6 @@
 package com.udteam.miristock.controller;
 
-import com.udteam.miristock.config.ErrorMessage;
+import com.udteam.miristock.util.ErrorMessage;
 import com.udteam.miristock.dto.MemberAssetDto;
 import com.udteam.miristock.dto.MemberDto;
 import com.udteam.miristock.dto.RequestSimulationDto;
@@ -10,7 +10,6 @@ import com.udteam.miristock.service.MemberService;
 import com.udteam.miristock.service.SimulationService;
 import com.udteam.miristock.util.HeaderUtil;
 import io.swagger.annotations.ApiOperation;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

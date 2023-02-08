@@ -1,6 +1,6 @@
 package com.udteam.miristock.controller;
 
-import com.udteam.miristock.config.ErrorMessage;
+import com.udteam.miristock.util.ErrorMessage;
 import com.udteam.miristock.dto.ArticleResponseDto;
 import com.udteam.miristock.dto.ArticleRequestDto;
 import com.udteam.miristock.dto.ArticleCUDResponseDto;

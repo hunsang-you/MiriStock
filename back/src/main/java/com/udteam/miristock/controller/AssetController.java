@@ -8,6 +8,7 @@ import com.udteam.miristock.service.InterestService;
 import com.udteam.miristock.service.MemberAssetService;
 import com.udteam.miristock.service.MemberService;
 import com.udteam.miristock.util.HeaderUtil;
+import com.udteam.miristock.util.ReturnMessage;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -81,7 +82,7 @@ public class AssetController {
         MemberDto m = memberService.selectOneMember(token);
         if (m == null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }else {
+        } else {
             return ResponseEntity.ok().body(interestService.insertIntereststock(m.getMemberNo(), stockcode));
         }
     }
@@ -91,10 +92,11 @@ public class AssetController {
     public ResponseEntity<String> deleteIntereststock(@RequestHeader String Authorization,@RequestParam String stockcode) {
         String token= HeaderUtil.getAccessTokenString(Authorization);
         MemberDto m = memberService.selectOneMember(token);
-        if(m == null){
+        if (m == null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }else{
-            return ResponseEntity.ok().body(interestService.deleteIntereststock(m.getMemberNo(), stockcode));
+        } else {
+            interestService.deleteIntereststock(m.getMemberNo(), stockcode);
+            return ResponseEntity.ok().body(ReturnMessage.DELETE_SUCCESS);
         }
     }
 
