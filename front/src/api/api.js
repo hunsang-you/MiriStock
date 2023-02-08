@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-const navigate = Navigate();
+const navigate = useNavigate();
 const BASE_URL = process.env.REACT_APP_BASE_UR;
 const accessToken = localStorage.getItem('accessToken');
 export const api = axios.create({
