@@ -9,5 +9,13 @@ export const theme = createTheme({
       // dark: main값을 통해 계산됨
       // contrastText: main값을 통해 계산됨
     },
+    red: {
+      main: '#D2143C',
+      light: '#D2143C',
+    },
+    blue: {
+      main: '#1E5DFF',
+      light: '#1E5DFF',
+    },
   },
 });
