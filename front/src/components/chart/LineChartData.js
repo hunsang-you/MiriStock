@@ -26,7 +26,7 @@ const LineChartData = (props) => {
       const newDataFlucauationRate = [];
       const newTrueFalse = [];
       await api
-        .get(`stockdata/detail`, {
+        .get(`/stockdata/detail`, {
           params: {
             stockCode: data1,
             startDate: data2,
