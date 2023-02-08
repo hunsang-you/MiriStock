@@ -8,7 +8,8 @@ function Redirect() {
       try {
         const url = new URL(document.location).searchParams;
         const accessToken = url.get('accesstoken');
-        localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem('accessToken', 'Bearer ' + accessToken);
+        console.log(localStorage.getItem('accessToken'));
         navigate('/', { replace: true }); //닉네임 있으면 홈 없으면 설정창으로 가게 만들기나중에~
       } catch (e) {
         console.log(e);

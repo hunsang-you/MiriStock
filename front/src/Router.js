@@ -6,7 +6,7 @@ import {
   Asset,
   Community,
   More,
-  StockDetail,
+  Stock,
   Redirect,
 } from './pages';
 import React from 'react';
@@ -15,7 +15,7 @@ const Router = () => {
   return (
     <Routes>
       <Route path="/*" element={<Home />} />
-      <Route path="/stockdetail/:id/*" element={<StockDetail />}></Route>
+      <Route path="/stock/:stockCode/*" element={<Stock />}></Route>
       <Route path="/login/*" element={<Login />}></Route>
       <Route path="/search" element={<Search />}></Route>
       <Route path="/asset" element={<Asset />}></Route>
