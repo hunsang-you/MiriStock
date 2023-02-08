@@ -19,7 +19,6 @@ api.interceptors.request.use(function (config) {
 
 api.interceptors.response.use(
   (response) => {
-    console.log('성공적인응답');
     return response;
   },
   (err) => {
