@@ -66,15 +66,15 @@ const ChangeName = () => {
         </div>
       </div>
 
-      <div className="createBtn">
+      <div className="Btn">
         <div className="more-back">
           <Button
             id="createBtn"
             variant="outlined"
-            size="large"
             onClick={() => {
               navigate(-1);
             }}
+            disableElevation
           >
             뒤로가기
           </Button>
@@ -82,8 +82,9 @@ const ChangeName = () => {
         <div className="more-ok">
           <Button
             id="createBtn"
-            variant="outlined"
-            size="large"
+            variant="contained"
+            style={{ color: 'white' }}
+            disableElevation
             onClick={() => {
               navigate(-1);
             }}
