@@ -67,3 +67,11 @@
   background-color: #6DCEF5;
   color: white;
 }
+
+.logo {
+  
+  margin-left : auto;
+  margin-right : auto;
+  width: 54vw;
+  height: 27vh;
+}

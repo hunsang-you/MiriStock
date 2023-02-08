@@ -23,9 +23,14 @@ api.interceptors.response.use(
   },
   (err) => {
     const originalReq = err.config;
-    localStorage.setItem('accessToken', err.response.headers.authorization);
-    originalReq.headers['Authorization'] = err.response.headers.authorization;
-    return axios(originalReq);
+    if (err.response.headers.authorization) {
+      localStorage.setItem('accessToken', err.response.headers.authorization);
+      originalReq.headers['Authorization'] = err.response.headers.authorization;
+      return axios(originalReq);
+    } else {
+      console.log('checkchekchekchekchekchchekcchekcchekchekchek');
+      return window.location.replace(`${BASE_URL}/login`);
+    }
   },
 );
 //     return new Promise((resolve, reject) => {
