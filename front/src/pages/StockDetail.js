@@ -1,8 +1,12 @@
 import './css/Charts.css';
 import { useState, useEffect } from 'react';
+<<<<<<< front/src/pages/StockDetail.js
+// import { stockAPI } from '../api/api'; // api 통신
+=======
 // import { stockAPI, api } from '../api/api'; // api 통신
+>>>>>>> front/src/pages/StockDetail.js
 import mirilogo2 from '../static/mirilogo2.png';
-
+import { userStore } from '../store';
 import LineChart from '../components/chart/LineChart';
 import Financial from '../components/chart/Financial';
 import News from '../components/detail/News';
@@ -11,20 +15,19 @@ import { AiFillStar } from 'react-icons/ai';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 
 const StockDetail = () => {
+  const { user } = userStore((state) => state);
+  console.log(user);
   const navigate = useNavigate();
   // 오늘 날짜
-  const [toDay, setToDay] = useState(20181003);
+  const [toDay, setToDay] = useState(user.memberassetCurrentTime);
   let { stockCode } = useParams();
   const location = useLocation();
   // 날짜데이터를 시간으로 변환하는 함수
   const dayToTime = (date) => {
     let year, month, day, time;
     year = parseInt(date / 10000);
-    // console.log(year);
     month = parseInt((date - year * 10000) / 100) - 1;
-    // console.log(month);
     day = date - year * 10000 - (month + 1) * 100;
-    // console.log(day);
     time = new Date(year, month, day);
     // console.log(time.getTime());
     // console.log(year, month, day);
@@ -32,10 +35,13 @@ const StockDetail = () => {
   };
   // 오늘날짜 -> 종목명
   const [stockInfo, setStockInfo] = useState('');
+<<<<<<< front/src/pages/StockDetail.js
+
+=======
+>>>>>>> front/src/pages/StockDetail.js
   const [isFavorite, setIsFavorite] = useState(true);
   useEffect(() => {
     if (location.state) {
-      console.log(location.state);
       setStockInfo(location.state.stockName);
     } else {
       navigate('/');
@@ -43,7 +49,7 @@ const StockDetail = () => {
   }, [location]);
 
   return (
-    <div className="main-container">
+    <div>
       <div className="detail-header">
         <strong
           style={{ fontSize: '24px' }}
@@ -87,6 +93,9 @@ const StockDetail = () => {
           variant="contained"
           color="primary"
           disableElevation
+          onClick={() => {
+            navigate(`buyStock`);
+          }}
         >
           매수
         </Button>
@@ -95,6 +104,9 @@ const StockDetail = () => {
           variant="contained"
           color="primary"
           disableElevation
+          onClick={() => {
+            navigate(`sellStock`);
+          }}
         >
           매도
         </Button>
