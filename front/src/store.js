@@ -25,6 +25,7 @@ const userStore = create(
     { name: 'userStore' },
   ),
 );
+//보유주식 저장
 
 //검색기록 스토리지용
 const insertWatchData = (history, data) => {

@@ -62,8 +62,8 @@ const HomeMain = () => {
       <button
         onClick={() => {
           memberAPI
-            .stocks()
-            .then((request) => console.log(request))
+            .intersetStocks(20180102)
+            .then((request) => console.log(request.data))
             .catch((err) => console.log(err));
         }}
       >

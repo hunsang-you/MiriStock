@@ -1,9 +1,8 @@
 import axios from 'axios';
 
 const BASE_URL = process.env.REACT_APP_BASE_UR;
-// const accessToken = localStorage.getItem('accessToken');
-const accessToken =
-  'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0a2RndXNkbDYzQG5hdmVyLmNvbSIsInJvbGUiOiJST0xFX01FTUJFUiIsIm5pY2tuYW1lIjoi7IK87ISxIOqwpOufreyLnCDsoovslYTsmpQiLCJleHAiOjE2NzU3NzgwNDV9.jnKJDgIejGqVOTz_rszsOrY9J8hzCKR-zLoNz_4iBGU';
+const accessToken = localStorage.getItem('accessToken');
+console.log(accessToken);
 export const api = axios.create({
   baseURL: BASE_URL,
   headers: {
@@ -12,12 +11,17 @@ export const api = axios.create({
   withCredentials: true,
 });
 
+api.interceptors.response.use(function (response) {
+  console.log(response);
+  return response;
+});
+
 export default api;
 
 export const memberAPI = {
   asset: () => api.get(`/asset`),
   stocks: () => api.get(`/asset/memberstock`),
-  intersetStocks: () => api.get(`/asset/intereststock`), //확인안됨
+  intersetStocks: (date) => api.get(`/asset/intereststock/${date}`), //확인안됨
 };
 
 export const rankAPI = {
