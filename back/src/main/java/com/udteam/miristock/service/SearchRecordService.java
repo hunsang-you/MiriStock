@@ -20,13 +20,13 @@ public class SearchRecordService {
     }
 
     @Transactional
-    public Integer save(SearchRecordEntity searchRecordEntity) {
-        return searchRecordRepository.save(searchRecordEntity).getMemberNo();
+    public SearchRecordEntity save(SearchRecordEntity searchRecordEntity) {
+        return searchRecordRepository.saveAndFlush(searchRecordEntity);
     }
 
     @Transactional
-    public void delete(Integer searchNo) {
-        searchRecordRepository.delete(SearchRecordEntity.builder().searchNo(searchNo).build());
+    public void delete(Integer memberNo, String stockCode) {
+        searchRecordRepository.deleteByMemberNoAndStockCode(memberNo, stockCode);
     }
 
 }

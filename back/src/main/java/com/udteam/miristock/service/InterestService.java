@@ -36,9 +36,8 @@ public class InterestService {
                 .build()));
     }
 
-    public String deleteIntereststock(Integer id, String stockCode){
+    public void deleteIntereststock(Integer id, String stockCode){
         interestRepository.deleteByMember_MemberNoAndStock_StockCode(id,stockCode);
-        return "삭제 완료";
     }
 }
 

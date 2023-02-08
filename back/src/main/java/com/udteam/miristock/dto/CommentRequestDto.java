@@ -19,7 +19,8 @@ public class CommentRequestDto {
     private Integer memberNo; //
     private String memberNickname; // 작성자 닉네임
     private String commentContent; // 내용
-    private LocalDateTime commentDate; // 작성시간
+    private LocalDateTime commentCreateDate; // 작성시간
+    private LocalDateTime commentModifyDate;
 
 
     public CommentEntity toEntity() {
@@ -29,7 +30,8 @@ public class CommentRequestDto {
                 .memberNo(memberNo)
                 .memberNickname(memberNickname)
                 .commentContent(commentContent)
-                .commentDate(commentDate)
+                .commentCreateDate(commentCreateDate)
+                .commentModifyDate(commentModifyDate)
                 .build();
     }
 

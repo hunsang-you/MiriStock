@@ -6,6 +6,7 @@ import com.udteam.miristock.dto.StockDataResponseDto;
 import com.udteam.miristock.entity.StockDataEntity;
 import com.udteam.miristock.repository.StockDataCustomRepository;
 import com.udteam.miristock.repository.StockDataRepository;
+import com.udteam.miristock.util.ErrorMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,6 +46,19 @@ public class StockDataService {
         return stockDataCustomRepository.findStockData(searchStartDate, searchEndDate, searchStockCode)
                 .stream().map(StockDataResponseDto::new)
                 .collect(Collectors.toList());
+    }
+
+    // 날짜 기반 주식 종목 코드, 주식 종목명 검색 서비스
+    public Object findByStock(String keyword, Integer stockDataDate) {
+        if(keyword == null || keyword.equals("")) return ErrorMessage.PARAMETER_NULL;
+        try {
+            Double.parseDouble(keyword);
+            return stockDataRepository.findAllByStockCodeStartingWithAndStockDataDateOrderByStockCodeAsc(keyword, stockDataDate);
+        } catch (NumberFormatException e){
+            return stockDataRepository.findAllByStockNameStartingWithAndStockDataDateOrderByStockCodeAsc(keyword, stockDataDate);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 }

@@ -13,16 +13,18 @@ import java.time.LocalDateTime;
 public class CommentResponseDto {
     private Integer commentNo;
     private String commentContent;
-    private String memberNickname;
-    private LocalDateTime commentDate; // 작성시간
     private Integer articleNo; // 글 번호
+    private String memberNickname;
+    private LocalDateTime commentCreateDate; // 작성시간
+    private LocalDateTime commentModifyDate;
 
     public CommentResponseDto(CommentEntity entity){
         this.commentNo = entity.getCommentNo();
         this.commentContent = entity.getCommentContent();
         this.memberNickname = entity.getMemberNickname();
-        this.commentDate = entity.getCommentDate();
         this.articleNo = entity.getArticle().getArticleNo();
+        this.commentCreateDate = entity.getCommentCreateDate();
+        this.commentModifyDate = entity.getCommentModifyDate();
     }
 
 }

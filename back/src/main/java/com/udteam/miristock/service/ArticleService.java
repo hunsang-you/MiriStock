@@ -2,6 +2,7 @@ package com.udteam.miristock.service;
 
 import com.udteam.miristock.dto.ArticleResponseDto;
 import com.udteam.miristock.dto.ArticleRequestDto;
+import com.udteam.miristock.dto.ArticleCUDResponseDto;
 import com.udteam.miristock.entity.ArticleEntity;
 import com.udteam.miristock.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,18 +30,13 @@ public class ArticleService {
     }
 
     @Transactional // 메서드 실행시 트랜잭션 시작, 정상종료되면 커밋, 에러발생시 종료
-    public Integer save(ArticleRequestDto articleRequestDto) {
-        return articleRepository.save(articleRequestDto.toEntity()).getArticleNo();
+    public ArticleCUDResponseDto save(ArticleRequestDto articleRequestDto) {
+        return new ArticleCUDResponseDto(articleRepository.saveAndFlush(articleRequestDto.toEntity()));
     }
 
     @Transactional
-    public Integer update(ArticleRequestDto articleRequestDto) {
-        return articleRepository.save(articleRequestDto.toEntity()).getArticleNo();
-    }
-
-    @Transactional
-    public void delete(Integer articleNo) {
-        articleRepository.delete(ArticleEntity.builder().articleNo(articleNo).build());
+    public void delete(Integer memberNo, Integer articleNo) {
+        articleRepository.deleteByMemberNoAndArticleNo(memberNo, articleNo);
     }
 
 }

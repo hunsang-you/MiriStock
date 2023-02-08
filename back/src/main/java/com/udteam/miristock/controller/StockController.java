@@ -18,7 +18,7 @@ public class StockController {
     private final StockService searchService;
 
     @GetMapping("/search")
-    public ResponseEntity<List<StockEntity>> findByStockName (@RequestParam String keyword) throws Exception{
+    public ResponseEntity<?> findByStockName (@RequestParam String keyword) throws Exception{
         log.info("종목검색 : {} :", keyword);
         return ResponseEntity.ok().body(searchService.findByStockName(keyword));
     }

@@ -1,7 +1,6 @@
 package com.udteam.miristock.controller;
 
-import com.udteam.miristock.config.ErrorMessage;
-import com.udteam.miristock.dto.LimitPriceOrderDto;
+import com.udteam.miristock.util.ErrorMessage;
 import com.udteam.miristock.dto.MemberDto;
 import com.udteam.miristock.dto.StockDealDto;
 import com.udteam.miristock.entity.Deal;

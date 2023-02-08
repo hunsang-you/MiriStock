@@ -5,5 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CommentRepository extends JpaRepository<CommentEntity, Integer> {
     CommentEntity findByArticle_ArticleNo (Integer articleNo);
+
+    void deleteByMemberNoAndCommentNo(Integer memberNo, Integer commentNo);
 }
 

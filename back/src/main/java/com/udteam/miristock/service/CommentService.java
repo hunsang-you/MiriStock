@@ -27,18 +27,18 @@ public class CommentService {
     }
 
     @Transactional // 메서드 실행시 트랜잭션 시작, 정상종료되면 커밋, 에러발생시 종료
-    public Integer save(CommentRequestDto commentRequestDto) {
-        return commentRepository.save(commentRequestDto.toEntity()).getCommentNo();
+    public CommentResponseDto save(CommentRequestDto commentRequestDto) {
+        return new CommentResponseDto(commentRepository.saveAndFlush(commentRequestDto.toEntity()));
     }
 
-    @Transactional
-    public Integer update(CommentRequestDto commentRequestDto) {
-        return commentRepository.save(commentRequestDto.toEntity()).getCommentNo();
-    }
+//    @Transactional
+//    public CommentResponseDto update(CommentRequestDto commentRequestDto) {
+//        return commentRepository.save(commentRequestDto.toEntity()).getCommentNo();
+//    }
 
     @Transactional
-    public void delete(Integer commentNo) {
-        commentRepository.delete(CommentEntity.builder().commentNo(commentNo).build());
+    public void delete(Integer memberNo, Integer commentNo) {
+        commentRepository.deleteByMemberNoAndCommentNo(memberNo, commentNo);
     }
 
 }

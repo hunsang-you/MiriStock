@@ -1,8 +1,9 @@
 package com.udteam.miristock.controller;
 
-import com.udteam.miristock.config.ErrorMessage;
+import com.udteam.miristock.util.ErrorMessage;
 import com.udteam.miristock.dto.ArticleResponseDto;
 import com.udteam.miristock.dto.ArticleRequestDto;
+import com.udteam.miristock.dto.ArticleCUDResponseDto;
 import com.udteam.miristock.dto.MemberDto;
 import com.udteam.miristock.service.ArticleService;
 import com.udteam.miristock.service.MemberService;
@@ -13,10 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.List;
-import java.util.StringTokenizer;
 
 @Slf4j
 @RestController
@@ -52,7 +50,7 @@ public class ArticleController {
     }
 
     @PostMapping
-    public ResponseEntity<Integer> save(@RequestHeader String Authorization, @RequestBody ArticleRequestDto articleRequestDto) {
+    public ResponseEntity<ArticleCUDResponseDto> save(@RequestHeader String Authorization, @RequestBody ArticleRequestDto articleRequestDto) {
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
         log.info("articleRequestDto : {}", articleRequestDto);
         if (m == null){
@@ -66,7 +64,7 @@ public class ArticleController {
     }
 
     @PutMapping
-    public ResponseEntity<Integer> update(@RequestHeader String Authorization, @RequestBody ArticleRequestDto articleRequestDto) {
+    public ResponseEntity<ArticleCUDResponseDto> update(@RequestHeader String Authorization, @RequestBody ArticleRequestDto articleRequestDto) {
         log.info("articleRequestDto : {}", articleRequestDto);
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
         if (m == null){
@@ -79,15 +77,15 @@ public class ArticleController {
         }
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void> delete(@RequestHeader String Authorization, @RequestHeader Integer articleNo) {
+    @DeleteMapping("/{articleno}")
+    public ResponseEntity<String> delete(@RequestHeader String Authorization, @PathVariable Integer articleno) {
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
         if (m == null){
             log.info(ErrorMessage.TOKEN_EXPIRE);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } else {
-            articleService.delete(articleNo);
-            return ResponseEntity.ok().body(null);
+            articleService.delete(m.getMemberNo(), articleno);
+            return ResponseEntity.ok().body("success");
         }
     }
 

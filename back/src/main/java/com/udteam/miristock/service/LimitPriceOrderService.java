@@ -8,6 +8,7 @@ import com.udteam.miristock.entity.Deal;
 import com.udteam.miristock.entity.LimitPriceOrderEntity;
 import com.udteam.miristock.repository.LimitPriceOrderCustomRepository;
 import com.udteam.miristock.repository.LimitPriceOrderRepository;
+import com.udteam.miristock.repository.MemberAssetRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,22 +26,21 @@ public class LimitPriceOrderService {
     private final LimitPriceOrderCustomRepository limitPriceOrderCustomRepository;
 
     public List<LimitPriceOrderDto> findAll(Integer memberNo, Deal limitPriceOrderType) {
+
         List<LimitPriceOrderEntity> limitPriceOrderEntityList = limitPriceOrderCustomRepository.findAllByMemberNoAndLimitPriceOrderType(memberNo, limitPriceOrderType);
         return limitPriceOrderEntityList.stream()
                 .map(LimitPriceOrderDto::new)
                 .collect(Collectors.toList());
     }
 
-
     @Transactional
     public LimitPriceOrderDto save(LimitPriceOrderDto limitPriceOrderDto) {
-        limitPriceOrderRepository.save(limitPriceOrderDto.toEntity());
-        return limitPriceOrderDto;
+        return new LimitPriceOrderDto(limitPriceOrderRepository.saveAndFlush(limitPriceOrderDto.toEntity()));
     }
 
     @Transactional
-    public void delete(Integer limitPriceOrderNo) {
-        limitPriceOrderRepository.delete(LimitPriceOrderEntity.builder().limitPriceOrderNo(limitPriceOrderNo).build());
+    public void delete(Integer memberNo, Integer limitPriceOrderNo) {
+        limitPriceOrderRepository.deleteAllByMemberNoAndLimitPriceOrderNo(memberNo, limitPriceOrderNo);
     }
 
 
