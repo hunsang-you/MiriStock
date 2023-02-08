@@ -20,7 +20,18 @@ const Home = () => {
           console.log(err);
         });
     };
+    const getMyStocks = async () => {
+      await memberAPI
+        .stocks()
+        .then((request) => {
+          console.log(request.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
     getMember();
+    getMyStocks();
   }, []); //추후에 데이트 값
   return (
     <div className="main-container">
