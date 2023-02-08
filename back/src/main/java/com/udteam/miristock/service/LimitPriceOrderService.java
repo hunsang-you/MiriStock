@@ -31,7 +31,6 @@ public class LimitPriceOrderService {
                 .collect(Collectors.toList());
     }
 
-
     @Transactional
     public LimitPriceOrderDto save(LimitPriceOrderDto limitPriceOrderDto) {
         return new LimitPriceOrderDto(limitPriceOrderRepository.saveAndFlush(limitPriceOrderDto.toEntity()));
