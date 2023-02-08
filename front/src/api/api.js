@@ -23,7 +23,7 @@ api.interceptors.response.use(
   (response) => {
     return response;
   },
-  (error) => {
+  (err) => {
     return new Promise((resolve, reject) => {
       const originalReq = err.config;
       if (err.response.status === 401) {
