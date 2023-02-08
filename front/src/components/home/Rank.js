@@ -51,7 +51,7 @@ const Rank = () => {
     // rankAPI.todayTop(tempDate).then((request) => {
     //   console.log(request.data);
     // });
-  }, []);
+  }, [user]);
 
   return (
     <div className="rank-container">
