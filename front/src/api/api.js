@@ -19,11 +19,13 @@ api.interceptors.request.use(function (config) {
 
 api.interceptors.response.use(
   (response) => {
+    console.log('성공적인응답');
     return response;
   },
   (err) => {
     return new Promise((resolve, reject) => {
       const originalReq = err.config;
+      console.log(originalReq);
       if (err.response.status === 401) {
         let redirects = () => {
           return window.location.replace(`${BASE_URL}/login`);

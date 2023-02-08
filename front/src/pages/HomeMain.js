@@ -73,7 +73,7 @@ const HomeMain = () => {
         onClick={() => {
           memberAPI
             .asset()
-            .then((request) => console.log(request.data))
+            .then((request) => console.log(request))
             .catch((err) => console.log(err));
         }}
       >
