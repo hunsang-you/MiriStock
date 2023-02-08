@@ -1,0 +1,21 @@
+.trade-header {
+    display: flex;
+    justify-content : space-between;
+    height: 3vh;
+    margin: 5px 0px 20px;
+  }
+
+.trade-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+
+.trade-keypad {
+    width: 88vw;
+    margin-top: auto;
+    position: fixed;
+    bottom: 0;
+}

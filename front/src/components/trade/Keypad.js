@@ -1,5 +1,6 @@
 import './css/trade.css';
 import { useState } from 'react';
+import { FiDelete, FiTrash2 } from 'react-icons/fi';
 
 const Keypad = (props) => {
   const [classOnOff, setClassOnOff] = useState([
@@ -159,7 +160,7 @@ const Keypad = (props) => {
       </div>
       <div>
         <div
-          style={{ fontSize: '16px', verticalAlign: 'bottom' }}
+          style={{ fontSize: '16px' }}
           className={classOnOff[9] ? 'click-num' : null}
           onTouchStart={() => {
             clickOn(9);
@@ -168,7 +169,7 @@ const Keypad = (props) => {
             clickOut(9);
           }}
         >
-          전체삭제
+          초기화
         </div>
       </div>
       <div>
@@ -195,7 +196,7 @@ const Keypad = (props) => {
             clickOut(11);
           }}
         >
-          del
+          <FiDelete />
         </div>
       </div>
     </div>

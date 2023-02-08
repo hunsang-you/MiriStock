@@ -5,7 +5,7 @@ const Persent = () => {
     <div className="persent-btn">
       <Button
         style={{ width: '32%' }}
-        color="primary"
+        color="blue"
         variant="outlined"
         disableElevation
       >
@@ -21,7 +21,7 @@ const Persent = () => {
       </Button>
       <Button
         style={{ width: '32%' }}
-        color="primary"
+        color="red"
         disableElevation
         variant="outlined"
       >
