@@ -8,6 +8,7 @@ import com.udteam.miristock.util.CookieUtil;
 import com.udteam.miristock.util.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -28,6 +29,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private final RedisUtil redisUtil;
     private final CookieUtil cookieUtil;
     private final RedisRepository redisRepository;
+    @Value("${redirect.url}")
+    private String redirectUrl;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
@@ -78,13 +81,13 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         if (nickname == null) {
             // 닉네임 설정 화면으로
             log.info("닉네임 설정 화면으로");
-            getRedirectStrategy().sendRedirect(request, response, UriComponentsBuilder.fromUriString("http://localhost:3000/redirect")
+            getRedirectStrategy().sendRedirect(request, response, UriComponentsBuilder.fromUriString(redirectUrl)
                     .queryParam("accesstoken", accesstoken)
                     .build().toUriString());
         } else {
             // 메인으로
             log.info("메인으로");
-            getRedirectStrategy().sendRedirect(request, response, UriComponentsBuilder.fromUriString("http://localhost:3000/redirect")
+            getRedirectStrategy().sendRedirect(request, response, UriComponentsBuilder.fromUriString(redirectUrl)
                     .queryParam("accesstoken", accesstoken)
                     .build().toUriString());
         }
