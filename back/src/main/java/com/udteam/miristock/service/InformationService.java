@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -86,18 +87,23 @@ public class InformationService {
 
         }
         try {
-            keywordEncord = URLEncoder.encode("경제", "UTF-8");
+            Random random = new Random(); //랜덤 객체 생성(디폴트 시드값 : 현재시간)
+            random.setSeed(System.currentTimeMillis()); //시드값 설정을 따로 할수도 있음
+            String[] randKeyword = new String[]{"주식", "주가", "코스피"};
+            keywordEncord = URLEncoder.encode(randKeyword[random.nextInt(3)], "UTF-8");
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
 
+        log.info("=============");
         String rurl = createRssURL("https://news.google.com/rss/search?q=",keywordEncord, originStartDateEncord, originEndDateEncord);
         System.out.println(rurl);
         RSSFeedParser parser = new RSSFeedParser(rurl);
         newsResponseDto = parser.readFeed();
         // 뉴스 더보기 링크 설정 (구글 뉴스)
         newsResponseDto.setLink(createRssURL("https://news.google.com/search?q=",keywordEncord, originStartDateEncord, originEndDateEncord));
-
+        log.info("탐색 스타트 날짜 : {}", startDateEncord);
+        log.info("리스트 갯수 : {}", newsResponseDto.getMessages().size());
         return newsResponseDto;
     }
 

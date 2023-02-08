@@ -91,10 +91,12 @@ public class RSSFeedParser {
                         newsResponseDto.getMessages().add(message);
                         event = eventReader.nextEvent();
                         newsCount++;
+                        if(newsCount >=35) {
+                            return newsResponseDto;
+                        }
                         continue;
                     }
                 }
-                if(newsCount >=35) break;
             }
         } catch (XMLStreamException e) {
             throw new RuntimeException(e);
