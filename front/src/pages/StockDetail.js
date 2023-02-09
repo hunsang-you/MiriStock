@@ -29,7 +29,10 @@ const StockDetail = () => {
   };
   // 오늘날짜 -> 종목명
   const [stockInfo, setStockInfo] = useState('');
+<<<<<<< front/src/pages/StockDetail.js
+=======
 
+>>>>>>> front/src/pages/StockDetail.js
   const [isFavorite, setIsFavorite] = useState(true);
   useEffect(() => {
     if (location.state) {
