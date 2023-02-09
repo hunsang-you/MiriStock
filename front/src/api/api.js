@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-const BASE_URL = process.env.REACT_APP_BASE_UR;
 // const BASE_URL = 'https://i8b111.p.ssafy.io/api';
+const BASE_URL = process.env.REACT_APP_BASE_UR;
 // const accessToken = localStorage.getItem('accessToken');
 const accessToken =
-  'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMmRidGtkQG5hdmVyLmNvbSIsInJvbGUiOiJST0xFX01FTUJFUiIsIm5pY2tuYW1lIjoi7ZeM7IqkIiwiZXhwIjoxNjc2MDc3NTUxfQ.EOeZO-jHBcVJG8FCz4FlWQMvrCUog2Bq0neG-wKoaBg';
+  'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0a2RndXNkbDYzQG5hdmVyLmNvbSIsInJvbGUiOiJST0xFX01FTUJFUiIsIm5pY2tuYW1lIjoi7IK87ISx6rCk65-t7Iuc7KKL7JWE7JqUIiwiZXhwIjoxNjc2MDc5MjU0fQ.Tmwbzl-5rwyZjxUChOUmDQXl31Z_rvzClmlLrneUn6w';
 export const api = axios.create({
   baseURL: BASE_URL,
   withCredentials: true,
@@ -14,21 +14,28 @@ export const api = axios.create({
 });
 
 api.interceptors.request.use(function (config) {
-  const token = localStorage.getItem('accessToken');
+  // const token = localStorage.getItem('accessToken');
+  const token = accessToken;
   config.headers.Authorization = token;
 
   return config;
 });
 
+//release 빌드
 // api.interceptors.response.use(
 //   (response) => {
 //     return response;
 //   },
 //   (err) => {
 //     const originalReq = err.config;
-//     localStorage.setItem('accessToken', err.response.headers.authorization);
-//     originalReq.headers['Authorization'] = err.response.headers.authorization;
-//     return axios(originalReq);
+//     if (err.response.headers.authorization) {
+//       localStorage.setItem('accessToken', err.response.headers.authorization);
+//       originalReq.headers['Authorization'] = err.response.headers.authorization;
+//       return axios(originalReq);
+//     } else {
+//       return window.location.replace(`https://i8b111.p.ssafy.io/login`);
+//       return err;
+//     }
 //   },
 // );
 //     return new Promise((resolve, reject) => {

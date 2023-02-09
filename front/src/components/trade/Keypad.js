@@ -1,5 +1,6 @@
 import './css/trade.css';
 import { useState } from 'react';
+import { FiDelete, FiTrash2 } from 'react-icons/fi';
 
 const Keypad = (props) => {
   const [classOnOff, setClassOnOff] = useState([
@@ -7,15 +8,28 @@ const Keypad = (props) => {
   ]);
 
   const riceCalculation = (i) => {
-    props.setHopePrice(props.hopePrice * 10 + i);
+    if (props.hopeInputID !== 1) {
+      props.setHopePrice(props.hopePrice * 10 + i);
+    } else {
+      props.setHopeCount(props.hopeCount * 10 + i);
+    }
   };
 
   const deleteCalculation = (i) => {
-    if (i === 9) {
-      props.setHopePrice(0);
-    } else if (i === 11) {
-      const num = Math.floor(props.hopePrice / 10);
-      props.setHopePrice(num);
+    if (props.hopeInputID !== 1) {
+      if (i === 9) {
+        props.setHopePrice(0);
+      } else if (i === 11) {
+        const num = Math.floor(props.hopePrice / 10);
+        props.setHopePrice(num);
+      }
+    } else {
+      if (i === 9) {
+        props.setHopeCount(0);
+      } else if (i === 11) {
+        const num = Math.floor(props.hopeCount / 10);
+        props.setHopeCount(num);
+      }
     }
   };
 
@@ -159,7 +173,7 @@ const Keypad = (props) => {
       </div>
       <div>
         <div
-          style={{ fontSize: '16px', verticalAlign: 'bottom' }}
+          style={{ fontSize: '16px' }}
           className={classOnOff[9] ? 'click-num' : null}
           onTouchStart={() => {
             clickOn(9);
@@ -168,7 +182,7 @@ const Keypad = (props) => {
             clickOut(9);
           }}
         >
-          전체삭제
+          초기화
         </div>
       </div>
       <div>
@@ -195,7 +209,7 @@ const Keypad = (props) => {
             clickOut(11);
           }}
         >
-          del
+          <FiDelete />
         </div>
       </div>
     </div>
