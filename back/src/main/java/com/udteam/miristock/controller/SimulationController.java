@@ -26,7 +26,6 @@ public class SimulationController {
     private final SimulationService simulationService;
 
     @GetMapping("/member/time")
-    @ApiOperation(value = "회원 시뮬레이션 날짜 출력")
     public ResponseEntity<RequestSimulationDto> selectMemberAssetCurrentTime(@RequestHeader String Authorization) {
         log.info("회원 시뮬레이션 날짜 출력 호출됨 (/asset/member/time) ");
         String token= HeaderUtil.getAccessTokenString(Authorization);

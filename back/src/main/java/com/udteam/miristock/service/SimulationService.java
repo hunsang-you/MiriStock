@@ -94,7 +94,7 @@ public class SimulationService {
                     .stockName(index.getStockName())
                     .memberNo(index.getMemberNo())
                     .stockDealDate(index.getStockDataDate())
-                    .stockDealBuyClosingPrice(index.getLimitPriceOrderPrice())
+                    .stockDealOrderClosingPrice(index.getLimitPriceOrderPrice())
                     .stockDealAmount(index.getStockDataAmount())
                     .stockDealType(index.getLimitPriceOrderType())
                     .build()

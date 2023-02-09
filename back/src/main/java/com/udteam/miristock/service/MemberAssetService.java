@@ -19,6 +19,17 @@ public class MemberAssetService {
         return MemberAssetDto.of(memberAssetRepository.findById(id).get());
     }
 
+    public MemberAssetDto updateMemberAsset(MemberAssetDto memberAssetDto) {
+        MemberAssetEntity result = memberAssetRepository.save(MemberAssetEntity.builder()
+                        .memberassetNo(memberAssetDto.getMemberassetNo())
+                        .member(MemberEntity.builder().memberNo(memberAssetDto.getMemberNo()).build())
+                        .memberassetTotalAsset(memberAssetDto.getMemberassetTotalAsset())
+                        .memberassetAvailableAsset(memberAssetDto.getMemberassetAvailableAsset())
+                        .memberassetStockAsset(memberAssetDto.getMemberassetStockAsset())
+                        .build());
+        return MemberAssetDto.of(result);
+    }
+
 //    public RequestSimulationDto updateMemberAssetTime(RequestSimulationDto requestSimulationDto) {
 //        return RequestSimulationDto.memberEntityToSimulationResponseDto(
 //                memberAssetRepository.save(
