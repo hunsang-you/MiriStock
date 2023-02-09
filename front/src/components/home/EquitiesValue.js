@@ -1,32 +1,63 @@
 import './css/EquitiesValue.css';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const EquitiesValue = () => {
-  let [isUpDown, setIsUpDown] = useState(true);
-  let [data, setData] = useState([
-    { name: '삼성전자', price: '65,304', give: 400, change: '400원 (+1.66%)' },
-    { name: '상현전자', price: '65,304', give: 400, change: '400원 (+1.66%)' },
-    { name: '도겸전자', price: '65,304', give: 400, change: '400원 (+1.66%)' },
-    { name: '헌상전자', price: '65,304', give: 400, change: '400원 (+1.66%)' },
-    { name: '재윤전자', price: '65,304', give: 400, change: '400원 (+1.66%)' },
-  ]);
+const EquitiesValue = (props) => {
+  let userStock = props.userStock;
+  const navigate = useNavigate();
   return (
     <div className="equities-container">
       <div className="evaluation">평가금액순</div>
-      {data.map((dat, i) => {
+      {userStock.map((stock, i) => {
         return (
-          <div className="stock" key={i}>
+          <div
+            className="stock"
+            key={i}
+            onClick={() => {
+              navigate(`stock/${stock.stockCode}`, {
+                state: { stockName: stock.stockName },
+              });
+            }}
+          >
             <div className="stock-top">
-              <span>{dat.name}</span>
-              <span>{dat.price}</span>
+              <span>{stock.stockName}</span>
+              <span>{stock.memberStockCurPrice.toLocaleString()}원</span>
             </div>
             <div className="stock-bottom">
-              <span>{dat.give}주</span>
-              <span
-                style={isUpDown ? { color: '#D2143C' } : { color: '#1E90FF' }}
-              >
-                ▲ {dat.change}
-              </span>
+              <span>{stock.memberStockAmount}주</span>
+              {stock.memberStockCurPrice - stock.memberStockAvgPrice >= 0 ? (
+                <span style={{ color: '#D2143C' }}>
+                  ▲ +
+                  {(
+                    stock.memberStockCurPrice - stock.memberStockAvgPrice
+                  ).toLocaleString()}
+                  원 ( +
+                  {(
+                    (stock.memberStockCurPrice / stock.memberStockAvgPrice) *
+                      100 -
+                    100
+                  )
+                    .toFixed(2)
+                    .toLocaleString()}
+                  %)
+                </span>
+              ) : (
+                <span style={{ color: '#1E90FF' }}>
+                  ▼{' '}
+                  {(
+                    stock.memberStockCurPrice - stock.memberStockAvgPrice
+                  ).toLocaleString()}
+                  원 (
+                  {(
+                    (stock.memberStockCurPrice / stock.memberStockAvgPrice) *
+                      100 -
+                    100
+                  )
+                    .toFixed(2)
+                    .toLocaleString()}
+                  %)
+                </span>
+              )}
             </div>
           </div>
         );
