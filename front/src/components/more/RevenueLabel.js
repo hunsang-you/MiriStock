@@ -1,7 +1,5 @@
-const RevenueLabel = ({ viewBox, StockName, StockPrice }) => {
+const RevenueLabel = ({ viewBox, StockName, Rate }) => {
   const { cx, cy } = viewBox;
-
-  let Price = StockPrice.toLocaleString();
 
   return (
     <svg
@@ -21,7 +19,7 @@ const RevenueLabel = ({ viewBox, StockName, StockPrice }) => {
         </tspan>
 
         <tspan x={cx} dy="1.5em" fontSize="14" fontWeight={600}>
-          {Price}
+          {Rate} %
         </tspan>
       </text>
     </svg>

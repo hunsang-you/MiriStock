@@ -19,3 +19,9 @@
 .watch-item > * {
     font-family: var(--font-IbmPlexSansKrLightRegular);
 }
+
+#cancel-btn {
+    background-color: white;
+    border: 0;
+    color: #C4C4C4;
+}

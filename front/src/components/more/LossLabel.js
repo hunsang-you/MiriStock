@@ -1,7 +1,6 @@
-const LossLabel = ({ viewBox, StockName, StockPrice }) => {
+const LossLabel = ({ viewBox, StockName, Rate }) => {
   const { cx, cy } = viewBox;
 
-  let Price = StockPrice.toLocaleString();
   return (
     <svg
       className="recharts-text recharts-label"
@@ -20,7 +19,7 @@ const LossLabel = ({ viewBox, StockName, StockPrice }) => {
         </tspan>
 
         <tspan x={cx} dy="1.5em" fontSize="14" fontWeight={600}>
-          {Price + '원'}
+          {Rate} %
         </tspan>
       </text>
     </svg>

@@ -38,6 +38,7 @@ const History = () => {
               <div>{stock.stockName}</div>
               <div>{stock.stockCode}</div>
               <button
+                id="cancel-btn"
                 onClick={(e) => {
                   e.stopPropagation();
                   console.log(stock.searchNo);

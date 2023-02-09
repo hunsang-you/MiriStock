@@ -1,7 +1,7 @@
 import mirilogo from '../../static/mirilogo.png';
 import { Button } from '@mui/material';
 import { BsFillPersonLinesFill } from 'react-icons/bs';
-import { ImMap2 } from 'react-icons/im';
+import { ImMap2, ImExit } from 'react-icons/im';
 import { MdOutlineRestartAlt } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import './css/MoreMain.css';
@@ -74,6 +74,27 @@ const MoreMain = () => {
           <MdOutlineRestartAlt size={50} id="more-icon" />
 
           <div>게임종료</div>
+        </Button>
+      </div>
+      <div className="more-btn">
+        <Button
+          id="more-btn"
+          variant="outlined"
+          size="large"
+          sx={{
+            width: 300,
+            height: 88,
+            margin: 2,
+            borderRadius: 5,
+            border: 2,
+          }}
+          onClick={() => {
+            navigate('erase');
+          }}
+        >
+          <ImExit size={50} id="more-icon" />
+
+          <div>회원탈퇴</div>
         </Button>
       </div>
       <div className="more-des">

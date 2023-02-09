@@ -2,46 +2,50 @@
     display: flex;
     flex-direction: column;
     padding-top: 0.95vh;
-    margin-bottom: 5.85vh;
-    border-top: 1px solid #6DCEF5;
-    border-bottom: 1px solid #6DCEF5;
+    margin-bottom: 2.86vh;
+    border-bottom: 4px solid #6DCEF5 ;
 }
 
 .userid {
     display: flex;
-    margin-top: 24px;
-    text-align: left;
     padding-bottom: 1.9vh;
-    font-size: 1rem;
+    font-size: 24px;
+    font-weight: bold;
     margin-left: 4vw;
     margin-right: 4vw;
     justify-content: space-between;
 }
 
-.title {
+#item-createAt {
+    font-size: 1rem;
+    color: #C4C4C4;;
+}
+
+.article-title {
     text-align: left;
     font-size: 1.2rem;
-    margin-top: auto;
     margin-bottom: 1.43vh;
     margin-left: 4vw;
     margin-right: 4vw;
-}
-
-.title > * {
-    font-weight: bold;
-    font-size: larger;
     
 }
 
-.content {
-    /* display: flex; */
+.article-title > * {
+    font-weight: bold;
+    font-size: 20px
+    
+}
+
+.article-content {
     margin-top: 24px;
     text-align: left;
     padding-bottom: 1.9vh;
     font-size: 1rem;
     margin-left: 4vw;
     margin-right: 4vw;
+    padding-top: 4px;
     font-size: large;
+
 }
 
 .content-open {
@@ -80,9 +84,9 @@
 .item-btn {
     display: flex;
     margin-left: auto;
-    margin-right: 4vw;
+    justify-content: space-around;
 }
 
-.item-btn > div {
+.item-btn * {
     margin-left: 8px;
 }
