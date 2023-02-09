@@ -17,6 +17,7 @@ public class MemberAssetDto {
     private Long memberassetStockAsset;
     private Integer memberassetCurrentTime;
 
+
     public static MemberAssetDto of(MemberAssetEntity m){
         return MemberAssetDto.builder()
                 .memberassetNo(m.getMemberassetNo())

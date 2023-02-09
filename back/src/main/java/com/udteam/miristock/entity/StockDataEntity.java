@@ -1,11 +1,15 @@
 package com.udteam.miristock.entity;
 
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "stockdata")
+@DynamicInsert
+@DynamicUpdate
 @Getter
 @Setter
 @Builder
