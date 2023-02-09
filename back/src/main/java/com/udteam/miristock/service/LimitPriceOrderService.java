@@ -105,13 +105,12 @@ public class LimitPriceOrderService {
                 // 자산현황 업데이트
                 // 자산현황 들고오기
                 MemberAssetEntity getMemberAsset = memberAssetRepository.findByMember_MemberNo(limitPriceOrderDto.getMemberNo());
-                log.info("매수 하고 나서 자산현황 업뎃");
-
+//                log.info("매수 하고 나서 자산현황 업뎃");
 //                log.info("getMemberStockCode.getMemberStockAvgPrice() :{}",getMemberStockCode.getMemberStockAvgPrice());
-                log.info("getMemberAsset.getMemberassetAvailableAsset() : {}", getMemberAsset.getMemberassetAvailableAsset());
-                log.info("getMemberAsset.getMemberassetStockAsset(): {}" , getMemberAsset.getMemberassetStockAsset());
-                log.info("limitPriceOrderDto.getLimitPriceOrderAmount(); : {}", limitPriceOrderDto.getLimitPriceOrderAmount());
-                log.info("limitPriceOrderDto.getLimitPriceOrderPrice() : {}", limitPriceOrderDto.getLimitPriceOrderPrice());
+//                log.info("getMemberAsset.getMemberassetAvailableAsset() : {}", getMemberAsset.getMemberassetAvailableAsset());
+//                log.info("getMemberAsset.getMemberassetStockAsset(): {}" , getMemberAsset.getMemberassetStockAsset());
+//                log.info("limitPriceOrderDto.getLimitPriceOrderAmount(); : {}", limitPriceOrderDto.getLimitPriceOrderAmount());
+//                log.info("limitPriceOrderDto.getLimitPriceOrderPrice() : {}", limitPriceOrderDto.getLimitPriceOrderPrice());
 
                 Long availableAsset = getMemberAsset.getMemberassetAvailableAsset()
                         - limitPriceOrderDto.getLimitPriceOrderPrice() * limitPriceOrderDto.getLimitPriceOrderAmount();
@@ -189,12 +188,12 @@ public class LimitPriceOrderService {
                 // 자산현황 업데이트
                 // 자산현황 들고오기
                 MemberAssetEntity getMemberAsset = memberAssetRepository.findByMember_MemberNo(limitPriceOrderDto.getMemberNo());
-                log.info("매도 하고 나서 자산현황 업뎃");
-                log.info("getMemberStockCode.getMemberStockAvgPrice() :{}",getMemberStockCode.getMemberStockAvgPrice());
-                log.info("getMemberAsset.getMemberassetAvailableAsset() : {}", getMemberAsset.getMemberassetAvailableAsset());
-                log.info("getMemberAsset.getMemberassetStockAsset(): {}" , getMemberAsset.getMemberassetStockAsset());
-                log.info("limitPriceOrderDto.getLimitPriceOrderAmount(); : {}", limitPriceOrderDto.getLimitPriceOrderAmount());
-                log.info("limitPriceOrderDto.getLimitPriceOrderPrice() : {}", limitPriceOrderDto.getLimitPriceOrderPrice());
+//                log.info("매도 하고 나서 자산현황 업뎃");
+//                log.info("getMemberStockCode.getMemberStockAvgPrice() :{}",getMemberStockCode.getMemberStockAvgPrice());
+//                log.info("getMemberAsset.getMemberassetAvailableAsset() : {}", getMemberAsset.getMemberassetAvailableAsset());
+//                log.info("getMemberAsset.getMemberassetStockAsset(): {}" , getMemberAsset.getMemberassetStockAsset());
+//                log.info("limitPriceOrderDto.getLimitPriceOrderAmount(); : {}", limitPriceOrderDto.getLimitPriceOrderAmount());
+//                log.info("limitPriceOrderDto.getLimitPriceOrderPrice() : {}", limitPriceOrderDto.getLimitPriceOrderPrice());
 
                 // 현금자산
                 Long availableAsset = getMemberAsset.getMemberassetAvailableAsset()
