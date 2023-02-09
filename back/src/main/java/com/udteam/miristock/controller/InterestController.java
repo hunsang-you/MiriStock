@@ -59,9 +59,12 @@ public class InterestController {
         MemberDto m = memberService.selectOneMember(token);
         if (m == null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        } else {
-            interestService.deleteIntereststock(m.getMemberNo(), stockcode);
-            return ResponseEntity.ok().body(ReturnMessage.DELETE_SUCCESS);
         }
+
+        if (interestService.deleteIntereststock(m.getMemberNo(), stockcode) == 0){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ReturnMessage.DELETE_FAIL);
+        }
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(ReturnMessage.DELETE_SUCCESS);
+
     }
 }

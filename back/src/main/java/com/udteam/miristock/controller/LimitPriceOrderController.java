@@ -95,8 +95,10 @@ public class LimitPriceOrderController {
             log.info(ErrorMessage.TOKEN_EXPIRE);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } else {
-            limitPriceOrderService.delete(m.getMemberNo(), limitPriceOrderNo);
-            return ResponseEntity.status(HttpStatus.OK).body(ReturnMessage.DELETE_SUCCESS);
+            if (limitPriceOrderService.delete(m.getMemberNo(), limitPriceOrderNo) == 0){
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ReturnMessage.DELETE_FAIL);
+            }
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(ReturnMessage.DELETE_SUCCESS);
         }
     }
 

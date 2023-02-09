@@ -35,8 +35,8 @@ public class StockDealService {
 
     // 회원 거래내역 삭제
     @Transactional
-    public void delete(Integer memberNo) {
-        stockDealRepository.deleteAllByMemberNo(memberNo);
+    public int delete(Integer memberNo) {
+        return stockDealRepository.deleteAllByMemberNo(memberNo);
     }
 
 }

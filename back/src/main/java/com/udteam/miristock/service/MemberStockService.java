@@ -76,8 +76,8 @@ public class MemberStockService {
 
     // 회원 보유 주식 삭제하기
     @Transactional
-    public void delete(Integer memberNo, String stockCode) {
-        memberStockRepository.deleteByMemberNoAndStockCode(memberNo, stockCode);
+    public int delete(Integer memberNo, String stockCode) {
+        return memberStockRepository.deleteByMemberNoAndStockCode(memberNo, stockCode);
     }
 
 }
