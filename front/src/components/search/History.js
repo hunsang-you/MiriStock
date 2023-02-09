@@ -3,7 +3,6 @@ import { searchStore } from '../../store';
 import { searchAPI } from '../../api/api';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import cancel from '../../static/cancel.png';
 
 const History = () => {
   const [searchHistory, setSearchHistory] = useState([]);
@@ -39,6 +38,7 @@ const History = () => {
               <div>{stock.stockName}</div>
               <div>{stock.stockCode}</div>
               <button
+                id="cancel-btn"
                 onClick={(e) => {
                   e.stopPropagation();
                   console.log(stock.searchNo);
@@ -48,7 +48,7 @@ const History = () => {
                     .catch((err) => console.log(err));
                 }}
               >
-                {/* <img src={cancel} id="cancel-img" /> */}X
+                X
               </button>
             </div>
           );
