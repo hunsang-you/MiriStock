@@ -25,8 +25,14 @@ public class LimitPriceOrderService {
     private final MemberAssetRepository memberAssetRepository;
 
     public List<LimitPriceOrderDto> findAll(Integer memberNo, Deal limitPriceOrderType) {
-
         List<LimitPriceOrderEntity> limitPriceOrderEntityList = limitPriceOrderCustomRepository.findAllByMemberNoAndLimitPriceOrderType(memberNo, limitPriceOrderType);
+        return limitPriceOrderEntityList.stream()
+                .map(LimitPriceOrderDto::new)
+                .collect(Collectors.toList());
+    }
+
+    public List<LimitPriceOrderDto> getLimitPriceOrderAllList(Integer memberNo) {
+        List<LimitPriceOrderEntity> limitPriceOrderEntityList = limitPriceOrderRepository.findAllByMemberNo(memberNo);
         return limitPriceOrderEntityList.stream()
                 .map(LimitPriceOrderDto::new)
                 .collect(Collectors.toList());
@@ -117,13 +123,18 @@ public class LimitPriceOrderService {
                 Long stockAsset = getMemberAsset.getMemberassetStockAsset()
                         + limitPriceOrderDto.getLimitPriceOrderPrice() * limitPriceOrderDto.getLimitPriceOrderAmount();
                 memberAssetRepository.save(MemberAssetEntity.builder()
-                        .memberassetNo(limitPriceOrderDto.getMemberNo())
+                        .memberassetNo(getMemberAsset.getMemberassetNo())
                         .member(MemberEntity.builder().memberNo(limitPriceOrderDto.getMemberNo()).build())
                         .memberassetCurrentTime(memberSimulationTime)
                         .memberassetTotalAsset(availableAsset + stockAsset)
                         .memberassetAvailableAsset(availableAsset)
                         .memberassetStockAsset(stockAsset)
                         .build());
+
+                // 추가하면서 임시리스트 목록 기반하여 매수 예정 내역 db에서 지운다.
+                if(limitPriceOrderDto.getLimitPriceOrderNo() != null){
+                    limitPriceOrderRepository.deleteAllByMemberNoAndLimitPriceOrderNo(limitPriceOrderDto.getMemberNo(), limitPriceOrderDto.getLimitPriceOrderNo());
+                }
 
                 log.info("매수 요청 완료");
 
@@ -208,6 +219,11 @@ public class LimitPriceOrderService {
                         .memberassetAvailableAsset(availableAsset)
                         .memberassetStockAsset(stockAsset)
                         .build());
+
+                // 추가하면서 임시리스트 목록 기반하여 매수 예정 내역 db에서 지운다.
+                if(limitPriceOrderDto.getLimitPriceOrderNo() != null){
+                    limitPriceOrderRepository.deleteAllByMemberNoAndLimitPriceOrderNo(limitPriceOrderDto.getMemberNo(), limitPriceOrderDto.getLimitPriceOrderNo());
+                }
 
                 log.info("매도 요청 완료");
 

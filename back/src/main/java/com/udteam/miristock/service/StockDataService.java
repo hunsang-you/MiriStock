@@ -1,6 +1,7 @@
 package com.udteam.miristock.service;
 
 
+import com.udteam.miristock.dto.StockDataInfoMapping;
 import com.udteam.miristock.dto.StockDataRequestDto;
 import com.udteam.miristock.dto.StockDataResponseDto;
 import com.udteam.miristock.entity.StockDataEntity;
@@ -59,6 +60,10 @@ public class StockDataService {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    public StockDataInfoMapping findTop1ByStockDataDate(Integer stockDataDate){
+        return stockDataRepository.findTop1ByStockDataDate(stockDataDate);
     }
 
 }

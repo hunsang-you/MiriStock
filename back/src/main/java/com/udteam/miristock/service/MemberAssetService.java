@@ -20,6 +20,7 @@ public class MemberAssetService {
     }
 
     public MemberAssetDto updateMemberAsset(MemberAssetDto memberAssetDto) {
+
         MemberAssetEntity result = memberAssetRepository.save(MemberAssetEntity.builder()
                         .memberassetNo(memberAssetDto.getMemberassetNo())
                         .member(MemberEntity.builder().memberNo(memberAssetDto.getMemberNo()).build())
