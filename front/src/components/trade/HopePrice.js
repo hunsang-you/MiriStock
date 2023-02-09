@@ -1,5 +1,3 @@
-import { Hidden } from '@mui/material';
-
 const HopePrice = (props) => {
   return (
     <div>
@@ -16,7 +14,9 @@ const HopePrice = (props) => {
           </div>
           <div>
             <div className="hope-input">
-              <div className="hope-money">{props.hopePrice}</div>
+              <div className="hope-money">
+                {props.hopePrice.toLocaleString()}
+              </div>
               <div>원</div>
             </div>
           </div>
@@ -39,7 +39,9 @@ const HopePrice = (props) => {
                 props.inputID(2);
               }}
             >
-              <div className="hope-money">{props.hopePrice}</div>
+              <div className="hope-money">
+                {props.hopePrice.toLocaleString()}
+              </div>
               <div>원</div>
             </div>
           </div>
