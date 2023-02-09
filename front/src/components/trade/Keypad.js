@@ -8,15 +8,28 @@ const Keypad = (props) => {
   ]);
 
   const riceCalculation = (i) => {
-    props.setHopePrice(props.hopePrice * 10 + i);
+    if (props.hopeInputID !== 1) {
+      props.setHopePrice(props.hopePrice * 10 + i);
+    } else {
+      props.setHopeCount(props.hopeCount * 10 + i);
+    }
   };
 
   const deleteCalculation = (i) => {
-    if (i === 9) {
-      props.setHopePrice(0);
-    } else if (i === 11) {
-      const num = Math.floor(props.hopePrice / 10);
-      props.setHopePrice(num);
+    if (props.hopeInputID !== 1) {
+      if (i === 9) {
+        props.setHopePrice(0);
+      } else if (i === 11) {
+        const num = Math.floor(props.hopePrice / 10);
+        props.setHopePrice(num);
+      }
+    } else {
+      if (i === 9) {
+        props.setHopeCount(0);
+      } else if (i === 11) {
+        const num = Math.floor(props.hopeCount / 10);
+        props.setHopeCount(num);
+      }
     }
   };
 

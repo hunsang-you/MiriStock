@@ -1,4 +1,4 @@
-const Possible = () => {
+const Possible = (props) => {
   return (
     <div className="possible-body">
       <div className="possible-content">
@@ -7,7 +7,7 @@ const Possible = () => {
       </div>
       <div className="possible-content">
         <div>수수료</div>
-        <div className="text-right">- 원</div>
+        <div className="text-right">{props.hopeTax} 원</div>
       </div>
     </div>
   );

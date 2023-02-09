@@ -9,6 +9,7 @@ import {
   HopePrice,
   Persent,
   Possible,
+  CountPlus,
   Keypad,
   TradeBotton,
 } from '../components/trade';
@@ -19,11 +20,14 @@ const BuyStock = () => {
   const today = user.memberassetCurrentTime;
   const navigate = useNavigate();
 
-  const [stockInfo, setStockInfo] = useState();
-
+  const [stockName, setStockName] = useState();
+  const [stockPrice, setStockPrice] = useState();
+  const [stockAmount, setStockAmount] = useState();
+  // 구입 희망 가격, 주식수, 수수료계산
   const [hopeInputID, setHopeInputID] = useState(0);
-  const [hopeCount, setHopeCount] = useState(0);
   const [hopePrice, setHopePrice] = useState(0);
+  const [hopeCount, setHopeCount] = useState(0);
+  const [hopeTax, setHopeTax] = useState();
   // console.log(stockCode);
 
   const inputID = (id) => {
@@ -34,17 +38,23 @@ const BuyStock = () => {
     } else if (id === 2) {
       setHopeInputID(2);
     }
-    console.log(hopeInputID);
   };
 
   useEffect(() => {
     const use = async () => {
       const reqData = await stockAPI.stockDetail(stockCode, today, today);
-      console.log(reqData.data[0]);
-      setStockInfo(reqData.data[0]);
+      // console.log(reqData.data[0]);
+      setStockName(reqData.data[0].stockName);
+      setStockPrice(reqData.data[0].stockDataClosingPrice);
+      setStockAmount(reqData.data[0].stockDataAmount);
     };
     use();
   }, []);
+
+  useEffect(() => {
+    setHopeTax(Math.floor(hopePrice * 0.0005));
+  }, [hopePrice]);
+
   return (
     <div className="trade-body">
       <div>
@@ -57,7 +67,7 @@ const BuyStock = () => {
           >
             〈
           </strong>
-          {/* <div>{stockInfo.stockName}</div> */}
+          <div>{stockName}</div>
         </div>
         <div>
           {hopeInputID === 0 ? (
@@ -87,8 +97,16 @@ const BuyStock = () => {
         <div></div>
       </div>
       <div className="trade-keypad">
-        <Possible />
-        <Persent />
+        <Possible hopeTax={hopeTax} />
+        {hopeInputID !== 1 ? (
+          <Persent
+            stockPrice={stockPrice}
+            hopePrice={hopePrice}
+            setHopePrice={setHopePrice}
+          />
+        ) : (
+          <CountPlus />
+        )}
         <Keypad
           hopeInputID={hopeInputID}
           setHopeInputID={setHopeInputID}
