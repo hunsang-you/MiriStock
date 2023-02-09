@@ -22,7 +22,6 @@ import java.util.List;
 @RequestMapping("/limitpriceorder")
 @RequiredArgsConstructor
 public class LimitPriceOrderController {
-
     private final LimitPriceOrderService limitPriceOrderService;
     private final MemberAssetService memberAssetService;
     private final MemberService memberService;

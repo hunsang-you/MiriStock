@@ -105,6 +105,14 @@ public class LimitPriceOrderService {
                 // 자산현황 업데이트
                 // 자산현황 들고오기
                 MemberAssetEntity getMemberAsset = memberAssetRepository.findByMember_MemberNo(limitPriceOrderDto.getMemberNo());
+                log.info("매수 하고 나서 자산현황 업뎃");
+
+//                log.info("getMemberStockCode.getMemberStockAvgPrice() :{}",getMemberStockCode.getMemberStockAvgPrice());
+                log.info("getMemberAsset.getMemberassetAvailableAsset() : {}", getMemberAsset.getMemberassetAvailableAsset());
+                log.info("getMemberAsset.getMemberassetStockAsset(): {}" , getMemberAsset.getMemberassetStockAsset());
+                log.info("limitPriceOrderDto.getLimitPriceOrderAmount(); : {}", limitPriceOrderDto.getLimitPriceOrderAmount());
+                log.info("limitPriceOrderDto.getLimitPriceOrderPrice() : {}", limitPriceOrderDto.getLimitPriceOrderPrice());
+
                 Long availableAsset = getMemberAsset.getMemberassetAvailableAsset()
                         - limitPriceOrderDto.getLimitPriceOrderPrice() * limitPriceOrderDto.getLimitPriceOrderAmount();
                 Long stockAsset = getMemberAsset.getMemberassetStockAsset()
@@ -159,7 +167,8 @@ public class LimitPriceOrderService {
 
                 // 보유 주식 목록에 업데이트 한다.
                 Long sumAmount = getMemberStockCode.getMemberStockAmount() - limitPriceOrderDto.getLimitPriceOrderAmount();
-                Long sellPrice = (getMemberStockCode.getMemberStockAvgPrice() - limitPriceOrderClosingPrice) * sumAmount;
+                Long sellPrice = limitPriceOrderClosingPrice * limitPriceOrderDto.getLimitPriceOrderAmount();
+//                Long sellPrice = (getMemberStockCode.getMemberStockAvgPrice() - limitPriceOrderClosingPrice) * sumAmount;
                 Long totalSellPrice = sellPrice + getMemberStockCode.getMemberStockAccSellPrice();
                 Long totalPurchasePrice = getMemberStockCode.getMemberStockAccPurchasePrice();
                 Float earnRate = (float)(totalSellPrice - totalPurchasePrice) / (float)totalPurchasePrice * 100f;
@@ -180,10 +189,18 @@ public class LimitPriceOrderService {
                 // 자산현황 업데이트
                 // 자산현황 들고오기
                 MemberAssetEntity getMemberAsset = memberAssetRepository.findByMember_MemberNo(limitPriceOrderDto.getMemberNo());
+                log.info("매도 하고 나서 자산현황 업뎃");
+                log.info("getMemberStockCode.getMemberStockAvgPrice() :{}",getMemberStockCode.getMemberStockAvgPrice());
+                log.info("getMemberAsset.getMemberassetAvailableAsset() : {}", getMemberAsset.getMemberassetAvailableAsset());
+                log.info("getMemberAsset.getMemberassetStockAsset(): {}" , getMemberAsset.getMemberassetStockAsset());
+                log.info("limitPriceOrderDto.getLimitPriceOrderAmount(); : {}", limitPriceOrderDto.getLimitPriceOrderAmount());
+                log.info("limitPriceOrderDto.getLimitPriceOrderPrice() : {}", limitPriceOrderDto.getLimitPriceOrderPrice());
+
+                // 현금자산
                 Long availableAsset = getMemberAsset.getMemberassetAvailableAsset()
-                        + limitPriceOrderDto.getLimitPriceOrderPrice() * limitPriceOrderDto.getLimitPriceOrderAmount();
+                        + ((limitPriceOrderDto.getLimitPriceOrderPrice() - getMemberStockCode.getMemberStockAvgPrice()) * limitPriceOrderDto.getLimitPriceOrderAmount());
                 Long stockAsset = getMemberAsset.getMemberassetStockAsset()
-                        - limitPriceOrderDto.getLimitPriceOrderPrice() * limitPriceOrderDto.getLimitPriceOrderAmount();
+                        - getMemberStockCode.getMemberStockAvgPrice() * limitPriceOrderDto.getLimitPriceOrderAmount();
                 memberAssetRepository.save(MemberAssetEntity.builder()
                         .memberassetNo(limitPriceOrderDto.getMemberNo())
                         .member(MemberEntity.builder().memberNo(limitPriceOrderDto.getMemberNo()).build())
