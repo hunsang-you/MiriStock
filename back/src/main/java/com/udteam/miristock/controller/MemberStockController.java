@@ -1,10 +1,8 @@
 package com.udteam.miristock.controller;
 
-import com.udteam.miristock.dto.MemberAssetDto;
+import com.udteam.miristock.dto.*;
 import com.udteam.miristock.service.MemberAssetService;
 import com.udteam.miristock.util.ErrorMessage;
-import com.udteam.miristock.dto.MemberDto;
-import com.udteam.miristock.dto.MemberStockDto;
 import com.udteam.miristock.service.MemberService;
 import com.udteam.miristock.service.MemberStockService;
 import com.udteam.miristock.util.HeaderUtil;
@@ -49,6 +47,19 @@ public class MemberStockController {
         } else {
             MemberAssetDto result = memberAssetService.selectMemberAsset(m.getMemberNo());
             return ResponseEntity.ok().body(memberStockService.findOne(m.getMemberNo(), result.getMemberassetCurrentTime(), stockCode).get(0));
+        }
+    }
+
+    // 전날 대비 보유주식 등락률 보여주기
+    @GetMapping("/main")
+    public ResponseEntity<StockRateAndPriceResponseDto> getMemberStockRateAndPrice(@RequestHeader String Authorization) {
+        MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
+        if (m == null){
+            log.info(ErrorMessage.TOKEN_EXPIRE);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        } else {
+            MemberAssetDto result = memberAssetService.selectMemberAsset(m.getMemberNo());
+            return ResponseEntity.ok().body(memberStockService.getMemberStockRateAndPrice(m.getMemberNo(), result.getMemberassetCurrentTime()));
         }
     }
 

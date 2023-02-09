@@ -30,19 +30,26 @@ public interface MemberStockRepository extends JpaRepository<MemberStockEntity, 
     // 회원의 보유 주식 가져오기
     MemberStockEntity findByMemberNoAndStockCode(Integer memberNo, String stockCode);
 
-//    // 회원의 보유 주식 가져오기 (평가금액순)
+    // 회원의 보유 주식 가져오기 (평가금액순)
     @Query(" SELECT m, s From StockDataEntity as s " +
             " JOIN MemberStockEntity as m " +
             " on m.stockCode = s.stockCode " +
             " WHERE m.memberStockAmount > 0  AND m.memberNo=:memberNo AND s.stockDataDate=:stockDataDate order by m.memberStockAvgPrice * m.memberStockAmount desc")
     List<Object[]> findAllMemberStockListOrderByPrice(@Param("memberNo") Integer memberNo, @Param("stockDataDate") Integer memberAssetCurrentTime);
 
-
+    // 회원의 보유 주식 가져오기 (수익률 순)
     @Query(" SELECT m, s From StockDataEntity as s " +
             " JOIN MemberStockEntity as m " +
             " on m.stockCode = s.stockCode " +
             " WHERE m.memberStockAmount > 0  AND m.memberNo=:memberNo AND s.stockDataDate=:stockDataDate order by s.stockDataClosingPrice/m.memberStockAvgPrice*100-100 ")
     List<Object[]> findAllMemberStockListOrderByEarnRate(@Param("memberNo") Integer memberNo, @Param("stockDataDate") Integer memberAssetCurrentTime);
+
+    @Query(" SELECT m, s From StockDataEntity as s " +
+            " JOIN MemberStockEntity as m " +
+            " on m.stockCode = s.stockCode " +
+            " WHERE m.memberStockAmount > 0  AND m.memberNo=:memberNo AND s.stockDataDate=:stockDataDate")
+    List<Object[]> findAllMemberStockList(@Param("memberNo") Integer memberNo, @Param("stockDataDate") Integer memberAssetCurrentTime);
+
 
     // 회원의 보유 주식 단건 검색
     @Query(" SELECT m, s From StockDataEntity as s " +

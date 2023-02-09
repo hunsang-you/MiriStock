@@ -2,6 +2,7 @@ package com.udteam.miristock.service;
 
 import com.udteam.miristock.dto.MemberStockDto;
 import com.udteam.miristock.dto.StockDataMemberStockDto;
+import com.udteam.miristock.dto.StockRateAndPriceResponseDto;
 import com.udteam.miristock.entity.MemberStockEntity;
 import com.udteam.miristock.entity.StockDataEntity;
 import com.udteam.miristock.repository.MemberStockRepository;
@@ -33,26 +34,39 @@ public class MemberStockService {
         } else {
             result = memberStockRepository.findAllMemberStockListOrderByPrice(memberNo, currentTime);
         }
-        List<StockDataMemberStockDto> returndata = new ArrayList<>();
-        for (int i = 0; i < result.size(); i++) {
-            StockDataMemberStockDto data = new StockDataMemberStockDto(
-                    (MemberStockEntity) Arrays.asList(result.get(i)).get(0), (StockDataEntity) Arrays.asList(result.get(i)).get(1));
-            returndata.add(data);
-        }
-        return returndata;
+        return getObjects(result);
     }
 
     // 회원 보유 단건검색
     public List<?> findOne(Integer memberNo, Integer currentTime, String stockCode) {
         List<Object[]> result =  memberStockRepository.findOneMemberStock(memberNo, currentTime, stockCode);
-        List<StockDataMemberStockDto> returndata = new ArrayList<>();
+        return getObjects(result);
+    }
+
+    // 전체 보유주식 등락률, 금액도 보여주기
+    public StockRateAndPriceResponseDto getMemberStockRateAndPrice(Integer memberNo, Integer currentTime) {
+        List<Object[]> result = memberStockRepository.findAllMemberStockList(memberNo, currentTime);
+        List<StockDataMemberStockDto> stockDataMemberStockDtos = (List<StockDataMemberStockDto>) getObjects(result);
+        float stockDataFlucauationRateSum = 0.0f;
+        Long stockDataPriceIncreasement = 0L;
+        int size = stockDataMemberStockDtos.size();
+        for (int i = 0; i < size; i++) {
+            stockDataFlucauationRateSum += stockDataMemberStockDtos.get(i).getStockDataFlucauationRate();
+            stockDataPriceIncreasement += stockDataMemberStockDtos.get(i).getStockDataPriceIncreasement() * stockDataMemberStockDtos.get(i).getMemberStockAmount();
+        }
+        return new StockRateAndPriceResponseDto(stockDataFlucauationRateSum / size, stockDataPriceIncreasement / size);
+    }
+
+    private List<?> getObjects(List<Object[]> result) {
+        List<StockDataMemberStockDto> returnData = new ArrayList<>();
         for (int i = 0; i < result.size(); i++) {
             StockDataMemberStockDto data = new StockDataMemberStockDto(
                     (MemberStockEntity) Arrays.asList(result.get(i)).get(0), (StockDataEntity) Arrays.asList(result.get(i)).get(1));
-            returndata.add(data);
+            returnData.add(data);
         }
-        return returndata;
+        return returnData;
     }
+
 
     // 회원 보유 주식 등록하기
     @Transactional
