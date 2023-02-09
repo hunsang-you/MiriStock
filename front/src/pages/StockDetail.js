@@ -1,5 +1,7 @@
 import './css/Charts.css';
 import { useState, useEffect } from 'react';
+// import { stockAPI } from '../api/api'; // api 통신
+
 import mirilogo2 from '../static/mirilogo2.png';
 import { userStore } from '../store';
 import LineChart from '../components/chart/LineChart';
@@ -29,10 +31,9 @@ const StockDetail = () => {
   };
   // 오늘날짜 -> 종목명
   const [stockInfo, setStockInfo] = useState('');
-<<<<<<< front/src/pages/StockDetail.js
-=======
 
->>>>>>> front/src/pages/StockDetail.js
+
+
   const [isFavorite, setIsFavorite] = useState(true);
   useEffect(() => {
     if (location.state) {

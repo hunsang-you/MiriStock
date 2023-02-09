@@ -1,5 +1,6 @@
-import HeartBtn from './HeartBtn';
-import { FaRegCommentDots } from 'react-icons/fa';
+// import HeartBtn from './HeartBtn';
+// import { FaRegCommentDots } from 'react-icons/fa';
+import { AiOutlineComment } from 'react-icons/ai';
 import Comment from './Comment';
 import { Button } from '@mui/material';
 import { useState } from 'react';
@@ -11,7 +12,7 @@ const ArticleItem = (props) => {
   const article = props.article;
   const setArticles = props.setArticles;
   //서버에 9시간 늦게 저장돼있어 9시간만큼 빼줌
-  let nowTime = new Date(article.articleDate).getTime() - 32400000;
+  let nowTime = new Date(article.articleCreateDate).getTime() - 32400000;
 
   //api에 있는 detailPost.createdAt를 바꿔주는 것
   // content 글자 제한, 더보기
@@ -21,18 +22,14 @@ const ArticleItem = (props) => {
   };
 
   // comment list 활성화
-  const [iscomment, setIsComment] = useState(false);
+  const [isComment, setIsComment] = useState(false);
   const CommentBtn = () => {
-    if (iscomment === true) {
-      setIsComment(!iscomment);
-    } else {
-      setIsComment(!iscomment);
-    }
+    setIsComment(!isComment);
   };
 
   // 댓글창 출력
   const CommentBox = () => {
-    if (iscomment === true) {
+    if (isComment === true) {
       return <Comment article={article} setArticles={setArticles} />;
     }
   };
@@ -58,11 +55,11 @@ const ArticleItem = (props) => {
       </div>
 
       {/* 제목 */}
-      <div className="title" onClick={handlerBtn}>
+      <div className="article-title" onClick={handlerBtn}>
         <span> {article.articleTitle} </span>
       </div>
       {/* 내용 */}
-      <div className="content" onClick={handlerBtn}>
+      <div className="article-content" onClick={handlerBtn}>
         <span className={isclosed ? 'content-open' : 'content-close'}>
           {article.articleContent}
         </span>
@@ -77,29 +74,37 @@ const ArticleItem = (props) => {
           }}
         >
           {/* <motion.div variants={likeVariant} whileTap="click">
-            <HeartBtn like={like} item={item} />
+            <HeartBtn like={like} />
           </motion.div> */}
         </div>
         <div className="comment">
-          <FaRegCommentDots onClick={CommentBtn} />
+          <AiOutlineComment
+            onClick={CommentBtn}
+            size={40}
+            color={isComment === true ? '#6DCEF5' : '#C4C4C4'}
+          />
         </div>
         <div className="item-btn">
-          <Button
-            id="delete-btn"
-            variant="outlined"
-            size="middle"
-            onClick={() => {
-              communityAPI
-                .deleteArticle(article.articleNo)
-                .then((request) => console.log(request.data))
-                .catch((err) => console.log(err));
-            }}
-          >
-            삭제
-          </Button>
-          <Button id="update-btn" variant="outlined" size="large">
-            수정
-          </Button>
+          <div>
+            <Button
+              id="delete-btn"
+              variant="outlined"
+              size="large"
+              onClick={() => {
+                communityAPI
+                  .deleteArticle(article.articleNo)
+                  .then((request) => console.log(request.data))
+                  .catch((err) => console.log(err));
+              }}
+            >
+              삭제
+            </Button>
+          </div>
+          <div>
+            <Button id="update-btn" variant="outlined" size="large">
+              수정
+            </Button>
+          </div>
         </div>
       </div>
       <div> {CommentBox()} </div>
