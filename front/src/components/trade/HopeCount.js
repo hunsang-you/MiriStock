@@ -1,9 +1,18 @@
-const HopeCount = () => {
+const HopeCount = (props) => {
   return (
-    <div className="hope-body">
-      <div className="hope-title">구매할 주식수</div>
-      <div className="hope-input">
-        <div className="hope-money">123</div>
+    <div className={props.hopeInputID === 1 ? 'hope-body' : 'disabled-body'}>
+      <div
+        className={props.hopeInputID === 1 ? 'hope-title' : 'disabled-title'}
+      >
+        구매할 주식수
+      </div>
+      <div
+        className="hope-input"
+        onTouchStart={() => {
+          props.inputID(1);
+        }}
+      >
+        <div className="hope-money">{props.hopeCount}</div>
         <div>주</div>
       </div>
     </div>

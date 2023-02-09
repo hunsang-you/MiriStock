@@ -21,8 +21,22 @@ const BuyStock = () => {
 
   const [stockInfo, setStockInfo] = useState();
 
+  const [hopeInputID, setHopeInputID] = useState(0);
+  const [hopeCount, setHopeCount] = useState(0);
   const [hopePrice, setHopePrice] = useState(0);
   // console.log(stockCode);
+
+  const inputID = (id) => {
+    if (id === 0) {
+      setHopeInputID(0);
+    } else if (id === 1) {
+      setHopeInputID(1);
+    } else if (id === 2) {
+      setHopeInputID(2);
+    }
+    console.log(hopeInputID);
+  };
+
   useEffect(() => {
     const use = async () => {
       const reqData = await stockAPI.stockDetail(stockCode, today, today);
@@ -30,7 +44,6 @@ const BuyStock = () => {
       setStockInfo(reqData.data[0]);
     };
     use();
-    console.log(stockInfo);
   }, []);
   return (
     <div className="trade-body">
@@ -44,20 +57,51 @@ const BuyStock = () => {
           >
             〈
           </strong>
-          <div></div>
+          {/* <div>{stockInfo.stockName}</div> */}
         </div>
         <div>
-          <HopeCount />
+          {hopeInputID === 0 ? (
+            <HopePrice
+              hopeInputID={hopeInputID}
+              setHopeInputID={setHopeInputID}
+              inputID={inputID}
+              hopePrice={hopePrice}
+            />
+          ) : (
+            <div>
+              <HopeCount
+                hopeInputID={hopeInputID}
+                setHopeInputID={setHopeInputID}
+                inputID={inputID}
+                hopeCount={hopeCount}
+              />
+              <HopePrice
+                hopeInputID={hopeInputID}
+                setHopeInputID={setHopeInputID}
+                inputID={inputID}
+                hopePrice={hopePrice}
+              />
+            </div>
+          )}
         </div>
-        <div>
-          <HopePrice hopePrice={hopePrice} />
-        </div>
+        <div></div>
       </div>
       <div className="trade-keypad">
         <Possible />
         <Persent />
-        <Keypad hopePrice={hopePrice} setHopePrice={setHopePrice} />
-        <TradeBotton />
+        <Keypad
+          hopeInputID={hopeInputID}
+          setHopeInputID={setHopeInputID}
+          hopeCount={hopeCount}
+          setHopeCount={setHopeCount}
+          hopePrice={hopePrice}
+          setHopePrice={setHopePrice}
+        />
+        <TradeBotton
+          hopeInputID={hopeInputID}
+          setHopeInputID={setHopeInputID}
+          inputID={inputID}
+        />
       </div>
     </div>
   );

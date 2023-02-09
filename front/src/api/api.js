@@ -3,7 +3,7 @@ import axios from 'axios';
 const BASE_URL = process.env.REACT_APP_BASE_UR;
 // const accessToken = localStorage.getItem('accessToken');
 const accessToken =
-  'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkb2d5ZW9tMkBrYWthby5jb20iLCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJuaWNrbmFtZSI6IuyjvOumsOydtCIsImV4cCI6MTY3NjA0MzAzNH0.QWchrvOCkiq_bVKrzl8IgNaTrx4TMr_eFfmMG9Vq6O8';
+  'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkb2d5ZW9tMkBrYWthby5jb20iLCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJuaWNrbmFtZSI6IuyjvOumsOydtCIsImV4cCI6MTY3NjA3NjY4NX0.OcwQKILsOm65s2Z62cZZlOPQr3JQ_taFeOG_F8RiboU';
 export const api = axios.create({
   baseURL: BASE_URL,
   withCredentials: true,
