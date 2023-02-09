@@ -18,4 +18,6 @@ public interface LimitPriceOrderRepository extends JpaRepository<LimitPriceOrder
 
     int deleteAllByMemberNoAndLimitPriceOrderNo(Integer memberNo, Integer limitPriceOrderNo);
 
+    List<LimitPriceOrderEntity> findAllByMemberNo(Integer memberNo);
+
 }
