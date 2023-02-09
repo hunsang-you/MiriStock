@@ -3,6 +3,7 @@ package com.udteam.miristock.repository;
 import com.udteam.miristock.entity.MemberStockEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -29,5 +30,25 @@ public interface MemberStockRepository extends JpaRepository<MemberStockEntity, 
     // 회원의 보유 주식 가져오기
     MemberStockEntity findByMemberNoAndStockCode(Integer memberNo, String stockCode);
 
+//    // 회원의 보유 주식 가져오기 (평가금액순)
+    @Query(" SELECT m, s From StockDataEntity as s " +
+            " JOIN MemberStockEntity as m " +
+            " on m.stockCode = s.stockCode " +
+            " WHERE m.memberStockAmount > 0  AND m.memberNo=:memberNo AND s.stockDataDate=:stockDataDate order by m.memberStockAvgPrice * m.memberStockAmount desc")
+    List<Object[]> findAllMemberStockListOrderByPrice(@Param("memberNo") Integer memberNo, @Param("stockDataDate") Integer memberAssetCurrentTime);
+
+
+    @Query(" SELECT m, s From StockDataEntity as s " +
+            " JOIN MemberStockEntity as m " +
+            " on m.stockCode = s.stockCode " +
+            " WHERE m.memberStockAmount > 0  AND m.memberNo=:memberNo AND s.stockDataDate=:stockDataDate order by s.stockDataClosingPrice/m.memberStockAvgPrice*100-100 ")
+    List<Object[]> findAllMemberStockListOrderByEarnRate(@Param("memberNo") Integer memberNo, @Param("stockDataDate") Integer memberAssetCurrentTime);
+
+    // 회원의 보유 주식 단건 검색
+    @Query(" SELECT m, s From StockDataEntity as s " +
+            " JOIN MemberStockEntity as m " +
+            " on m.stockCode = s.stockCode " +
+            " WHERE m.memberStockAmount > 0  AND m.memberNo=:memberNo AND s.stockDataDate=:stockDataDate AND m.stockCode=:stockCode")
+    List<Object[]> findOneMemberStock(@Param("memberNo") Integer memberNo, @Param("stockDataDate") Integer memberAssetCurrentTime, @Param("stockCode") String stockCode);
 
 }
