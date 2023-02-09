@@ -19,3 +19,8 @@
 .watch-item > * {
     font-family: var(--font-IbmPlexSansKrLightRegular);
 }
+
+#cancel-img {
+    width: 40px;
+    background-color: white;
+}

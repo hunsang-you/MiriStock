@@ -22,7 +22,7 @@ const Comment = (props) => {
   const ChangeText = (e) => {
     setText(e.target.value);
   };
-
+  // className=`{기존클래스 ${addClass === true ? "클래스" : "클래스"} }`
   return (
     <div className="comment-box">
       <div className="create-comment">

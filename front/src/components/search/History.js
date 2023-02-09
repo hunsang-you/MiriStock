@@ -3,6 +3,7 @@ import { searchStore } from '../../store';
 import { searchAPI } from '../../api/api';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import cancel from '../../static/cancel.png';
 
 const History = () => {
   const [searchHistory, setSearchHistory] = useState([]);
@@ -47,7 +48,7 @@ const History = () => {
                     .catch((err) => console.log(err));
                 }}
               >
-                X
+                {/* <img src={cancel} id="cancel-img" /> */}X
               </button>
             </div>
           );

@@ -12,7 +12,7 @@ const CommentItem = (props) => {
   return (
     <div className="comment-item">
       <div className="item-id">
-        <span>{comment.memberNickname} 님</span>
+        <span>{comment.memberNickname} </span>
         <span id="item-createAt"> {detailDate(nowTime)} </span>
       </div>
       <div className="item-content">
@@ -20,7 +20,7 @@ const CommentItem = (props) => {
           className={isclosed ? 'comment-open' : 'comment-close'}
           onClick={handlerBtn}
         >
-          {comment.commentContent}
+          <span> {comment.commentContent} </span>
         </div>
       </div>
     </div>

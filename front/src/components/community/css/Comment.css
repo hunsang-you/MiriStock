@@ -1,5 +1,5 @@
 .comment-box {
-    border-top: 3px solid #6DCEF5;
+    border-top: 1px solid #6DCEF5;
 }
 
 .comment-item {
@@ -7,40 +7,45 @@
     flex-direction: column;
     margin-left: 16px;
     margin-top: 16px;
-    margin-bottom: 16px;
-
-  
+    margin-bottom: 24px;
+    /* border-top: 1px dashed #C4C4C4; */
 }
 
 .item-id {
-    text-align: left;
     display: flex;
-    margin-right: 16px;
+    text-align: left;
+    flex-direction: column;
+    /* margin-right: 16px; */
     font-weight: bold;
-    justify-content: space-between;
+    /* justify-content: space-between; */
+}
 
+.item-id > #item-createAt {
+    color: #C4C4C4;
+    font-size: 12px;
+    
 }
 
 .item-content {
     display: flex;
     text-align: left;
-    margin-left: 24px;
+    margin-left: 16px;
+    margin-right: 16px;
     margin-top: auto;
-    margin-right: 24px;
-
 
 }
 
 .comment-open {
     max-height: 100%;
     line-height: 30px;
+    
 }
 
 .comment-close {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 1;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     line-height: 30px;
  
@@ -50,7 +55,7 @@
     display: flex;
     margin-top: 8px;
     justify-content: center;
-    border-bottom: 1px dashed #C4C4C4;
+
 }
 
 .comment-createbtn {

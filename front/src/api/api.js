@@ -1,8 +1,10 @@
 import axios from 'axios';
 
-// const BASE_URL = process.env.REACT_APP_BASE_UR;
-const BASE_URL = 'https://i8b111.p.ssafy.io/api';
-const accessToken = localStorage.getItem('accessToken');
+const BASE_URL = process.env.REACT_APP_BASE_UR;
+// const BASE_URL = 'https://i8b111.p.ssafy.io/api';
+// const accessToken = localStorage.getItem('accessToken');
+const accessToken =
+  'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMmRidGtkQG5hdmVyLmNvbSIsInJvbGUiOiJST0xFX01FTUJFUiIsIm5pY2tuYW1lIjoi7ZeM7IqkIiwiZXhwIjoxNjc2MDc3NTUxfQ.EOeZO-jHBcVJG8FCz4FlWQMvrCUog2Bq0neG-wKoaBg';
 export const api = axios.create({
   baseURL: BASE_URL,
   withCredentials: true,
@@ -18,17 +20,17 @@ api.interceptors.request.use(function (config) {
   return config;
 });
 
-api.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  (err) => {
-    const originalReq = err.config;
-    localStorage.setItem('accessToken', err.response.headers.authorization);
-    originalReq.headers['Authorization'] = err.response.headers.authorization;
-    return axios(originalReq);
-  },
-);
+// api.interceptors.response.use(
+//   (response) => {
+//     return response;
+//   },
+//   (err) => {
+//     const originalReq = err.config;
+//     localStorage.setItem('accessToken', err.response.headers.authorization);
+//     originalReq.headers['Authorization'] = err.response.headers.authorization;
+//     return axios(originalReq);
+//   },
+// );
 //     return new Promise((resolve, reject) => {
 //       const originalReq = err.config;
 //       console.log(originalReq);
