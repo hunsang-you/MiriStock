@@ -30,6 +30,3 @@ const TradeBotton = (props) => {
 };
 
 export default TradeBotton;
-
-// hopeInputID={hopeInputID}
-// setHopeInputID={setHopeInputID}

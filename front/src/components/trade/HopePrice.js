@@ -3,7 +3,7 @@ import { Hidden } from '@mui/material';
 const HopePrice = (props) => {
   return (
     <div>
-      {props.hopeInputId === 0 ? (
+      {props.hopeInputID === 0 ? (
         <div
           className={props.hopeInputID !== 1 ? 'hope-body' : 'disabled-body'}
         >
@@ -35,7 +35,7 @@ const HopePrice = (props) => {
           <div>
             <div
               className="hope-input"
-              onTouchStart={() => {
+              onClick={() => {
                 props.inputID(2);
               }}
             >
