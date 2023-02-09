@@ -36,8 +36,8 @@ public class InterestService {
                 .build()));
     }
 
-    public void deleteIntereststock(Integer id, String stockCode){
-        interestRepository.deleteByMember_MemberNoAndStock_StockCode(id,stockCode);
+    public int deleteIntereststock(Integer id, String stockCode){
+        return interestRepository.deleteByMember_MemberNoAndStock_StockCode(id,stockCode);
     }
 }
 

@@ -13,7 +13,7 @@ public interface MemberStockRepository extends JpaRepository<MemberStockEntity, 
     List<MemberStockEntity> findAllByMemberNo(Integer memberNo);
     
     // 회원 보유 주식 삭제하기
-    void deleteByMemberNoAndStockCode(Integer memberNo, String stockCode);
+    int deleteByMemberNoAndStockCode(Integer memberNo, String stockCode);
 
     // 시뮬레이션 종료시 가장 많은 수익금과 손실금을 출력하는 쿼리문 =======
     // 위 아래 실행속도가 같음...

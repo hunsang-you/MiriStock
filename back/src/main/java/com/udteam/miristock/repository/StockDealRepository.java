@@ -9,6 +9,6 @@ import java.util.List;
 public interface StockDealRepository  extends JpaRepository<StockDealEntity, Integer> {
 
     // 쿼리 성능 향상해야함 (단건삭제발생)
-    void deleteAllByMemberNo(Integer memberNo);
+    int deleteAllByMemberNo(Integer memberNo);
 
 }

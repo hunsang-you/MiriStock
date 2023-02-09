@@ -8,6 +8,7 @@ import com.udteam.miristock.dto.MemberDto;
 import com.udteam.miristock.service.ArticleService;
 import com.udteam.miristock.service.MemberService;
 import com.udteam.miristock.util.HeaderUtil;
+import com.udteam.miristock.util.ReturnMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -83,10 +84,12 @@ public class ArticleController {
         if (m == null){
             log.info(ErrorMessage.TOKEN_EXPIRE);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        } else {
-            articleService.delete(m.getMemberNo(), articleno);
-            return ResponseEntity.ok().body("success");
         }
+
+        if(articleService.delete(m.getMemberNo(), articleno) == 0)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ReturnMessage.DELETE_FAIL);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(ReturnMessage.DELETE_SUCCESS);
+
     }
 
 }

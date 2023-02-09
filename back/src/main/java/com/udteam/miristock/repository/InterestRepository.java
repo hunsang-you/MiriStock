@@ -16,5 +16,5 @@ public interface InterestRepository extends JpaRepository<InterestEntity,Integer
     List<StockDataEntity> selectInterestStock(@Param("stockDataDate") Integer stockDataDate, @Param("memberNo") Integer memberNo);
 
     @Transactional
-    void deleteByMember_MemberNoAndStock_StockCode(Integer id, String stockCode);
+    int deleteByMember_MemberNoAndStock_StockCode(Integer id, String stockCode);
 }

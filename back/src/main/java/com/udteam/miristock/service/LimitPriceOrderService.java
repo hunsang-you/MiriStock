@@ -229,7 +229,7 @@ public class LimitPriceOrderService {
     }
 
     @Transactional
-    public void delete(Integer memberNo, Integer limitPriceOrderNo) {
-        limitPriceOrderRepository.deleteAllByMemberNoAndLimitPriceOrderNo(memberNo, limitPriceOrderNo);
+    public int delete(Integer memberNo, Integer limitPriceOrderNo) {
+        return limitPriceOrderRepository.deleteAllByMemberNoAndLimitPriceOrderNo(memberNo, limitPriceOrderNo);
     }
 }
