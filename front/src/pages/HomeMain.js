@@ -7,12 +7,13 @@ import {
 } from '../components/home';
 import { communityAPI, stockAPI, memberAPI, tradeAPI } from '../api/api';
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { userStore } from '../store';
 
 const HomeMain = () => {
   const navigate = useNavigate();
   const { user, setUser } = userStore((state) => state);
+  const [userStock, setUserStock] = useState([]);
   //일단 마운트될때마다로 설정 추후에 데이변할때 하게 해야함
   useEffect(() => {
     const getMember = async () => {
@@ -29,7 +30,7 @@ const HomeMain = () => {
       await memberAPI
         .stocks()
         .then((request) => {
-          console.log(request.data);
+          setUserStock(request.data);
         })
         .catch((err) => {
           console.log(err);
@@ -42,13 +43,13 @@ const HomeMain = () => {
     <div>
       <Simulation />
       <AssetStatus />
-      <EquitiesValue />
+      <EquitiesValue userStock={userStock} />
       <FavoriteStock />
       <Rank />
       <button
         onClick={() => {
           tradeAPI
-            .getAllTrades('SELL')
+            .getAllTrades()
             .then((request) => {
               console.log(request.data);
             })

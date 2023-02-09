@@ -47,10 +47,6 @@ const Rank = () => {
     todayTop();
     increase();
     decrease();
-
-    // rankAPI.todayTop(tempDate).then((request) => {
-    //   console.log(request.data);
-    // });
   }, [user]);
 
   return (
@@ -158,8 +154,8 @@ const BestIncrease = (props) => {
                     : { color: '#1E90FF' }
                 }
               >
-                ▲ {stock.stockDataPriceIncreasement.toLocaleString()}원 (
-                {stock.stockDataFlucauationRate}%)
+                ▲ +{stock.stockDataPriceIncreasement.toLocaleString()}원 (
+                {stock.stockDataFlucauationRate.toFixed(2)}%)
               </span>
             </div>
           </div>
@@ -199,7 +195,7 @@ const BestDecrease = (props) => {
                 }
               >
                 ▼ {stock.stockDataPriceIncreasement.toLocaleString()}원 (
-                {stock.stockDataFlucauationRate}%)
+                {stock.stockDataFlucauationRate.toFixed(2)}%)
               </span>
             </div>
           </div>
