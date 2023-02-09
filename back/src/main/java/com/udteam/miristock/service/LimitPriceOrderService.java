@@ -149,19 +149,19 @@ public class LimitPriceOrderService {
 
                 // 보유 주식의 평균가 기반으로 판매했을 때 이익 계산해야함.
                 // 거래내역에 추가 ==================
-//                Long earnPrice = (limitPriceOrderDto.getLimitPriceOrderPrice() - getMemberStockCode.getMemberStockAvgPrice()) * limitPriceOrderDto.getLimitPriceOrderAmount();
-//                Float earnRate = ((float) getMemberStockCode.getMemberStockAvgPrice() / (float) limitPriceOrderDto.getLimitPriceOrderPrice()) * (float) 100 - (float) 100;
+                Long earnPrice = (limitPriceOrderDto.getLimitPriceOrderPrice() - getMemberStockCode.getMemberStockAvgPrice()) * limitPriceOrderDto.getLimitPriceOrderAmount();
+                Float earnRate = ((float) getMemberStockCode.getMemberStockAvgPrice() / (float) limitPriceOrderDto.getLimitPriceOrderPrice()) * (float) 100 - (float) 100;
                 result = stockDealRepository.save(StockDealEntity.builder()
                         .stockCode(limitPriceOrderDto.getStockCode())
                         .stockName(limitPriceOrderDto.getStockName())
                         .memberNo(limitPriceOrderDto.getMemberNo())
                         .stockDealDate(memberSimulationTime)
                         .stockDealOrderClosingPrice(limitPriceOrderDto.getLimitPriceOrderPrice()) // 매도가
-//                        .stockDealAvgClosingPrice(getMemberStockCode.getMemberStockAvgPrice()) // 평균가
+                        .stockDealAvgClosingPrice(getMemberStockCode.getMemberStockAvgPrice()) // 평균가
                         .stockDealAmount(limitPriceOrderDto.getLimitPriceOrderAmount())
                         .stockDealType(limitPriceOrderType)
-//                        .stockDealEarnRate(earnRate)
-//                        .stockDealEarnPrice(earnPrice)
+                        .stockDealEarnRate(earnRate)
+                        .stockDealEarnPrice(earnPrice)
                         .build());
                 // 거래내역에 추가 =================
 
@@ -171,7 +171,7 @@ public class LimitPriceOrderService {
 //                Long sellPrice = (getMemberStockCode.getMemberStockAvgPrice() - limitPriceOrderClosingPrice) * sumAmount;
                 Long totalSellPrice = sellPrice + getMemberStockCode.getMemberStockAccSellPrice();
                 Long totalPurchasePrice = getMemberStockCode.getMemberStockAccPurchasePrice();
-                Float earnRate = (float)(totalSellPrice - totalPurchasePrice) / (float)totalPurchasePrice * 100f;
+                Float earnRate2 = (float)(totalSellPrice - totalPurchasePrice) / (float)totalPurchasePrice * 100f;
 
                 // 보유 주식 보유량, 평균매수가 업데이트 + 해당 종목에 대한 누적수익률, 수익금 계산
                 memberStockRepository.save(MemberStockEntity.builder()
@@ -183,7 +183,7 @@ public class LimitPriceOrderService {
                         .memberStockAvgPrice(getMemberStockCode.getMemberStockAvgPrice())
                         .memberStockAccPurchasePrice(getMemberStockCode.getMemberStockAccPurchasePrice())
                         .memberStockAccSellPrice(totalSellPrice)
-                        .memberStockAccEarnRate(earnRate)
+                        .memberStockAccEarnRate(earnRate2)
                         .build()
                 );
                 // 자산현황 업데이트
