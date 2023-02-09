@@ -20,7 +20,8 @@
     font-family: var(--font-IbmPlexSansKrLightRegular);
 }
 
-#cancel-img {
-    width: 40px;
+#cancel-btn {
     background-color: white;
+    border: 0;
+    color: #C4C4C4;
 }
