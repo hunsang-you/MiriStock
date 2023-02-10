@@ -8,6 +8,8 @@ import write from '../../static/write.jpg';
 import QnAimg from '../../static/QnAimg.png';
 import './css/ArticleList.css';
 
+import FilterArticle from './ArticleSearch';
+
 const ArticleList = () => {
   const navigate = useNavigate();
   const [articles, setArticles] = useState([]);
@@ -42,6 +44,9 @@ const ArticleList = () => {
             <span>글쓰기 </span>
           </Button>
         </div>
+      </div>
+      <div>
+        <FilterArticle articles={articles} />
       </div>
 
       {articles.reverse().map((article, i) => {
