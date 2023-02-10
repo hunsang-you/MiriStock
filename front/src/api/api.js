@@ -69,7 +69,11 @@ export default api;
 export const memberAPI = {
   asset: () => api.get(`/asset`),
   stocks: () => api.get(`/asset/memberstock`),
-  intersetStocks: (date) => api.get(`/asset/intereststock/${date}`), //확인안됨
+  intersetStocks: (date) => api.get(`/asset/intereststock/${date}`),
+  addIntersetStocks: (stockCode) =>
+    api.post(`/asset/intereststock`, { stockCode: stockCode }),
+  deleteIntersetStocks: (stockCode) =>
+    api.delete(`/asset/intereststock`, { params: { stockCode: stockCode } }),
 };
 
 export const rankAPI = {
