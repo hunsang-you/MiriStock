@@ -35,7 +35,7 @@ public class MemberAssetController {
             // 엑세스 토큰 재 발급 프로세스 필요
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }else {
-            return ResponseEntity.ok().body(memberAssetService.selectMemberAsset((int) m.getMemberNo()));
+            return ResponseEntity.ok().body(memberAssetService.selectMemberAsset(m.getMemberNo()));
         }
     }
 

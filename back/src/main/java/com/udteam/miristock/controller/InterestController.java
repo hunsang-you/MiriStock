@@ -5,6 +5,7 @@ import com.udteam.miristock.dto.MemberDto;
 import com.udteam.miristock.dto.StockDataResponseDto;
 import com.udteam.miristock.service.InterestService;
 import com.udteam.miristock.service.MemberService;
+import com.udteam.miristock.util.ErrorMessage;
 import com.udteam.miristock.util.HeaderUtil;
 import com.udteam.miristock.util.ReturnMessage;
 import io.swagger.annotations.ApiOperation;
@@ -58,13 +59,13 @@ public class InterestController {
         String token= HeaderUtil.getAccessTokenString(Authorization);
         MemberDto m = memberService.selectOneMember(token);
         if (m == null){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorMessage.TOKEN_EXPIRE);
         }
 
         if (interestService.deleteIntereststock(m.getMemberNo(), stockcode) == 0){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ReturnMessage.DELETE_FAIL);
         }
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(ReturnMessage.DELETE_SUCCESS);
+        return ResponseEntity.status(HttpStatus.OK).body(ReturnMessage.DELETE_SUCCESS);
 
     }
 }

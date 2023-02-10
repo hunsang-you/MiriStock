@@ -4,6 +4,7 @@ import com.nimbusds.oauth2.sdk.ErrorResponse;
 import com.udteam.miristock.dto.MemberDto;
 import com.udteam.miristock.service.MemberService;
 import com.udteam.miristock.util.HeaderUtil;
+import com.udteam.miristock.util.ReturnMessage;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +42,7 @@ public class MemberController {
         if (memberservice.deleteMember(token)!= 0){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
         }
-        return ResponseEntity.ok().body("delete OK");
+        return ResponseEntity.ok().body(ReturnMessage.DELETE_SUCCESS);
     }
 
     @PutMapping("/nickname")
