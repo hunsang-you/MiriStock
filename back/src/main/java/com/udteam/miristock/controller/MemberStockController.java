@@ -27,7 +27,7 @@ public class MemberStockController {
     
     // 보유 주식 리스트 들고오면서 현재 가격 같이 들고오기
     @GetMapping()
-    public ResponseEntity<?> findAll(@RequestHeader String Authorization, @RequestParam String type) {
+    public ResponseEntity<?> findAll(@RequestHeader String Authorization, @RequestParam(required=false, defaultValue="price") String type) {
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
         if (m == null){
             log.info(ErrorMessage.TOKEN_EXPIRE);

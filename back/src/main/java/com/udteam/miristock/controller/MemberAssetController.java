@@ -39,21 +39,5 @@ public class MemberAssetController {
         }
     }
 
-    @GetMapping("/stockholding")
-    @ApiOperation(value = " 회원 보유 주식 목록 출력(평가금액 순)")
-    public ResponseEntity selectMemberStock(@RequestHeader String Authorization) {
-        String token= HeaderUtil.getAccessTokenString(Authorization);
-        MemberDto m = memberService.selectOneMember(token);
-//        if(m==null ){
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-//                    .body(null);
-//        }else {
-//            return ResponseEntity.ok()
-//                    .body(interestService.selectMemberStock(m.getMemberNo()));
-//        }
-        return null;
-    }
-
-
 
 }

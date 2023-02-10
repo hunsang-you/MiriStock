@@ -94,4 +94,24 @@ public class SimulationController {
         return ResponseEntity.ok().body("Time Move Success");
     }
 
+    @PutMapping("/member/timechange/debug/{targetDate}")
+    public ResponseEntity<?> changeSimulTime(@RequestHeader String Authorization, @PathVariable(name = "targetDate") Integer targetDate) {
+        log.info("회원 시뮬레이션 날짜 단순 변경 호출됨 (/asset/member/time) targetDate : {}", targetDate);
+        String token= HeaderUtil.getAccessTokenString(Authorization);
+        MemberDto m = memberService.selectOneMember(token);
+        if (m == null){
+            log.info(ErrorMessage.TOKEN_EXPIRE);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }else {
+            MemberAssetDto result = memberAssetService.selectMemberAsset(m.getMemberNo());
+            log.info("before result : {} ", result);
+            result.setMemberassetCurrentTime(targetDate);
+            log.info("after result : {} ", result);
+            if (memberAssetService.updateMemberAsset(result) == null){
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Member Simulation Time Change Fail");
+            }
+            return ResponseEntity.status(HttpStatus.OK).body("Member Simulation Time Change Success! -> " + targetDate);
+        }
+    }
+
 }
