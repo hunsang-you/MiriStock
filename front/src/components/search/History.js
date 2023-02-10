@@ -37,20 +37,22 @@ const History = () => {
               }}
             >
               <div>{stock.stockName}</div>
-              <div>{stock.stockCode}</div>
-              <button
-                id="cancel-btn"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  console.log(stock.searchNo);
-                  searchAPI
-                    .deleteSearchHis(stock.searchNo)
-                    .then((request) => console.log(request.data))
-                    .catch((err) => console.log(err));
-                }}
-              >
-                X
-              </button>
+              <div>
+                {stock.stockCode}
+                <button
+                  id="deletesearch-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    console.log(stock.searchNo);
+                    searchAPI
+                      .deleteSearchHis(stock.searchNo)
+                      .then((request) => console.log(request.data))
+                      .catch((err) => console.log(err));
+                  }}
+                >
+                  X
+                </button>
+              </div>
             </div>
           );
         })}

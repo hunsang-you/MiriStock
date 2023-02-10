@@ -48,7 +48,7 @@ const SearchBar = () => {
       </div>
 
       {/* 종목 검색 결과 */}
-      <div className="search-title"></div>
+
       {searchResult.map((stock, i) => {
         return (
           <div
