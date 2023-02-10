@@ -59,7 +59,7 @@ public class StockDealController {
             if(stockDealService.delete(m.getMemberNo()) == 0){
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ReturnMessage.DELETE_FAIL);
             }
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(ReturnMessage.DELETE_SUCCESS);
+            return ResponseEntity.status(HttpStatus.OK).body(ReturnMessage.DELETE_SUCCESS);
         }
     }
 }
