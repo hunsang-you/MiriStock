@@ -24,6 +24,7 @@ public class MemberAssetService {
         MemberAssetEntity result = memberAssetRepository.save(MemberAssetEntity.builder()
                         .memberassetNo(memberAssetDto.getMemberassetNo())
                         .member(MemberEntity.builder().memberNo(memberAssetDto.getMemberNo()).build())
+                        .memberassetCurrentTime(memberAssetDto.getMemberassetCurrentTime())
                         .memberassetTotalAsset(memberAssetDto.getMemberassetTotalAsset())
                         .memberassetAvailableAsset(memberAssetDto.getMemberassetAvailableAsset())
                         .memberassetStockAsset(memberAssetDto.getMemberassetStockAsset())

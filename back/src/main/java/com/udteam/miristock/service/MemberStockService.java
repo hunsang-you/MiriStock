@@ -27,9 +27,9 @@ public class MemberStockService {
     public List<?> findAll(Integer memberNo, Integer currentTime, String type) {
         List<Object[]> result = null;
         log.info("type :{}",type);
-        if (type.equals("PRICE")) {
+        if (type.equals("price")) {
             result = memberStockRepository.findAllMemberStockListOrderByPrice(memberNo, currentTime);
-        } else if (type.equals("RATE")){
+        } else if (type.equals("rate")){
             result = memberStockRepository.findAllMemberStockListOrderByEarnRate(memberNo, currentTime);
         } else {
             result = memberStockRepository.findAllMemberStockListOrderByPrice(memberNo, currentTime);
