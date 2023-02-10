@@ -15,11 +15,16 @@ import {
 } from '../components/trade';
 
 const BuyStock = () => {
-  const { user } = userStore((state) => state);
-  let { stockCode } = useParams();
-  const today = user.memberassetCurrentTime;
   const navigate = useNavigate();
 
+  // 유저 정보
+  const { user } = userStore((state) => state);
+  console.log(user);
+  let { stockCode } = useParams();
+  const today = user.memberassetCurrentTime;
+  const userMoney = user.memberassetAvailableAsset;
+
+  // 주식 이름 / 오늘 가격 / 거래량
   const [stockName, setStockName] = useState();
   const [stockPrice, setStockPrice] = useState();
   const [stockAmount, setStockAmount] = useState();
@@ -27,7 +32,7 @@ const BuyStock = () => {
   const [hopeInputID, setHopeInputID] = useState(0);
   const [hopePrice, setHopePrice] = useState(0);
   const [hopeCount, setHopeCount] = useState(0);
-  const [hopeTax, setHopeTax] = useState();
+  const [hopeTax, setHopeTax] = useState(0);
   // console.log(stockCode);
 
   const inputID = (id) => {
@@ -97,7 +102,7 @@ const BuyStock = () => {
         <div></div>
       </div>
       <div className="trade-keypad">
-        <Possible hopeTax={hopeTax} />
+        <Possible hopeTax={hopeTax.toLocaleString()} />
         {hopeInputID !== 1 ? (
           <Persent
             stockPrice={stockPrice}
@@ -116,8 +121,12 @@ const BuyStock = () => {
           setHopePrice={setHopePrice}
         />
         <TradeBotton
+          stockPrice={stockPrice}
+          stockAmount={stockAmount}
           hopeInputID={hopeInputID}
           setHopeInputID={setHopeInputID}
+          hopePrice={hopePrice}
+          hopeCount={hopeCount}
           inputID={inputID}
         />
       </div>

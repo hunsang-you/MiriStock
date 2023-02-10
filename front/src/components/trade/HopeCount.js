@@ -12,7 +12,7 @@ const HopeCount = (props) => {
           props.inputID(1);
         }}
       >
-        <div className="hope-money">{props.hopeCount}</div>
+        <div className="hope-money">{props.hopeCount.toLocaleString()}</div>
         <div>주</div>
       </div>
     </div>
