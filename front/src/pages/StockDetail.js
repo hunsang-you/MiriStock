@@ -32,8 +32,6 @@ const StockDetail = () => {
   // 오늘날짜 -> 종목명
   const [stockInfo, setStockInfo] = useState('');
 
-
-
   const [isFavorite, setIsFavorite] = useState(true);
   useEffect(() => {
     if (location.state) {
@@ -72,7 +70,6 @@ const StockDetail = () => {
             }}
           />
         </div>
-        {/* <div>★☆</div> */}
       </div>
       <LineChart
         stockCode={stockCode}
