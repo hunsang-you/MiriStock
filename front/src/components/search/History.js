@@ -13,6 +13,7 @@ const History = () => {
         .getSearchHis()
         .then((request) => {
           setSearchHistory(request.data);
+          console.log(request.data);
         })
         .catch((err) => console.log(err));
     };
