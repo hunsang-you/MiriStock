@@ -77,7 +77,8 @@ public class SecurityConfig{
             web.ignoring()
                     .antMatchers(
                             "/actuator/health",
-                            "/");
+                            "/",
+                            "/member/nickname");
         };
     }
 }

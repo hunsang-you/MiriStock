@@ -57,7 +57,7 @@ public class TokenService {
         return false;
     }
 
-    public String getEmail(String token) {
+    public String getEmail(String token) throws ExpiredJwtException{
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
 
@@ -65,7 +65,7 @@ public class TokenService {
         return (String) Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get(className,String.class);
     }
 
-    public boolean getExpiredTokenClaims(String token) throws ExpiredJwtException{
+    public boolean getExpiredTokenClaims(String token) {
         try {
             Jwts.parser()
                     .setSigningKey(secretKey)
