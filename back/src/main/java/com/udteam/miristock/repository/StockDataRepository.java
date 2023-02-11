@@ -29,4 +29,6 @@ public interface StockDataRepository extends JpaRepository<StockDataEntity, Inte
 
     // 해당 날짜 데이터 있는 주식 명칭 검색
     List<StockDataSearchResponseMapping> findAllByStockNameStartingWithAndStockDataDateOrderByStockCodeAsc(String stockName, Integer StockDataDate);
+
+    StockDataEntity findByStockCodeAndStockDataDate(String stockCode, Integer stockDate);
 }

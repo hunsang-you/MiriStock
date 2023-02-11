@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,8 +42,7 @@ public class SearchRecordController {
     // 검색기록 등록
     @PostMapping
     public ResponseEntity<SearchRecordEntity> save(@RequestHeader String Authorization, @RequestBody SearchRecordEntity searchRecordEntity){
-        log.info("searchRecord : {}", searchRecordEntity);
-        log.info("주식 종목 검색 기록 등록 호출됨 : {} ", searchRecordEntity);
+        log.info("주식 종목 검색 기록 등록 호출됨 searchRecordEntity : {} ", searchRecordEntity);
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
         if (m == null){
             log.info(ErrorMessage.TOKEN_EXPIRE);
@@ -51,22 +51,23 @@ public class SearchRecordController {
             searchRecordEntity.setMemberNo(m.getMemberNo());
             log.info("memberNo : {} ", m.getMemberNo());
             log.info("searchRecord : {}", searchRecordEntity);
-            return ResponseEntity.status(HttpStatus.OK).body(searchRecordService.save(searchRecordEntity));
+            return ResponseEntity.status(HttpStatus.CREATED).body(searchRecordService.save(searchRecordEntity));
         }
     }
 
     //검색기록 제거
     @DeleteMapping("/{stockCode}")
     public ResponseEntity<String> delete(@RequestHeader String Authorization, @PathVariable String stockCode){
-        log.info("검색기록 제거 호출됨 stockCode : {}", stockCode);
+//        log.info("검색기록 제거 호출됨 stockCode : {}", stockCode);
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
         if (m == null){
-            log.info(ErrorMessage.TOKEN_EXPIRE);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        } else {
-            searchRecordService.delete(m.getMemberNo(), stockCode);
-            return ResponseEntity.status(HttpStatus.OK).body(ReturnMessage.DELETE_SUCCESS);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorMessage.TOKEN_EXPIRE);
         }
+
+        if (searchRecordService.delete(m.getMemberNo(), stockCode) == 0) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ReturnMessage.DELETE_FAIL);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(ReturnMessage.DELETE_SUCCESS);
     }
 
 }

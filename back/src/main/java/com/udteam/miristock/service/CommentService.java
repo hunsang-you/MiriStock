@@ -37,8 +37,8 @@ public class CommentService {
 //    }
 
     @Transactional
-    public void delete(Integer memberNo, Integer commentNo) {
-        commentRepository.deleteByMemberNoAndCommentNo(memberNo, commentNo);
+    public int delete(Integer memberNo, Integer commentNo) {
+        return commentRepository.deleteByMemberNoAndCommentNo(memberNo, commentNo);
     }
 
 }

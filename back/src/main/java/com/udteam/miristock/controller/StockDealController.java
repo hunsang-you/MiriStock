@@ -7,6 +7,7 @@ import com.udteam.miristock.entity.Deal;
 import com.udteam.miristock.service.MemberService;
 import com.udteam.miristock.service.StockDealService;
 import com.udteam.miristock.util.HeaderUtil;
+import com.udteam.miristock.util.ReturnMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -49,16 +50,16 @@ public class StockDealController {
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> delete(@RequestHeader String Authorization) {
+    public ResponseEntity<?> delete(@RequestHeader String Authorization) {
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
         if (m == null){
             log.info(ErrorMessage.TOKEN_EXPIRE);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } else {
-            log.info("delete log1");
-            stockDealService.delete((int) m.getMemberNo());
-            log.info("delete log2");
-            return ResponseEntity.ok().body(null);
+            if(stockDealService.delete(m.getMemberNo()) == 0){
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ReturnMessage.DELETE_FAIL);
+            }
+            return ResponseEntity.status(HttpStatus.OK).body(ReturnMessage.DELETE_SUCCESS);
         }
     }
 }

@@ -25,8 +25,8 @@ public class SearchRecordService {
     }
 
     @Transactional
-    public void delete(Integer memberNo, String stockCode) {
-        searchRecordRepository.deleteByMemberNoAndStockCode(memberNo, stockCode);
+    public int delete(Integer memberNo, String stockCode) {
+        return searchRecordRepository.deleteByMemberNoAndStockCode(memberNo, stockCode);
     }
 
 }

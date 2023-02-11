@@ -11,5 +11,5 @@ public interface SearchRecordRepository extends JpaRepository<SearchRecordEntity
 
     List<SearchRecordEntity> findByMemberNo (Integer memberNo);
 
-    void deleteByMemberNoAndStockCode(Integer memberNo, String stockCode);
+    int deleteByMemberNoAndStockCode(Integer memberNo, String stockCode);
 }

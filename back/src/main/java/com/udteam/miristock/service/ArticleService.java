@@ -35,8 +35,8 @@ public class ArticleService {
     }
 
     @Transactional
-    public void delete(Integer memberNo, Integer articleNo) {
-        articleRepository.deleteByMemberNoAndArticleNo(memberNo, articleNo);
+    public int delete(Integer memberNo, Integer articleNo) {
+        return articleRepository.deleteByMemberNoAndArticleNo(memberNo, articleNo);
     }
 
 }

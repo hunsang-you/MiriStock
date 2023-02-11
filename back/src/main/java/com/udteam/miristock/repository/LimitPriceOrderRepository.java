@@ -16,6 +16,8 @@ public interface LimitPriceOrderRepository extends JpaRepository<LimitPriceOrder
         " WHERE s.stockDataDate=:stockDataDate AND l.memberNo=:memberNo ")
     List<Object[]> compareLimitPriceOrderWithTodayStockData(@Param("memberNo") Integer memberNo, @Param("stockDataDate") Integer stockDataDate);
 
-    void deleteAllByMemberNoAndLimitPriceOrderNo(Integer memberNo, Integer limitPriceOrderNo);
+    int deleteAllByMemberNoAndLimitPriceOrderNo(Integer memberNo, Integer limitPriceOrderNo);
+
+    List<LimitPriceOrderEntity> findAllByMemberNo(Integer memberNo);
 
 }
