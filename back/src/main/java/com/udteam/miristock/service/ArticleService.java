@@ -29,6 +29,13 @@ public class ArticleService {
         return new ArticleResponseDto(articleRepository.findById(articleNO).get());
     }
 
+    public List<ArticleResponseDto> findSearchArticle(String keyword) {
+        List<ArticleEntity> articleEntityList = articleRepository.findByArticleTitleContainingOrArticleContentContaining(keyword, keyword);
+        return articleEntityList.stream()
+                .map(ArticleResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
     @Transactional // 메서드 실행시 트랜잭션 시작, 정상종료되면 커밋, 에러발생시 종료
     public ArticleCUDResponseDto save(ArticleRequestDto articleRequestDto) {
         return new ArticleCUDResponseDto(articleRepository.saveAndFlush(articleRequestDto.toEntity()));
