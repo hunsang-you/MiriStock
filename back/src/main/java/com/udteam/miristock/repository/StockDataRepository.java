@@ -12,7 +12,6 @@ import java.util.List;
 public interface StockDataRepository extends JpaRepository<StockDataEntity, Integer> {
 
     // 거래량 많은 5개 불러오기
-//    List<StockDataEntity> findTopByStockCodeOrderByStockDataAmountDesc(Integer stockDataDate);
     List<StockDataEntity> findTop5ByStockDataDateOrderByStockDataAmountDesc(Integer stockDataDate);
 
     // 등락률 가장 낮은 순서대로 5개 출력
@@ -30,5 +29,6 @@ public interface StockDataRepository extends JpaRepository<StockDataEntity, Inte
     // 해당 날짜 데이터 있는 주식 명칭 검색
     List<StockDataSearchResponseMapping> findAllByStockNameStartingWithAndStockDataDateOrderByStockCodeAsc(String stockName, Integer StockDataDate);
 
+    // 해당날짜 주식 데이터 불러오기
     StockDataEntity findByStockCodeAndStockDataDate(String stockCode, Integer stockDate);
 }
