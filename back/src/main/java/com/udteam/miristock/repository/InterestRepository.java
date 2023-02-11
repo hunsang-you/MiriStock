@@ -15,6 +15,8 @@ public interface InterestRepository extends JpaRepository<InterestEntity,Integer
             "where s.stockDataDate=:stockDataDate and i.member.memberNo=:memberNo ")
     List<StockDataEntity> selectInterestStock(@Param("stockDataDate") Integer stockDataDate, @Param("memberNo") Integer memberNo);
 
+    List<InterestEntity> findByMember_MemberNo(Integer memberNo);
+
     @Transactional
     int deleteByMember_MemberNoAndStock_StockCode(Integer id, String stockCode);
 }

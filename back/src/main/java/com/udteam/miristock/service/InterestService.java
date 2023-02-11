@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -27,6 +28,11 @@ public class InterestService {
     public List<StockDataResponseDto> selectInterestStock(Integer stockDataDate, Integer memberNo){
         List<StockDataEntity> stockDataEntityList = interestRepository.selectInterestStock(stockDataDate, memberNo);
         return stockDataEntityList.stream().map(StockDataResponseDto::new).collect(Collectors.toList());
+    }
+
+    public List<InterestDto> selectInterestStockNoDate(Integer memberNo){
+        List<InterestEntity> interestEntity = interestRepository.findByMember_MemberNo(memberNo);
+        return interestEntity.stream().map(InterestDto::of).collect(Collectors.toList());
     }
 
     public InterestDto insertIntereststock(Integer id, String stockCode) {

@@ -41,6 +41,20 @@ public class InterestController {
         }
     }
 
+    @GetMapping("/intereststock/list")
+    @ApiOperation(value = "회원 관심 주식 목록 단순 출력")
+    public ResponseEntity<?> selectIntereststcok(@RequestHeader String Authorization) {
+        log.info("회원 관심 단순 주식 목록 출력 호출됨");
+        String token= HeaderUtil.getAccessTokenString(Authorization);
+        MemberDto m = memberService.selectOneMember(token);
+        if (m==null ){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }else{
+            log.info("회원 고유 식별번호 : {}", m.getMemberNo());
+            return ResponseEntity.ok().body(interestService.selectInterestStockNoDate(m.getMemberNo()));
+        }
+    }
+
     @PostMapping("/intereststock")
     @ApiOperation(value = "회원 관심주식 추가")
     public ResponseEntity<InterestDto> insertIntereststock(@RequestHeader String Authorization, @RequestParam String stockcode) {
