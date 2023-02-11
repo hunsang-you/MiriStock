@@ -58,4 +58,15 @@ public class MemberController {
         }
         return ResponseEntity.ok().body(memberservice.updateMember(token,nickname));
     }
+
+    @PostMapping("/nicknamecheck")
+    @ApiOperation(value = "유저 닉네임 체크")
+    public ResponseEntity<?> selectAllMember(@RequestBody MemberDto memberDto){
+        log.info("유저 닉네임 체크 호출됨 : {} " , memberDto);
+        MemberDto getMember = memberservice.selectOnMemberByEmail(memberDto);
+        if(getMember == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원 정보를 찾을 수 없습니다.");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(getMember);
+    }
 }
