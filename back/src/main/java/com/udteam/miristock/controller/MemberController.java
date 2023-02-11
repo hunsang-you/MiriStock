@@ -36,13 +36,15 @@ public class MemberController {
     @DeleteMapping
     @ApiOperation(value = "해당 유저 회원 탈퇴 처리")
     public ResponseEntity<String> deleteMember(@RequestHeader String Authorization){
+        log.info("회원 삭제 요청됨");
         String userDetails = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String token = HeaderUtil.getAccessTokenString(Authorization);
         log.info("유저 디테일 = {}",userDetails);
-        if (memberservice.deleteMember(token)!= 0){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
+        if (memberservice.deleteMember(token) != 0){
+            // 회원삭제 성공
+            return ResponseEntity.status(HttpStatus.OK).body("Delete Member Success");
         }
-        return ResponseEntity.ok().body(ReturnMessage.DELETE_SUCCESS);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Delete Member Fail");
     }
 
     @PutMapping("/nickname")

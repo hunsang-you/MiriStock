@@ -1,10 +1,7 @@
 package com.udteam.miristock.controller;
 
-import com.udteam.miristock.dto.InterestDto;
 import com.udteam.miristock.dto.MemberAssetDto;
 import com.udteam.miristock.dto.MemberDto;
-import com.udteam.miristock.dto.StockDataResponseDto;
-import com.udteam.miristock.service.InterestService;
 import com.udteam.miristock.service.MemberAssetService;
 import com.udteam.miristock.service.MemberService;
 import com.udteam.miristock.util.HeaderUtil;
@@ -14,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 
 @Slf4j
 @RestController
@@ -38,6 +34,5 @@ public class MemberAssetController {
             return ResponseEntity.ok().body(memberAssetService.selectMemberAsset(m.getMemberNo()));
         }
     }
-
 
 }

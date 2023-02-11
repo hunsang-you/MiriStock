@@ -1,7 +1,9 @@
 package com.udteam.miristock.service.auth;
 
+import com.udteam.miristock.entity.MemberAssetEntity;
 import com.udteam.miristock.entity.MemberEntity;
 import com.udteam.miristock.entity.Role;
+import com.udteam.miristock.repository.MemberAssetRepository;
 import com.udteam.miristock.repository.MemberRepository;
 import com.udteam.miristock.repository.RedisRepository;
 import com.udteam.miristock.util.CookieUtil;
@@ -31,6 +33,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private final RedisRepository redisRepository;
     @Value("${redirect.url}")
     private String redirectUrl;
+    private final MemberAssetRepository memberAssetRepository;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
@@ -43,8 +46,14 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         // 등록되지 않은 회원일경우 회원가입
         MemberEntity member = memberRepository.findByMemberEmail((String) oAuth2User.getAttribute("email"));
         if (oAuth2User != null && member == null) {
-            log.info("유저를 찾을 수 없습니다. 유저 정보를 등록합니다.");
-            createMember(oAuth2User);
+            MemberEntity memberData = createMember(oAuth2User);
+            if(memberData == null) {
+                log.info("회원 가입 실패");
+            } else {
+                log.info("유저를 찾을 수 없습니다. 유저 정보를 등록합니다.");
+                createMemberAsset(memberData);
+                log.info("유저 기본 자산 정보 테이블을 생성합니다.");
+            }
         }
 
         // 다른 소셜로 등록된 회원이면 error페이지 리턴
@@ -92,12 +101,26 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                     .build().toUriString());
         }
     }
-
-    private MemberEntity createMember(OAuth2User oAuth2User) {
+    
+    // 회원 가입시 회원 테이블 생성 
+    public MemberEntity createMember(OAuth2User oAuth2User) {
         return memberRepository.saveAndFlush(MemberEntity.builder()
                 .memberEmail((String) oAuth2User.getAttribute("email"))
                 .role(Role.MEMBER)
                 .memberProvider(oAuth2User.getAttribute("provider"))
                 .build());
+    }
+
+    // 회원 가입시 회원 자산 테이블 생성
+    public MemberAssetEntity createMemberAsset(MemberEntity memberEntity) {
+        Long initialMoney = 50000000L;
+        Integer initialSimulationTime = 20180102;
+        return memberAssetRepository.saveAndFlush(MemberAssetEntity.builder()
+                        .member(memberEntity)
+                        .memberassetAvailableAsset(initialMoney)
+                        .memberassetStockAsset(0L)
+                        .memberassetAvailableAsset(initialMoney)
+                        .memberassetCurrentTime(initialSimulationTime)
+                        .build());
     }
 }
