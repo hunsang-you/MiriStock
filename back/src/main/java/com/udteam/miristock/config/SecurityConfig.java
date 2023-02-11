@@ -78,7 +78,7 @@ public class SecurityConfig{
                     .antMatchers(
                             "/actuator/health",
                             "/",
-                            "/profilee");
+                            "/member/nickname");
         };
     }
 }

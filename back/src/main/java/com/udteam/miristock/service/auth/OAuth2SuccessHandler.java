@@ -56,38 +56,38 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         }
         String nickname = memberRepository.findByMemberEmail((String) oAuth2User.getAttribute("email")).getMemberNickname();
         log.info("nickname = {}", nickname);
-
-        // 만약 해당 이메일로 리프레쉬 토큰이 존재한다면 삭제
-        if (redisUtil.getData((String) oAuth2User.getAttribute("email")) != null) {
-            log.info("refresh token exists.Remove refresh token");
-            redisRepository.deleteById((String) oAuth2User.getAttribute("email"));
-        }
-
-        // 리프레쉬 토큰 생성 후 Redis에 등록
-        String refreshtoken = tokenservice.generateToken((String) oAuth2User.getAttribute("email"), "ROLE_MEMBER", nickname, "REFRESH");
-        redisUtil.setDataExpire((String) oAuth2User.getAttribute("email"), refreshtoken, TokenService.refreshPeriod);
-
-        // Response Cookie에 리프레쉬 토큰 적재, access token 생성
-        ResponseCookie cookie = cookieUtil.getCookie(refreshtoken, TokenService.refreshPeriod);
-        String accesstoken = tokenservice.generateToken(oAuth2User.getAttribute("email"), "ROLE_MEMBER", nickname, "ACCESS");
-
-        log.info("accecss_Token = {}", accesstoken);
-        log.info("refresh_Token = {}", refreshtoken);
-        response.setContentType("application/json;charset=UTF-8");
-        // Authorization 헤더필드에 accesstoken 적재 , Set-Cookkie 헤더 필드에 리프레쉬 토큰 cookie 적재
-        response.setHeader("Set-Cookie", cookie.toString());
-
         // 닉네임 작성 여부 확인
         if (nickname == null) {
             // 닉네임 설정 화면으로
             log.info("닉네임 설정 화면으로");
-            getRedirectStrategy().sendRedirect(request, response, UriComponentsBuilder.fromUriString(redirectUrl)
-                    .queryParam("accesstoken", accesstoken)
+            getRedirectStrategy().sendRedirect(request, response, UriComponentsBuilder.fromUriString(redirectUrl + "/login/nickname")
+                    .queryParam("email", (String) oAuth2User.getAttribute("email"))
                     .build().toUriString());
         } else {
+            // 만약 해당 이메일로 리프레쉬 토큰이 존재한다면 삭제
+            if (redisUtil.getData((String) oAuth2User.getAttribute("email")) != null) {
+                log.info("refresh token exists.Remove refresh token");
+                redisRepository.deleteById((String) oAuth2User.getAttribute("email"));
+            }
+
+            // 리프레쉬 토큰 생성 후 Redis에 등록
+            String refreshtoken = tokenservice.generateToken((String) oAuth2User.getAttribute("email"), "ROLE_MEMBER", nickname, "REFRESH");
+            redisUtil.setDataExpire((String) oAuth2User.getAttribute("email"), refreshtoken, TokenService.refreshPeriod);
+
+            // Response Cookie에 리프레쉬 토큰 적재, access token 생성
+            ResponseCookie cookie = cookieUtil.getCookie(refreshtoken, TokenService.refreshPeriod);
+            String accesstoken = tokenservice.generateToken(oAuth2User.getAttribute("email"), "ROLE_MEMBER", nickname, "ACCESS");
+
+            log.info("accecss_Token = {}", accesstoken);
+            log.info("refresh_Token = {}", refreshtoken);
+            response.setContentType("application/json;charset=UTF-8");
+            // Authorization 헤더필드에 accesstoken 적재 , Set-Cookkie 헤더 필드에 리프레쉬 토큰 cookie 적재
+            response.setHeader("Set-Cookie", cookie.toString());
+
+
             // 메인으로
             log.info("메인으로");
-            getRedirectStrategy().sendRedirect(request, response, UriComponentsBuilder.fromUriString(redirectUrl)
+            getRedirectStrategy().sendRedirect(request, response, UriComponentsBuilder.fromUriString(redirectUrl + "/redirect")
                     .queryParam("accesstoken", accesstoken)
                     .build().toUriString());
         }

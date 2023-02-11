@@ -7,6 +7,7 @@ import com.udteam.miristock.repository.RedisRepository;
 import com.udteam.miristock.service.auth.TokenService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.minidev.json.annotate.JsonIgnore;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -60,7 +61,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
             // 엑세스 토큰이 블랙리스트 등록되있거나 만료되었을 경우 access token, refresh token 재발급
         }catch(Exception e){
-            e.printStackTrace();
             log.info("JWT Token Reissue");
             try {
                 // request의 Cookie에서 refresh token 추출
@@ -100,7 +100,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 log.debug("Refreshtoken invaild");
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
 //                request.setAttribute("RefreshTokenInvalid",j.getMessage());
-                j.printStackTrace();
             }
         }
         filterChain.doFilter(request,response);
