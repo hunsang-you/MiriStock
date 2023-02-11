@@ -54,6 +54,19 @@ public class SimulationController {
         }
     }
 
+    @PostMapping("/restart")
+    public ResponseEntity<?> restartSimulation(@RequestHeader String Authorization) {
+        log.info("회원 시뮬레이션 초기화 됨 ");
+        MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
+        if (m == null){
+            log.info(ErrorMessage.TOKEN_EXPIRE);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        } else {
+            simulationService.resetSimulation(m);
+            return ResponseEntity.ok().body("Reset");
+        }
+    }
+
     @PutMapping("/member/time/{targetDate}")
     public ResponseEntity<?> updateSimulationDate(@RequestHeader String Authorization, @PathVariable Integer targetDate) {
         if(targetDate == null || targetDate == 0) {

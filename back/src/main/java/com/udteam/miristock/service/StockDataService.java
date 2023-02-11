@@ -24,21 +24,21 @@ public class StockDataService {
 
     // 거래량 가장 많은 5개 출력
     public List<StockDataResponseDto> findTop5AmountDesc(Integer stockDataDate) {
-        return stockDataRepository.findTop5ByStockDataDateOrderByStockDataAmountDesc(stockDataDate)
+        return stockDataRepository.findTop5ByStockDataDateAndStockDataAmountNotOrderByStockDataAmountDesc(stockDataDate, 0L)
         .stream().map(StockDataResponseDto::new)
         .collect(Collectors.toList());
     }
 
     // 등락률 가장 낮은 5개 순서대로 가져오기
     public List<StockDataResponseDto> findTop5BySFlucauationRateAsc(Integer stockDataDate){
-        return stockDataRepository.findTop5ByStockDataDateOrderByStockDataFlucauationRateAsc(stockDataDate)
+        return stockDataRepository.findTop5ByStockDataDateAndStockDataAmountNotOrderByStockDataFlucauationRateAsc(stockDataDate, 0L)
         .stream().map(StockDataResponseDto::new)
         .collect(Collectors.toList());
     }
 
     // 등락률 가장 높은 순서대로 5개 출력
     public List<StockDataResponseDto> findTop5BySFlucauationRateDesc(Integer stockDataDate){
-        return stockDataRepository.findTop5ByStockDataDateOrderByStockDataFlucauationRateDesc(stockDataDate)
+        return stockDataRepository.findTop5ByStockDataDateAndStockDataAmountNotOrderByStockDataFlucauationRateDesc(stockDataDate, 0L)
         .stream().map(StockDataResponseDto::new)
         .collect(Collectors.toList());
     }

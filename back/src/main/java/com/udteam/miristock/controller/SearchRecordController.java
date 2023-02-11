@@ -41,7 +41,7 @@ public class SearchRecordController {
 
     // 검색기록 등록
     @PostMapping
-    public ResponseEntity<SearchRecordEntity> save(@RequestHeader String Authorization, @RequestBody SearchRecordEntity searchRecordEntity){
+    public ResponseEntity<?> save(@RequestHeader String Authorization, @RequestBody SearchRecordEntity searchRecordEntity){
         log.info("주식 종목 검색 기록 등록 호출됨 searchRecordEntity : {} ", searchRecordEntity);
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
         if (m == null){

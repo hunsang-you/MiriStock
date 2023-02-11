@@ -50,9 +50,17 @@ public class MemberStockService {
         float stockDataFlucauationRateSum = 0.0f;
         Long stockDataPriceIncreasement = 0L;
         int size = stockDataMemberStockDtos.size();
+        if (size == 0) {
+            return new StockRateAndPriceResponseDto(0.0f, 0L);
+        }
         for (int i = 0; i < size; i++) {
             stockDataFlucauationRateSum += stockDataMemberStockDtos.get(i).getStockDataFlucauationRate();
             stockDataPriceIncreasement += stockDataMemberStockDtos.get(i).getStockDataPriceIncreasement() * stockDataMemberStockDtos.get(i).getMemberStockAmount();
+        }
+        if (stockDataFlucauationRateSum == 0 & stockDataPriceIncreasement != 0 ){
+            return new StockRateAndPriceResponseDto(0f, stockDataPriceIncreasement / size);
+        } else if (stockDataFlucauationRateSum != 0f & stockDataPriceIncreasement == 0 ){
+            return new StockRateAndPriceResponseDto(stockDataFlucauationRateSum / size, 0L);
         }
         return new StockRateAndPriceResponseDto(stockDataFlucauationRateSum / size, stockDataPriceIncreasement / size);
     }

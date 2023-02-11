@@ -13,6 +13,6 @@ import lombok.*;
 @NoArgsConstructor
 public class SimulEndDto {
     MemberAssetEntity memberAsset;
-    MemberStockEntity lowMemberStock;
-    MemberStockEntity highMemberStock;
+    MemberSimulEndDto lowMemberStock;
+    MemberSimulEndDto highMemberStock;
 }

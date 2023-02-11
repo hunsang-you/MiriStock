@@ -50,6 +50,21 @@ public class ArticleController {
         }
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<ArticleResponseDto>> findSearchArticle(@RequestHeader String Authorization, @RequestParam(name = "keyword", required = false) String keyword){
+        log.info("articel 검색 키워드 : {}", keyword);
+        MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
+        if (m == null){
+            log.info(ErrorMessage.TOKEN_EXPIRE);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        } else {
+            if (keyword == null){
+                return ResponseEntity.ok().body(articleService.findAll());
+            }
+            return ResponseEntity.ok().body(articleService.findSearchArticle(keyword));
+        }
+    }
+
     @PostMapping
     public ResponseEntity<ArticleCUDResponseDto> save(@RequestHeader String Authorization, @RequestBody ArticleRequestDto articleRequestDto) {
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));

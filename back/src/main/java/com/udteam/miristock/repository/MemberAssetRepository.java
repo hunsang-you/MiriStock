@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface MemberAssetRepository extends JpaRepository<MemberAssetEntity,Integer> {
 
     MemberAssetEntity findByMember_MemberNo(Integer memberNo);
-
+    
 }

@@ -1,5 +1,6 @@
 package com.udteam.miristock.service;
 
+import com.udteam.miristock.config.ValueConfig;
 import com.udteam.miristock.dto.*;
 import com.udteam.miristock.entity.*;
 import com.udteam.miristock.repository.*;
@@ -8,29 +9,47 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import static com.udteam.miristock.service.InformationService.AddDate;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class SimulationService {
     private final MemberAssetRepository memberAssetRepository;
     private final MemberStockRepository memberStockRepository;
-//    private final StockDataRepository stockDataRepository;
     private final LimitPriceOrderRepository limitPriceOrderRepository;
-//    private final StockDealRepository stockDealRepository;
+
+    private final StockDealRepository stockDealRepository;
 
     @Transactional(readOnly = true)
     public SimulEndDto resultSimulation(Integer memberNo){
         return new SimulEndDto(
                 memberAssetRepository.findById(memberNo).get(),
-                memberStockRepository.findTop1ByMemberNoAndMemberStockAmountOrderByMemberStockAccEarnPriceAsc(memberNo, 0L),
-                memberStockRepository.findTop1ByMemberNoAndMemberStockAmountOrderByMemberStockAccEarnPriceDesc(memberNo, 0L)
+                new MemberSimulEndDto(memberStockRepository.findTop1ByMemberNoAndMemberStockAmountOrderByMemberStockAccEarnPriceDesc(memberNo, 0L).get(0)),
+                new MemberSimulEndDto(memberStockRepository.findTop1ByMemberNoAndMemberStockAmountOrderByMemberStockAccEarnPriceAsc(memberNo, 0L).get(0))
                 );
+    }
+
+    // 시뮬레이션 종료...
+    @Transactional
+    public void resetSimulation(MemberDto memberDto){
+        // 회원 자산 기본으로 초기화
+        MemberAssetEntity memberAssetResetResult  = memberAssetRepository.save(MemberAssetEntity.builder()
+                        .memberassetNo(memberDto.getMemberNo())
+                        .member(MemberEntity.builder().memberNo(memberDto.getMemberNo()).build())
+                        .memberassetAvailableAsset(ValueConfig.memberInitAvailableAsset)
+                        .memberassetStockAsset(0L)
+                        .memberassetTotalAsset(ValueConfig.memberInitAvailableAsset)
+                        .memberassetCurrentTime(ValueConfig.memberInitSimulationTime)
+                        .build());
+
+        // 거래예정 테이블 삭제
+        limitPriceOrderRepository.deleteById(memberDto.getMemberNo());
+
+        // 회원 보유 주식 테이블 삭제
+        memberStockRepository.deleteById(memberDto.getMemberNo());
+
+        // 회원 주식 거래 내역 테이블 삭제
+        stockDealRepository.deleteById(memberDto.getMemberNo());
+
     }
 
 }

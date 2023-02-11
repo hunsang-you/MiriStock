@@ -37,20 +37,16 @@ public class MemberService {
         String email = tokenservice.getEmail(token);
         MemberEntity member = memberrepository.findByMemberEmail(email);
         member.setMemberNickname(nickname);
-//        MemberEntity updatemember= MemberEntity.builder()
-//                .memberNo(member.getMemberNo())
-//                .memberEmail(member.getMemberEmail())
-//                .memberNickname(nickname)
-//                .memberProvider(member.getMemberProvider())
-//                .memberTotalasset(member.getMemberTotalasset())
-//                .memberCurrentTime(member.getMemberCurrentTime())
-//                .role(member.getRole())
-//                .build();
         return MemberDto.of(memberrepository.saveAndFlush(member));
     }
 
     public MemberDto selectOneMember(String token){
         String email = tokenservice.getEmail(token);
+        return MemberDto.of(memberrepository.findByMemberEmail(email));
+    }
+
+    public MemberDto selectOnMemberByEmail (MemberDto memberDto){
+        String email = memberDto.getMemberEmail();
         return MemberDto.of(memberrepository.findByMemberEmail(email));
     }
 

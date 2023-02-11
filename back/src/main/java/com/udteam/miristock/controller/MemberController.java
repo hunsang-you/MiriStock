@@ -36,13 +36,15 @@ public class MemberController {
     @DeleteMapping
     @ApiOperation(value = "해당 유저 회원 탈퇴 처리")
     public ResponseEntity<String> deleteMember(@RequestHeader String Authorization){
+        log.info("회원 삭제 요청됨");
         String userDetails = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String token = HeaderUtil.getAccessTokenString(Authorization);
         log.info("유저 디테일 = {}",userDetails);
-        if (memberservice.deleteMember(token)!= 0){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
+        if (memberservice.deleteMember(token) != 0){
+            // 회원삭제 성공
+            return ResponseEntity.status(HttpStatus.OK).body("Delete Member Success");
         }
-        return ResponseEntity.ok().body(ReturnMessage.DELETE_SUCCESS);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Delete Member Fail");
     }
 
     @PutMapping("/nickname")
@@ -55,5 +57,16 @@ public class MemberController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
         return ResponseEntity.ok().body(memberservice.updateMember(token,nickname));
+    }
+
+    @PostMapping("/nicknamecheck")
+    @ApiOperation(value = "유저 닉네임 체크")
+    public ResponseEntity<?> selectAllMember(@RequestBody MemberDto memberDto){
+        log.info("유저 닉네임 체크 호출됨 : {} " , memberDto);
+        MemberDto getMember = memberservice.selectOnMemberByEmail(memberDto);
+        if(getMember == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원 정보를 찾을 수 없습니다.");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(getMember);
     }
 }
