@@ -57,7 +57,7 @@ public class InterestController {
 
     @PostMapping("/intereststock")
     @ApiOperation(value = "회원 관심주식 추가")
-    public ResponseEntity<InterestDto> insertIntereststock(@RequestHeader String Authorization, @RequestParam String stockcode) {
+    public ResponseEntity<?> insertIntereststock(@RequestHeader String Authorization, @RequestParam String stockcode) {
         String token= HeaderUtil.getAccessTokenString(Authorization);
         MemberDto m = memberService.selectOneMember(token);
         if (m == null){

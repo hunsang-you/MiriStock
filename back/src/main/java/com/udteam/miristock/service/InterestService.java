@@ -11,10 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -35,7 +32,13 @@ public class InterestService {
         return interestEntity.stream().map(InterestDto::of).collect(Collectors.toList());
     }
 
-    public InterestDto insertIntereststock(Integer id, String stockCode) {
+    public Object insertIntereststock(Integer id, String stockCode) {
+        List<InterestEntity> interestEntity = interestRepository.findByMember_MemberNo(id);
+        for (InterestEntity entity : interestEntity) {
+            if (entity.getStock().getStockCode().equals(stockCode)) {
+                return "Duplicated StockCode : save suspend";
+            }
+        }
         return InterestDto.of(interestRepository.saveAndFlush(InterestEntity.builder()
                 .member(memberRepository.findById(id).get())
                 .stock(stockRepository.findById(stockCode).get())
