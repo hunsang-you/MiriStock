@@ -15,12 +15,22 @@ public class SearchRecordService {
     private final SearchRecordRepository searchRecordRepository;
 
     public List<SearchRecordEntity> findByMemberNo(Integer memberNo) {
-        List<SearchRecordEntity> articleEntityList = searchRecordRepository.findByMemberNo(memberNo);
+        List<SearchRecordEntity> articleEntityList = searchRecordRepository.findByMemberNoOrderBySearchNoDesc(memberNo);
         return articleEntityList;
     }
 
     @Transactional
-    public SearchRecordEntity save(SearchRecordEntity searchRecordEntity) {
+    public Object save(SearchRecordEntity searchRecordEntity) {
+        List<SearchRecordEntity> memberSearchResult = searchRecordRepository.findByMemberNoOrderBySearchNoDesc(searchRecordEntity.getMemberNo());
+        String saveStockCode = searchRecordEntity.getStockCode();
+        for (SearchRecordEntity recordEntity : memberSearchResult) {
+            if (recordEntity.getStockCode().equals(saveStockCode)) {
+                return "Duplicated StockCode : record save fail";
+            }
+        }
+        if (memberSearchResult.size() >= 10){
+            searchRecordRepository.deleteByMemberNoAndStockCode(searchRecordEntity.getMemberNo(), memberSearchResult.get(memberSearchResult.size()-1).getStockCode());
+        }
         return searchRecordRepository.saveAndFlush(searchRecordEntity);
     }
 
