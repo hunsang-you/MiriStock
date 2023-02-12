@@ -1,8 +1,11 @@
 .trade-header {
     display: flex;
     justify-content : space-between;
+    align-items: center;
     height: 3vh;
     margin: 5px 0px 20px;
+    font-size: 24px;
+    font-family: var(--font-IbmPlexSansKrLightMedium);
   }
 
 .trade-body {
@@ -10,12 +13,16 @@
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
+    font-family: var(--font-IbmPlexSansKrLightMedium);
 }
 
 
-/* .trade-keypad {
+.trade-keypad {
     width: 88vw;
     margin-top: auto;
+    margin-bottom: 3vh;
     position: fixed;
     bottom: 0;
-} */
+}
+
+/* var(--font-NanumGothicCoding) */
