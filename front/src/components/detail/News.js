@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import { newsAPI } from '../../api/api'; // api 통신
-
+import Loading from '../Loading';
+import { NewsLoading } from '../NewsLoading';
 const News = () => {
   const [newsList, setNewsList] = useState([]);
   const [newsLink, setNewsLink] = useState([]);
-
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const getNewsData = async () => {
+      setIsLoading(true);
       let newsdata = [];
       let newslink = [];
       await newsAPI
@@ -18,6 +20,7 @@ const News = () => {
             // console.log(request.data.messages[i].link);
             setNewsList(newsdata);
             setNewsLink(newslink);
+            setIsLoading(false);
           }
         })
         .catch((err) => {
@@ -29,6 +32,7 @@ const News = () => {
 
   return (
     <div>
+      {isLoading === true ? <NewsLoading /> : null}
       <div>
         {newsList.map(function (title, i) {
           return (
