@@ -16,7 +16,6 @@ public class SimulationService {
     private final MemberAssetRepository memberAssetRepository;
     private final MemberStockRepository memberStockRepository;
     private final LimitPriceOrderRepository limitPriceOrderRepository;
-
     private final StockDealRepository stockDealRepository;
 
     @Transactional(readOnly = true)
@@ -45,6 +44,7 @@ public class SimulationService {
                         .memberassetStockAsset(0L)
                         .memberassetTotalAsset(ValueConfig.memberInitAvailableAsset)
                         .memberassetCurrentTime(ValueConfig.memberInitSimulationTime)
+                        .memberassetLastTotalAsset(ValueConfig.memberInitAvailableAsset)
                         .build());
 
         // 거래예정 테이블 삭제

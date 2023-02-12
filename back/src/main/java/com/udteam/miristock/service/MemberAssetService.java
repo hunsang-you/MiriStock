@@ -36,6 +36,7 @@ public class MemberAssetService {
                 .memberassetTotalAsset(memberAssetDto.getMemberassetTotalAsset())
                 .memberassetAvailableAsset(memberAssetDto.getMemberassetAvailableAsset())
                 .memberassetStockAsset(memberAssetDto.getMemberassetStockAsset())
+                .memberassetLastTotalAsset(memberAssetDto.getMemberassetLastTotalAsset())
                 .build());
         return MemberAssetDto.of(result);
     }

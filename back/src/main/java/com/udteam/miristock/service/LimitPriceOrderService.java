@@ -129,6 +129,7 @@ public class LimitPriceOrderService {
                         .memberassetTotalAsset(availableAsset + stockAsset)
                         .memberassetAvailableAsset(availableAsset)
                         .memberassetStockAsset(stockAsset)
+                        .memberassetLastTotalAsset(getMemberAsset.getMemberassetLastTotalAsset())
                         .build());
 
                 // 추가하면서 임시리스트 목록 기반하여 매수 예정 내역 db에서 지운다.
@@ -218,6 +219,7 @@ public class LimitPriceOrderService {
                         .memberassetTotalAsset(availableAsset + stockAsset)
                         .memberassetAvailableAsset(availableAsset)
                         .memberassetStockAsset(stockAsset)
+                        .memberassetLastTotalAsset(getMemberAsset.getMemberassetLastTotalAsset())
                         .build());
 
                 // 추가하면서 임시리스트 목록 기반하여 매수 예정 내역 db에서 지운다.
