@@ -2,7 +2,7 @@
 import './css/Comment.css';
 import CommentItem from './CommentItem';
 import { TextField, Button } from '@mui/material';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { communityAPI } from '../../api/api';
 const Comment = (props) => {
   const article = props.article;
@@ -12,9 +12,9 @@ const Comment = (props) => {
   useEffect(() => {
     communityAPI
       .getArticle()
-      .then((request) => setArticles(request.data))
+      .then((request) => setArticles(request.data.reverse()))
       .catch((err) => console.log(err));
-  }, [comNo, setArticles]);
+  }, [comNo]);
   // 댓글하나씩
 
   // 댓글입력창
@@ -31,7 +31,9 @@ const Comment = (props) => {
           id="create-commentbox"
           placeholder="댓글을 입력하세요."
           variant="outlined"
-          onChange={ChangeText}
+          onChange={(e) => {
+            ChangeText(e);
+          }}
         />
         <div className="comment-createbtn">
           <Button
@@ -50,7 +52,7 @@ const Comment = (props) => {
         </div>
       </div>
       <div>
-        {comm.reverse().map((comment, i) => {
+        {comm.map((comment, i) => {
           return (
             <div key={i}>
               <CommentItem comment={comment} />

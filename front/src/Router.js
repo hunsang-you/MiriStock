@@ -1,27 +1,82 @@
 import { Routes, Route } from 'react-router-dom';
-import {
-  Home,
-  Search,
-  Login,
-  Asset,
-  Community,
-  More,
-  Stock,
-  Redirect,
-} from './pages';
+import { lazy, Suspense } from 'react';
 import React from 'react';
-
+import Loading from './components/Loading';
+const Home = lazy(() => import('./pages/Home'));
+const Search = lazy(() => import('./pages/Search'));
+const Login = lazy(() => import('./pages/Login'));
+const Asset = lazy(() => import('./pages/Asset'));
+const Community = lazy(() => import('./pages/Community'));
+const More = lazy(() => import('./pages/More'));
+const Stock = lazy(() => import('./pages/Stock'));
+const Redirect = lazy(() => import('./pages/Redirect'));
 const Router = () => {
   return (
     <Routes>
-      <Route path="/*" element={<Home />} />
-      <Route path="/stock/:stockCode/*" element={<Stock />}></Route>
-      <Route path="/login/*" element={<Login />}></Route>
-      <Route path="/search" element={<Search />}></Route>
-      <Route path="/asset" element={<Asset />}></Route>
-      <Route path="/community/*" element={<Community />}></Route>
-      <Route path="/more/*" element={<More />}></Route>
-      <Route path="/redirect" element={<Redirect />} />
+      <Route
+        path="/*"
+        element={
+          <Suspense fallback={<Loading />}>
+            <Home />
+          </Suspense>
+        }
+      />
+      <Route
+        path="/stock/:stockCode/*"
+        element={
+          <Suspense fallback={<Loading />}>
+            <Stock />
+          </Suspense>
+        }
+      ></Route>
+      <Route
+        path="/login/*"
+        element={
+          <Suspense fallback={<Loading />}>
+            <Login />
+          </Suspense>
+        }
+      ></Route>
+      <Route
+        path="/search"
+        element={
+          <Suspense fallback={<Loading />}>
+            <Search />
+          </Suspense>
+        }
+      ></Route>
+      <Route
+        path="/asset"
+        element={
+          <Suspense fallback={<Loading />}>
+            <Asset />
+          </Suspense>
+        }
+      ></Route>
+      <Route
+        path="/community/*"
+        element={
+          <Suspense fallback={<Loading />}>
+            <Community />
+          </Suspense>
+        }
+      ></Route>
+      <Route
+        path="/more/*"
+        element={
+          <Suspense fallback={<Loading />}>
+            <More />
+          </Suspense>
+        }
+      ></Route>
+      <Route
+        path="/redirect"
+        element={
+          <Suspense fallback={<Loading />}>
+            <Redirect />
+          </Suspense>
+        }
+      />
       <Route></Route>
     </Routes>
   );

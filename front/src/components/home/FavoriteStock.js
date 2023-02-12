@@ -53,13 +53,14 @@ const FavoriteStock = () => {
               <span>{stock.stockCode}</span>
               {stock.stockDataFlucauationRate >= 0 ? (
                 <span style={{ color: '#D2143C' }}>
-                  ▲ +{stock.stockDataPriceIncreasement.toLocaleString()}원 ( +
+                  ▲ {stock.stockDataPriceIncreasement.toLocaleString()}원 ( +
                   {stock.stockDataFlucauationRate.toFixed(2)}%)
                 </span>
               ) : (
                 <span style={{ color: '#1E90FF' }}>
-                  ▼{stock.stockDataPriceIncreasement.toLocaleString()}원 (
-                  {stock.stockDataFlucauationRate.toFixed(2)}%)
+                  ▼{' '}
+                  {Math.abs(stock.stockDataPriceIncreasement).toLocaleString()}
+                  원 ({stock.stockDataFlucauationRate.toFixed(2)}%)
                 </span>
               )}
             </div>

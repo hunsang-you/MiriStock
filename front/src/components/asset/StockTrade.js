@@ -10,6 +10,7 @@ const StockTrade = () => {
   const [choose, setChoose] = useState(0);
   const [myStocks, setMyStocks] = useState([]);
   const [transaction, setTransaction] = useState([]);
+  const [expectedTransaction, setExpectedTransaction] = useState([]);
   //   const [expectedTransaction, setExpectedTransaction] = useState([]);
   // const holdingStock = [
   //   {
@@ -54,8 +55,18 @@ const StockTrade = () => {
         })
         .catch((err) => console.log(err));
     };
+    const limitMyStocks = async () => {
+      await tradeAPI
+        .checkTrades()
+        .then((request) => {
+          setExpectedTransaction(request.data);
+          console.log(request.data);
+        })
+        .catch((err) => console.log(err));
+    };
     allTrades();
     myStocks();
+    limitMyStocks();
   }, []);
   const dayDay = (date) => {
     date = String(date);
@@ -114,6 +125,19 @@ const StockTrade = () => {
             );
           })
         : null}
+      {choose === 2
+        ? expectedTransaction.map((stock, i) => {
+            return (
+              <div key={i}>
+                {stock.limitPriceOrderType === 'BUY' ? (
+                  <ExpectedTransactionBuy stock={stock} />
+                ) : (
+                  <ExpectedTransactionSell stock={stock} />
+                )}
+              </div>
+            );
+          })
+        : null}
       {/* {choose === 0 ? <Trade trade={trade} /> : null}
       {choose === 1 ? <BestIncrease increase={increases} /> : null}
       {choose === 2 ? <BestDecrease decrease={decreases} /> : null} */}
@@ -141,12 +165,25 @@ const HoldingStock = (props) => {
                 {stock.stockCode}
               </span>
               <span>{stock.memberStockAvgPrice.toLocaleString()}원</span>
-              <span>{stock.memberStockCurPrice.toLocaleString()}원</span>
-              <span>
-                {(
-                  (stock.memberStockCurPrice / stock.memberStockAvgPrice) *
+              <span>{stock.stockDataClosingPrice.toLocaleString()}원</span>
+              <span
+                style={
+                  stock.stockDataClosingPrice * stock.memberStockAmount -
+                    stock.memberStockAvgPrice * stock.memberStockAmount >=
+                  0
+                    ? { color: '#D2143C' }
+                    : { color: '#1E90FF' }
+                }
+              >
+                {stock.stockDataClosingPrice * stock.memberStockAmount -
+                  stock.memberStockAvgPrice * stock.memberStockAmount >=
+                0
+                  ? '▲ '
+                  : '▼ '}
+                {Math.abs(
+                  (stock.stockDataClosingPrice / stock.memberStockAvgPrice) *
                     100 -
-                  100
+                    100,
                 )
                   .toFixed(2)
                   .toLocaleString()}
@@ -157,11 +194,35 @@ const HoldingStock = (props) => {
               <span style={{ fontSize: '20px' }}>
                 {stock.memberStockAmount}주
               </span>
-              <span>{stock.memberStockAvgPriceSum.toLocaleString()}원</span>
-              <span>{stock.memberStockCurPriceSum.toLocaleString()}원</span>
               <span>
                 {(
-                  stock.memberStockCurPriceSum - stock.memberStockAvgPriceSum
+                  stock.memberStockAvgPrice * stock.memberStockAmount
+                ).toLocaleString()}
+                원
+              </span>
+              <span>
+                {(
+                  stock.stockDataClosingPrice * stock.memberStockAmount
+                ).toLocaleString()}
+                원
+              </span>
+              <span
+                style={
+                  stock.stockDataClosingPrice * stock.memberStockAmount -
+                    stock.memberStockAvgPrice * stock.memberStockAmount >=
+                  0
+                    ? { color: '#D2143C' }
+                    : { color: '#1E90FF' }
+                }
+              >
+                {stock.stockDataClosingPrice * stock.memberStockAmount -
+                  stock.memberStockAvgPrice * stock.memberStockAmount >=
+                0
+                  ? '+'
+                  : null}
+                {(
+                  stock.stockDataClosingPrice * stock.memberStockAmount -
+                  stock.memberStockAvgPrice * stock.memberStockAmount
                 ).toLocaleString()}
                 원
               </span>
@@ -190,11 +251,11 @@ const TransactionSell = (props) => {
       </div>
       <div className="transaction-sell-items">
         <div>주당구매가</div>
-        <div>{stock.stockDealSellClosingPrice.toLocaleString()}원</div>
+        <div>{stock.stockDealOrderClosingPrice.toLocaleString()}원</div>
         <div className="transaction-sell-last" style={{ color: '#1E90FF' }}>
           ▼{' '}
           {(
-            stock.stockDealSellClosingPrice * stock.stockDealAmount
+            stock.stockDealOrderClosingPrice * stock.stockDealAmount
           ).toLocaleString()}{' '}
           원
         </div>
@@ -222,14 +283,14 @@ const TransactionBuy = (props) => {
       </div>
       <div className="transaction-buy-items">
         <div>주당판매가</div>
-        <div>{stock.stockDealBuyClosingPrice.toLocaleString()}원</div>
+        <div>{stock.stockDealOrderClosingPrice.toLocaleString()}원</div>
         <div
           className="transaction-buy-nomid-last"
           style={{ color: '#D2143C' }}
         >
           ▲{' '}
           {(
-            stock.stockDealBuyClosingPrice * stock.stockDealAmount
+            stock.stockDealOrderClosingPrice * stock.stockDealAmount
           ).toLocaleString()}{' '}
           원
         </div>
@@ -239,26 +300,28 @@ const TransactionBuy = (props) => {
 };
 
 const ExpectedTransactionSell = (props) => {
-  //판매컴포넌트
+  //판매예정컴포넌트
   const stock = props.stock;
-  const dayDay = props.dayDay;
+  console.log(stock.limitPriceOrderAmount);
   return (
     <div className="transaction-sell-container">
       <div className="transaction-sell-items">
-        <div>매도완료</div>
-        <div>{dayDay(stock.stockDealDate)}</div>
-        <div className="transaction-sell-last">{stock.stockDealAmount}주</div>
+        <div>매도예정</div>
+        <div></div>
+        <div className="transaction-sell-last">
+          {stock.limitPriceOrderAmount}주
+        </div>
       </div>
       <div className="transaction-sell-items">
         <div>{stock.stockName}</div>
         <div>{stock.stockCode}</div>
       </div>
       <div className="transaction-sell-items">
-        <div>주당구매가</div>
-        <div>{stock.stockDealSellClosingPrice.toLocaleString()}원</div>
+        <div>주당구매예정가</div>
+        <div>{stock.limitPriceOrderPrice.toLocaleString()}원</div>
         <div className="transaction-sell-last">
           {(
-            stock.stockDealSellClosingPrice * stock.stockDealAmount
+            stock.limitPriceOrderPrice * stock.limitPriceOrderAmount
           ).toLocaleString()}{' '}
           원
         </div>
@@ -268,23 +331,29 @@ const ExpectedTransactionSell = (props) => {
 };
 
 const ExpectedTransactionBuy = (props) => {
-  //구매컴포넌트
-  const stock = props.data;
+  //구매예정컴포넌트
+  const stock = props.stock;
+  console.log(stock);
   return (
     <div className="transaction-buy-container">
       <div className="transaction-buy-items">
-        <div>200주</div>
-        <div className="transaction-buy-mid">21.01.19</div>
-        <div className="transaction-buy-last">매수완료</div>
+        <div>{stock.limitPriceOrderAmount}주</div>
+        <div className="transaction-buy-mid"></div>
+        <div className="transaction-buy-last">매수예정</div>
       </div>
       <div className="transaction-buy-items">
-        <div>삼성전자는언젠가오를까요</div>
-        <div>005930</div>
+        <div>{stock.stockName}</div>
+        <div>{stock.stockCode}</div>
       </div>
       <div className="transaction-buy-items">
-        <div>주당판매가</div>
-        <div>64,294원</div>
-        <div className="transaction-buy-nomid-last">6,429,400원</div>
+        <div>주당판매예정가</div>
+        <div>{stock.limitPriceOrderPrice.toLocaleString()}원</div>
+        <div className="transaction-buy-nomid-last">
+          {(
+            stock.limitPriceOrderPrice * stock.limitPriceOrderAmount
+          ).toLocaleString()}{' '}
+          원
+        </div>
       </div>
     </div>
   );
