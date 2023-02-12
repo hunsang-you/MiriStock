@@ -14,11 +14,12 @@ import {
 } from '../api/api';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { userStore } from '../store';
+import { userStore, dateStore } from '../store';
 
 const HomeMain = () => {
   const navigate = useNavigate();
   const { user, setUser } = userStore((state) => state);
+  const { date, setDate } = dateStore((state) => state);
   const [userStock, setUserStock] = useState([]);
   const [userAssetChanged, setUserAssetChanged] = useState([]);
   const [loading, setLoading] = useState(true); //로딩창
@@ -33,19 +34,14 @@ const HomeMain = () => {
         .catch((err) => {
           console.log(err);
         });
-    };
-    const getMyStocks = async () => {
       await memberAPI
         .stocks()
         .then((request) => {
           setUserStock(request.data);
-          console.log(request.data);
         })
         .catch((err) => {
           console.log(err);
         });
-    };
-    const getMemberAssetChanged = async () => {
       await memberAPI
         .assetChanged()
         .then((request) => {
@@ -54,9 +50,7 @@ const HomeMain = () => {
         .catch((err) => console.log(err));
     };
     getMember();
-    getMyStocks();
-    getMemberAssetChanged();
-  }, []); //추후에 데이트 값
+  }, [date]); //추후에 데이트 값
   return (
     <div>
       <Simulation />
@@ -66,8 +60,8 @@ const HomeMain = () => {
       <Rank />
       <button
         onClick={() => {
-          tradeAPI
-            .getAllTrades()
+          memberAPI
+            .stock('086450')
             .then((request) => {
               console.log(request.data);
             })
@@ -81,7 +75,7 @@ const HomeMain = () => {
       <button
         onClick={() => {
           tradeAPI
-            .buyStock('000660', '하이닉스', 2, 500000, 200, 'SELL')
+            .buyStock('086450', '동국제약', 2, 31000, 200, 'BUY')
             .then((request) => {
               console.log(request.data);
             })

@@ -115,7 +115,7 @@ const StockDetail = () => {
       </div>
       <div className="space-margin divbox">
         <div className="charts-title">주요 뉴스</div>
-        <div className="charts-content">
+        <div className="charts-content" style={{ height: '190px' }}>
           <News />
         </div>
       </div>

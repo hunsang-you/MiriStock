@@ -25,6 +25,18 @@ const userStore = create(
     { name: 'userStore' },
   ),
 );
+//Datestore
+const dateStore = create(
+  persist(
+    (set) => ({
+      date: [],
+      setDate: (userDate) => {
+        set((state) => ({ date: userDate }));
+      },
+    }),
+    { name: 'dateStore' },
+  ),
+);
 //보유주식 저장
 
 //검색기록 스토리지용
@@ -49,4 +61,4 @@ const searchStore = create(
   ),
 );
 
-export { navStore, searchStore, userStore };
+export { navStore, searchStore, userStore, dateStore };

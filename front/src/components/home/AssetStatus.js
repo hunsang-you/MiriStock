@@ -32,7 +32,11 @@ const AssetStatus = (props) => {
         원 ({userAssetChanged.stockDataFlucauationRateSum >= 0 ? '+' : null}
         <CounterPer
           from={0}
-          to={userAssetChanged.stockDataFlucauationRateSum}
+          to={
+            userAssetChanged.stockDataFlucauationRateSum === undefined
+              ? 0
+              : userAssetChanged.stockDataFlucauationRateSum
+          }
         />
         )
       </div>

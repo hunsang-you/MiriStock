@@ -33,8 +33,8 @@ const BuyStock = () => {
   const [stockAmount, setStockAmount] = useState();
   // 구입 희망 가격, 주식수, 수수료계산
   const [hopeInputID, setHopeInputID] = useState(0);
-  const [hopePrice, setHopePrice] = useState(0);
-  const [hopeCount, setHopeCount] = useState(0);
+  const [hopePrice, setHopePrice] = useState(25000);
+  const [hopeCount, setHopeCount] = useState(33);
   const [hopeTax, setHopeTax] = useState(0);
   // console.log(stockCode);
   // id = 0 => 구매 희망가 만 입력 (클릭이벤트x) / id = 1

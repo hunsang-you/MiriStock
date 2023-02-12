@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 
 const EquitiesValue = (props) => {
   let userStock = props.userStock;
-  console.log(userStock);
   const navigate = useNavigate();
   return (
     <div className="equities-container">

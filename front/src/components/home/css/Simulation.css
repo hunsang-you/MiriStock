@@ -19,3 +19,14 @@
     font-family: var(--font-digi);
     font-size: 40px;
 }
+
+.simul-btn {
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+}
+
+.si-btn {
+    margin-left: 5px;
+    margin-right: 5px;
+}
