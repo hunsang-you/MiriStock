@@ -29,7 +29,6 @@ function App() {
       setPage(location.pathname);
     }
   }, [location, setPage]);
-  console.log(location.pathname.indexOf('buy'));
   return (
     <div className="App">
       <div>

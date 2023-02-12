@@ -18,7 +18,7 @@ export const Loading = () => {
       }}
     >
       <div style={{ textAlign: 'center' }}>
-        Loading <img src={Spinner} alt="로딩중" />
+        <img src={Spinner} alt="로딩중" />
       </div>
     </div>
   );

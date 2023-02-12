@@ -5,21 +5,26 @@ import {
   FavoriteStock,
   Rank,
 } from '../components/home';
-import { communityAPI, stockAPI, memberAPI, tradeAPI } from '../api/api';
+import {
+  memberAPI,
+  tradeAPI,
+  rankAPI,
+  simulAPI,
+  communityAPI,
+} from '../api/api';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { userStore } from '../store';
-import { Loading } from '../components/Loading';
 
 const HomeMain = () => {
   const navigate = useNavigate();
   const { user, setUser } = userStore((state) => state);
   const [userStock, setUserStock] = useState([]);
+  const [userAssetChanged, setUserAssetChanged] = useState([]);
   const [loading, setLoading] = useState(true); //로딩창
   //일단 마운트될때마다로 설정 추후에 데이변할때 하게 해야함
   useEffect(() => {
     const getMember = async () => {
-      setLoading(true);
       await memberAPI
         .asset()
         .then((request) => {
@@ -34,20 +39,28 @@ const HomeMain = () => {
         .stocks()
         .then((request) => {
           setUserStock(request.data);
+          console.log(request.data);
         })
         .catch((err) => {
           console.log(err);
         });
     };
+    const getMemberAssetChanged = async () => {
+      await memberAPI
+        .assetChanged()
+        .then((request) => {
+          setUserAssetChanged(request.data);
+        })
+        .catch((err) => console.log(err));
+    };
     getMember();
     getMyStocks();
-    setLoading(false);
+    getMemberAssetChanged();
   }, []); //추후에 데이트 값
   return (
     <div>
-      {loading ? <Loading /> : null}
       <Simulation />
-      <AssetStatus />
+      <AssetStatus userAssetChanged={userAssetChanged} />
       <EquitiesValue userStock={userStock} />
       <FavoriteStock />
       <Rank />
@@ -95,23 +108,33 @@ const HomeMain = () => {
       </button>
       <button
         onClick={() => {
-          memberAPI
-            .intersetStocks(20180102)
+          simulAPI
+            .changeDate(1)
             .then((request) => console.log(request.data))
             .catch((err) => console.log(err));
         }}
       >
-        보유주식목록
+        날짜변경
       </button>
       <button
         onClick={() => {
           memberAPI
             .asset()
-            .then((request) => console.log(request))
+            .then((request) => console.log(request.data))
             .catch((err) => console.log(err));
         }}
       >
         멤버
+      </button>
+      <button
+        onClick={() => {
+          communityAPI
+            .getArticle()
+            .then((request) => console.log(request.data))
+            .catch((err) => console.log(err));
+        }}
+      >
+        커뮤니티
       </button>
     </div>
   );

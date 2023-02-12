@@ -3,7 +3,7 @@
 import { AiOutlineComment } from 'react-icons/ai';
 import Comment from './Comment';
 import { Button } from '@mui/material';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { communityAPI } from '../../api/api';
 import './css/ArticleItem.css';
@@ -11,8 +11,9 @@ import './css/ArticleItem.css';
 const ArticleItem = (props) => {
   const article = props.article;
   const setArticles = props.setArticles;
+  const setArticleNo = props.setArticleNo;
   //서버에 9시간 늦게 저장돼있어 9시간만큼 빼줌
-  let nowTime = new Date(article.articleCreateDate).getTime() - 32400000;
+  let nowTime = new Date(article.articleCreateDate).getTime();
 
   //api에 있는 detailPost.createdAt를 바꿔주는 것
   // content 글자 제한, 더보기
@@ -28,7 +29,7 @@ const ArticleItem = (props) => {
   };
 
   // 댓글창 출력
-  const CommentBox = () => {
+  let CommentBox = () => {
     if (isComment === true) {
       return <Comment article={article} setArticles={setArticles} />;
     }
@@ -93,7 +94,7 @@ const ArticleItem = (props) => {
               onClick={() => {
                 communityAPI
                   .deleteArticle(article.articleNo)
-                  .then((request) => console.log(request.data))
+                  .then((request) => setArticleNo(request.data))
                   .catch((err) => console.log(err));
               }}
             >
