@@ -1,12 +1,11 @@
 package com.udteam.miristock.controller;
 
 import com.udteam.miristock.dto.*;
-import com.udteam.miristock.entity.Deal;
-import com.udteam.miristock.entity.MemberAssetEntity;
 import com.udteam.miristock.service.*;
 import com.udteam.miristock.util.ErrorMessage;
 import com.udteam.miristock.util.HeaderUtil;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,6 +20,7 @@ import static com.udteam.miristock.service.InformationService.AddDate;
 @RestController
 @RequestMapping("/simulation")
 @RequiredArgsConstructor
+@Tag(name = "Simulation", description = "주식 시뮬레이션")
 public class SimulationController {
     private final MemberAssetService memberAssetService;
     private final MemberService memberService;
@@ -29,6 +29,7 @@ public class SimulationController {
     private final LimitPriceOrderService limitPriceOrderService;
 
     @GetMapping("/member/time")
+    @Operation(summary = "회원 시뮬레이션 날짜 출력", description = "회원의 시뮬레이션 날짜를 출력한다.", tags = { "Simulation" })
     public ResponseEntity<?> selectMemberAssetCurrentTime(@RequestHeader String Authorization) {
         log.info("회원 시뮬레이션 날짜 출력 호출됨 (/asset/member/time) ");
         String token= HeaderUtil.getAccessTokenString(Authorization);
@@ -46,6 +47,7 @@ public class SimulationController {
     }
 
     @PostMapping("/end")
+    @Operation(summary = "회원 시뮬레이션 종료", description = "회원의 시뮬레이션을 종료한다. (거래예정 취소, 보유주식 목록 강제 판매됨)", tags = { "Simulation" })
         public ResponseEntity<SimulEndDto> resultSimulation(@RequestHeader String Authorization) {
         log.info("회원 시뮬레이션 종료 호출됨 ");
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
@@ -57,6 +59,7 @@ public class SimulationController {
     }
 
     @PostMapping("/restart")
+    @Operation(summary = "회원 시뮬레이션 초기화", description = "회원의 시뮬레이션을 초기화한다. (시뮬레이션관련 DB 초기화)", tags = { "Simulation" })
     public ResponseEntity<?> restartSimulation(@RequestHeader String Authorization) {
         log.info("회원 시뮬레이션 초기화 됨 ");
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
@@ -69,6 +72,7 @@ public class SimulationController {
     }
 
     @PutMapping("/member/time/{targetDate}")
+    @Operation(summary = "회원 시뮬레이션 날짜 이동 (내부 로직 동작)", description = "회원의 시뮬레이션 날짜를 이동한다.", tags = { "Simulation" })
     public ResponseEntity<?> updateSimulationDate(@RequestHeader String Authorization, @PathVariable Integer targetDate) {
         if(targetDate == null || targetDate == 0) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Parameter is Null");
@@ -115,6 +119,7 @@ public class SimulationController {
     }
 
     @PutMapping("/member/timechange/debug/{targetDate}")
+    @Operation(summary = "회원 시뮬레이션 날짜 이동 (내부 로직 미 동작)", description = "회원의 시뮬레이션 날짜를 단순히 수정한다.", tags = { "Simulation" })
     public ResponseEntity<?> changeSimulTime(@RequestHeader String Authorization, @PathVariable(name = "targetDate") Integer targetDate) {
         log.info("회원 시뮬레이션 날짜 단순 변경 호출됨 (/asset/member/time) targetDate : {}", targetDate);
         String token= HeaderUtil.getAccessTokenString(Authorization);
