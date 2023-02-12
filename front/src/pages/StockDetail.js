@@ -88,7 +88,11 @@ const StockDetail = () => {
           color="primary"
           disableElevation
           onClick={() => {
-            navigate(`buyStock`);
+            navigate(`buyStock`, {
+              state: {
+                stockCode: stockCode,
+              },
+            });
           }}
         >
           매수
@@ -99,7 +103,11 @@ const StockDetail = () => {
           color="primary"
           disableElevation
           onClick={() => {
-            navigate(`sellStock`);
+            navigate(`sellStock`, {
+              state: {
+                stockCode: stockCode,
+              },
+            });
           }}
         >
           매도

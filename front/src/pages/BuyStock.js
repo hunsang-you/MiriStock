@@ -21,7 +21,8 @@ const BuyStock = () => {
 
   // 유저 정보
   const { user } = userStore((state) => state);
-  console.log(user);
+  const userNo = user.memberNo;
+  // console.log(user.memberNo);
   let { stockCode } = useParams();
   const today = user.memberassetCurrentTime;
   const userMoney = user.memberassetAvailableAsset;
@@ -165,7 +166,9 @@ const BuyStock = () => {
           setHopePrice={setHopePrice}
         />
         <TradeBotton
+          userNo={userNo}
           stockName={stockName}
+          stockCode={stockCode}
           stockPrice={stockPrice}
           stockAmount={stockAmount}
           hopeInputID={hopeInputID}

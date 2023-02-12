@@ -1,6 +1,9 @@
+import { tradeAPI } from '../../../api/api';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@mui/material';
 
 const SellTradeBotton = (props) => {
+  const navigate = useNavigate();
   const Swal = require('sweetalert2');
 
   const hopeTotal = props.hopePrice * props.hopeCount + props.hopeTax;
@@ -32,8 +35,23 @@ const SellTradeBotton = (props) => {
       confirmButtonColor: '#6DCEF5',
       cancelButtonColor: '#d33',
     }).then((result) => {
+      tradeAPI.sellStock(
+        props.stockCode,
+        props.stockName,
+        props.userNo,
+        props.hopePrice,
+        props.hopeCount,
+        'SELL',
+      );
       if (result.isConfirmed) {
-        Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+        Swal.fire({
+          icon: 'success',
+          title: '주문하였습니다',
+          confirmButtonText: '확인',
+        }).then(() => {
+          console.log(123);
+          navigate('/asset');
+        });
       }
     });
   };
