@@ -16,6 +16,7 @@ public class MemberAssetDto {
     private Long memberassetAvailableAsset;
     private Long memberassetStockAsset;
     private Integer memberassetCurrentTime;
+    private Long memberassetLastTotalAsset;
 
 
     public static MemberAssetDto of(MemberAssetEntity m){
@@ -26,6 +27,7 @@ public class MemberAssetDto {
                 .memberassetAvailableAsset(m.getMemberassetAvailableAsset())
                 .memberassetStockAsset(m.getMemberassetStockAsset())
                 .memberassetCurrentTime(m.getMemberassetCurrentTime())
+                .memberassetLastTotalAsset(m.getMemberassetLastTotalAsset())
                 .build();
     }
 }

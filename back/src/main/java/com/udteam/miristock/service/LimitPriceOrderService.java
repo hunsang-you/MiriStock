@@ -1,6 +1,7 @@
 package com.udteam.miristock.service;
 
 import com.udteam.miristock.dto.LimitPriceOrderDto;
+import com.udteam.miristock.dto.MemberAssetDto;
 import com.udteam.miristock.dto.StockDataResponseDto;
 import com.udteam.miristock.entity.*;
 import com.udteam.miristock.repository.*;
@@ -38,16 +39,17 @@ public class LimitPriceOrderService {
                 .collect(Collectors.toList());
     }
 
-    // 단건 주식 매수/매도 로직 (post)
+    // 단건 주식 매수/매도 로직
     @Transactional
-    public Object oneLimitPriceOrderSave(LimitPriceOrderDto limitPriceOrderDto, Integer memberSimulationTime) {
+    public Object oneLimitPriceOrderSave(LimitPriceOrderDto limitPriceOrderDto, MemberAssetDto memberAssetDto) {
+        Integer memberSimulationTime = memberAssetDto.getMemberassetCurrentTime();
 
         // 해당 종목의 시뮬레이션 시간때의 종가를 들고온다.
         StockDataResponseDto getStockData =
                 new StockDataResponseDto(stockDataRepository.findByStockCodeAndStockDataDate(limitPriceOrderDto.getStockCode(), memberSimulationTime));
         Long limitPriceOrderClosingPrice = limitPriceOrderDto.getLimitPriceOrderPrice(); // 매수/매도 예약가
-        Long getClosingPriceOnTime = getStockData.getStockDataClosingPrice(); // 해당 날짜 종가
         Deal limitPriceOrderType = limitPriceOrderDto.getLimitPriceOrderType(); // 매수/매도 타입 구분
+        Long getClosingPriceOnTime = getStockData.getStockDataClosingPrice(); // 해당 날짜 종가
 
         Object result = null;
 
@@ -129,6 +131,7 @@ public class LimitPriceOrderService {
                         .memberassetTotalAsset(availableAsset + stockAsset)
                         .memberassetAvailableAsset(availableAsset)
                         .memberassetStockAsset(stockAsset)
+                        .memberassetLastTotalAsset(getMemberAsset.getMemberassetLastTotalAsset())
                         .build());
 
                 // 추가하면서 임시리스트 목록 기반하여 매수 예정 내역 db에서 지운다.
@@ -232,6 +235,7 @@ public class LimitPriceOrderService {
                         .memberassetTotalAsset(availableAsset + stockAsset)
                         .memberassetAvailableAsset(availableAsset)
                         .memberassetStockAsset(stockAsset)
+                        .memberassetLastTotalAsset(getMemberAsset.getMemberassetLastTotalAsset())
                         .build());
 
                 // 추가하면서 임시리스트 목록 기반하여 매수 예정 내역 db에서 지운다.
@@ -263,10 +267,10 @@ public class LimitPriceOrderService {
     }
 
     @Transactional
-    public Object oneLimitPriceOrderUpdate(LimitPriceOrderDto limitPriceOrderDto, Integer memberSimulationTime) {
+    public Object oneLimitPriceOrderUpdate(LimitPriceOrderDto limitPriceOrderDto, MemberAssetDto memberAssetDto) {
         // 거래예정 내역 수정
         LimitPriceOrderDto updateLimitPriceOrder = new LimitPriceOrderDto(limitPriceOrderRepository.saveAndFlush(limitPriceOrderDto.toEntity()));
-        return oneLimitPriceOrderSave(updateLimitPriceOrder, memberSimulationTime);
+        return oneLimitPriceOrderSave(updateLimitPriceOrder, memberAssetDto);
     }
 
     @Transactional
