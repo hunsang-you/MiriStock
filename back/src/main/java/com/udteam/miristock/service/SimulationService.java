@@ -21,6 +21,12 @@ public class SimulationService {
 
     @Transactional(readOnly = true)
     public SimulEndDto resultSimulation(Integer memberNo){
+        
+        // 매수 예정 내역들 전부 취소하기
+        
+        // 매도 예정 내역들 현재가로 전부 팔기
+        
+        // 결과 데이터 출력
         return new SimulEndDto(
                 memberAssetRepository.findById(memberNo).get(),
                 new MemberSimulEndDto(memberStockRepository.findTop1ByMemberNoAndMemberStockAmountOrderByMemberStockAccEarnPriceDesc(memberNo, 0L).get(0)),

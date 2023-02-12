@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -49,10 +48,12 @@ public class MemberStockService {
         List<StockDataMemberStockDto> stockDataMemberStockDtos = (List<StockDataMemberStockDto>) getObjects(result);
         float stockDataFlucauationRateSum = 0.0f;
         Long stockDataPriceIncreasement = 0L;
+
         int size = stockDataMemberStockDtos.size();
         if (size == 0) {
             return new StockRateAndPriceResponseDto(0.0f, 0L);
         }
+
         for (int i = 0; i < size; i++) {
             stockDataFlucauationRateSum += stockDataMemberStockDtos.get(i).getStockDataFlucauationRate();
             stockDataPriceIncreasement += stockDataMemberStockDtos.get(i).getStockDataPriceIncreasement() * stockDataMemberStockDtos.get(i).getMemberStockAmount();
@@ -74,7 +75,6 @@ public class MemberStockService {
         }
         return returnData;
     }
-
 
     // 회원 보유 주식 등록하기
     @Transactional

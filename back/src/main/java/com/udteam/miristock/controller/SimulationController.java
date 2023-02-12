@@ -26,6 +26,7 @@ public class SimulationController {
     private final SimulationService simulationService;
     private final StockDataService stockDataService;
     private final LimitPriceOrderService limitPriceOrderService;
+//    private final MemberStockService memberStockService;
 
     @GetMapping("/member/time")
     public ResponseEntity<RequestSimulationDto> selectMemberAssetCurrentTime(@RequestHeader String Authorization) {
@@ -97,10 +98,14 @@ public class SimulationController {
                     break;
                 }
                 log.info("날짜 데이터 체크 : {}", result.getStockDataDate());
+                // 예정 거래 내역들과 현재 주식 종가와 비교하여 거래하기
                 List<LimitPriceOrderDto> getLimitList =  limitPriceOrderService.getLimitPriceOrderAllList(m.getMemberNo());
                 for (LimitPriceOrderDto limitPriceOrderDto : getLimitList) {
                     limitPriceOrderService.oneLimitPriceOrderSave(limitPriceOrderDto, memberDate);
                 }
+                // 모든 거래 이후에 회원 주식자산을 업데이트한다.
+                // 주식종목의 평균매입가와 현재종가로 비교하여 회원 주식 자산을 업데이트 한다.
+                memberAssetService.updateMemberStockAsset(m.getMemberNo(), memberDate);
                 dayCount++;
             }
         }
@@ -124,6 +129,21 @@ public class SimulationController {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Member Simulation Time Change Fail");
             }
             return ResponseEntity.status(HttpStatus.OK).body("Member Simulation Time Change Success! -> " + targetDate);
+        }
+    }
+
+    @GetMapping("/test")
+    public ResponseEntity<?> test(@RequestHeader String Authorization) {
+        log.info(" 테스트 메서드 호출됨. ");
+        String token= HeaderUtil.getAccessTokenString(Authorization);
+        MemberDto m = memberService.selectOneMember(token);
+        if (m == null){
+            log.info(ErrorMessage.TOKEN_EXPIRE);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }else {
+            MemberAssetDto result = memberAssetService.selectMemberAsset(m.getMemberNo());
+//            memberStockService.updateMemberStockAsset(m.getMemberNo(), result.getMemberassetCurrentTime());
+            return ResponseEntity.ok().body(memberAssetService.updateMemberStockAsset(m.getMemberNo(), result.getMemberassetCurrentTime()));
         }
     }
 

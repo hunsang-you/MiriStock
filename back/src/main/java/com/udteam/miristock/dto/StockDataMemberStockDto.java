@@ -45,5 +45,4 @@ public class StockDataMemberStockDto {
         this.stockDataFlucauationRate = stockDataEntity.getStockDataFlucauationRate();
     }
 
-
 }
