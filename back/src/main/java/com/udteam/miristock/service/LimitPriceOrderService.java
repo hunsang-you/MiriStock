@@ -121,7 +121,7 @@ public class LimitPriceOrderService {
 //                log.info("limitPriceOrderDto.getLimitPriceOrderPrice() : {}", limitPriceOrderDto.getLimitPriceOrderPrice());
 
                 Long availableAsset = getMemberAsset.getMemberassetAvailableAsset()
-                        - limitPriceOrderDto.getLimitPriceOrderPrice() * limitPriceOrderDto.getLimitPriceOrderAmount();
+                        - (long)(limitPriceOrderDto.getLimitPriceOrderPrice() * 1.05) * limitPriceOrderDto.getLimitPriceOrderAmount();
                 Long stockAsset = getMemberAsset.getMemberassetStockAsset()
                         + limitPriceOrderDto.getLimitPriceOrderPrice() * limitPriceOrderDto.getLimitPriceOrderAmount();
                 memberAssetRepository.save(MemberAssetEntity.builder()
@@ -225,7 +225,7 @@ public class LimitPriceOrderService {
 
                 // 현금자산
                 Long availableAsset = getMemberAsset.getMemberassetAvailableAsset()
-                        + ((limitPriceOrderDto.getLimitPriceOrderPrice() - getMemberStockCode.getMemberStockAvgPrice()) * limitPriceOrderDto.getLimitPriceOrderAmount());
+                        + (long)(((limitPriceOrderDto.getLimitPriceOrderPrice() - getMemberStockCode.getMemberStockAvgPrice()) * 0.95) * limitPriceOrderDto.getLimitPriceOrderAmount());
                 Long stockAsset = getMemberAsset.getMemberassetStockAsset()
                         - getMemberStockCode.getMemberStockAvgPrice() * limitPriceOrderDto.getLimitPriceOrderAmount();
                 memberAssetRepository.save(MemberAssetEntity.builder()
