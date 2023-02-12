@@ -65,6 +65,8 @@ public class MemberAssetService {
             sumDiff += diffAvgPrice;
 
         }
+        // 멤버 전날 총 자산에 오늘 자산 데이터 업데이트하기 (전날보다 얼마나 자산이 증가했는지 계산하기 위한 데이터)
+        memberAssetEntity.setMemberassetLastTotalAsset(memberAssetEntity.getMemberassetTotalAsset());
         // 들고온 보유 주식과 데이터 기반으로 회원의 보유 주식 자산을 업데이트 하기
         memberAssetEntity.setMemberassetStockAsset(memberAssetEntity.getMemberassetStockAsset() + sumDiff);
         memberAssetEntity.setMemberassetTotalAsset(memberAssetEntity.getMemberassetTotalAsset() + sumDiff);
