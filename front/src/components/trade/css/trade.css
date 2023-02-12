@@ -1,3 +1,7 @@
+.swal2-html {
+  font-family: var(--font-IbmPlexSansKrLightMedium);
+}
+
 .text-right {
   text-align: right;
 }
@@ -12,7 +16,7 @@
 .disabled-body {
   display: flex;
   flex-direction: column;
-  border-bottom: solid 1px #8B8B8B;
+  border-bottom: solid 1px #8b8b8b;
   margin: 0px 0px 15px;
 }
 
@@ -51,7 +55,7 @@
   display: flex;
   flex-direction: column;
   height: 30px;
-  margin-top: 30px;
+  margin: 12px 0px;
   color : #8B8B8B;
 }
 
@@ -65,7 +69,7 @@
 }
 
 .persent-btn {
-  margin-top: 4px;
+  margin: 4px 0px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -102,6 +106,22 @@
 }
 
 .trade-btn {
+  display: flex;
+  align-items: center;
+  height: 46px;
   font-size: 24px;
   color : #FFFFFF;
 }
+
+.trade-nonbtn {
+  display: flex;
+  align-items: center;
+  height: 46px;
+  font-size: 16px;
+  color : #FFFFFF;
+}
+
+/* .finaltrade-btn {
+  font-size: 12px;
+  color : #FFFFFF;
+} */
