@@ -42,7 +42,7 @@ public class MemberAssetService {
     }
 
 //     회원 보유 주식 자산 업데이트하기
-    public MemberAssetDto updateMemberStockAsset(Integer memberNo, Integer currentTime) {
+    public MemberAssetDto updateMemberStockAsset(Integer memberNo, Integer currentTime, String updateType) {
         // 회원의 보유 주식을 들고 오기
         MemberAssetEntity memberAssetEntity = memberAssetRepository.findByMember_MemberNo(memberNo);
         List<Object[]> memberStockList = memberStockRepository.findAllMemberStockListOrderByPrice(memberNo, currentTime);
@@ -66,7 +66,14 @@ public class MemberAssetService {
 
         }
         // 멤버 전날 총 자산에 오늘 자산 데이터 업데이트하기 (전날보다 얼마나 자산이 증가했는지 계산하기 위한 데이터)
-        memberAssetEntity.setMemberassetLastTotalAsset(memberAssetEntity.getMemberassetTotalAsset());
+        // 당일건 거래는 이전 날짜 총 자산을 업데이트 할 필요없음
+        if (updateType.equals("todayLimitPriceOrder")){
+            memberAssetEntity.setMemberassetLastTotalAsset(memberAssetEntity.getMemberassetLastTotalAsset());
+        }
+        // 시뮬레이션 날짜 업데이트임..
+        else {
+            memberAssetEntity.setMemberassetLastTotalAsset(memberAssetEntity.getMemberassetTotalAsset());
+        }
         // 들고온 보유 주식과 데이터 기반으로 회원의 보유 주식 자산을 업데이트 하기
         memberAssetEntity.setMemberassetStockAsset(memberAssetEntity.getMemberassetStockAsset() + sumDiff);
         memberAssetEntity.setMemberassetTotalAsset(memberAssetEntity.getMemberassetTotalAsset() + sumDiff);

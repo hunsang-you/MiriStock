@@ -2,6 +2,7 @@ package com.udteam.miristock.controller;
 
 import com.udteam.miristock.dto.*;
 import com.udteam.miristock.entity.Deal;
+import com.udteam.miristock.entity.MemberAssetEntity;
 import com.udteam.miristock.service.*;
 import com.udteam.miristock.util.ErrorMessage;
 import com.udteam.miristock.util.HeaderUtil;
@@ -26,23 +27,24 @@ public class SimulationController {
     private final SimulationService simulationService;
     private final StockDataService stockDataService;
     private final LimitPriceOrderService limitPriceOrderService;
-//    private final MemberStockService memberStockService;
 
     @GetMapping("/member/time")
-    public ResponseEntity<RequestSimulationDto> selectMemberAssetCurrentTime(@RequestHeader String Authorization) {
+    public ResponseEntity<?> selectMemberAssetCurrentTime(@RequestHeader String Authorization) {
         log.info("회원 시뮬레이션 날짜 출력 호출됨 (/asset/member/time) ");
         String token= HeaderUtil.getAccessTokenString(Authorization);
         MemberDto m = memberService.selectOneMember(token);
         if (m == null){
             log.info(ErrorMessage.TOKEN_EXPIRE);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }else {
-            MemberAssetDto result = memberAssetService.selectMemberAsset(m.getMemberNo());
-            return ResponseEntity.ok().body(RequestSimulationDto.builder().memberNo(result.getMemberNo()).memberassetCurrentTime(result.getMemberassetCurrentTime()).build());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorMessage.TOKEN_EXPIRE);
         }
+        MemberAssetDto result = memberAssetService.selectMemberAsset(m.getMemberNo());
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(RequestSimulationDto.builder()
+                        .memberNo(result.getMemberNo())
+                        .memberassetCurrentTime(result.getMemberassetCurrentTime())
+                        .build());
     }
 
-    // resultSimulation
     @PostMapping("/end")
         public ResponseEntity<SimulEndDto> resultSimulation(@RequestHeader String Authorization) {
         log.info("회원 시뮬레이션 종료 호출됨 ");
@@ -50,9 +52,8 @@ public class SimulationController {
         if (m == null){
             log.info(ErrorMessage.TOKEN_EXPIRE);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        } else {
-            return ResponseEntity.ok().body(simulationService.resultSimulation(m.getMemberNo()));
         }
+        return ResponseEntity.ok().body(simulationService.resultSimulation(m.getMemberNo()));
     }
 
     @PostMapping("/restart")
@@ -61,11 +62,10 @@ public class SimulationController {
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
         if (m == null){
             log.info(ErrorMessage.TOKEN_EXPIRE);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        } else {
-            simulationService.resetSimulation(m);
-            return ResponseEntity.ok().body("Reset");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorMessage.TOKEN_EXPIRE);
         }
+        simulationService.resetSimulation(m);
+        return ResponseEntity.ok().body("Simulation RESET Success");
     }
 
     @PutMapping("/member/time/{targetDate}")
@@ -77,13 +77,15 @@ public class SimulationController {
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
         if (m == null){
             log.info(ErrorMessage.TOKEN_EXPIRE);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorMessage.TOKEN_EXPIRE);
         }
-
-        Integer memberDate = memberAssetService.selectMemberAsset(m.getMemberNo()).getMemberassetCurrentTime();
+        // 회원 시뮬레이션 시간 가져오기
+        MemberAssetDto getMemberAssetDto = memberAssetService.selectMemberAsset(m.getMemberNo());
+        Integer memberDate = getMemberAssetDto.getMemberassetCurrentTime();
         log.info("회원의 시뮬레이션 시간 : {}", memberDate);
+        
+        // 시간 추가 로직
         String memberDateStr = null;
-
         int dayCount = 0;
         // 날짜 먼저 더하기
         while(true) {
@@ -101,11 +103,11 @@ public class SimulationController {
                 // 예정 거래 내역들과 현재 주식 종가와 비교하여 거래하기
                 List<LimitPriceOrderDto> getLimitList =  limitPriceOrderService.getLimitPriceOrderAllList(m.getMemberNo());
                 for (LimitPriceOrderDto limitPriceOrderDto : getLimitList) {
-                    limitPriceOrderService.oneLimitPriceOrderSave(limitPriceOrderDto, memberDate);
+                    limitPriceOrderService.oneLimitPriceOrderSave(limitPriceOrderDto, getMemberAssetDto);
                 }
                 // 모든 거래 이후에 회원 주식자산을 업데이트한다.
                 // 주식종목의 평균매입가와 현재종가로 비교하여 회원 주식 자산을 업데이트 한다.
-                memberAssetService.updateMemberStockAsset(m.getMemberNo(), memberDate);
+                memberAssetService.updateMemberStockAsset(m.getMemberNo(), memberDate, "Simulation");
                 dayCount++;
             }
         }
@@ -132,19 +134,19 @@ public class SimulationController {
         }
     }
 
-    @GetMapping("/test")
-    public ResponseEntity<?> test(@RequestHeader String Authorization) {
-        log.info(" 테스트 메서드 호출됨. ");
-        String token= HeaderUtil.getAccessTokenString(Authorization);
-        MemberDto m = memberService.selectOneMember(token);
-        if (m == null){
-            log.info(ErrorMessage.TOKEN_EXPIRE);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }else {
-            MemberAssetDto result = memberAssetService.selectMemberAsset(m.getMemberNo());
-//            memberStockService.updateMemberStockAsset(m.getMemberNo(), result.getMemberassetCurrentTime());
-            return ResponseEntity.ok().body(memberAssetService.updateMemberStockAsset(m.getMemberNo(), result.getMemberassetCurrentTime()));
-        }
-    }
+//    @GetMapping("/test")
+//    public ResponseEntity<?> test(@RequestHeader String Authorization) {
+//        log.info(" 테스트 메서드 호출됨. ");
+//        String token= HeaderUtil.getAccessTokenString(Authorization);
+//        MemberDto m = memberService.selectOneMember(token);
+//        if (m == null){
+//            log.info(ErrorMessage.TOKEN_EXPIRE);
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+//        }else {
+//            MemberAssetDto result = memberAssetService.selectMemberAsset(m.getMemberNo());
+////            memberStockService.updateMemberStockAsset(m.getMemberNo(), result.getMemberassetCurrentTime());
+//            return ResponseEntity.ok().body(memberAssetService.updateMemberStockAsset(m.getMemberNo(), result.getMemberassetCurrentTime()));
+//        }
+//    }
 
 }

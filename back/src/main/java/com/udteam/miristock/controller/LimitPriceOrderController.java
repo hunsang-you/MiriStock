@@ -1,5 +1,6 @@
 package com.udteam.miristock.controller;
 
+import com.udteam.miristock.dto.MemberAssetDto;
 import com.udteam.miristock.service.MemberAssetService;
 import com.udteam.miristock.util.ErrorMessage;
 import com.udteam.miristock.dto.LimitPriceOrderDto;
@@ -51,7 +52,10 @@ public class LimitPriceOrderController {
         // 회원 정보 불러오기
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
         // 회원의 시뮬레이션 시간 불러오기
-        Integer memberSimulationTime = memberAssetService.selectMemberAsset(m.getMemberNo()).getMemberassetCurrentTime();
+        MemberAssetDto getMemberAssetDto = memberAssetService.selectMemberAsset(m.getMemberNo());
+        Integer memberDate = getMemberAssetDto.getMemberassetCurrentTime();
+        String updateType = "todayLimitPriceOrder";
+        memberAssetService.updateMemberStockAsset(m.getMemberNo(), memberDate, updateType);
         log.info("매수, 매도 요청 등록됨 limitPriceOrderDto {} , ", limitPriceOrderDto);
 
         if (m == null){
@@ -61,7 +65,7 @@ public class LimitPriceOrderController {
             limitPriceOrderDto.setMemberNo(m.getMemberNo());
             // 요청값, 시간 넣고 로직 실행
             // 만약 잘못되었다면... 에러..
-            Object result = limitPriceOrderService.oneLimitPriceOrderSave(limitPriceOrderDto, memberSimulationTime);
+            Object result = limitPriceOrderService.oneLimitPriceOrderSave(limitPriceOrderDto, getMemberAssetDto);
 //            if(result == null){
 //                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR");
 //            } else {
@@ -76,14 +80,15 @@ public class LimitPriceOrderController {
     public ResponseEntity<?> update(@RequestHeader String Authorization, @RequestBody LimitPriceOrderDto limitPriceOrderDto) {
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
         // 회원 정보 불러오기
-        Integer memberSimulationTime = memberAssetService.selectMemberAsset(m.getMemberNo()).getMemberassetCurrentTime();
+        MemberAssetDto memberAssetDto = memberAssetService.selectMemberAsset(m.getMemberNo());
+
         log.info("매수, 매도 수정 등록됨 limitPriceOrderDto {} , ", limitPriceOrderDto);
         if (m == null){
             log.info(ErrorMessage.TOKEN_EXPIRE);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } else {
             limitPriceOrderDto.setMemberNo(m.getMemberNo());
-            return ResponseEntity.status(HttpStatus.OK).body(limitPriceOrderService.oneLimitPriceOrderUpdate(limitPriceOrderDto, memberSimulationTime));
+            return ResponseEntity.status(HttpStatus.OK).body(limitPriceOrderService.oneLimitPriceOrderUpdate(limitPriceOrderDto, memberAssetDto));
         }
     }
 
