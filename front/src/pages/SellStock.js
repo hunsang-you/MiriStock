@@ -2,7 +2,7 @@ import './css/BuySell.css';
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { userStore } from '../store';
-import { stockAPI, api } from '../api/api';
+import { stockAPI, tradeAPI } from '../api/api';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 import Swal from 'sweetalert2';
 
@@ -21,15 +21,16 @@ const SellStock = () => {
 
   // 유저 정보
   const { user } = userStore((state) => state);
+  const userNo = user.memberNo;
   // console.log(user);
   let { stockCode } = useParams();
   const today = user.memberassetCurrentTime;
   const userMoney = user.memberassetAvailableAsset;
 
-  // 주식 이름 / 오늘 가격 / 거래량
+  // 주식 이름 / 오늘 가격
   const [stockName, setStockName] = useState();
   const [stockPrice, setStockPrice] = useState();
-  const [stockAmount, setStockAmount] = useState();
+  // const [stockAmount, setStockAmount] = useState();
   // 구입 희망 가격, 주식수, 수수료계산
   const [hopeInputID, setHopeInputID] = useState(0);
   const [hopePrice, setHopePrice] = useState(0);
@@ -49,7 +50,7 @@ const SellStock = () => {
     }
   };
 
-  // 최대 주식수
+  // 보유 주식수 (판매니까)
   const [maxCount, setMaxCount] = useState(0);
 
   const buyInfo = () => {
@@ -62,31 +63,19 @@ const SellStock = () => {
   };
 
   useEffect(() => {
-    if (hopePrice === 0) {
-      setMaxCount(0);
-    } else {
-      let ans1 = Math.floor(stockAmount / 3 / (hopePrice + hopeTax));
-      let ans2 = Math.floor(userMoney / (hopePrice + hopeTax));
-      if (ans1 > ans2) {
-        setMaxCount(ans1);
-      } else {
-        setMaxCount(ans2);
-      }
-    }
-  }, [hopePrice]);
-
-  useEffect(() => {
     const use = async () => {
       const reqData = await stockAPI.stockDetail(stockCode, today, today);
       // console.log(reqData.data[0]);
       setStockName(reqData.data[0].stockName);
       setStockPrice(reqData.data[0].stockDataClosingPrice);
-      setStockAmount(reqData.data[0].stockDataAmount);
     };
-    const stockDate = async () => {
-      const reqData = await api.get(`/asset/memberstock/${stockCode}`);
+    const stockDate = async (stockCode) => {
+      const reqData = await tradeAPI.stockData(stockCode);
+      // console.log(reqData.data.memberStockAmount);
+      setMaxCount(reqData.data.memberStockAmount);
     };
     use();
+    stockDate(stockCode);
   }, []);
 
   useEffect(() => {
@@ -154,7 +143,6 @@ const SellStock = () => {
         ) : (
           <CountPlus
             userMoney={userMoney}
-            stockAmount={stockAmount}
             hopePrice={hopePrice}
             hopeCount={hopeCount}
             setHopeCount={setHopeCount}
@@ -172,8 +160,8 @@ const SellStock = () => {
         />
         <SellTradeBotton
           stockName={stockName}
+          stockCode={stockCode}
           stockPrice={stockPrice}
-          stockAmount={stockAmount}
           hopeInputID={hopeInputID}
           inputID={inputID}
           setHopeInputID={setHopeInputID}
