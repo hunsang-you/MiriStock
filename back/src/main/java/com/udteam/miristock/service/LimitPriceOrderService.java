@@ -143,6 +143,16 @@ public class LimitPriceOrderService {
 //                result = new LimitPriceOrderDto(limitPriceOrderRepository.saveAndFlush(limitPriceOrderDto.toEntity()));
                 log.info("매수 예약 등록됨");
                 result = limitPriceOrderRepository.saveAndFlush(limitPriceOrderDto.toEntity());
+                log.info("회원 날짜 변경 : {}", memberSimulationTime);
+                MemberAssetEntity getMemberAsset = memberAssetRepository.findByMember_MemberNo(limitPriceOrderDto.getMemberNo());
+                memberAssetRepository.save(MemberAssetEntity.builder()
+                        .memberassetNo(getMemberAsset.getMemberassetNo())
+                        .member(MemberEntity.builder().memberNo(limitPriceOrderDto.getMemberNo()).build())
+                        .memberassetCurrentTime(memberSimulationTime)
+                        .memberassetTotalAsset(getMemberAsset.getMemberassetTotalAsset())
+                        .memberassetAvailableAsset(getMemberAsset.getMemberassetAvailableAsset())
+                        .memberassetStockAsset(getMemberAsset.getMemberassetStockAsset())
+                        .build());
             }
             // 매수 요청 끝 ============================
 
@@ -152,7 +162,11 @@ public class LimitPriceOrderService {
 
                 // 보유 주식의 평균가 들고와야함.
                 MemberStockEntity getMemberStockCode = memberStockRepository.findByMemberNoAndStockCode(limitPriceOrderDto.getMemberNo(), limitPriceOrderDto.getStockCode());
-                if (getMemberStockCode.getMemberStockAmount() < limitPriceOrderDto.getLimitPriceOrderAmount()){
+                log.info("limitpriceOrderDto : {}", limitPriceOrderDto);
+                if (getMemberStockCode == null ){
+                    log.info("getMemberstockcode is : {}", getMemberStockCode);
+                } else if  (getMemberStockCode.getMemberStockAmount() < limitPriceOrderDto.getLimitPriceOrderAmount()){
+                    log.info("getMemberstockcode is : {}", getMemberStockCode);
                     log.info("보유주식보다 더 많은 매도량 요청됨 (승인거절)");
                     return "보유주식보다 더 많은 매도량 요청됨 (승인거절)";
                 }
@@ -227,10 +241,21 @@ public class LimitPriceOrderService {
 
                 log.info("매도 요청 완료");
 
+
             } else {  // 매도할 금액이 종가보다 크면 예약 목록에 등록합니다.
                 //result = new LimitPriceOrderDto(limitPriceOrderRepository.saveAndFlush(limitPriceOrderDto.toEntity()));
                 log.info("매도 예약 목록 등록");
                 result = limitPriceOrderRepository.saveAndFlush(limitPriceOrderDto.toEntity());
+                log.info("회원 날짜 변경 : {}", memberSimulationTime);
+                MemberAssetEntity getMemberAsset = memberAssetRepository.findByMember_MemberNo(limitPriceOrderDto.getMemberNo());
+                memberAssetRepository.save(MemberAssetEntity.builder()
+                        .memberassetNo(getMemberAsset.getMemberassetNo())
+                        .member(MemberEntity.builder().memberNo(limitPriceOrderDto.getMemberNo()).build())
+                        .memberassetCurrentTime(memberSimulationTime)
+                        .memberassetTotalAsset(getMemberAsset.getMemberassetTotalAsset())
+                        .memberassetAvailableAsset(getMemberAsset.getMemberassetAvailableAsset())
+                        .memberassetStockAsset(getMemberAsset.getMemberassetStockAsset())
+                        .build());
             }
             // 매도 요청 끝 ======================
         }
