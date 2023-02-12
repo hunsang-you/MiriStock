@@ -13,14 +13,15 @@ import FilterArticle from './ArticleSearch';
 const ArticleList = () => {
   const navigate = useNavigate();
   const [articles, setArticles] = useState([]);
+  const [articleNo, setArticleNo] = useState(0);
   useEffect(() => {
     communityAPI
       .getArticle()
       .then((request) => {
-        setArticles(request.data);
+        setArticles(request.data.reverse());
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [articleNo]);
 
   return (
     <div className="article-list">
@@ -49,10 +50,14 @@ const ArticleList = () => {
         <FilterArticle articles={articles} />
       </div>
 
-      {articles.reverse().map((article, i) => {
+      {articles.map((article, i) => {
         return (
           <div key={i}>
-            <ArticleItem article={article} setArticles={setArticles} />
+            <ArticleItem
+              article={article}
+              setArticles={setArticles}
+              setArticleNo={setArticleNo}
+            />
           </div>
         );
       })}

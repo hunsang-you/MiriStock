@@ -4,9 +4,9 @@ import Counter from './countanimation';
 import CounterPer from './counterperanimation';
 import { userStore } from '../../store';
 
-const AssetStatus = () => {
-  let [isUpDown, setIsUpDown] = useState(true);
+const AssetStatus = (props) => {
   const { user } = userStore((state) => state);
+  const userAssetChanged = props.userAssetChanged;
   return (
     <div className="asset">
       <div className="asset-status">보유 현황</div>
@@ -18,9 +18,23 @@ const AssetStatus = () => {
       </div>
       <div
         className="change"
-        style={isUpDown ? { color: '#D2143C' } : { color: '#1E90FF' }}
+        style={
+          userAssetChanged.stockDataPriceIncreasement >= 0
+            ? { color: '#D2143C' }
+            : { color: '#1E90FF' }
+        }
       >
-        <Counter from={0} to={3086500} />원 (<CounterPer from={0} to={11.28} />)
+        {userAssetChanged.stockDataPriceIncreasement >= 0 ? '▲' : '▼'}
+        <Counter
+          from={0}
+          to={Math.abs(userAssetChanged.stockDataPriceIncreasement)}
+        />
+        원 ({userAssetChanged.stockDataFlucauationRateSum >= 0 ? '+' : null}
+        <CounterPer
+          from={0}
+          to={userAssetChanged.stockDataFlucauationRateSum}
+        />
+        )
       </div>
       <hr id="lines" />
     </div>
