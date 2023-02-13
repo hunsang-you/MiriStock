@@ -4,15 +4,20 @@ import { AiOutlineComment } from 'react-icons/ai';
 import Comment from './Comment';
 import { Button } from '@mui/material';
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { userStore } from '../../store';
 import { communityAPI } from '../../api/api';
+import { useNavigate } from 'react-router-dom';
 import './css/ArticleItem.css';
 
 const ArticleItem = (props) => {
   const article = props.article;
   const setArticles = props.setArticles;
+  const { user, setUser } = userStore((state) => state);
+
+  const navigate = useNavigate();
+
   //서버에 9시간 늦게 저장돼있어 9시간만큼 빼줌
-  let nowTime = new Date(article.articleCreateDate).getTime() - 32400000;
+  let nowTime = new Date(article.articleCreateDate).getTime(); // - 32400000;
 
   //api에 있는 detailPost.createdAt를 바꿔주는 것
   // content 글자 제한, 더보기
@@ -83,27 +88,44 @@ const ArticleItem = (props) => {
             size={40}
             color={isComment === true ? '#6DCEF5' : '#C4C4C4'}
           />
+          <span> {article.comments.length}개의 댓글</span>
         </div>
         <div className="item-btn">
           <div>
-            <Button
-              id="delete-btn"
-              variant="outlined"
-              size="large"
-              onClick={() => {
-                communityAPI
-                  .deleteArticle(article.articleNo)
-                  .then((request) => console.log(request.data))
-                  .catch((err) => console.log(err));
-              }}
-            >
-              삭제
-            </Button>
+            {user.memberNo === article.memberNo ? (
+              <Button
+                id="delete-btn"
+                variant="outlined"
+                size="large"
+                onClick={() => {
+                  communityAPI
+                    .deleteArticle(article.articleNo)
+                    .then((request) => console.log(request.data))
+                    .catch((err) => console.log(err));
+                }}
+              >
+                삭제
+              </Button>
+            ) : null}
           </div>
           <div>
-            <Button id="update-btn" variant="outlined" size="large">
-              수정
-            </Button>
+            {user.memberNo === article.memberNo ? (
+              <Button
+                id="update-btn"
+                variant="outlined"
+                size="large"
+                onClick={(e) => {
+                  navigate(`update/${article.articleNo}`, {
+                    state: {
+                      articleTitle: article.articleTitle,
+                      articleContent: article.articleContent,
+                    },
+                  });
+                }}
+              >
+                수정
+              </Button>
+            ) : null}
           </div>
         </div>
       </div>

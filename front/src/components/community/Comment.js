@@ -8,6 +8,7 @@ const Comment = (props) => {
   const article = props.article;
   const setArticles = props.setArticles;
   const [comNo, setComNo] = useState(0);
+
   let comm = article.comments;
   useEffect(() => {
     communityAPI
@@ -50,13 +51,16 @@ const Comment = (props) => {
         </div>
       </div>
       <div>
-        {comm.reverse().map((comment, i) => {
-          return (
-            <div key={i}>
-              <CommentItem comment={comment} />
-            </div>
-          );
-        })}
+        {comm
+          .slice()
+          .reverse()
+          .map((comment, i) => {
+            return (
+              <div key={i}>
+                <CommentItem comment={comment} />
+              </div>
+            );
+          })}
       </div>
     </div>
   );

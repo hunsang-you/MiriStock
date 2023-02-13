@@ -29,7 +29,7 @@ const GameExit = () => {
             variant="outlined"
             size="large"
             onClick={() => {
-              navigate('/');
+              navigate('/more/result');
             }}
           >
             예
