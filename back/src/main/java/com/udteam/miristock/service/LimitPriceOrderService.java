@@ -47,6 +47,7 @@ public class LimitPriceOrderService {
         // 해당 종목의 시뮬레이션 시간때의 종가를 들고온다.
         StockDataResponseDto getStockData =
                 new StockDataResponseDto(stockDataRepository.findByStockCodeAndStockDataDate(limitPriceOrderDto.getStockCode(), memberSimulationTime));
+        log.info("testtttttttt");
         Long limitPriceOrderClosingPrice = limitPriceOrderDto.getLimitPriceOrderPrice(); // 매수/매도 예약가
         Deal limitPriceOrderType = limitPriceOrderDto.getLimitPriceOrderType(); // 매수/매도 타입 구분
         Long getClosingPriceOnTime = getStockData.getStockDataClosingPrice(); // 해당 날짜 종가
@@ -155,7 +156,7 @@ public class LimitPriceOrderService {
                 log.info("매수 요청 완료");
 
             } else {  // 매수할 금액이 종가보다 작다면 예약 목록에 등록합니다.
-                limitPriceOrderRepository.saveAndFlush(limitPriceOrderDto.toEntity());
+//                limitPriceOrderRepository.saveAndFlush(limitPriceOrderDto.toEntity());
 //                result = new LimitPriceOrderDto(limitPriceOrderRepository.saveAndFlush(limitPriceOrderDto.toEntity()));
                 log.info("매수 예약 등록됨");
                 result = limitPriceOrderRepository.saveAndFlush(limitPriceOrderDto.toEntity());
@@ -264,6 +265,7 @@ public class LimitPriceOrderService {
                 //result = new LimitPriceOrderDto(limitPriceOrderRepository.saveAndFlush(limitPriceOrderDto.toEntity()));
                 log.info("매도 예약 목록 등록");
                 result = limitPriceOrderRepository.saveAndFlush(limitPriceOrderDto.toEntity());
+
                 log.info("회원 날짜 변경 : {}", memberSimulationTime);
                 MemberAssetEntity getMemberAsset = memberAssetRepository.findByMember_MemberNo(limitPriceOrderDto.getMemberNo());
                 memberAssetRepository.save(MemberAssetEntity.builder()

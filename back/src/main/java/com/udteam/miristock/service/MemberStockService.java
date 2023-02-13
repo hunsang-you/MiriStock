@@ -71,7 +71,7 @@ public class MemberStockService {
             // 총 보유주식량 더하기
             stockDataAmountSum += stockDataMemberStockDtos.get(i).getMemberStockAmount();
         }
-//        stockDataFlucauationRateSum = (stockDataClosingPriceSum - stockDataAvgPriceSum) / stockDataAvgPriceSum
+        stockDataFlucauationRateSum = (stockDataClosingPriceSum ) / stockDataAvgPriceSum * 100 - 100;
 
 
         // error 분기
