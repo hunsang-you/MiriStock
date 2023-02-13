@@ -61,4 +61,17 @@ const searchStore = create(
   ),
 );
 
-export { navStore, searchStore, userStore, dateStore };
+// 유저 정보
+const memberStore = create(
+  persist(
+    (set) => ({
+      info: [],
+      setInfo: (memberInfo) => {
+        set((state) => ({ info: memberInfo }));
+      },
+    }),
+    { name: 'memberStore' },
+  ),
+);
+
+export { navStore, searchStore, userStore, dateStore, memberStore };
