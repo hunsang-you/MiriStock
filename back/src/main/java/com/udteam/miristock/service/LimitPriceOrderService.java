@@ -69,9 +69,9 @@ public class LimitPriceOrderService {
 
                 // 보유 주식 목록에 추가한다.
                 // 보유 주식 목록에 동일 종목이 있는지 체크
-                MemberStockEntity getMemberStockCode = memberStockRepository.findByMemberNoAndStockCode(limitPriceOrderDto.getMemberNo(), limitPriceOrderDto.getStockCode());
+                MemberStockEntity memberStockEntity = memberStockRepository.findByMemberNoAndStockCode(limitPriceOrderDto.getMemberNo(), limitPriceOrderDto.getStockCode());
                 // 만약 보유주식에 동일 종목이 없다면 그대로 추가..
-                if (getMemberStockCode == null) {
+                if (memberStockEntity == null) {
                     memberStockRepository.save(MemberStockEntity.builder()
                             .stockCode(limitPriceOrderDto.getStockCode())
                             .stockName(limitPriceOrderDto.getStockName())
@@ -87,25 +87,27 @@ public class LimitPriceOrderService {
                 } else { // 만약 보유주식에 동일 종목이 있다면 업데이트 해야함. (이전에 샀던것들..)
 
                     // 현재 보유량 + 추가 매수량
-                    Long sumAmount = getMemberStockCode.getMemberStockAmount() + limitPriceOrderDto.getLimitPriceOrderAmount();
+                    Long sumAmount = memberStockEntity.getMemberStockAmount() + limitPriceOrderDto.getLimitPriceOrderAmount();
+                    log.info("매수 sumAmount : {}",  sumAmount);
                     // 총 구입 가격 (누적용) -> 기존 총 구입량 + 현재 주문량 X 요청가격
-                    Long totalPurchasePrice = getMemberStockCode.getMemberStockAccPurchasePrice() +
+                    Long totalPurchasePrice = memberStockEntity.getMemberStockAccPurchasePrice() +
                             (long)limitPriceOrderDto.getLimitPriceOrderPrice() * limitPriceOrderDto.getLimitPriceOrderAmount();
+
                     // 평단가 계산
-                    Long avgPrice = (getMemberStockCode.getMemberStockAmount() * getMemberStockCode.getMemberStockAvgPrice() +
+                    Long avgPrice = (memberStockEntity.getMemberStockAmount() * memberStockEntity.getMemberStockAvgPrice() +
                             limitPriceOrderDto.getLimitPriceOrderAmount() * limitPriceOrderDto.getLimitPriceOrderPrice() ) / sumAmount;
 
                     // 보유 주식 보유량, 평균매수가 업데이트 하기 (구매)
                     memberStockRepository.save(MemberStockEntity.builder()
-                            .memberStockNo(getMemberStockCode.getMemberStockNo())
-                            .stockCode(getMemberStockCode.getStockCode())
-                            .stockName(getMemberStockCode.getStockName())
-                            .memberNo(getMemberStockCode.getMemberNo())
+                            .memberStockNo(memberStockEntity.getMemberStockNo())
+                            .stockCode(memberStockEntity.getStockCode())
+                            .stockName(memberStockEntity.getStockName())
+                            .memberNo(memberStockEntity.getMemberNo())
                             .memberStockAmount(sumAmount)
                             .memberStockAvgPrice(avgPrice)
                             .memberStockAccPurchasePrice(totalPurchasePrice)
-                            .memberStockAccSellPrice(getMemberStockCode.getMemberStockAccSellPrice())
-                            .memberStockAccEarnRate(getMemberStockCode.getMemberStockAccEarnRate())
+                            .memberStockAccSellPrice(memberStockEntity.getMemberStockAccSellPrice())
+                            .memberStockAccEarnRate(memberStockEntity.getMemberStockAccEarnRate())
                             .build()
                     );
                 }
@@ -121,9 +123,19 @@ public class LimitPriceOrderService {
 //                log.info("limitPriceOrderDto.getLimitPriceOrderPrice() : {}", limitPriceOrderDto.getLimitPriceOrderPrice());
 
                 Long availableAsset = getMemberAsset.getMemberassetAvailableAsset()
-                        - (long)(limitPriceOrderDto.getLimitPriceOrderPrice() * 1.05) * limitPriceOrderDto.getLimitPriceOrderAmount();
+                        - (long)(limitPriceOrderDto.getLimitPriceOrderPrice() * 1.005) * limitPriceOrderDto.getLimitPriceOrderAmount();
+                log.info("매수 getMemberAsset.getMemberassetAvailableAsset() : {}", getMemberAsset.getMemberassetAvailableAsset());
+                log.info("매수 (long)(limitPriceOrderDto.getLimitPriceOrderPrice() * 1.005) * limitPriceOrderDto.getLimitPriceOrderAmount() : {}",
+                        (long)(limitPriceOrderDto.getLimitPriceOrderPrice() * 1.005) * limitPriceOrderDto.getLimitPriceOrderAmount());
+                log.info("availableAsset : {}", availableAsset);
+
                 Long stockAsset = getMemberAsset.getMemberassetStockAsset()
                         + limitPriceOrderDto.getLimitPriceOrderPrice() * limitPriceOrderDto.getLimitPriceOrderAmount();
+                log.info("매수 getMemberAsset.getMemberassetStockAsset() : {}", getMemberAsset.getMemberassetStockAsset());
+                log.info("매수 limitPriceOrderDto.getLimitPriceOrderPrice() : {} ", limitPriceOrderDto.getLimitPriceOrderPrice());
+                log.info("매수 limitPriceOrderDto.getLimitPriceOrderAmount() : {}", limitPriceOrderDto.getLimitPriceOrderAmount());
+                log.info("매수 stockAsset : {}", stockAsset);
+
                 memberAssetRepository.save(MemberAssetEntity.builder()
                         .memberassetNo(getMemberAsset.getMemberassetNo())
                         .member(MemberEntity.builder().memberNo(limitPriceOrderDto.getMemberNo()).build())
@@ -225,7 +237,7 @@ public class LimitPriceOrderService {
 
                 // 현금자산
                 Long availableAsset = getMemberAsset.getMemberassetAvailableAsset()
-                        + (long)(((limitPriceOrderDto.getLimitPriceOrderPrice() - getMemberStockCode.getMemberStockAvgPrice()) * 0.95) * limitPriceOrderDto.getLimitPriceOrderAmount());
+                        + (long)(((limitPriceOrderDto.getLimitPriceOrderPrice() - getMemberStockCode.getMemberStockAvgPrice()) * 0.995) * limitPriceOrderDto.getLimitPriceOrderAmount());
                 Long stockAsset = getMemberAsset.getMemberassetStockAsset()
                         - getMemberStockCode.getMemberStockAvgPrice() * limitPriceOrderDto.getLimitPriceOrderAmount();
                 memberAssetRepository.save(MemberAssetEntity.builder()
