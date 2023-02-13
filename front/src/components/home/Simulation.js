@@ -1,5 +1,7 @@
 import './css/Simulation.css';
 import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+import IconButton from '@mui/material/IconButton';
 import { dateStore, userStore } from '../../store';
 import { simulAPI } from '../../api/api';
 import { useEffect, useState } from 'react';
@@ -18,7 +20,89 @@ const Simulation = () => {
       <div className="simulation">
         <div className="date">{userDate}</div>
         <div className="simul-btn">
-          <Button
+          <Stack direction="row" alignItems="center">
+            <Button
+              sx={{ m: 0.5, px: 1, py: 0.3, minWidth: 0 }}
+              color="secondary"
+              size="small"
+              variant="contained"
+              disableElevation
+              onClick={() => {
+                const changeDate = async () => {
+                  await simulAPI
+                    .changeDate(1)
+                    .then((request) => {
+                      console.log(request.data);
+                    })
+                    .catch((err) => console.log(err));
+                  await simulAPI
+                    .currentDate()
+                    .then((request) => {
+                      setDate(request.data);
+                    })
+                    .catch((err) => console.log(err));
+                };
+                changeDate();
+              }}
+            >
+              <span style={{ color: '#FFFFFF' }}>D+1</span>
+            </Button>
+            <Button
+              sx={{ m: 0.5, px: 1, py: 0.3, minWidth: 0 }}
+              size="small"
+              color="secondary"
+              variant="contained"
+              disableElevation
+              onClick={() => {
+                const changeDate = async () => {
+                  await simulAPI
+                    .changeDate(7)
+                    .then((request) => {
+                      console.log(request.data);
+                    })
+                    .catch((err) => console.log(err));
+                  await simulAPI
+                    .currentDate()
+                    .then((request) => {
+                      setDate(request.data);
+                    })
+                    .catch((err) => console.log(err));
+                };
+                changeDate();
+              }}
+            >
+              <span style={{ color: '#FFFFFF' }}>D+7</span>
+            </Button>
+            <Button
+              sx={{ m: 0.5, px: 0.5, py: 0.3, minWidth: 0 }}
+              size="small"
+              color="secondary"
+              variant="contained"
+              disableElevation
+              onClick={() => {
+                const changeDate = async () => {
+                  setIsLoading(true);
+                  await simulAPI
+                    .changeDate(30)
+                    .then((request) => {
+                      console.log(request.data);
+                    })
+                    .catch((err) => console.log(err));
+                  await simulAPI
+                    .currentDate()
+                    .then((request) => {
+                      setDate(request.data);
+                      setIsLoading(false);
+                    })
+                    .catch((err) => console.log(err));
+                };
+                changeDate();
+              }}
+            >
+              <span style={{ color: '#FFFFFF' }}>D+30</span>
+            </Button>
+          </Stack>
+          {/* <Button
             className="si-btn"
             color="primary"
             variant="contained"
@@ -100,7 +184,7 @@ const Simulation = () => {
             }}
           >
             30일
-          </Button>
+          </Button> */}
         </div>
       </div>
       <hr id="lines" />

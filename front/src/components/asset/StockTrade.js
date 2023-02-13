@@ -5,38 +5,14 @@ import { tradeAPI, memberAPI } from '../../api/api';
 import { fontSize } from '@mui/system';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 const StockTrade = () => {
   const [choose, setChoose] = useState(0);
   const [myStocks, setMyStocks] = useState([]);
   const [transaction, setTransaction] = useState([]);
   const [expectedTransaction, setExpectedTransaction] = useState([]);
-  //   const [expectedTransaction, setExpectedTransaction] = useState([]);
-  // const holdingStock = [
-  //   {
-  //     stockName: '삼성전자', //stockName
-  //     stockCode: '005930', // stockCode
-  //     stockJu: 400, // memberStockAmount
-  //     stockAver: '63,894', // memberStockAvgPrice
-  //     stockAverWon: '25,557,600', // memberStockAvgPriceSum
-  //     stockNow: '64,294', //memberStockCurPrice
-  //     stockNowWon: '25,717,600', //memberStockCurPriceSum
-  //     stockSu: '0.63', // /memberStockCurPrice/memberStockAvgPrice * 100 -100
-  //     stockSuWon: '160,000', // * memberStockAmount
-  //   },
-  //   {
-  //     stockName: '삼성전자',
-  //     stockCode: '005930',
-  //     stockJu: 400,
-  //     stockAver: '63,894',
-  //     stockAverWon: '25,557,600',
-  //     stockNow: '64,294',
-  //     stockNowWon: '25,717,600',
-  //     stockSu: '0.63',
-  //     stockSuWon: '160,000',
-  //   },
-  // ];
+  const navigate = useNavigate();
   useEffect(() => {
     const allTrades = async (type) => {
       await tradeAPI
@@ -61,7 +37,6 @@ const StockTrade = () => {
         .checkTrades()
         .then((request) => {
           setExpectedTransaction(request.data);
-          console.log(request.data);
         })
         .catch((err) => console.log(err));
     };
@@ -112,7 +87,9 @@ const StockTrade = () => {
           거래 예정
         </Button>
       </div>
-      {choose === 0 ? <HoldingStock myStocks={myStocks} /> : null}
+      {choose === 0 ? (
+        <HoldingStock myStocks={myStocks} navigate={navigate} />
+      ) : null}
       {choose === 1
         ? transaction.map((stock, i) => {
             return (
@@ -150,19 +127,38 @@ export default StockTrade;
 
 const HoldingStock = (props) => {
   const stocks = props.myStocks;
+  const navigate = props.navigate;
   return (
     <div>
       {stocks.map((stock, i) => {
         return (
-          <div className="asset-holding-main" key={i}>
+          <div
+            className="asset-holding-main"
+            key={i}
+            onClick={() => {
+              navigate(`/stock/${stock.stockCode}`, {
+                state: { stockName: stock.stockName },
+              });
+            }}
+          >
             <div className="asset-holding-first">
-              <span style={{ fontSize: '20px' }}>{stock.stockName}</span>
+              <span
+                style={{
+                  fontSize: '18px',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                  width: '100px',
+                }}
+              >
+                {stock.stockName}
+              </span>
               <span>평균매수가</span>
               <span>현재가</span>
               <span>수익률</span>
             </div>
             <div className="asset-holding-second">
-              <span style={{ fontSize: '20px', color: '#AAA7A7' }}>
+              <span style={{ fontSize: '18px', color: '#AAA7A7' }}>
                 {stock.stockCode}
               </span>
               <span>{stock.memberStockAvgPrice.toLocaleString()}원</span>
@@ -191,9 +187,17 @@ const HoldingStock = (props) => {
                 %
               </span>
             </div>
-            <div className="asset-holding-last">
-              <span style={{ fontSize: '20px' }}>
-                {stock.memberStockAmount}주
+            <div
+              className="asset-holding-last"
+              style={{
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+                width: '100px',
+              }}
+            >
+              <span style={{ fontSize: '18px' }}>
+                {stock.memberStockAmount.toLocaleString()}주
               </span>
               <span>
                 {(
@@ -244,7 +248,9 @@ const TransactionSell = (props) => {
       <div className="transaction-sell-items">
         <div style={{ color: '#1E90FF' }}>매도완료</div>
         <div>{dayDay(stock.stockDealDate)}</div>
-        <div className="transaction-sell-last">{stock.stockDealAmount}주</div>
+        <div className="transaction-sell-last">
+          {stock.stockDealAmount.toLocaleString()}주
+        </div>
       </div>
       <div className="transaction-sell-items">
         <div>{stock.stockName}</div>
@@ -272,7 +278,7 @@ const TransactionBuy = (props) => {
   return (
     <div className="transaction-buy-container">
       <div className="transaction-buy-items">
-        <div>{stock.stockDealAmount}주</div>
+        <div>{stock.stockDealAmount.toLocaleString()}주</div>
         <div className="transaction-buy-mid">{dayDay(stock.stockDealDate)}</div>
         <div className="transaction-buy-last" style={{ color: '#D2143C' }}>
           매수완료

@@ -1,7 +1,6 @@
-import { useLocation } from 'react-router-dom';
 import { communityAPI } from '../../api/api';
 import { TextField, Button } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import './css/Create.css';
 
@@ -10,6 +9,8 @@ const Update = () => {
 
   const article = location.state;
   const navigate = useNavigate();
+
+  const articleNo = article.articleNo;
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -70,7 +71,7 @@ const Update = () => {
           size="large"
           onClick={() => {
             communityAPI
-              .updateArticle(title, content)
+              .updateArticle(articleNo, title, content)
               .then((request) => console.log(request.data))
               .catch((err) => console.log(err));
             //새로고침페이지

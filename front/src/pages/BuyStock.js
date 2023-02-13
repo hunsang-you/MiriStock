@@ -144,7 +144,10 @@ const BuyStock = () => {
       </div>
       <div className="trade-keypad">
         <div>
-          <Possible maxCount={maxCount} hopeTax={hopeTax.toLocaleString()} />
+          <Possible
+            maxCount={maxCount}
+            totalhopeTax={totalhopeTax.toLocaleString()}
+          />
         </div>
         {hopeInputID !== 1 ? (
           <Persent

@@ -26,7 +26,7 @@ const NotFound = () => {
           variant="contained"
           onClick={() => navigate(-1)}
         >
-          뒤로가기
+          이전페이지로 돌아가기
         </Button>
       </div>
     </div>
