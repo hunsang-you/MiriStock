@@ -1,5 +1,4 @@
 import ArticleItem from './ArticleItem';
-// import { IoCreateOutline } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { communityAPI } from '../../api/api';
@@ -21,7 +20,7 @@ const ArticleList = () => {
         setArticles(request.data.reverse());
       })
       .catch((err) => console.log(err));
-  }, [articleNo]);
+  }, []);
 
   return (
     <div className="article-list">
@@ -29,11 +28,6 @@ const ArticleList = () => {
         <img src={QnAimg} id="QnALogo" alt="QnALogo" />
 
         <div className="create-item">
-          {/* <IoCreateOutline
-            onClick={() => {
-              navigate('create');
-            }}
-          /> */}
           <Button
             id="article-createbtn"
             variant="outlined"
@@ -56,7 +50,7 @@ const ArticleList = () => {
             communityAPI
               .searchArticle(e.target.value)
               .then((request) => {
-                setSearchArticle(request.data);
+                setSearchArticle(request.data.reverse());
               })
               .catch((err) => console.log(err));
             if (e.target.value.length > 0) {
@@ -69,7 +63,7 @@ const ArticleList = () => {
       </div>
       {/* 키워드가 있는 글만 출력 */}
       <div>
-        {searchArticle.reverse().map((article, i) => {
+        {searchArticle.map((article, i) => {
           if (state === true) {
             return (
               <div key={i}>
@@ -81,18 +75,15 @@ const ArticleList = () => {
       </div>
 
       {/* 검색 안할시 전체글 출력 */}
-      {articles
-        .slice()
-        .reverse()
-        .map((article, i) => {
-          if (state === false) {
-            return (
-              <div key={i}>
-                <ArticleItem article={article} setArticles={setArticles} />
-              </div>
-            );
-          }
-        })}
+      {articles.map((article, i) => {
+        if (state === false) {
+          return (
+            <div key={i}>
+              <ArticleItem article={article} setArticles={setArticles} />
+            </div>
+          );
+        }
+      })}
     </div>
   );
 };

@@ -77,11 +77,7 @@ const ArticleItem = (props) => {
           onClick={() => {
             setLike(!like);
           }}
-        >
-          {/* <motion.div variants={likeVariant} whileTap="click">
-            <HeartBtn like={like} />
-          </motion.div> */}
-        </div>
+        ></div>
         <div className="comment">
           <AiOutlineComment
             onClick={CommentBtn}
@@ -102,6 +98,7 @@ const ArticleItem = (props) => {
                     .deleteArticle(article.articleNo)
                     .then((request) => console.log(request.data))
                     .catch((err) => console.log(err));
+                  window.location.replace('/community');
                 }}
               >
                 삭제
@@ -117,6 +114,7 @@ const ArticleItem = (props) => {
                 onClick={(e) => {
                   navigate(`update/${article.articleNo}`, {
                     state: {
+                      articleNo: article.articleNo,
                       articleTitle: article.articleTitle,
                       articleContent: article.articleContent,
                     },

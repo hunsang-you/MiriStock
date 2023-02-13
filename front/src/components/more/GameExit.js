@@ -26,7 +26,8 @@ const GameExit = () => {
         <div className="exit-submitbtn">
           <Button
             id="exit-submit"
-            variant="outlined"
+            variant="contained"
+            style={{ color: 'white' }}
             size="large"
             onClick={() => {
               navigate('/more/result');
