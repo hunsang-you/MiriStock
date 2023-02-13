@@ -114,7 +114,7 @@ public class SimulationController {
                 // 모든 거래 이후에 회원 주식자산을 업데이트한다.
                 // 주식종목의 평균매입가와 현재종가로 비교하여 회원 주식 자산을 업데이트 한다.
                 log.info("디버그용 memberDate : {}" , getMemberAssetDto.getMemberassetCurrentTime());
-                memberAssetService.updateMemberStockAsset(m.getMemberNo(), getMemberAssetDto.getMemberassetCurrentTime(), "Simulation");
+//                memberAssetService.updateMemberStockAsset(m.getMemberNo(), getMemberAssetDto.getMemberassetCurrentTime(), "Simulation");
                 dayCount++;
             }
         }
