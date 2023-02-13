@@ -1,6 +1,6 @@
 import Button from '@mui/material/Button';
 
-const CountPlus = () => {
+const CountPlus = (props) => {
   return (
     <div className="persent-btn">
       <Button
@@ -8,6 +8,9 @@ const CountPlus = () => {
         color="red"
         variant="outlined"
         disableElevation
+        onClick={() => {
+          props.setHopeCount(props.hopeCount + 5);
+        }}
       >
         +5주
       </Button>
@@ -16,6 +19,9 @@ const CountPlus = () => {
         color="red"
         disableElevation
         variant="outlined"
+        onClick={() => {
+          props.setHopeCount(props.hopeCount + 10);
+        }}
       >
         +10주
       </Button>
@@ -24,6 +30,9 @@ const CountPlus = () => {
         color="red"
         disableElevation
         variant="outlined"
+        onClick={() => {
+          props.setHopeCount(props.hopeCount + 50);
+        }}
       >
         +50주
       </Button>
@@ -32,6 +41,9 @@ const CountPlus = () => {
         color="red"
         disableElevation
         variant="outlined"
+        onClick={() => {
+          props.setHopeCount(props.maxCount);
+        }}
       >
         최대
       </Button>

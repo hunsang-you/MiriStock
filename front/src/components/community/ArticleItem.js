@@ -33,7 +33,7 @@ const ArticleItem = (props) => {
   };
 
   // 댓글창 출력
-  const CommentBox = () => {
+  let CommentBox = () => {
     if (isComment === true) {
       return <Comment article={article} setArticles={setArticles} />;
     }

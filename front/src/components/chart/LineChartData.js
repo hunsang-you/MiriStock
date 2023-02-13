@@ -15,12 +15,13 @@ const LineChartData = (props) => {
 
   useEffect(() => {
     const getValueData = async (data1, data2, data3) => {
-      let change = props.dayToTime(props.toDay) - 86400000 * 31;
+      let change = props.dayToTime(props.today) - 86400000 * 31;
       if (change <= 1514732400000) {
         change = 1514732400000;
       }
       const newPrice = []; // 가격
       const newDataAmount = []; // 거래량
+      let AmountMax = 0;
       const newDate = []; // 날짜
       const newPriceIncreasement = [];
       const newDataFlucauationRate = [];
@@ -36,6 +37,10 @@ const LineChartData = (props) => {
           for (let i = 0; i <= todayidx; i++) {
             newPrice.push(reqData.data[i].stockDataClosingPrice);
             newDataAmount.push(reqData.data[i].stockDataAmount);
+            if (AmountMax < reqData.data[i].stockDataAmount) {
+              AmountMax = reqData.data[i].stockDataAmount;
+              props.setAmountMax(AmountMax);
+            }
             newDate.push(props.dayToTime(reqData.data[i].stockDataDate));
             newPriceIncreasement.push(
               reqData.data[i].stockDataPriceIncreasement,
@@ -98,6 +103,19 @@ const LineChartData = (props) => {
               tooltip: {
                 enabled: true,
                 followCursor: true,
+                custom: function ({ dataPointIndex }) {
+                  let idxDate = new Date(newDate[dataPointIndex])
+                    .toLocaleDateString()
+                    .replace(/\./g, '')
+                    .replace(/\s/g, '.');
+                  return (
+                    '<div class="arrow_box">' +
+                    '<span>' +
+                    idxDate +
+                    '</span>' +
+                    '</div>'
+                  );
+                },
                 x: {
                   show: false,
                   format: 'yyyy년 M월 dd일',
@@ -105,7 +123,7 @@ const LineChartData = (props) => {
                 y: [
                   {
                     formatter: function (value, { dataPointIndex }) {
-                      // console.log(dataPointIndex);   // 인덱스 값 출력 확인 (value 를 안넣으면 dataPointIndex 가 value 가 됨)
+                      // console.log(dataPointIndex); // 인덱스 값 출력 확인 (value 를 안넣으면 dataPointIndex 가 value 가 됨)
                       props.setIndex(dataPointIndex);
                       return null;
                     }, // dataPointIndex = 인덱스값
@@ -152,7 +170,7 @@ const LineChartData = (props) => {
                 {
                   show: false, // y 축 보여줄지 안보여줄지
                   opposite: true, // 오른쪽으로 보내는 옵션
-                  max: 200000000,
+                  max: AmountMax * 2.5,
                   labels: {
                     style: {
                       // colors: '#008FFB',
@@ -173,12 +191,8 @@ const LineChartData = (props) => {
         })
         .catch((err) => console.log(err));
     };
-    getValueData(props.stockCode, 20180101, props.toDay); // 페이지가 켜졌을때 차트 데이터 넣기
-    // setTimeout(() => {
-    //   setToDay(toDay + 1);
-    //   console.log(1);
-    // }, 1000);    // 날짜 하루씩 추가해보는 함수
-  }, [props.toDay]);
+    getValueData(props.stockCode, 20180101, props.today); // 페이지가 켜졌을때 차트 데이터 넣기
+  }, [props.today]);
   return <div></div>;
 };
 

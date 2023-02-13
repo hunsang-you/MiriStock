@@ -25,6 +25,7 @@ const LineChart = (props) => {
   const [stockPrice, setStockPrice] = useState([0]);
   // 18.01 ~ 거래량
   const [dataAmount, setDataAmount] = useState([]);
+  const [amountMax, setAmountMax] = useState([]);
   // 18.01 ~ 날짜
   const [totalDate, setTotalDate] = useState([]);
   // 18.01 ~ 등락금액
@@ -154,13 +155,15 @@ const LineChart = (props) => {
       <LineChartData
         stockCode={props.stockCode}
         setStockInfo={props.setStockInfo}
-        toDay={props.toDay}
+        today={props.today}
         dayToTime={props.dayToTime}
         setIndex={setIndex}
         stockPrice={stockPrice}
         setStockPrice={setStockPrice}
         dataAmount={dataAmount}
         setDataAmount={setDataAmount}
+        amountMax={amountMax}
+        setAmountMax={setAmountMax}
         totalDate={totalDate}
         setTotalDate={setTotalDate}
         priceIncreasement={priceIncreasement}
@@ -202,25 +205,17 @@ const LineChart = (props) => {
         </div>
         <div>
           <ShowDate
-            toDay={props.toDay}
+            today={props.today}
             dayToTime={props.dayToTime}
             stockPrice={stockPrice}
             dataAmount={dataAmount}
+            amountMax={amountMax}
             totalDate={totalDate}
             setIndex={setIndex}
             state={state}
             setState={setState}
           />
         </div>
-      </div>
-      <div>
-        <button
-          onClick={() => {
-            props.setToDay(props.toDay + 1);
-          }}
-        >
-          하루+
-        </button>
       </div>
     </div>
   );

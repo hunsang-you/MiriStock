@@ -21,40 +21,22 @@ const EquitiesValue = (props) => {
           >
             <div className="stock-top">
               <span>{stock.stockName}</span>
-              <span>{stock.memberStockCurPrice.toLocaleString()}원</span>
+              <span>{stock.stockDataClosingPrice.toLocaleString()}원</span>
             </div>
             <div className="stock-bottom">
               <span>{stock.memberStockAmount}주</span>
-              {stock.memberStockCurPrice - stock.memberStockAvgPrice >= 0 ? (
+              {stock.stockDataFlucauationRate >= 0 ? (
                 <span style={{ color: '#D2143C' }}>
-                  ▲ +
-                  {(
-                    stock.memberStockCurPrice - stock.memberStockAvgPrice
-                  ).toLocaleString()}
-                  원 ( +
-                  {(
-                    (stock.memberStockCurPrice / stock.memberStockAvgPrice) *
-                      100 -
-                    100
-                  )
-                    .toFixed(2)
-                    .toLocaleString()}
+                  ▲ {stock.stockDataPriceIncreasement.toLocaleString()}원 ( +
+                  {stock.stockDataFlucauationRate.toFixed(2).toLocaleString()}
                   %)
                 </span>
               ) : (
                 <span style={{ color: '#1E90FF' }}>
                   ▼{' '}
-                  {(
-                    stock.memberStockCurPrice - stock.memberStockAvgPrice
-                  ).toLocaleString()}
+                  {Math.abs(stock.stockDataPriceIncreasement).toLocaleString()}
                   원 (
-                  {(
-                    (stock.memberStockCurPrice / stock.memberStockAvgPrice) *
-                      100 -
-                    100
-                  )
-                    .toFixed(2)
-                    .toLocaleString()}
+                  {stock.stockDataFlucauationRate.toFixed(2).toLocaleString()}
                   %)
                 </span>
               )}

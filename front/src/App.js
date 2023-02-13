@@ -29,7 +29,6 @@ function App() {
       setPage(location.pathname);
     }
   }, [location, setPage]);
-  // console.log(location.pathname.indexOf('buy'));
   return (
     <div className="App">
       <div>
@@ -41,7 +40,7 @@ function App() {
       </div>
       {page.indexOf('login') === -1 &&
       location.pathname.indexOf('buy') === -1 &&
-      location.pathname.indexOf('sell') &&
+      location.pathname.indexOf('sell') === -1 &&
       location.pathname.indexOf('result') === -1 ? (
         <BottomNav />
       ) : null}

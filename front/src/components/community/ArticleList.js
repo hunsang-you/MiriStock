@@ -18,10 +18,10 @@ const ArticleList = () => {
     communityAPI
       .getArticle()
       .then((request) => {
-        setArticles(request.data);
+        setArticles(request.data.reverse());
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [articleNo]);
 
   return (
     <div className="article-list">

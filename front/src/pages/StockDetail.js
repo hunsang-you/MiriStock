@@ -2,7 +2,7 @@ import './css/Charts.css';
 import { useState, useEffect } from 'react';
 // import { stockAPI } from '../api/api'; // api 통신
 
-import mirilogo2 from '../static/mirilogo2.png';
+import mirilogo from '../static/mirilogo.png';
 import { userStore } from '../store';
 import LineChart from '../components/chart/LineChart';
 import Financial from '../components/chart/Financial';
@@ -15,7 +15,10 @@ const StockDetail = () => {
   const { user } = userStore((state) => state);
   const navigate = useNavigate();
   // 오늘 날짜
-  const [toDay, setToDay] = useState(user.memberassetCurrentTime);
+  let today = user.memberassetCurrentTime;
+  today = String(today);
+  let userDate =
+    today.slice(0, 4) + '.' + today.slice(4, 6) + '.' + today.slice(6, 8);
   let { stockCode } = useParams();
   const location = useLocation();
   // 날짜데이터를 시간으로 변환하는 함수
@@ -42,18 +45,18 @@ const StockDetail = () => {
   }, [location]);
 
   return (
-    <div>
+    <div className="detail-container">
       <div className="detail-header">
         <strong
-          style={{ fontSize: '24px' }}
           onClick={() => {
             navigate(-1);
           }}
         >
           〈
         </strong>
+        <div className="detaildate">{userDate}</div>
         <div>
-          <img src={mirilogo2} className="mirilogo2" />
+          <img src={mirilogo} className="mirilogo" />
         </div>
       </div>
       <div className="detail-title">
@@ -73,8 +76,7 @@ const StockDetail = () => {
       </div>
       <LineChart
         stockCode={stockCode}
-        toDay={toDay}
-        setToDay={setToDay}
+        today={today}
         dayToTime={dayToTime}
         setStockInfo={setStockInfo}
       />
@@ -86,7 +88,11 @@ const StockDetail = () => {
           color="primary"
           disableElevation
           onClick={() => {
-            navigate(`buyStock`);
+            navigate(`buyStock`, {
+              state: {
+                stockCode: stockCode,
+              },
+            });
           }}
         >
           매수
@@ -97,7 +103,11 @@ const StockDetail = () => {
           color="primary"
           disableElevation
           onClick={() => {
-            navigate(`sellStock`);
+            navigate(`sellStock`, {
+              state: {
+                stockCode: stockCode,
+              },
+            });
           }}
         >
           매도
@@ -105,18 +115,14 @@ const StockDetail = () => {
       </div>
       <div className="space-margin divbox">
         <div className="charts-title">주요 뉴스</div>
-        <div className="charts-content">
+        <div className="charts-content" style={{ height: '190px' }}>
           <News />
-          <div>낄낄 뉴스내용</div>
-          <div>낄낄 뉴스내용</div>
-          <div>낄낄 뉴스내용</div>
-          <div>낄낄 뉴스내용</div>
         </div>
       </div>
       <div className="space-margin divbox">
         <div className="div-title">재무 제표</div>
         <div>
-          <Financial toDay={toDay} />
+          <Financial today={today} />
         </div>
       </div>
     </div>
