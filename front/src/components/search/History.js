@@ -45,7 +45,7 @@ const History = () => {
                     e.stopPropagation();
                     console.log(stock.searchNo);
                     searchAPI
-                      .deleteSearchHis(stock.searchNo)
+                      .deleteSearchHis(stock.stockCode)
                       .then((request) => console.log(request.data))
                       .catch((err) => console.log(err));
                   }}
