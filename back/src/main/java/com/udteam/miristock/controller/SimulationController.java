@@ -105,18 +105,20 @@ public class SimulationController {
                 }
                 log.info("날짜 데이터 체크 : {}", result.getStockDataDate());
                 // 예정 거래 내역들과 현재 주식 종가와 비교하여 거래하기
+                getMemberAssetDto.setMemberassetCurrentTime(memberDate);
+
                 List<LimitPriceOrderDto> getLimitList =  limitPriceOrderService.getLimitPriceOrderAllList(m.getMemberNo());
                 for (LimitPriceOrderDto limitPriceOrderDto : getLimitList) {
-                    getMemberAssetDto.setMemberassetCurrentTime(memberDate);
                     limitPriceOrderService.oneLimitPriceOrderSave(limitPriceOrderDto, getMemberAssetDto);
                 }
                 // 모든 거래 이후에 회원 주식자산을 업데이트한다.
                 // 주식종목의 평균매입가와 현재종가로 비교하여 회원 주식 자산을 업데이트 한다.
-                memberAssetService.updateMemberStockAsset(m.getMemberNo(), memberDate, "Simulation");
+                log.info("디버그용 memberDate : {}" , getMemberAssetDto.getMemberassetCurrentTime());
+                memberAssetService.updateMemberStockAsset(m.getMemberNo(), getMemberAssetDto.getMemberassetCurrentTime(), "Simulation");
                 dayCount++;
             }
         }
-        return ResponseEntity.ok().body("Time Move Success");
+        return ResponseEntity.ok().body("Time Move Success : "+getMemberAssetDto.getMemberassetCurrentTime());
     }
 
     @PutMapping("/member/timechange/debug/{targetDate}")

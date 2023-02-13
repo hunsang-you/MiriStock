@@ -1,9 +1,6 @@
 package com.udteam.miristock.service;
 
 import com.udteam.miristock.dto.MemberAssetDto;
-import com.udteam.miristock.dto.RequestSimulationDto;
-import com.udteam.miristock.dto.StockDataMemberStockDto;
-import com.udteam.miristock.dto.StockRateAndPriceResponseDto;
 import com.udteam.miristock.entity.MemberAssetEntity;
 import com.udteam.miristock.entity.MemberEntity;
 import com.udteam.miristock.entity.MemberStockEntity;
@@ -41,7 +38,7 @@ public class MemberAssetService {
         return MemberAssetDto.of(result);
     }
 
-//     회원 보유 주식 자산 업데이트하기
+//     회원 보유 주식 자산과 날짜 업데이트하기
     public MemberAssetDto updateMemberStockAsset(Integer memberNo, Integer currentTime, String updateType) {
         // 회원의 보유 주식을 들고 오기
         MemberAssetEntity memberAssetEntity = memberAssetRepository.findByMember_MemberNo(memberNo);
@@ -77,6 +74,7 @@ public class MemberAssetService {
         // 들고온 보유 주식과 데이터 기반으로 회원의 보유 주식 자산을 업데이트 하기
         memberAssetEntity.setMemberassetStockAsset(memberAssetEntity.getMemberassetStockAsset() + sumDiff);
         memberAssetEntity.setMemberassetTotalAsset(memberAssetEntity.getMemberassetTotalAsset() + sumDiff);
+        memberAssetEntity.setMemberassetCurrentTime(currentTime);
         MemberAssetEntity result = memberAssetRepository.save(memberAssetEntity);
         log.info("회원 보유 주식 자산 업데이트됨 : {}", result);
         return MemberAssetDto.of(result);
