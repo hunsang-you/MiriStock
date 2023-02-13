@@ -71,16 +71,17 @@ public class MemberStockService {
             // 총 보유주식량 더하기
             stockDataAmountSum += stockDataMemberStockDtos.get(i).getMemberStockAmount();
         }
-        stockDataFlucauationRateSum = (stockDataClosingPriceSum ) / stockDataAvgPriceSum * 100 - 100;
+        // 전체 등락금액의 등락률 구하기
+        stockDataFlucauationRateSum = (stockDataClosingPriceSum ) / stockDataAvgPriceSum * 100 - (float)100;
 
 
         // error 분기
         if (stockDataFlucauationRateSum == 0 & stockdatapriceincreasement != 0 ){
-            return new StockRateAndPriceResponseDto(0f, stockdatapriceincreasement / size);
+            return new StockRateAndPriceResponseDto(0f, stockdatapriceincreasement);
         } else if (stockDataFlucauationRateSum != 0f & stockdatapriceincreasement == 0 ){
-            return new StockRateAndPriceResponseDto(stockDataFlucauationRateSum / size, 0L);
+            return new StockRateAndPriceResponseDto(stockDataFlucauationRateSum, 0L);
         }
-        return new StockRateAndPriceResponseDto(stockDataFlucauationRateSum / size, stockdatapriceincreasement / size);
+        return new StockRateAndPriceResponseDto(stockDataFlucauationRateSum, stockdatapriceincreasement);
     }
 
     private List<?> getObjects(List<Object[]> result) {
