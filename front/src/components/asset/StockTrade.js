@@ -6,6 +6,7 @@ import { fontSize } from '@mui/system';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const StockTrade = () => {
   const [choose, setChoose] = useState(0);
@@ -243,8 +244,65 @@ const TransactionSell = (props) => {
   //판매컴포넌트
   const stock = props.stock;
   const dayDay = props.dayDay;
+  const expectedModal = () => {
+    Swal.fire({
+      html:
+        `<div style="display:flex; flex-direction: column; justify-content: center; width: 100%; margin:auto;">
+          <div style="display: flex; justify-content: center; align-items: center;">
+            <div><div style="width: 80px; height: 80px; border-radius: 100%; border: 1px solid #1E90FF;  font-weight:bold; display: table-cell; vertical-align: middle; text-align:center;">매도 중</div></div>
+            <div>
+              <div style="width: 30vw; border-bottom-color: #1E90FF; border-bottom-width: 1px; border-bottom-style: dashed;"></div>
+              <div></div>
+            </div>
+            <div><div style="width: 80px; height: 80px; border-radius: 100%; background: #1E90FF; color: #FFFFFF; font-weight:bold; display: table-cell; vertical-align: middle; text-align:center;">매도 완료</div></div>
+          </div>
+          <div style="font-weight:bold; font-size:32px; margin-bottom: 20px;">
+            ` +
+        stock.stockName +
+        `
+          </div>
+          <div style="padding:16px; style=display:flex; flex-direction: column; background: #F4F4F4; border-radius: 10px;">
+            <div style="display:flex; justify-content: center; justify-content: space-between; margin:10px 0px;">
+              <div>1주당 체결가</div>
+              <div>` +
+        stock.stockDealOrderClosingPrice.toLocaleString() +
+        `원</div>
+            </div>
+            <div style="display:flex; justify-content: center; justify-content: space-between; margin:10px 0px;">
+              <div>주식수</div>
+              <div>` +
+        stock.stockDealAmount.toLocaleString() +
+        `주</div>
+            </div>
+            <div style="display:flex; justify-content: center; justify-content: space-between; margin:10px 0px;">
+              <div>수수료</div>
+              <div>` +
+        Math.floor(stock.stockDealOrderClosingPrice * 0.0005).toLocaleString() +
+        `원
+              </div>
+            </div>
+          </div>
+          <div style="padding:16px; display:flex; justify-content: center; justify-content: space-between; margin:10px 0px;">
+            <div>체결금액</div>
+            <div>` +
+        Math.floor(
+          stock.stockDealOrderClosingPrice * stock.stockDealAmount * 1.0005,
+        ).toLocaleString() +
+        `원
+            </div>
+          </div>
+        </div>`,
+      showConfirmButton: false,
+    });
+  };
+
   return (
-    <div className="transaction-sell-container">
+    <div
+      className="transaction-sell-container"
+      onClick={() => {
+        expectedModal();
+      }}
+    >
       <div className="transaction-sell-items">
         <div style={{ color: '#1E90FF' }}>매도완료</div>
         <div>{dayDay(stock.stockDealDate)}</div>
@@ -261,8 +319,8 @@ const TransactionSell = (props) => {
         <div>{stock.stockDealOrderClosingPrice.toLocaleString()}원</div>
         <div className="transaction-sell-last" style={{ color: '#1E90FF' }}>
           ▼{' '}
-          {(
-            stock.stockDealOrderClosingPrice * stock.stockDealAmount
+          {Math.floor(
+            stock.stockDealOrderClosingPrice * stock.stockDealAmount * 1.0005,
           ).toLocaleString()}{' '}
           원
         </div>
@@ -275,8 +333,65 @@ const TransactionBuy = (props) => {
   //구매컴포넌트
   const stock = props.stock;
   const dayDay = props.dayDay;
+  const expectedModal = () => {
+    Swal.fire({
+      html:
+        `<div style="display:flex; flex-direction: column; justify-content: center; width: 100%; margin:auto;">
+          <div style="display: flex; justify-content: center; align-items: center;">
+            <div><div style="width: 80px; height: 80px; border-radius: 100%; border: 1px solid #D2143C; font-weight:bold; display: table-cell; vertical-align: middle; text-align:center;">매수 중</div></div>
+            <div>
+              <div style="width: 30vw; border-bottom-color: #D2143C; border-bottom-width: 1px; border-bottom-style: dashed;"></div>
+              <div></div>
+            </div>
+            <div><div style="width: 80px; height: 80px; border-radius: 100%; background: #D2143C; color: #FFFFFF; font-weight:bold; display: table-cell; vertical-align: middle; text-align:center;">매수 완료</div></div>
+          </div>
+          <div style="font-weight:bold; font-size:32px; margin-bottom: 20px;">
+            ` +
+        stock.stockName +
+        `
+          </div>
+          <div style="padding:16px; style=display:flex; flex-direction: column; background: #F4F4F4; border-radius: 10px;">
+            <div style="display:flex; justify-content: center; justify-content: space-between; margin:10px 0px;">
+              <div>1주당 체결가</div>
+              <div>` +
+        stock.stockDealOrderClosingPrice.toLocaleString() +
+        `원</div>
+            </div>
+            <div style="display:flex; justify-content: center; justify-content: space-between; margin:10px 0px;">
+              <div>주식수</div>
+              <div>` +
+        stock.stockDealAmount.toLocaleString() +
+        `주</div>
+            </div>
+            <div style="display:flex; justify-content: center; justify-content: space-between; margin:10px 0px;">
+              <div>수수료</div>
+              <div>` +
+        Math.floor(stock.stockDealOrderClosingPrice * 0.0005).toLocaleString() +
+        `원
+              </div>
+            </div>
+          </div>
+          <div style="padding:16px; display:flex; justify-content: center; justify-content: space-between; margin:10px 0px;">
+            <div>체결금액</div>
+            <div>` +
+        Math.floor(
+          stock.stockDealOrderClosingPrice * stock.stockDealAmount * 1.0005,
+        ).toLocaleString() +
+        `원
+            </div>
+          </div>
+        </div>`,
+      showConfirmButton: false,
+    });
+  };
+
   return (
-    <div className="transaction-buy-container">
+    <div
+      className="transaction-buy-container"
+      onClick={() => {
+        expectedModal();
+      }}
+    >
       <div className="transaction-buy-items">
         <div>{stock.stockDealAmount.toLocaleString()}주</div>
         <div className="transaction-buy-mid">{dayDay(stock.stockDealDate)}</div>
@@ -296,8 +411,8 @@ const TransactionBuy = (props) => {
           style={{ color: '#D2143C' }}
         >
           ▲{' '}
-          {(
-            stock.stockDealOrderClosingPrice * stock.stockDealAmount
+          {Math.floor(
+            stock.stockDealOrderClosingPrice * stock.stockDealAmount * 1.0005,
           ).toLocaleString()}{' '}
           원
         </div>
@@ -307,11 +422,93 @@ const TransactionBuy = (props) => {
 };
 
 const ExpectedTransactionSell = (props) => {
-  //판매예정컴포넌트
+  // 판매예정컴포넌트
   const stock = props.stock;
-  console.log(stock.limitPriceOrderAmount);
+  const navigate = useNavigate();
+
+  const expectedModal = () => {
+    Swal.fire({
+      html:
+        `<div style="display:flex; flex-direction: column; justify-content: center; width: 100%; margin:auto;">
+          <div style="display: flex; justify-content: center; align-items: center;">
+            <div><div style="width: 80px; height: 80px; border-radius: 100%; background: #1E90FF; color: #FFFFFF; font-weight:bold; display: table-cell; vertical-align: middle; text-align:center;">매도 중</div></div>
+            <div>
+              <div style="width: 30vw; border-bottom-color: #1E90FF; border-bottom-width: 1px; border-bottom-style: dashed;"></div>
+              <div></div>
+            </div>
+            <div><div style="width: 80px; height: 80px; border-radius: 100%; border: 1px solid #1E90FF; font-weight:bold; display: table-cell; vertical-align: middle; text-align:center;">매도 완료</div></div>
+          </div>
+          <div style="font-weight:bold; font-size:32px; margin-bottom: 20px;">
+            ` +
+        stock.stockName +
+        `
+          </div>
+          <div style="padding:16px; style=display:flex; flex-direction: column; background: #F4F4F4; border-radius: 10px;">
+            <div style="display:flex; justify-content: center; justify-content: space-between; margin:10px 0px;">
+              <div>1주당 체결가</div>
+              <div>` +
+        stock.limitPriceOrderPrice.toLocaleString() +
+        `원</div>
+            </div>
+            <div style="display:flex; justify-content: center; justify-content: space-between; margin:10px 0px;">
+              <div>주식수</div>
+              <div>` +
+        stock.limitPriceOrderAmount.toLocaleString() +
+        `주</div>
+            </div>
+            <div style="display:flex; justify-content: center; justify-content: space-between; margin:10px 0px;">
+              <div>예상 수수료</div>
+              <div>
+                ` +
+        Math.floor(
+          stock.limitPriceOrderPrice * stock.limitPriceOrderAmount * 0.0005,
+        ).toLocaleString() +
+        `원
+              </div>
+            </div>
+          </div>
+          <div style="padding:16px; display:flex; justify-content: center; justify-content: space-between; margin:10px 0px;">
+            <div>체결예정금액</div>
+            <div>
+              ` +
+        Math.floor(
+          stock.limitPriceOrderPrice * stock.limitPriceOrderAmount * 1.0005,
+        ).toLocaleString() +
+        `원
+            </div>
+          </div>
+        </div>`,
+      reverseButtons: true,
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: '수정',
+      denyButtonText: `삭제`,
+      cancelButtonText: '확인',
+      confirmButtonColor: '#6DCEF5',
+      denyButtonColor: '#d33',
+      cancelButtonColor: '8e8e8e',
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        console.log('수정');
+        navigate(`/stock/` + stock.stockCode + `/updateSell`, {
+          state: {
+            stock: stock,
+          },
+        });
+      } else if (result.isDenied) {
+        console.log('삭제');
+      }
+    });
+  };
+
   return (
-    <div className="transaction-sell-container">
+    <div
+      className="transaction-sell-container"
+      onClick={() => {
+        expectedModal();
+      }}
+    >
       <div className="transaction-sell-items">
         <div>매도예정</div>
         <div></div>
@@ -341,32 +538,64 @@ const ExpectedTransactionBuy = (props) => {
   //구매예정컴포넌트
   const stock = props.stock;
   console.log(stock);
+  const navigate = useNavigate();
 
   const expectedModal = () => {
     Swal.fire({
-      html: (
-        <div>
-          <h1>주문내역</h1>
-          <div>
+      html:
+        `<div style="display:flex; flex-direction: column; justify-content: center; width: 100%; margin:auto;">
+          <div style="display: flex; justify-content: center; align-items: center;">
+            <div><div style="width: 80px; height: 80px; border-radius: 100%; background: #D2143C; color: #FFFFFF; font-weight:bold; display: table-cell; vertical-align: middle; text-align:center;">매수 중</div></div>
             <div>
-              <div>1주당 희망가</div>
-              <div>원</div>
+              <div style="width: 30vw; border-bottom-color: #D2143C; border-bottom-width: 1px; border-bottom-style: dashed;"></div>
+              <div></div>
             </div>
-            <div>
-              <div>구매 주식수</div>
-              <div>주</div>
+            <div><div style="width: 80px; height: 80px; border-radius: 100%; border: 1px solid #D2143C; font-weight:bold; display: table-cell; vertical-align: middle; text-align:center;">매수 완료</div></div>
+          </div>
+          <div style="font-weight:bold; font-size:32px; margin-bottom: 20px;">
+            ` +
+        stock.stockName +
+        `
+          </div>
+          <div style="padding:16px; style=display:flex; flex-direction: column; background: #F4F4F4; border-radius: 10px;">
+            <div style="display:flex; justify-content: center; justify-content: space-between; margin:10px 0px;">
+              <div>1주당 체결가</div>
+              <div>` +
+        stock.limitPriceOrderPrice.toLocaleString() +
+        `원</div>
             </div>
-            <div>
+            <div style="display:flex; justify-content: center; justify-content: space-between; margin:10px 0px;">
+              <div>주식수</div>
+              <div>` +
+        stock.limitPriceOrderAmount.toLocaleString() +
+        `주</div>
+            </div>
+            <div style="display:flex; justify-content: center; justify-content: space-between; margin:10px 0px;">
               <div>예상 수수료</div>
-              <div>원</div>
+              <div>
+                ` +
+        (
+          stock.limitPriceOrderPrice *
+          stock.limitPriceOrderAmount *
+          0.0005
+        ).toLocaleString() +
+        `원
+              </div>
             </div>
           </div>
-          <div>
-            <div>체결금액</div>
-            <div>원</div>
+          <div style="padding:16px; display:flex; justify-content: center; justify-content: space-between; margin:10px 0px;">
+            <div>체결예정금액</div>
+            <div>
+              ` +
+        (
+          stock.limitPriceOrderPrice *
+          stock.limitPriceOrderAmount *
+          1.0005
+        ).toLocaleString() +
+        `원
+            </div>
           </div>
-        </div>
-      ),
+        </div>`,
       reverseButtons: true,
       showDenyButton: true,
       showCancelButton: true,
@@ -380,6 +609,11 @@ const ExpectedTransactionBuy = (props) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
         console.log('수정');
+        navigate(`/stock/` + stock.stockCode + `/updateBuy`, {
+          state: {
+            stock: stock,
+          },
+        });
       } else if (result.isDenied) {
         console.log('삭제');
       }
@@ -407,7 +641,9 @@ const ExpectedTransactionBuy = (props) => {
         <div>{stock.limitPriceOrderPrice.toLocaleString()}원</div>
         <div className="transaction-buy-nomid-last">
           {(
-            stock.limitPriceOrderPrice * stock.limitPriceOrderAmount
+            stock.limitPriceOrderPrice *
+            stock.limitPriceOrderAmount *
+            1.0005
           ).toLocaleString()}{' '}
           원
         </div>
