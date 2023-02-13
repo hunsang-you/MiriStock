@@ -6,6 +6,7 @@ import { fontSize } from '@mui/system';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const StockTrade = () => {
   const [choose, setChoose] = useState(0);

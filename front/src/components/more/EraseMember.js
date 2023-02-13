@@ -1,8 +1,12 @@
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { profileAPI } from '../../api/api';
+import { memberStore } from '../../store';
+
 import './css/GameExit.css';
 const EraseMember = () => {
   const navigate = useNavigate();
+  const { info, setInfo } = memberStore((state) => state);
 
   return (
     <div className="exit-page">
@@ -31,7 +35,11 @@ const EraseMember = () => {
             style={{ color: 'white' }}
             size="large"
             onClick={() => {
-              navigate('/');
+              navigate('/login');
+              profileAPI
+                .deleteMember(info)
+                .then((request) => console.log(request.data))
+                .catch((err) => console.log(err));
             }}
           >
             예
