@@ -35,7 +35,6 @@ const BuyStock = () => {
   const [hopePrice, setHopePrice] = useState(0);
   const [hopeCount, setHopeCount] = useState(0);
   const [hopeTax, setHopeTax] = useState(0);
-  const [totalhopeTax, setTotalHopeTax] = useState(0);
 
   // console.log(stockCode);
   // id = 0 => 구매 희망가 만 입력 (클릭이벤트x) / id = 1
@@ -78,9 +77,8 @@ const BuyStock = () => {
     if (hopePrice === 0) {
       setMaxCount(0);
     } else {
-      setHopeTax(Math.floor(hopePrice * 0.005));
       let amountMoney = Math.floor(stockAmount / 3);
-      let moneyMoney = Math.floor(userMoney / (hopePrice + hopeTax));
+      let moneyMoney = Math.floor(userMoney / (hopePrice * 1.005));
       let result;
       if (amountMoney >= moneyMoney) {
         result = moneyMoney;
@@ -93,9 +91,9 @@ const BuyStock = () => {
 
   useEffect(() => {
     if (hopeCount === 0) {
-      setTotalHopeTax(0);
+      setHopeTax(0);
     } else {
-      setTotalHopeTax(Math.floor(hopePrice * 0.005 * hopeCount));
+      setHopeTax(Math.floor(hopePrice * 0.005 * hopeCount));
     }
   }, [hopePrice, hopeCount]);
 

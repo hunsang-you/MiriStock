@@ -48,7 +48,7 @@ const TradeBotton = (props) => {
           icon: 'success',
           title: '주문하였습니다',
         }).then(() => {
-          console.log(123);
+          console.log(props.hopePrice, props.hopeCount);
           navigate('/asset');
         });
       }

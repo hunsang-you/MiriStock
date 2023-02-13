@@ -341,8 +341,58 @@ const ExpectedTransactionBuy = (props) => {
   //구매예정컴포넌트
   const stock = props.stock;
   console.log(stock);
+
+  const expectedModal = () => {
+    Swal.fire({
+      html: (
+        <div>
+          <h1>주문내역</h1>
+          <div>
+            <div>
+              <div>1주당 희망가</div>
+              <div>원</div>
+            </div>
+            <div>
+              <div>구매 주식수</div>
+              <div>주</div>
+            </div>
+            <div>
+              <div>예상 수수료</div>
+              <div>원</div>
+            </div>
+          </div>
+          <div>
+            <div>체결금액</div>
+            <div>원</div>
+          </div>
+        </div>
+      ),
+      reverseButtons: true,
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: '수정',
+      denyButtonText: `삭제`,
+      cancelButtonText: '확인',
+      confirmButtonColor: '#6DCEF5',
+      denyButtonColor: '#d33',
+      cancelButtonColor: '8e8e8e',
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        console.log('수정');
+      } else if (result.isDenied) {
+        console.log('삭제');
+      }
+    });
+  };
+
   return (
-    <div className="transaction-buy-container">
+    <div
+      className="transaction-buy-container"
+      onClick={() => {
+        expectedModal();
+      }}
+    >
       <div className="transaction-buy-items">
         <div>{stock.limitPriceOrderAmount}주</div>
         <div className="transaction-buy-mid"></div>
