@@ -5,7 +5,8 @@ import com.udteam.miristock.dto.MemberDto;
 import com.udteam.miristock.service.MemberAssetService;
 import com.udteam.miristock.service.MemberService;
 import com.udteam.miristock.util.HeaderUtil;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -16,13 +17,14 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/asset")
 @RequiredArgsConstructor
+@Tag(name = "MemberAsset", description = "회원 자산")
 public class MemberAssetController {
 
     private final MemberAssetService memberAssetService;
     private final MemberService memberService;
 
     @GetMapping
-    @ApiOperation(value = "회원 보유 자산 불러오기")
+    @Operation(summary = "매수/매도 예정 내역 출력", description = "회원의 매수/매도 예정 목록을 출력한다.", tags = { "MemberAsset" })
     public ResponseEntity<MemberAssetDto> selectMemberAsset(@RequestHeader String Authorization) {
         String token= HeaderUtil.getAccessTokenString(Authorization);
         MemberDto m = memberService.selectOneMember(token);
