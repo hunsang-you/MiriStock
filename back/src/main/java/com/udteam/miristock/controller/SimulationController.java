@@ -107,6 +107,7 @@ public class SimulationController {
                 // 예정 거래 내역들과 현재 주식 종가와 비교하여 거래하기
                 List<LimitPriceOrderDto> getLimitList =  limitPriceOrderService.getLimitPriceOrderAllList(m.getMemberNo());
                 for (LimitPriceOrderDto limitPriceOrderDto : getLimitList) {
+                    getMemberAssetDto.setMemberassetCurrentTime(memberDate);
                     limitPriceOrderService.oneLimitPriceOrderSave(limitPriceOrderDto, getMemberAssetDto);
                 }
                 // 모든 거래 이후에 회원 주식자산을 업데이트한다.
