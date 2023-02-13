@@ -4,8 +4,6 @@ import ArticleList from '../components/community/ArticleList';
 import ArticleCreate from '../components/community/ArticleCreate';
 import Update from '../components/community/Update';
 
-import { useState } from 'react';
-
 const Community = () => {
   return (
     <div className="main-container">
@@ -13,7 +11,7 @@ const Community = () => {
         <Route path="" element={<ArticleList />} />
         ;
         <Route path="create" element={<ArticleCreate />} />;
-        <Route path="update" element={<Update />} />;
+        <Route path="update/:articleNo" element={<Update />} />;
       </Routes>
     </div>
   );

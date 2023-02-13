@@ -10,6 +10,15 @@
     margin-bottom: auto;
 }
 
+.article-search {
+    margin-bottom: 16px;
+}
+
+
+.comment > span {
+    font-size: 16px;
+    
+}
 
 #QnALogo {
     width: 7rem;

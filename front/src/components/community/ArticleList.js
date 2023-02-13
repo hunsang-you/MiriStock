@@ -3,17 +3,17 @@ import ArticleItem from './ArticleItem';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { communityAPI } from '../../api/api';
-import { Button } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import write from '../../static/write.jpg';
 import QnAimg from '../../static/QnAimg.png';
 import './css/ArticleList.css';
 
-import FilterArticle from './ArticleSearch';
-
 const ArticleList = () => {
   const navigate = useNavigate();
   const [articles, setArticles] = useState([]);
-  const [articleNo, setArticleNo] = useState(0);
+  const [state, setState] = useState(false);
+  const [searchArticle, setSearchArticle] = useState([]);
+
   useEffect(() => {
     communityAPI
       .getArticle()
@@ -46,21 +46,53 @@ const ArticleList = () => {
           </Button>
         </div>
       </div>
+      <div className="article-search">
+        <TextField
+          sx={{ width: { xs: 300, sm: 540, md: 720, lg: 960, xl: 1140 } }}
+          id="search-bar"
+          placeholder="검색어를 입력하세요"
+          variant="standard"
+          onChange={(e) => {
+            communityAPI
+              .searchArticle(e.target.value)
+              .then((request) => {
+                setSearchArticle(request.data);
+              })
+              .catch((err) => console.log(err));
+            if (e.target.value.length > 0) {
+              setState(true);
+            } else {
+              setState(false);
+            }
+          }}
+        />
+      </div>
+      {/* 키워드가 있는 글만 출력 */}
       <div>
-        <FilterArticle articles={articles} />
+        {searchArticle.reverse().map((article, i) => {
+          if (state === true) {
+            return (
+              <div key={i}>
+                <ArticleItem article={article} />
+              </div>
+            );
+          }
+        })}
       </div>
 
-      {articles.map((article, i) => {
-        return (
-          <div key={i}>
-            <ArticleItem
-              article={article}
-              setArticles={setArticles}
-              setArticleNo={setArticleNo}
-            />
-          </div>
-        );
-      })}
+      {/* 검색 안할시 전체글 출력 */}
+      {articles
+        .slice()
+        .reverse()
+        .map((article, i) => {
+          if (state === false) {
+            return (
+              <div key={i}>
+                <ArticleItem article={article} setArticles={setArticles} />
+              </div>
+            );
+          }
+        })}
     </div>
   );
 };

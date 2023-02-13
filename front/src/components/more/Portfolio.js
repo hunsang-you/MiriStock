@@ -56,7 +56,7 @@ const Portfolio = () => {
         <Result2 state={state} />
       </div>
       <div className="restart-btn">
-        <Button id="restart" variant="outlined" size="large">
+        <Button id="restart" variant="contained" size="large">
           게임 재시작
         </Button>
       </div>
