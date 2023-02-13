@@ -237,8 +237,13 @@ public class LimitPriceOrderService {
                 // 주식자산
                 log.info("getMemberStockCode.getMemberStockAvgPrice() : {}",getMemberStockCode.getMemberStockAvgPrice());
                 log.info("limitPriceOrderDto.getLimitPriceOrderAmount() : {}", limitPriceOrderDto.getLimitPriceOrderAmount());
+                log.info("getClosingPriceOnTime : {}", getClosingPriceOnTime);
+                // 해당 주식 종가로 팔아야함...
                 Long stockAsset = getMemberAsset.getMemberassetStockAsset()
-                        - (getMemberStockCode.getMemberStockAvgPrice() * limitPriceOrderDto.getLimitPriceOrderAmount());
+                        - (getClosingPriceOnTime * limitPriceOrderDto.getLimitPriceOrderAmount());
+//                Long stockAsset = getMemberAsset.getMemberassetStockAsset()
+//                        - (getMemberStockCode.getMemberStockAvgPrice() * limitPriceOrderDto.getLimitPriceOrderAmount());
+
 
                 log.info("availableAssetDouble : {} ", availableAssetDouble);
                 log.info("availableAsset (주식 팔고 얻은 현금 자산 금액 총합) : {}", availableAsset);
