@@ -43,6 +43,8 @@ public class LimitPriceOrderService {
     @Transactional
     public Object oneLimitPriceOrderSave(LimitPriceOrderDto limitPriceOrderDto, MemberAssetDto memberAssetDto) {
         Integer memberSimulationTime = memberAssetDto.getMemberassetCurrentTime();
+        // 멤버 자산 불러오기
+        MemberAssetEntity getMemberAssetEntity = memberAssetRepository.findByMember_MemberNo(memberAssetDto.getMemberNo());
 
         // 해당 종목의 시뮬레이션 시간때의 종가를 들고온다.
         StockDataResponseDto getStockData =
@@ -56,6 +58,12 @@ public class LimitPriceOrderService {
 
         // 매수 요청 ============================
         if (limitPriceOrderType == Deal.BUY) {
+            // 회원 자산 금액이 사려는 금액보다 적으면 리턴합니다.
+            if(getMemberAssetEntity.getMemberassetAvailableAsset() <
+                    (long) Math.floor(((double)limitPriceOrderDto.getLimitPriceOrderPrice() * 1.005) * (double)limitPriceOrderDto.getLimitPriceOrderAmount())){
+                return "회원 현금 자산이 구매하려는 주식금액보다 적어서 구매할 수 없습니다.";
+            }
+
             if (limitPriceOrderClosingPrice >= getClosingPriceOnTime) { // 매수할 금액이 종가보다 크다면 구매.
                 // 거래내역에 추가한다.
                 result = stockDealRepository.save(StockDealEntity.builder()
