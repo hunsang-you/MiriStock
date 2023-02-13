@@ -121,9 +121,15 @@ const HomeMain = () => {
         멤버
       </button>
       <button
+        // onClick={() => {
+        //   memberAPI
+        //     .addIntersetStocks('086450')
+        //     .then((request) => console.log(request.data))
+        //     .catch((err) => console.log(err));
+        // }}
         onClick={() => {
           memberAPI
-            .addIntersetStocks('002720')
+            .addIntersetStocks('086450')
             .then((request) => console.log(request.data))
             .catch((err) => console.log(err));
         }}

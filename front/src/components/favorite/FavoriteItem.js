@@ -12,7 +12,7 @@ const FavoriteItem = () => {
     <div>
       {favoriteStocks.map((favorite, i) => {
         return (
-          <div className="favorite-item">
+          <div className="favorite-item" key={i}>
             <div className="favorite-stock">
               <span>{favorite.stockName}</span>
               <span id="favorite-code">{favorite.stockCode}</span>
