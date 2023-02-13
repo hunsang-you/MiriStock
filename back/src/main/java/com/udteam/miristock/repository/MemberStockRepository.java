@@ -58,4 +58,5 @@ public interface MemberStockRepository extends JpaRepository<MemberStockEntity, 
             " WHERE m.memberStockAmount > 0  AND m.memberNo=:memberNo AND s.stockDataDate=:stockDataDate AND m.stockCode=:stockCode")
     List<Object[]> findOneMemberStock(@Param("memberNo") Integer memberNo, @Param("stockDataDate") Integer memberAssetCurrentTime, @Param("stockCode") String stockCode);
 
+    void deleteByMemberNo(Integer memberNo);
 }

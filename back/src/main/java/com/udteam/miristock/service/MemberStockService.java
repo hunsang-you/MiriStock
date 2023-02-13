@@ -50,8 +50,9 @@ public class MemberStockService {
         
         // 이전금액 
         long stockDataAvgPriceSum = 0L;
-//        long stock
+        long stockDataClosingPriceSum = 0L;
         long stockdatapriceincreasement = 0L;
+        long stockDataAmountSum = 0;
         float stockDataFlucauationRateSum = 0.0f;
 
         int size = stockDataMemberStockDtos.size();
@@ -64,14 +65,14 @@ public class MemberStockService {
             // 이전금액 합계
             stockDataAvgPriceSum += stockDataMemberStockDtos.get(i).getMemberStockAvgPrice() * stockDataMemberStockDtos.get(i).getMemberStockAmount();
             // 현재가 합계
-
+            stockDataClosingPriceSum += stockDataMemberStockDtos.get(i).getMemberStockAvgPrice() * stockDataMemberStockDtos.get(i).getMemberStockAmount();
             // 등락금액 더하기 (현재가 - 평매가) X 보유주식량 = 등락금액
-            stockdatapriceincreasement +=
-                    (stockDataMemberStockDtos.get(i).getStockDataClosingPrice() - stockDataMemberStockDtos.get(i).getMemberStockAvgPrice())
-                            * stockDataMemberStockDtos.get(i).getMemberStockAmount();
+            stockdatapriceincreasement += stockDataClosingPriceSum - stockDataAvgPriceSum;
+            // 총 보유주식량 더하기
+            stockDataAmountSum += stockDataMemberStockDtos.get(i).getMemberStockAmount();
         }
+//        stockDataFlucauationRateSum = (stockDataClosingPriceSum - stockDataAvgPriceSum) / stockDataAvgPriceSum
 
-//        stockDataFlucauationRateSum +=
 
         // error 분기
         if (stockDataFlucauationRateSum == 0 & stockdatapriceincreasement != 0 ){
