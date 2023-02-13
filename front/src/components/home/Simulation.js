@@ -1,13 +1,14 @@
 import './css/Simulation.css';
 import Button from '@mui/material/Button';
-import { dateStore } from '../../store';
+import { dateStore, userStore } from '../../store';
 import { simulAPI } from '../../api/api';
 import { useEffect, useState } from 'react';
 import Loading from '../Loading';
 const Simulation = () => {
   const { date, setDate } = dateStore((state) => state);
+  const { user } = userStore((state) => state);
   const [isLoading, setIsLoading] = useState(false);
-  let today = date.memberassetCurrentTime;
+  let today = user.memberassetCurrentTime;
   today = String(today);
   let userDate =
     today.slice(0, 4) + '.' + today.slice(4, 6) + '.' + today.slice(6, 8);
