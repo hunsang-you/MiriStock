@@ -7,7 +7,7 @@ const Possible = (props) => {
       </div>
       <div className="possible-content">
         <div>수수료</div>
-        <div className="text-right">{props.hopeTax} 원</div>
+        <div className="text-right">{props.totalHopeTax} 원</div>
       </div>
     </div>
   );
