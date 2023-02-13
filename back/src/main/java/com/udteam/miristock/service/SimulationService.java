@@ -103,13 +103,13 @@ public class SimulationService {
                         .build());
 
         // 거래예정 테이블 삭제
-        limitPriceOrderRepository.deleteById(memberDto.getMemberNo());
+        limitPriceOrderRepository.deleteByMemberNo(memberDto.getMemberNo());
 
         // 회원 보유 주식 테이블 삭제
-        memberStockRepository.deleteById(memberDto.getMemberNo());
+        memberStockRepository.deleteByMemberNo(memberDto.getMemberNo());
 
         // 회원 주식 거래 내역 테이블 삭제
-        stockDealRepository.deleteById(memberDto.getMemberNo());
+        stockDealRepository.deleteAllByMemberNo(memberDto.getMemberNo());
 
     }
 

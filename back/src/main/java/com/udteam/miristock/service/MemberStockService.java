@@ -46,24 +46,54 @@ public class MemberStockService {
     public StockRateAndPriceResponseDto getMemberStockRateAndPrice(Integer memberNo, Integer currentTime) {
         List<Object[]> result = memberStockRepository.findAllMemberStockList(memberNo, currentTime);
         List<StockDataMemberStockDto> stockDataMemberStockDtos = (List<StockDataMemberStockDto>) getObjects(result);
+
+        // 이전금액 
+        long stockDataAvgPriceSum = 0L;
+        long stockDataClosingPriceSum = 0L;
+        long stockdatapriceincreasement = 0L;
+        long stockDataAmountSum = 0;
         float stockDataFlucauationRateSum = 0.0f;
-        Long stockDataPriceIncreasement = 0L;
 
         int size = stockDataMemberStockDtos.size();
+        // 보유 주식이 없으므로 그냥 0으로 리턴한다.
         if (size == 0) {
+            log.info("main 보유주식 등락률, 등락금 보유주기에서 보유주식모록이 없음");
             return new StockRateAndPriceResponseDto(0.0f, 0L);
         }
 
         for (int i = 0; i < size; i++) {
-            stockDataFlucauationRateSum += stockDataMemberStockDtos.get(i).getStockDataFlucauationRate();
-            stockDataPriceIncreasement += stockDataMemberStockDtos.get(i).getStockDataPriceIncreasement() * stockDataMemberStockDtos.get(i).getMemberStockAmount();
+            log.info("stockDataMemberStockDtos : {} ", stockDataMemberStockDtos.get(i));
+            // 이전금액 합계
+            log.info("stockDataMemberStockDtos.get(i).getMemberStockAvgPrice() : {}", stockDataMemberStockDtos.get(i).getMemberStockAvgPrice());
+            log.info("stockDataMemberStockDtos.get(i).getStockDataClosingPrice() : {} ", stockDataMemberStockDtos.get(i).getStockDataClosingPrice() );
+            log.info("stockDataMemberStockDtos.get(i).getMemberStockAmount() : {}", stockDataMemberStockDtos.get(i).getMemberStockAmount());
+            stockDataAvgPriceSum += stockDataMemberStockDtos.get(i).getMemberStockAvgPrice() * stockDataMemberStockDtos.get(i).getMemberStockAmount();
+            // 현재가 합계
+            stockDataClosingPriceSum += stockDataMemberStockDtos.get(i).getStockDataClosingPrice() * stockDataMemberStockDtos.get(i).getMemberStockAmount();
+            // 등락금액 더하기 (현재가 - 평매가) X 보유주식량 = 등락금액
+            stockdatapriceincreasement += stockDataClosingPriceSum - stockDataAvgPriceSum;
+            // 총 보유주식량 더하기
+            stockDataAmountSum += stockDataMemberStockDtos.get(i).getMemberStockAmount();
         }
-        if (stockDataFlucauationRateSum == 0 & stockDataPriceIncreasement != 0 ){
-            return new StockRateAndPriceResponseDto(0f, stockDataPriceIncreasement / size);
-        } else if (stockDataFlucauationRateSum != 0f & stockDataPriceIncreasement == 0 ){
-            return new StockRateAndPriceResponseDto(stockDataFlucauationRateSum / size, 0L);
+        // 전체 등락금액의 등락률 구하기
+        log.info("stockDataAvgPriceSum : {} ", stockDataAvgPriceSum);
+        log.info("stockDataClosingPriceSum : {}", stockDataClosingPriceSum);
+        log.info("stockdatapriceincreasement : {}", stockdatapriceincreasement);
+
+        if( ((float)stockDataClosingPriceSum - (float)stockDataAvgPriceSum) == 0.0f){
+            return new StockRateAndPriceResponseDto(0.0f, 0L);
         }
-        return new StockRateAndPriceResponseDto(stockDataFlucauationRateSum / size, stockDataPriceIncreasement / size);
+        stockDataFlucauationRateSum = (float)( ((float)stockDataClosingPriceSum - (float)stockDataAvgPriceSum) / (float)stockDataAvgPriceSum) * (float)100;
+
+        log.info("stockDataFlucauationRateSum : {} ", stockDataFlucauationRateSum);
+        log.info("stockdatapriceincreasement : {}", stockdatapriceincreasement);
+        // error 분기
+//        if (stockDataFlucauationRateSum == 0 & stockdatapriceincreasement != 0 ){
+//            return new StockRateAndPriceResponseDto(0f, stockdatapriceincreasement);
+//        } else if (stockDataFlucauationRateSum != 0f & stockdatapriceincreasement == 0 ){
+//            return new StockRateAndPriceResponseDto(stockDataFlucauationRateSum, 0L);
+//        }
+        return new StockRateAndPriceResponseDto(stockDataFlucauationRateSum, stockdatapriceincreasement);
     }
 
     private List<?> getObjects(List<Object[]> result) {

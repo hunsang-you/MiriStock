@@ -60,7 +60,9 @@ public class LimitPriceOrderController {
         MemberAssetDto getMemberAssetDto = memberAssetService.selectMemberAsset(m.getMemberNo());
         Integer memberDate = getMemberAssetDto.getMemberassetCurrentTime();
         String updateType = "todayLimitPriceOrder";
-        memberAssetService.updateMemberStockAsset(m.getMemberNo(), memberDate, updateType);
+
+        // 이 부분을 왜 넣었을까?
+//        memberAssetService.updateMemberStockAsset(m.getMemberNo(), memberDate, updateType);
         log.info("매수, 매도 요청 등록됨 limitPriceOrderDto {} , ", limitPriceOrderDto);
 
         if (m == null){

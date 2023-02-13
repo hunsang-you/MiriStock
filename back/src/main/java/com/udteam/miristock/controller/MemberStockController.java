@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping("/asset/memberstock")
@@ -47,7 +49,11 @@ public class MemberStockController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } else {
             MemberAssetDto result = memberAssetService.selectMemberAsset(m.getMemberNo());
-            return ResponseEntity.ok().body(memberStockService.findOne(m.getMemberNo(), result.getMemberassetCurrentTime(), stockCode).get(0));
+            List<?> objResult = memberStockService.findOne(m.getMemberNo(), result.getMemberassetCurrentTime(), stockCode);
+            if(objResult.size() != 0){
+                return ResponseEntity.ok().body(objResult.get(0));
+            }
+            return ResponseEntity.ok().body("MemberStock Not Found : "+stockCode);
         }
     }
 

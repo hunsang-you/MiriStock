@@ -27,5 +27,7 @@ public interface LimitPriceOrderRepository extends JpaRepository<LimitPriceOrder
     // 특정 거래 타입 거래예정 내역 삭제
     void deleteAllByMemberNoAndLimitPriceOrderType(Integer memberNo, Deal type);
 
+    void deleteByMemberNo(Integer memberNo);
+
 
 }
