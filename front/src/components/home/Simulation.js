@@ -45,7 +45,7 @@ const Simulation = () => {
                 changeDate();
               }}
             >
-              <span style={{ color: '#FFFFFF' }}>D+1</span>
+              <span style={{ color: '#FFFFFF', fontWeight: 'bold' }}>D+1</span>
             </Button>
             <Button
               sx={{ m: 0.5, px: 1, py: 0.3, minWidth: 0 }}
@@ -71,7 +71,7 @@ const Simulation = () => {
                 changeDate();
               }}
             >
-              <span style={{ color: '#FFFFFF' }}>D+7</span>
+              <span style={{ color: '#FFFFFF', fontWeight: 'bold' }}>D+7</span>
             </Button>
             <Button
               sx={{ m: 0.5, px: 0.5, py: 0.3, minWidth: 0 }}
@@ -99,7 +99,7 @@ const Simulation = () => {
                 changeDate();
               }}
             >
-              <span style={{ color: '#FFFFFF' }}>D+30</span>
+              <span style={{ color: '#FFFFFF', fontWeight: 'bold' }}>D+30</span>
             </Button>
           </Stack>
           {/* <Button

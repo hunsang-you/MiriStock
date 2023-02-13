@@ -4,14 +4,12 @@ import SearchView from './SearchView';
 import History from './History';
 import { searchAPI } from '../../api/api';
 import { useState } from 'react';
-import { searchStore } from '../../store.js';
 import { useNavigate } from 'react-router-dom';
 import './css/SearchBar.css';
 
 // 키워드, 결과값들, 업데이트필드를 전달받는다
 const SearchBar = () => {
   //최근검색기록
-  const { searchHistory, setSearchHistory } = searchStore((state) => state);
   const [searchResult, setSearchResult] = useState([]);
   // 하단 조건부렌더링 bool 체크
   const [isCheck, setIsCheck] = useState(true);

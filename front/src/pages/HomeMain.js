@@ -122,13 +122,13 @@ const HomeMain = () => {
       </button>
       <button
         onClick={() => {
-          communityAPI
-            .getArticle()
+          memberAPI
+            .addIntersetStocks('002720')
             .then((request) => console.log(request.data))
             .catch((err) => console.log(err));
         }}
       >
-        커뮤니티
+        관심주식넣기
       </button>
       <button
         onClick={() => {
