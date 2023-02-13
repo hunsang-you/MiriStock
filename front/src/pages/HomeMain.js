@@ -130,6 +130,16 @@ const HomeMain = () => {
       >
         커뮤니티
       </button>
+      <button
+        onClick={() => {
+          simulAPI
+            .restart()
+            .then((request) => console.log(request.data, '재시작합니다.'))
+            .catch((err) => console.log(err));
+        }}
+      >
+        시뮬 재시작
+      </button>
     </div>
   );
 };

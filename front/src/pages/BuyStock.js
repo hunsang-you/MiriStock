@@ -22,10 +22,9 @@ const BuyStock = () => {
   // 유저 정보
   const { user } = userStore((state) => state);
   const userNo = user.memberNo;
-  // console.log(user.memberNo);
-  let { stockCode } = useParams();
   const today = user.memberassetCurrentTime;
   const userMoney = user.memberassetAvailableAsset;
+  let { stockCode } = useParams();
 
   // 주식 이름 / 오늘 가격 / 거래량
   const [stockName, setStockName] = useState();
@@ -33,9 +32,11 @@ const BuyStock = () => {
   const [stockAmount, setStockAmount] = useState();
   // 구입 희망 가격, 주식수, 수수료계산
   const [hopeInputID, setHopeInputID] = useState(0);
-  const [hopePrice, setHopePrice] = useState(25000);
-  const [hopeCount, setHopeCount] = useState(33);
+  const [hopePrice, setHopePrice] = useState(0);
+  const [hopeCount, setHopeCount] = useState(0);
   const [hopeTax, setHopeTax] = useState(0);
+  const [totalhopeTax, setTotalHopeTax] = useState(0);
+
   // console.log(stockCode);
   // id = 0 => 구매 희망가 만 입력 (클릭이벤트x) / id = 1
   const inputID = (id) => {
@@ -63,20 +64,6 @@ const BuyStock = () => {
   };
 
   useEffect(() => {
-    if (hopePrice === 0) {
-      setMaxCount(0);
-    } else {
-      let ans1 = Math.floor(stockAmount / 3 / (hopePrice + hopeTax));
-      let ans2 = Math.floor(userMoney / (hopePrice + hopeTax));
-      if (ans1 > ans2) {
-        setMaxCount(ans1);
-      } else {
-        setMaxCount(ans2);
-      }
-    }
-  }, [hopePrice]);
-
-  useEffect(() => {
     const use = async () => {
       const reqData = await stockAPI.stockDetail(stockCode, today, today);
       // console.log(reqData.data[0]);
@@ -88,7 +75,28 @@ const BuyStock = () => {
   }, []);
 
   useEffect(() => {
-    setHopeTax(Math.floor(hopePrice * 0.005 * hopeCount));
+    if (hopePrice === 0) {
+      setMaxCount(0);
+    } else {
+      setHopeTax(Math.floor(hopePrice * 0.005));
+      let amountMoney = Math.floor(stockAmount / 3);
+      let moneyMoney = Math.floor(userMoney / (hopePrice + hopeTax));
+      let result;
+      if (amountMoney >= moneyMoney) {
+        result = moneyMoney;
+      } else if (amountMoney < moneyMoney) {
+        result = amountMoney;
+      }
+      setMaxCount(result);
+    }
+  }, [hopePrice]);
+
+  useEffect(() => {
+    if (hopeCount === 0) {
+      setTotalHopeTax(0);
+    } else {
+      setTotalHopeTax(Math.floor(hopePrice * 0.005 * hopeCount));
+    }
   }, [hopePrice, hopeCount]);
 
   return (
@@ -138,7 +146,10 @@ const BuyStock = () => {
       </div>
       <div className="trade-keypad">
         <div>
-          <Possible maxCount={maxCount} hopeTax={hopeTax.toLocaleString()} />
+          <Possible
+            maxCount={maxCount}
+            totalhopeTax={totalhopeTax.toLocaleString()}
+          />
         </div>
         {hopeInputID !== 1 ? (
           <Persent

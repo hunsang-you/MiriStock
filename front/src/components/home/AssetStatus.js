@@ -12,7 +12,14 @@ const AssetStatus = (props) => {
       <div className="asset-status">보유 현황</div>
       <div className="money-unit">
         <span className="money">
-          <Counter from={0} to={user.memberassetTotalAsset} />
+          <Counter
+            from={0}
+            to={
+              user.memberassetStockAsset === undefined
+                ? 0
+                : user.memberassetStockAsset
+            }
+          />
         </span>
         <span className="unit">원</span>
       </div>
@@ -27,7 +34,11 @@ const AssetStatus = (props) => {
         {userAssetChanged.stockDataPriceIncreasement >= 0 ? '▲' : '▼'}
         <Counter
           from={0}
-          to={Math.abs(userAssetChanged.stockDataPriceIncreasement)}
+          to={
+            userAssetChanged.stockDataPriceIncreasement === undefined
+              ? 0
+              : Math.abs(userAssetChanged.stockDataPriceIncreasement)
+          }
         />
         원 ({userAssetChanged.stockDataFlucauationRateSum >= 0 ? '+' : null}
         <CounterPer
