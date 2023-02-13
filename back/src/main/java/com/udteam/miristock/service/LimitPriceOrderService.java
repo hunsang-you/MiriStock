@@ -47,7 +47,7 @@ public class LimitPriceOrderService {
         // 해당 종목의 시뮬레이션 시간때의 종가를 들고온다.
         StockDataResponseDto getStockData =
                 new StockDataResponseDto(stockDataRepository.findByStockCodeAndStockDataDate(limitPriceOrderDto.getStockCode(), memberSimulationTime));
-        log.info("testtttttttt");
+
         Long limitPriceOrderClosingPrice = limitPriceOrderDto.getLimitPriceOrderPrice(); // 매수/매도 예약가
         Deal limitPriceOrderType = limitPriceOrderDto.getLimitPriceOrderType(); // 매수/매도 타입 구분
         Long getClosingPriceOnTime = getStockData.getStockDataClosingPrice(); // 해당 날짜 종가
