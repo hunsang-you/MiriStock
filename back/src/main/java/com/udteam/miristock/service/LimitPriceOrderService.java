@@ -122,11 +122,12 @@ public class LimitPriceOrderService {
 //                log.info("limitPriceOrderDto.getLimitPriceOrderAmount(); : {}", limitPriceOrderDto.getLimitPriceOrderAmount());
 //                log.info("limitPriceOrderDto.getLimitPriceOrderPrice() : {}", limitPriceOrderDto.getLimitPriceOrderPrice());
 
-                Long availableAsset = getMemberAsset.getMemberassetAvailableAsset()
-                        - (long)(limitPriceOrderDto.getLimitPriceOrderPrice() * 1.005) * limitPriceOrderDto.getLimitPriceOrderAmount();
+                double availableAssetDouble = (double)getMemberAsset.getMemberassetAvailableAsset()
+                        - ((double)limitPriceOrderDto.getLimitPriceOrderPrice() * (double)1.005) * (double)limitPriceOrderDto.getLimitPriceOrderAmount();
+                long availableAsset = (long) Math.floor(availableAssetDouble);
                 log.info("매수 getMemberAsset.getMemberassetAvailableAsset() : {}", getMemberAsset.getMemberassetAvailableAsset());
-                log.info("매수 (long)(limitPriceOrderDto.getLimitPriceOrderPrice() * 1.005) * limitPriceOrderDto.getLimitPriceOrderAmount() : {}",
-                        (long)(limitPriceOrderDto.getLimitPriceOrderPrice() * 1.005) * limitPriceOrderDto.getLimitPriceOrderAmount());
+                log.info("매수((double)limitPriceOrderDto.getLimitPriceOrderPrice() * (double)1.005) * (double)limitPriceOrderDto.getLimitPriceOrderAmount() : {}",
+                        ((double)limitPriceOrderDto.getLimitPriceOrderPrice() * (double)1.005) * (double)limitPriceOrderDto.getLimitPriceOrderAmount());
                 log.info("availableAsset : {}", availableAsset);
 
                 Long stockAsset = getMemberAsset.getMemberassetStockAsset()
@@ -236,8 +237,9 @@ public class LimitPriceOrderService {
 //                log.info("limitPriceOrderDto.getLimitPriceOrderPrice() : {}", limitPriceOrderDto.getLimitPriceOrderPrice());
 
                 // 현금자산
-                Long availableAsset = getMemberAsset.getMemberassetAvailableAsset()
-                        + (long)(((limitPriceOrderDto.getLimitPriceOrderPrice() - getMemberStockCode.getMemberStockAvgPrice()) * 0.995) * limitPriceOrderDto.getLimitPriceOrderAmount());
+                double availableAssetDouble = (double)getMemberAsset.getMemberassetAvailableAsset()
+                        + (double)((((double)limitPriceOrderDto.getLimitPriceOrderPrice() - (double)getMemberStockCode.getMemberStockAvgPrice()) * 0.995) * (double)limitPriceOrderDto.getLimitPriceOrderAmount());
+                long availableAsset = (long) Math.floor(availableAssetDouble);
                 Long stockAsset = getMemberAsset.getMemberassetStockAsset()
                         - getMemberStockCode.getMemberStockAvgPrice() * limitPriceOrderDto.getLimitPriceOrderAmount();
                 memberAssetRepository.save(MemberAssetEntity.builder()

@@ -46,24 +46,40 @@ public class MemberStockService {
     public StockRateAndPriceResponseDto getMemberStockRateAndPrice(Integer memberNo, Integer currentTime) {
         List<Object[]> result = memberStockRepository.findAllMemberStockList(memberNo, currentTime);
         List<StockDataMemberStockDto> stockDataMemberStockDtos = (List<StockDataMemberStockDto>) getObjects(result);
+        log.info("stockDataMemberStockDtos : {} ", stockDataMemberStockDtos);
+        
+        // 이전금액 
+        long stockDataAvgPriceSum = 0L;
+//        long stock
+        long stockdatapriceincreasement = 0L;
         float stockDataFlucauationRateSum = 0.0f;
-        Long stockDataPriceIncreasement = 0L;
 
         int size = stockDataMemberStockDtos.size();
+        // 보유 주식이 없으므로 그냥 0으로 리턴한다.
         if (size == 0) {
             return new StockRateAndPriceResponseDto(0.0f, 0L);
         }
 
         for (int i = 0; i < size; i++) {
-            stockDataFlucauationRateSum += stockDataMemberStockDtos.get(i).getStockDataFlucauationRate();
-            stockDataPriceIncreasement += stockDataMemberStockDtos.get(i).getStockDataPriceIncreasement() * stockDataMemberStockDtos.get(i).getMemberStockAmount();
+            // 이전금액 합계
+            stockDataAvgPriceSum += stockDataMemberStockDtos.get(i).getMemberStockAvgPrice() * stockDataMemberStockDtos.get(i).getMemberStockAmount();
+            // 현재가 합계
+
+            // 등락금액 더하기 (현재가 - 평매가) X 보유주식량 = 등락금액
+            stockdatapriceincreasement +=
+                    (stockDataMemberStockDtos.get(i).getStockDataClosingPrice() - stockDataMemberStockDtos.get(i).getMemberStockAvgPrice())
+                            * stockDataMemberStockDtos.get(i).getMemberStockAmount();
         }
-        if (stockDataFlucauationRateSum == 0 & stockDataPriceIncreasement != 0 ){
-            return new StockRateAndPriceResponseDto(0f, stockDataPriceIncreasement / size);
-        } else if (stockDataFlucauationRateSum != 0f & stockDataPriceIncreasement == 0 ){
+
+//        stockDataFlucauationRateSum +=
+
+        // error 분기
+        if (stockDataFlucauationRateSum == 0 & stockdatapriceincreasement != 0 ){
+            return new StockRateAndPriceResponseDto(0f, stockdatapriceincreasement / size);
+        } else if (stockDataFlucauationRateSum != 0f & stockdatapriceincreasement == 0 ){
             return new StockRateAndPriceResponseDto(stockDataFlucauationRateSum / size, 0L);
         }
-        return new StockRateAndPriceResponseDto(stockDataFlucauationRateSum / size, stockDataPriceIncreasement / size);
+        return new StockRateAndPriceResponseDto(stockDataFlucauationRateSum / size, stockdatapriceincreasement / size);
     }
 
     private List<?> getObjects(List<Object[]> result) {
