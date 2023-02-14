@@ -13,8 +13,8 @@ const Stock = () => {
         <Route path="" element={<StockDetail />} />;
         <Route path="buyStock" element={<BuyStock />} />
         <Route path="sellStock" element={<SellStock />} />
-        <Route path="updateBuy" element={<UpdateBuy />} />
-        <Route path="updateSell" element={<UpdateSell />} />
+        <Route path="updatebuy" element={<UpdateBuy />} />
+        <Route path="updatesell" element={<UpdateSell />} />
       </Routes>
     </div>
   );

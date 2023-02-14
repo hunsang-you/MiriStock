@@ -71,15 +71,18 @@ const SellStock = () => {
     };
     const stockDate = async (stockCode) => {
       const reqData = await tradeAPI.stockData(stockCode);
-      // console.log(reqData.data.memberStockAmount);
-      setMaxCount(reqData.data.memberStockAmount);
+      if (reqData.data.memberStockAmount === undefined) {
+        setMaxCount(0);
+      } else {
+        setMaxCount(reqData.data.memberStockAmount);
+      }
     };
     use();
     stockDate(stockCode);
   }, []);
 
   useEffect(() => {
-    setHopeTax(Math.floor(hopePrice * 0.005 * hopeCount));
+    setHopeTax(Math.floor(hopePrice * 0.0005 * hopeCount));
   }, [hopePrice, hopeCount]);
 
   return (
