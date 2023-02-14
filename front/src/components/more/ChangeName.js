@@ -1,6 +1,6 @@
 import { React, useState } from 'react';
 import { TextField, Button } from '@mui/material';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { profileAPI } from '../../api/api';
 
 import './css/ChangeName.css';

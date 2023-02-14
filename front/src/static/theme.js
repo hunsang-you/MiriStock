@@ -22,7 +22,7 @@ export const theme = createTheme({
       light: '#8B8B8B',
     },
     secondary: {
-      main: '#80deea',
+      main: '#000000',
       light: '#90caf9',
     },
   },

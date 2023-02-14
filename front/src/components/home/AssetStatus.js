@@ -9,7 +9,7 @@ const AssetStatus = (props) => {
   const userAssetChanged = props.userAssetChanged;
   return (
     <div className="asset">
-      <div className="asset-status">보유 현황</div>
+      <div className="asset-status">보유 주식 현황</div>
       <div className="money-unit">
         <span className="money">
           <Counter
@@ -26,12 +26,16 @@ const AssetStatus = (props) => {
       <div
         className="change"
         style={
-          userAssetChanged.stockDataPriceIncreasement >= 0
+          userAssetChanged.stockDataPriceIncreasement >= 0 ||
+          userAssetChanged.stockDataPriceIncreasement === undefined
             ? { color: '#D2143C' }
             : { color: '#1E90FF' }
         }
       >
-        {userAssetChanged.stockDataPriceIncreasement >= 0 ? '▲' : '▼'}
+        {userAssetChanged.stockDataPriceIncreasement >= 0 ||
+        userAssetChanged.stockDataPriceIncreasement === undefined
+          ? '▲'
+          : '▼'}
         <Counter
           from={0}
           to={
@@ -40,7 +44,11 @@ const AssetStatus = (props) => {
               : Math.abs(userAssetChanged.stockDataPriceIncreasement)
           }
         />
-        원 ({userAssetChanged.stockDataFlucauationRateSum >= 0 ? '+' : null}
+        원 (
+        {userAssetChanged.stockDataFlucauationRateSum >= 0 ||
+        userAssetChanged.stockDataPriceIncreasement === undefined
+          ? '+'
+          : null}
         <CounterPer
           from={0}
           to={
