@@ -14,6 +14,7 @@ public class MemberSimulEndDto {
     private Long memberStockAccSellPrice;
     private Long memberStockEarnPrice;
     private Float memberStockEarnRate;
+    private String memberStockEarnBoolean;
 
     @Builder
     public  MemberSimulEndDto(MemberStockEntity entity) {
@@ -23,7 +24,12 @@ public class MemberSimulEndDto {
         this.memberNo = entity.getMemberNo();
         this.memberStockAccPurchasePrice = entity.getMemberStockAccPurchasePrice();
         this.memberStockAccSellPrice = entity.getMemberStockAccSellPrice();
-        this.memberStockEarnPrice = entity.getMemberStockAccSellPrice() - entity.getMemberStockAccPurchasePrice();
+        this.memberStockEarnPrice = Math.abs(entity.getMemberStockAccSellPrice() - entity.getMemberStockAccPurchasePrice());
         this.memberStockEarnRate = entity.getMemberStockAccEarnRate();
+        if (entity.getMemberStockAccSellPrice() - entity.getMemberStockAccPurchasePrice() >= 0) {
+            this.memberStockEarnBoolean = "TRUE";
+        } else {
+            this.memberStockEarnBoolean = "FALSE";
+        }
     }
 }
