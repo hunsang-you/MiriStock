@@ -7,8 +7,6 @@ const GameExit = () => {
   const navigate = useNavigate();
   const { info, setInfo } = memberStore((state) => state);
 
-  console.log(info);
-
   return (
     <div className="exit-page">
       <div className="exit-ment">

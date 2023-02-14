@@ -13,6 +13,7 @@ const StockTrade = () => {
   const [transaction, setTransaction] = useState([]);
   const [expectedTransaction, setExpectedTransaction] = useState([]);
   const navigate = useNavigate();
+  const [updateLimitOrder, setUpdateLimitOrder] = useState(0); //거래예정내역 삭제시 바로반영되는 기믹
   useEffect(() => {
     const allTrades = async (type) => {
       await tradeAPI
@@ -32,6 +33,11 @@ const StockTrade = () => {
         })
         .catch((err) => console.log(err));
     };
+
+    allTrades();
+    myStocks();
+  }, []);
+  useEffect(() => {
     const limitMyStocks = async () => {
       await tradeAPI
         .checkTrades()
@@ -40,10 +46,8 @@ const StockTrade = () => {
         })
         .catch((err) => console.log(err));
     };
-    allTrades();
-    myStocks();
     limitMyStocks();
-  }, []);
+  }, [updateLimitOrder]);
   const dayDay = (date) => {
     date = String(date);
     return date.slice(2, 4) + '.' + date.slice(4, 6) + '.' + date.slice(6, 8);
@@ -108,9 +112,17 @@ const StockTrade = () => {
             return (
               <div key={i}>
                 {stock.limitPriceOrderType === 'BUY' ? (
-                  <ExpectedTransactionBuy stock={stock} />
+                  <ExpectedTransactionBuy
+                    stock={stock}
+                    updateLimitOrder={updateLimitOrder}
+                    setUpdateLimitOrder={setUpdateLimitOrder}
+                  />
                 ) : (
-                  <ExpectedTransactionSell stock={stock} />
+                  <ExpectedTransactionSell
+                    stock={stock}
+                    updateLimitOrder={updateLimitOrder}
+                    setUpdateLimitOrder={setUpdateLimitOrder}
+                  />
                 )}
               </div>
             );
@@ -423,6 +435,8 @@ const TransactionBuy = (props) => {
 const ExpectedTransactionSell = (props) => {
   // 판매예정컴포넌트
   const stock = props.stock;
+  const updateLimitOrder = props.updateLimitOrder;
+  const setUpdateLimitOrder = props.setUpdateLimitOrder;
   const navigate = useNavigate();
 
   const expectedModal = () => {
@@ -497,7 +511,9 @@ const ExpectedTransactionSell = (props) => {
         });
       } else if (result.isDenied) {
         console.log(1);
-        tradeAPI.deleteStockOrder(stock.limitPriceOrderNo);
+        tradeAPI.deleteStockOrder(stock.limitPriceOrderNo).then((request) => {
+          setUpdateLimitOrder(updateLimitOrder);
+        });
       }
     });
   };
@@ -537,7 +553,8 @@ const ExpectedTransactionSell = (props) => {
 const ExpectedTransactionBuy = (props) => {
   //구매예정컴포넌트
   const stock = props.stock;
-  console.log(stock);
+  const updateLimitOrder = props.updateLimitOrder;
+  const setUpdateLimitOrder = props.setUpdateLimitOrder;
   const navigate = useNavigate();
 
   const expectedModal = () => {
@@ -615,7 +632,9 @@ const ExpectedTransactionBuy = (props) => {
           },
         });
       } else if (result.isDenied) {
-        tradeAPI.deleteStockOrder(stock.limitPriceOrderNo);
+        tradeAPI.deleteStockOrder(stock.limitPriceOrderNo).then((request) => {
+          setUpdateLimitOrder(updateLimitOrder + 1);
+        });
       }
     });
   };
