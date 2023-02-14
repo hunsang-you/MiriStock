@@ -7,8 +7,13 @@ import com.udteam.miristock.repository.FinancialstatementRepository;
 import com.udteam.miristock.util.RSSFeedParser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.ParseException;
@@ -112,6 +117,124 @@ public class InformationService {
         log.info("탐색 스타트 날짜 : {}", startDateEncord);
         log.info("리스트 갯수 : {}", newsResponseDto.getMessages().size());
         return newsResponseDto;
+    }
+
+    public NewsResponseDto findNaverNews(NewsRequestDto newsRequestDto) {
+
+        String keyword = newsRequestDto.getSearchKeyword();
+        Integer startDate = newsRequestDto.getStartDate();
+        Integer endDate = newsRequestDto.getEndDate();
+        String tempstartDateEncord = startDate.toString();
+        System.out.println("tempstartDateEncord : " + tempstartDateEncord);
+        String endDateEncord = null;
+
+        if(keyword == null || startDate == null){
+            return null;
+        } else if (endDate == null){
+            endDateEncord = startDate.toString();
+        } else {
+            endDateEncord = endDate.toString();
+        }
+
+        String startDateEncord = AddDate(tempstartDateEncord, 0,0,-30);
+//        String keywordEncord = null;
+        String originStartDateEncord = startDateEncord;
+        String originEndDateEncord = endDateEncord;
+//        try {
+//            keywordEncord = URLEncoder.encode(newsRequestDto.getSearchKeyword(), "UTF-8");
+//        } catch (UnsupportedEncodingException e) {
+//            throw new RuntimeException(e);
+//        }
+
+        NewsResponseDto newsResponseDto = null;
+        int newsStartNo = 1;
+
+        String url = createNaverNewsURL("https://search.naver.com/search.naver?where=news&sm=tab_opt&sort=1&photo=0&field=0&pd=3&docid=&related=0&mynews=0&office_type=0&office_section_code=0&news_office_checked=&is_sug_officeid=0&"
+                ,keyword, startDateEncord, endDateEncord, newsStartNo);
+
+        System.out.println(url);
+        Document doc = null;
+        try {
+            doc = Jsoup.connect(url).get();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        assert doc != null;
+
+        Elements element = doc.select("a.news_tit");
+        System.out.println(element);
+        System.out.println("elementsize");
+        System.out.println(element.size());
+
+        String title = null;
+        String link = null;
+
+        for (Element el : element) {
+            title = el.attr("title");
+            link = el.attr("href");
+        }
+//            RSSFeedParser parser = new RSSFeedParser(url);
+//            newsResponseDto = parser.readFeed();
+
+//            log.info("탐색 스타트 날짜 : {}", startDateEncord);
+//            log.info("객체있는가? : {}", newsResponseDto != null);
+//            if(newsResponseDto != null) log.info("리스트 갯수 : {}", newsResponseDto.getMessages().size());
+//            if(newsResponseDto == null || newsResponseDto.getMessages().size() < 35){
+//                startDateEncord =  AddDate(startDateEncord, 0,0,-7);
+//            } else {
+//                newsResponseDto.setLink(createRssURL("https://news.google.com/search?q=",keywordEncord, startDateEncord, endDateEncord));
+//                return newsResponseDto;
+//            }
+//
+//            try {
+//                Thread.sleep(200);
+//            } catch (InterruptedException e) {
+//                throw new RuntimeException(e);
+//            }
+
+
+//        try {
+//            String[] randKeyword = new String[]{"주식", "주가", "코스피"};
+//
+//            double randVal = Math.random();
+//            int randNum = (int)(randVal*randKeyword.length);
+//            if(randNum >= randKeyword.length) {
+//                randNum = randKeyword.length-1;
+//            }
+//            log.info("랜덤 값 :  {}" , randNum);
+//            log.info("randkeyword0 : {}", randKeyword[0]);
+//            log.info("randkeyword1 : {}", randKeyword[1]);
+//            log.info("randkeyword2 : {}", randKeyword[2]);
+//            keywordEncord = URLEncoder.encode(randKeyword[randNum], "UTF-8");
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        log.info("=============");
+//        String rurl = createNaverNewsURL("https://news.google.com/rss/search?q=",keywordEncord, originStartDateEncord, originEndDateEncord);
+//        System.out.println(rurl);
+//        RSSFeedParser parser = new RSSFeedParser(rurl);
+//        newsResponseDto = parser.readFeed();
+//
+//        // 뉴스 더보기 링크 설정 (구글 뉴스)
+//        newsResponseDto.setLink(createNaverNewsURL("https://news.google.com/search?q=",keywordEncord, originStartDateEncord, originEndDateEncord));
+//        log.info("탐색 스타트 날짜 : {}", startDateEncord);
+//        log.info("리스트 갯수 : {}", newsResponseDto.getMessages().size());
+        return newsResponseDto;
+    }
+
+    // URL 생성기
+    public static String createNaverNewsURL(String sourceUrl, String keywordEncord, String startDateEncord, String endDateEncord, int startArticleNo) {
+        StringBuilder sb = new StringBuilder(sourceUrl);
+        sb.append("&query=").append(keywordEncord)
+                .append("&ds=").append(endDateEncord, 0, 4).append(".")
+                .append(endDateEncord,4,6).append(".")
+                .append(endDateEncord,6,8)
+                .append("&de=").append(startDateEncord, 0, 4).append(".")
+                .append(startDateEncord,4,6).append(".")
+                .append(startDateEncord,6,8)
+                .append("&start=").append(startArticleNo);
+        return sb.toString();
     }
 
 
