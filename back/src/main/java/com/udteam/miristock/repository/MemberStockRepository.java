@@ -19,13 +19,13 @@ public interface MemberStockRepository extends JpaRepository<MemberStockEntity, 
     // 위 아래 실행속도가 같음...
     @Query(" SELECT m From MemberStockEntity as m where  " +
 //            " m.memberStockAccSellPrice = (select min(m.memberStockAccSellPrice - m.memberStockAccPurchasePrice) from m) AND  " +
-            "  m.memberStockAmount = 0 order by (m.memberStockAccSellPrice - m.memberStockAccPurchasePrice) desc ")
-    List<MemberStockEntity> findTop1ByMemberNoAndMemberStockAmountOrderByMemberStockAccEarnPriceAsc(Integer memberNo, Long stockAmount);
+            "  m.memberStockAmount = 0 and m.memberNo=:memberNo order by (m.memberStockAccSellPrice - m.memberStockAccPurchasePrice) desc ")
+    List<MemberStockEntity> findTop1ByMemberNoAndMemberStockAmountOrderByMemberStockAccEarnPriceAsc(@Param("memberNo") Integer memberNo);
 //    MemberStockEntity findTop1ByMemberNoAndMemberStockAmountOrderByMemberStockAccEarnPriceAsc(Integer memberNo, Long stockAmount);
     @Query(" SELECT m From MemberStockEntity as m where " +
 //            " m.memberStockAccSellPrice = (select max(m.memberStockAccSellPrice - m.memberStockAccPurchasePrice) from  m) AND " +
-            "  m.memberStockAmount = 0 order by (m.memberStockAccSellPrice - m.memberStockAccPurchasePrice) asc ")
-    List<MemberStockEntity> findTop1ByMemberNoAndMemberStockAmountOrderByMemberStockAccEarnPriceDesc(Integer memberNo, Long stockAmount);
+            "  m.memberStockAmount = 0 and m.memberNo=:memberNo order by (m.memberStockAccSellPrice - m.memberStockAccPurchasePrice) asc ")
+    List<MemberStockEntity> findTop1ByMemberNoAndMemberStockAmountOrderByMemberStockAccEarnPriceDesc(@Param("memberNo") Integer memberNo);
 
     // 회원의 보유 주식 가져오기
     MemberStockEntity findByMemberNoAndStockCode(Integer memberNo, String stockCode);
@@ -58,5 +58,5 @@ public interface MemberStockRepository extends JpaRepository<MemberStockEntity, 
             " WHERE m.memberStockAmount > 0  AND m.memberNo=:memberNo AND s.stockDataDate=:stockDataDate AND m.stockCode=:stockCode")
     List<Object[]> findOneMemberStock(@Param("memberNo") Integer memberNo, @Param("stockDataDate") Integer memberAssetCurrentTime, @Param("stockCode") String stockCode);
 
-    void deleteByMemberNo(Integer memberNo);
+    void deleteAllByMemberNo(Integer memberNo);
 }

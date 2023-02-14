@@ -9,7 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -53,7 +55,7 @@ public class SimulationService {
             // 해당 주식 종가
             Long stockClosingPrice = stockDataEntity.getStockDataClosingPrice();
             // 해당 보유 주식 평균 가치 금액 (구입금액)
-            Long purchasePrice = memberStockEntity.getMemberStockAccPurchasePrice();
+            Long purchasePrice = memberStockEntity.getMemberStockAvgPrice();
 
             // 해당 주식 강제 판매금액 -> 해당주식 종가 X 회원 보유 주식량
             Long sellClosingPriceAmount = memberStockAmount * stockClosingPrice;
@@ -75,6 +77,11 @@ public class SimulationService {
 //            purchaseStockPriceSum += memStockPrice;
 //            sellStockPriceSum += curStockPrice;
 
+            log.info("sellClosingPriceAmount : {}", sellClosingPriceAmount);
+            log.info("purchasePriceAmount : {}", purchasePriceAmount);
+            log.info("(float)((double)((sellClosingPriceAmount - purchasePriceAmount) / (double)purchasePriceAmount) * (double)100) : {}",
+                    (float)((double)((sellClosingPriceAmount - purchasePriceAmount) / (double)purchasePriceAmount) * (double)100));
+
             // 해당 주식 목록의 수익률, 수익금도 반영해야함...
             // 회원 보유 주식에 업데이트
             memberStockRepository.save(MemberStockEntity.builder()
@@ -90,7 +97,7 @@ public class SimulationService {
 //                            memberStockEntity.getMemberStockAccPurchasePrice()
 //                            / (memberStockEntity.getMemberStockAccSellPrice() + sellClosingPriceAmount)
 //                                    * (float)100 - (float)100)
-                            .memberStockAccEarnRate(  (float)((sellClosingPriceAmount - purchasePriceAmount) / purchasePriceAmount) * 100   )
+                            .memberStockAccEarnRate(  (float)((double)((sellClosingPriceAmount - purchasePriceAmount) / (double)purchasePriceAmount) * (double)100)   )
                     .build()
             );
 
@@ -110,20 +117,30 @@ public class SimulationService {
                         .memberassetCurrentTime(memberAssetEntity.getMemberassetCurrentTime())
                         .build());
 
-        try{
-            MemberStockEntity low =  memberStockRepository.findTop1ByMemberNoAndMemberStockAmountOrderByMemberStockAccEarnPriceDesc(memberNo, 0L).get(0);
-            MemberStockEntity high = memberStockRepository.findTop1ByMemberNoAndMemberStockAmountOrderByMemberStockAccEarnPriceAsc(memberNo, 0L).get(0);
-        } catch (Exception e){
-            log.info("사고 판 주식이 없음");
-            return new SimulEndDto(memberAssetEntity,null,null );
-        }
-        
+        List<MemberStockEntity> low = memberStockRepository.findTop1ByMemberNoAndMemberStockAmountOrderByMemberStockAccEarnPriceDesc(memberNo);
+        List<MemberStockEntity> high = memberStockRepository.findTop1ByMemberNoAndMemberStockAmountOrderByMemberStockAccEarnPriceAsc(memberNo);
+        if(low == null || high == null)
+            return new SimulEndDto(
+                    memberAssetEntity,null, null
+            );
+
+//        try{
+//
+//        } catch (Exception e){
+//            log.info("사고 판 주식이 없음");
+//            return new SimulEndDto(memberAssetEntity,null,null );
+//        }
+//        log.info("low.get(0) : {}",low.get(0) );
+//        log.info("high.get(0) : {}",high.get(0) );
+
+        log.info("low : {}", low);
+        log.info("high : {}", high);
+        List<MemberSimulEndDto> lowList = low.stream().map(MemberSimulEndDto::new).collect(Collectors.toList());
+        List<MemberSimulEndDto> highList = high.stream().map(MemberSimulEndDto::new).collect(Collectors.toList());
+
         // 결과 데이터 출력
         return new SimulEndDto(
-                memberAssetEntity,
-                new MemberSimulEndDto(memberStockRepository.findTop1ByMemberNoAndMemberStockAmountOrderByMemberStockAccEarnPriceDesc(memberNo, 0L).get(0)),
-                new MemberSimulEndDto(memberStockRepository.findTop1ByMemberNoAndMemberStockAmountOrderByMemberStockAccEarnPriceAsc(memberNo, 0L).get(0))
-                );
+                memberAssetEntity, lowList, highList);
     }
 
     // 시뮬레이션 종료...
@@ -140,11 +157,12 @@ public class SimulationService {
                         .memberassetLastTotalAsset(ValueConfig.memberInitAvailableAsset)
                         .build());
 
+
         // 거래예정 테이블 삭제
-        limitPriceOrderRepository.deleteByMemberNo(memberDto.getMemberNo());
+        limitPriceOrderRepository.deleteAllByMemberNo(memberDto.getMemberNo());
 
         // 회원 보유 주식 테이블 삭제
-        memberStockRepository.deleteByMemberNo(memberDto.getMemberNo());
+        memberStockRepository.deleteAllByMemberNo(memberDto.getMemberNo());
 
         // 회원 주식 거래 내역 테이블 삭제
         stockDealRepository.deleteAllByMemberNo(memberDto.getMemberNo());
