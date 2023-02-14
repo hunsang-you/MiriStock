@@ -92,6 +92,30 @@ server {
 }
 
 ```
+
+- ### HTTPS 관련 설정 [Let’s Encrypt]
+1. certbot 설치
+
+```jsx
+sudo add-apt-repository ppa:certbot/certbot
+sudo apt-get update
+sudo apt-get install python-certbot-nginx
+```
+
+2. 도메인주소의 인증 키(pem 파일) 생성
+
+```jsx
+sudo certbot certonly --nginx -d [Domain Name]
+```
+
+3. 인증서 확인
+
+```jsx
+/etc/letsencrypt/live/[Domain Name]/fullchain.pem
+/etc/letsencrypt/live/[Domain Name]privkey.pem 
+이 있는지 확인 후 nginx설정파일에 include
+```
+
 ## Back-End 관련 설정
 
 
@@ -124,7 +148,7 @@ networks:
 
 ```
 
-- Dockerfile
+- ### Dockerfile
 ```
 FROM azul/zulu-openjdk:11
 
@@ -140,29 +164,6 @@ COPY ${JAR_FILE} app.jar
 
 ENTRYPOINT ["java","-jar","/app.jar"]
 
-```
-
-- ### HTTPS 관련 설정 [Let’s Encrypt]
-1. certbot 설치
-
-```jsx
-sudo add-apt-repository ppa:certbot/certbot
-sudo apt-get update
-sudo apt-get install python-certbot-nginx
-```
-
-1. 도메인주소의 인증 키(pem 파일) 생성
-
-```jsx
-sudo certbot certonly --nginx -d [Domain Name]
-```
-
-1. 인증서 확인
-
-```jsx
-/etc/letsencrypt/live/[Domain Name]/fullchain.pem
-/etc/letsencrypt/live/[Domain Name]privkey.pem 
-이 있는지 확인 후 nginx설정파일에 include
 ```
 
 ---
