@@ -4,7 +4,7 @@ import ReactApexChart from 'react-apexcharts';
 import FinancialData from './FinancialData';
 
 const Financial = (props) => {
-  // 현재 날짜 = props.toDay
+  // 현재 날짜 = props.today
   // 날짜에서 연도만 추출
   const dayToYear = (date) => {
     let year;
@@ -86,7 +86,7 @@ const Financial = (props) => {
   });
 
   useEffect(() => {
-    let year = dayToYear(props.toDay);
+    let year = dayToYear(props.today);
     if (year === 2018) {
       setIdx(3);
     } else if (year === 2019) {
@@ -96,7 +96,7 @@ const Financial = (props) => {
     } else if (year >= 2021) {
       setIdx(6);
     }
-  }, [props.toDay]);
+  }, [props.today]);
   return (
     <div id="chart">
       <ReactApexChart
@@ -108,6 +108,7 @@ const Financial = (props) => {
       />
       <FinancialData
         idx={idx}
+        stockCode={props.stockCode}
         setFinancialState={setFinancialState}
         financialYear={financialYear}
         setFinancialYear={setFinancialYear}
