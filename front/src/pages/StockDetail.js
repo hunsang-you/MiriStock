@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 // import { stockAPI } from '../api/api'; // api 통신
 
 import mirilogo from '../static/mirilogo.png';
-import { userStore } from '../store';
+import { userStore, favoriteStore } from '../store';
 import LineChart from '../components/chart/LineChart';
 import Financial from '../components/chart/Financial';
 import News from '../components/detail/News';
@@ -13,6 +13,7 @@ import { useParams, useLocation, useNavigate } from 'react-router-dom';
 
 const StockDetail = () => {
   const { user } = userStore((state) => state);
+  const { favoriteStocks, setFavoriteStocks } = favoriteStore((state) => state);
   const navigate = useNavigate();
   // 오늘 날짜
   let today = user.memberassetCurrentTime;
