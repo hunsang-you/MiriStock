@@ -1,7 +1,7 @@
 import './css/stocktrade.css';
 import Button from '@mui/material/Button';
 import { useState, useEffect } from 'react';
-import { tradeAPI, memberAPI } from '../../api/api';
+import { stockAPI, tradeAPI, memberAPI } from '../../api/api';
 import { fontSize } from '@mui/system';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
@@ -314,7 +314,7 @@ const TransactionSell = (props) => {
         <div>{stock.stockCode}</div>
       </div>
       <div className="transaction-sell-items">
-        <div>주당구매가</div>
+        <div>주당판매가</div>
         <div>{stock.stockDealOrderClosingPrice.toLocaleString()}원</div>
         <div className="transaction-sell-last" style={{ color: '#1E90FF' }}>
           ▼{' '}
@@ -403,7 +403,7 @@ const TransactionBuy = (props) => {
         <div>{stock.stockCode}</div>
       </div>
       <div className="transaction-buy-items">
-        <div>주당판매가</div>
+        <div>주당구매가</div>
         <div>{stock.stockDealOrderClosingPrice.toLocaleString()}원</div>
         <div
           className="transaction-buy-nomid-last"
@@ -490,13 +490,14 @@ const ExpectedTransactionSell = (props) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
         console.log('수정');
-        navigate(`/stock/` + stock.stockCode + `/updateSell`, {
+        navigate(`/stock/` + stock.stockCode + `/updatesell`, {
           state: {
             stock: stock,
           },
         });
       } else if (result.isDenied) {
-        console.log('삭제');
+        console.log(1);
+        tradeAPI.deleteStockOrder(stock.limitPriceOrderNo);
       }
     });
   };
@@ -520,7 +521,7 @@ const ExpectedTransactionSell = (props) => {
         <div>{stock.stockCode}</div>
       </div>
       <div className="transaction-sell-items">
-        <div>주당구매예정가</div>
+        <div>주당판매예정가</div>
         <div>{stock.limitPriceOrderPrice.toLocaleString()}원</div>
         <div className="transaction-sell-last">
           {(
@@ -607,14 +608,14 @@ const ExpectedTransactionBuy = (props) => {
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
-        console.log('수정');
-        navigate(`/stock/` + stock.stockCode + `/updateBuy`, {
+        // console.log('수정');
+        navigate(`/stock/` + stock.stockCode + `/updatebuy`, {
           state: {
             stock: stock,
           },
         });
       } else if (result.isDenied) {
-        console.log('삭제');
+        tradeAPI.deleteStockOrder(stock.limitPriceOrderNo);
       }
     });
   };
@@ -636,7 +637,7 @@ const ExpectedTransactionBuy = (props) => {
         <div>{stock.stockCode}</div>
       </div>
       <div className="transaction-buy-items">
-        <div>주당판매예정가</div>
+        <div>주당구매예정가</div>
         <div>{stock.limitPriceOrderPrice.toLocaleString()}원</div>
         <div className="transaction-buy-nomid-last">
           {(

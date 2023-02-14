@@ -9,9 +9,17 @@ const Keypad = (props) => {
 
   const riceCalculation = (i) => {
     if (props.hopeInputID !== 1) {
-      props.setHopePrice(props.hopePrice * 10 + i);
+      if (props.hopePrice < 1000000000000) {
+        props.setHopePrice(props.hopePrice * 10 + i);
+      } else {
+        props.setHopePrice(1000000000000);
+      }
     } else {
-      props.setHopeCount(props.hopeCount * 10 + i);
+      if (props.hopeCount < 1000000000000) {
+        props.setHopeCount(props.hopeCount * 10 + i);
+      } else {
+        props.setHopeCount(1000000000000);
+      }
     }
   };
 
