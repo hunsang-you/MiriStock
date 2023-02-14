@@ -18,6 +18,7 @@ const ArticleItem = (props) => {
 
   //서버에 9시간 늦게 저장돼있어 9시간만큼 빼줌
   let nowTime = new Date(article.articleCreateDate).getTime(); // - 32400000;
+  let modifyTime = new Date(article.articleModifyDate).getTime();
 
   //api에 있는 detailPost.createdAt를 바꿔주는 것
   // content 글자 제한, 더보기
@@ -55,7 +56,11 @@ const ArticleItem = (props) => {
       <div className="userid">
         <span id="item-userId"> {article.memberNickname} </span>
         <div>
-          <span id="item-createAt"> {detailDate(nowTime)} </span>
+          {modifyTime === 0 ? (
+            <span id="item-createAt"> {detailDate(nowTime)} </span>
+          ) : (
+            <span id="item-createAt"> {detailDate(modifyTime)} 수정</span>
+          )}
         </div>
       </div>
 
