@@ -26,6 +26,10 @@ public class CommentService {
                 .collect(Collectors.toList());
     }
 
+    public CommentResponseDto findOne(Integer commentNo){
+        return new CommentResponseDto(commentRepository.findById(commentNo).get());
+    }
+
     @Transactional // 메서드 실행시 트랜잭션 시작, 정상종료되면 커밋, 에러발생시 종료
     public CommentResponseDto save(CommentRequestDto commentRequestDto) {
         return new CommentResponseDto(commentRepository.saveAndFlush(commentRequestDto.toEntity()));
@@ -39,6 +43,11 @@ public class CommentService {
     @Transactional
     public int delete(Integer memberNo, Integer commentNo) {
         return commentRepository.deleteByMemberNoAndCommentNo(memberNo, commentNo);
+    }
+
+    @Transactional
+    public int deleteAdminMode(Integer commentNo) {
+        return commentRepository.deleteByCommentNo(commentNo);
     }
 
 }

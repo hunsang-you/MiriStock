@@ -14,6 +14,7 @@ public class CommentResponseDto {
     private Integer commentNo;
     private String commentContent;
     private Integer articleNo; // 글 번호
+    private Integer memberNo;
     private String memberNickname;
     private LocalDateTime commentCreateDate; // 작성시간
     private LocalDateTime commentModifyDate;
@@ -22,6 +23,7 @@ public class CommentResponseDto {
         this.commentNo = entity.getCommentNo();
         this.commentContent = entity.getCommentContent();
         this.memberNickname = entity.getMemberNickname();
+        this.memberNo = entity.getMemberNo();
         this.articleNo = entity.getArticle().getArticleNo();
         this.commentCreateDate = entity.getCommentCreateDate();
         this.commentModifyDate = entity.getCommentModifyDate();

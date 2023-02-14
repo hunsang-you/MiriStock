@@ -9,5 +9,7 @@ public interface CommentRepository extends JpaRepository<CommentEntity, Integer>
 
     int deleteByMemberNoAndCommentNo(Integer memberNo, Integer commentNo);
 
+    int deleteByCommentNo(Integer commentNo);
+
 }
 

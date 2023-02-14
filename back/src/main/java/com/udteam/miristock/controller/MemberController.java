@@ -22,12 +22,6 @@ import java.util.List;
 public class MemberController {
     private final MemberService memberservice;
 
-    @GetMapping
-    @Operation(summary = "회원 목록 출력", description = "서비스에 가입된 회원 목록을 출력한다.", tags = { "Member" })
-    public ResponseEntity<List<MemberDto>> selectAllMember(){
-        return ResponseEntity.ok().body(memberservice.selectAllMember());
-    }
-
     @DeleteMapping
     @Operation(summary = "회원 탈퇴", description = "서비스에 가입된 회원 정보를 삭제한다.", tags = { "Member" })
     public ResponseEntity<String> deleteMember(@RequestHeader String Authorization){
