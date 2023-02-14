@@ -35,14 +35,6 @@ const HomeMain = () => {
           console.log(err);
         });
       await memberAPI
-        .stocks()
-        .then((request) => {
-          setUserStock(request.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      await memberAPI
         .assetChanged()
         .then((request) => {
           setUserAssetChanged(request.data);
@@ -55,7 +47,7 @@ const HomeMain = () => {
     <div>
       <Simulation />
       <AssetStatus userAssetChanged={userAssetChanged} />
-      <EquitiesValue userStock={userStock} />
+      <EquitiesValue />
       <FavoriteStock />
       <Rank />
       <button
@@ -129,7 +121,7 @@ const HomeMain = () => {
         // }}
         onClick={() => {
           memberAPI
-            .addIntersetStocks('086450')
+            .addIntersetStocks('097780')
             .then((request) => console.log(request.data))
             .catch((err) => console.log(err));
         }}
