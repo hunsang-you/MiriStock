@@ -96,8 +96,9 @@ const ArticleItem = (props) => {
             {user.memberNo === article.memberNo ? (
               <Button
                 id="delete-btn"
-                variant="outlined"
+                variant="contained"
                 size="large"
+                style={{ color: 'white' }}
                 onClick={() => {
                   communityAPI
                     .deleteArticle(article.articleNo)
@@ -114,8 +115,9 @@ const ArticleItem = (props) => {
             {user.memberNo === article.memberNo ? (
               <Button
                 id="update-btn"
-                variant="outlined"
+                variant="contained"
                 size="large"
+                style={{ color: 'white' }}
                 onClick={(e) => {
                   navigate(`update/${article.articleNo}`, {
                     state: {
