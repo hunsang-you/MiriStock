@@ -32,6 +32,6 @@ public class InformationController {
     @Operation(summary = "뉴스 출력", description = "주식종목에 대한 뉴스를 출력한다.", tags = { "Information" })
     public ResponseEntity<NewsResponseDto> findNews(@RequestBody NewsRequestDto newsRequestDto) {
         log.info("뉴스 호출 요청됨 : newsRequestDto -> {}", newsRequestDto);
-        return ResponseEntity.ok().body(informationService.findNews(newsRequestDto));
+        return ResponseEntity.ok().body(informationService.findNaverNews(newsRequestDto));
     }
 }

@@ -28,4 +28,8 @@ public class NewsResponseDto {
         this.lastBuildDate = lastBuildDate;
     }
 
+    public void addMessage(NewsMessage newsMessage){
+        this.messages.add(newsMessage);
+    }
+
 }

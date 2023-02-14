@@ -1,14 +1,20 @@
 package com.udteam.miristock.service;
 
 import com.udteam.miristock.dto.FinancialstatementDto;
+import com.udteam.miristock.dto.NewsMessage;
 import com.udteam.miristock.dto.NewsRequestDto;
 import com.udteam.miristock.dto.NewsResponseDto;
 import com.udteam.miristock.repository.FinancialstatementRepository;
 import com.udteam.miristock.util.RSSFeedParser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.ParseException;
@@ -112,6 +118,117 @@ public class InformationService {
         log.info("탐색 스타트 날짜 : {}", startDateEncord);
         log.info("리스트 갯수 : {}", newsResponseDto.getMessages().size());
         return newsResponseDto;
+    }
+
+    public NewsResponseDto findNaverNews(NewsRequestDto newsRequestDto) {
+
+        String keyword = newsRequestDto.getSearchKeyword();
+        Integer startDate = newsRequestDto.getStartDate();
+        Integer endDate = newsRequestDto.getEndDate();
+        String tempstartDateEncord = startDate.toString();
+        System.out.println("tempstartDateEncord : " + tempstartDateEncord);
+        String endDateEncord = null;
+
+        if(keyword == null || startDate == null){
+            return null;
+        } else if (endDate == null){
+            endDateEncord = startDate.toString();
+        } else {
+            endDateEncord = endDate.toString();
+        }
+
+        String startDateEncord = AddDate(tempstartDateEncord, 0,0,-30);
+//        String keywordEncord = null;
+        String originStartDateEncord = startDateEncord;
+        String originEndDateEncord = endDateEncord;
+//        try {
+//            keywordEncord = URLEncoder.encode(newsRequestDto.getSearchKeyword(), "UTF-8");
+//        } catch (UnsupportedEncodingException e) {
+//            throw new RuntimeException(e);
+//        }
+
+        NewsResponseDto newsResponseDto = new NewsResponseDto();
+
+        int newsStartNo = 1;
+        for (int i = 0; i < 2; i++) {
+
+            String url = createNaverNewsURL("https://search.naver.com/search.naver?where=news&sm=tab_opt&sort=0&photo=0&field=0&pd=3&docid=&related=0&mynews=0&office_type=0&office_section_code=0&news_office_checked=&is_sug_officeid=0&"
+                    , keyword, startDateEncord, endDateEncord, newsStartNo);
+            newsStartNo+=10;
+            System.out.println(url);
+            Document doc = null;
+            try {
+                doc = Jsoup.connect(url).get();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            assert doc != null;
+
+            Elements element = doc.select("a.news_tit");
+//            System.out.println(element);
+//            System.out.println("elementsize");
+//            System.out.println(element.size());
+
+            String title = null;
+            String link = null;
+
+            for (Element el : element) {
+                title = el.attr("title");
+                link = el.attr("href");
+                NewsMessage newsMessage = NewsMessage.builder().title(title).link(link).build();
+                newsResponseDto.addMessage(newsMessage);
+            }
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+        String[] randKeyword = new String[]{"주식", "주가", "코스피"};
+        for (int i = 0; i < randKeyword.length-1; i++) {
+            if(keyword.equals(randKeyword[i])){
+                String setUrl = createNaverNewsURL("https://search.naver.com/search.naver?where=news&sm=tab_opt&sort=0&photo=0&field=0&pd=3&docid=&related=0&mynews=0&office_type=0&office_section_code=0&news_office_checked=&is_sug_officeid=0&"
+                        , keyword, startDateEncord, endDateEncord, 1);
+                newsResponseDto.setLink(setUrl);
+                return newsResponseDto;
+            }
+        }
+
+        if(newsResponseDto.getMessages().size() < 20){
+
+            int randNum = 0;
+            try {
+                double randVal = Math.random();
+                randNum = (int)(randVal*randKeyword.length);
+                if(randNum >= randKeyword.length) {
+                    randNum = randKeyword.length-1;
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            newsRequestDto.setSearchKeyword(randKeyword[randNum]);
+            findNaverNews(newsRequestDto);
+        }
+        String setUrl = createNaverNewsURL("https://search.naver.com/search.naver?where=news&sm=tab_opt&sort=0&photo=0&field=0&pd=3&docid=&related=0&mynews=0&office_type=0&office_section_code=0&news_office_checked=&is_sug_officeid=0&"
+                , keyword, startDateEncord, endDateEncord, 1);
+        newsResponseDto.setLink(setUrl);
+        return newsResponseDto;
+
+    }
+
+    // URL 생성기
+    public static String createNaverNewsURL(String sourceUrl, String keywordEncord, String startDateEncord, String endDateEncord, int startArticleNo) {
+        StringBuilder sb = new StringBuilder(sourceUrl);
+        sb.append("&query=").append(keywordEncord)
+                .append("&ds=").append(endDateEncord, 0, 4).append(".")
+                .append(endDateEncord,4,6).append(".")
+                .append(endDateEncord,6,8)
+                .append("&de=").append(startDateEncord, 0, 4).append(".")
+                .append(startDateEncord,4,6).append(".")
+                .append(startDateEncord,6,8)
+                .append("&start=").append(startArticleNo);
+        return sb.toString();
     }
 
 
