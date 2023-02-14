@@ -17,15 +17,17 @@ public interface MemberStockRepository extends JpaRepository<MemberStockEntity, 
 
     // 시뮬레이션 종료시 가장 많은 수익금과 손실금을 출력하는 쿼리문 =======
     // 위 아래 실행속도가 같음...
-    @Query(" SELECT m From MemberStockEntity as m where  " +
+    @Query(nativeQuery = true,
+            value = " SELECT * From memberstock as m where  " +
 //            " m.memberStockAccSellPrice = (select min(m.memberStockAccSellPrice - m.memberStockAccPurchasePrice) from m) AND  " +
-            "  m.memberStockAmount = 0 order by (m.memberStockAccSellPrice - m.memberStockAccPurchasePrice) desc ")
-    List<MemberStockEntity> findTop1ByMemberNoAndMemberStockAmountOrderByMemberStockAccEarnPriceAsc(Integer memberNo, Long stockAmount);
+            "  memberstock_amount = 0 and member_no=:memberNo order by (memberstock_acc_sellprice - memberstock_acc_purchaseprice) desc limit 3 ")
+    List<MemberStockEntity> findTop1ByMemberNoAndMemberStockAmountOrderByMemberStockAccEarnPriceAsc(@Param("memberNo") Integer memberNo);
 //    MemberStockEntity findTop1ByMemberNoAndMemberStockAmountOrderByMemberStockAccEarnPriceAsc(Integer memberNo, Long stockAmount);
-    @Query(" SELECT m From MemberStockEntity as m where " +
+    @Query(nativeQuery = true,
+            value = " SELECT * From memberstock as m where " +
 //            " m.memberStockAccSellPrice = (select max(m.memberStockAccSellPrice - m.memberStockAccPurchasePrice) from  m) AND " +
-            "  m.memberStockAmount = 0 order by (m.memberStockAccSellPrice - m.memberStockAccPurchasePrice) asc ")
-    List<MemberStockEntity> findTop1ByMemberNoAndMemberStockAmountOrderByMemberStockAccEarnPriceDesc(Integer memberNo, Long stockAmount);
+            "  memberstock_amount = 0 and member_no=:memberNo order by (memberstock_acc_sellprice - memberstock_acc_purchaseprice) asc limit 3")
+    List<MemberStockEntity> findTop1ByMemberNoAndMemberStockAmountOrderByMemberStockAccEarnPriceDesc(@Param("memberNo") Integer memberNo);
 
     // 회원의 보유 주식 가져오기
     MemberStockEntity findByMemberNoAndStockCode(Integer memberNo, String stockCode);
@@ -58,5 +60,5 @@ public interface MemberStockRepository extends JpaRepository<MemberStockEntity, 
             " WHERE m.memberStockAmount > 0  AND m.memberNo=:memberNo AND s.stockDataDate=:stockDataDate AND m.stockCode=:stockCode")
     List<Object[]> findOneMemberStock(@Param("memberNo") Integer memberNo, @Param("stockDataDate") Integer memberAssetCurrentTime, @Param("stockCode") String stockCode);
 
-    void deleteByMemberNo(Integer memberNo);
+    void deleteAllByMemberNo(Integer memberNo);
 }

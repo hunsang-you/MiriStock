@@ -1,6 +1,7 @@
 package com.udteam.miristock.controller;
 
 import com.udteam.miristock.dto.MemberAssetDto;
+import com.udteam.miristock.dto.MemberAssetNickNameResponseDto;
 import com.udteam.miristock.dto.MemberDto;
 import com.udteam.miristock.service.MemberAssetService;
 import com.udteam.miristock.service.MemberService;
@@ -24,8 +25,8 @@ public class MemberAssetController {
     private final MemberService memberService;
 
     @GetMapping
-    @Operation(summary = "매수/매도 예정 내역 출력", description = "회원의 매수/매도 예정 목록을 출력한다.", tags = { "MemberAsset" })
-    public ResponseEntity<MemberAssetDto> selectMemberAsset(@RequestHeader String Authorization) {
+    @Operation(summary = "회원 자산 출력", description = "회원 자산을 불러온다.", tags = { "MemberAsset" })
+    public ResponseEntity<?> selectMemberAsset(@RequestHeader String Authorization) {
         String token= HeaderUtil.getAccessTokenString(Authorization);
         MemberDto m = memberService.selectOneMember(token);
         if (m == null){
@@ -33,7 +34,7 @@ public class MemberAssetController {
             // 엑세스 토큰 재 발급 프로세스 필요
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }else {
-            return ResponseEntity.ok().body(memberAssetService.selectMemberAsset(m.getMemberNo()));
+            return ResponseEntity.ok().body(MemberAssetNickNameResponseDto.of(memberAssetService.selectMemberAsset(m.getMemberNo()), m));
         }
     }
 

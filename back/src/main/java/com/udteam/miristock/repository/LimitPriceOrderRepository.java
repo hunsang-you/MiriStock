@@ -29,5 +29,7 @@ public interface LimitPriceOrderRepository extends JpaRepository<LimitPriceOrder
 
     void deleteByMemberNo(Integer memberNo);
 
+    void deleteAllByMemberNo(Integer memberNo);
+
 
 }

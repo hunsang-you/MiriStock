@@ -16,7 +16,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -74,7 +73,7 @@ public class InformationService {
             if(newsResponseDto != null) log.info("리스트 갯수 : {}", newsResponseDto.getMessages().size());
             if(newsResponseDto == null || newsResponseDto.getMessages().size() < 35){
                 startDateEncord =  AddDate(startDateEncord, 0,0,-7);
-            } else if (newsResponseDto.getMessages().size() > 35) {
+            } else {
                 newsResponseDto.setLink(createRssURL("https://news.google.com/search?q=",keywordEncord, startDateEncord, endDateEncord));
                 return newsResponseDto;
             }
@@ -87,11 +86,19 @@ public class InformationService {
 
         }
         try {
-            Random random = new Random(); //랜덤 객체 생성(디폴트 시드값 : 현재시간)
-            random.setSeed(System.currentTimeMillis()); //시드값 설정을 따로 할수도 있음
             String[] randKeyword = new String[]{"주식", "주가", "코스피"};
-            keywordEncord = URLEncoder.encode(randKeyword[random.nextInt(3)], "UTF-8");
-        } catch (UnsupportedEncodingException e) {
+
+            double randVal = Math.random();
+            int randNum = (int)(randVal*randKeyword.length);
+            if(randNum >= randKeyword.length) {
+                randNum = randKeyword.length-1;
+            }
+            log.info("랜덤 값 :  {}" , randNum);
+            log.info("randkeyword0 : {}", randKeyword[0]);
+            log.info("randkeyword1 : {}", randKeyword[1]);
+            log.info("randkeyword2 : {}", randKeyword[2]);
+            keywordEncord = URLEncoder.encode(randKeyword[randNum], "UTF-8");
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
 

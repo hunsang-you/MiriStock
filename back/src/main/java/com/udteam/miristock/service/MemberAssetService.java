@@ -46,7 +46,8 @@ public class MemberAssetService {
         log.info("memberAssetEntity : {}", memberAssetEntity);
         List<Object[]> memberStockList = memberStockRepository.findAllMemberStockListOrderByPrice(memberNo, currentTime);
 //        List<StockDataMemberStockDto> stockDataMemberStockDtoList = new ArrayList<>();
-        Long sumDiff = 0L;
+//        Long sumDiff = 0L;
+        Long stockAssetSum = 0L;
         for (Object[] objects : memberStockList){
             MemberStockEntity memberStockEntity = (MemberStockEntity) objects[0];
             StockDataEntity stockDataEntity = (StockDataEntity) objects[1];
@@ -58,19 +59,22 @@ public class MemberAssetService {
 //            Long memberStockAvgPrice = memberStockEntity.getMemberStockAvgPrice();
 //            log.info("한 종목 주식의 평균 매수가 memberStockAvgPrice :{} ", memberStockAvgPrice);
             // 해당 주식 날짜의 종가
-//            Long stockDataEntityStockDataClosingPrice = stockDataEntity.getStockDataClosingPrice();
-//            log.info("한 종목 주식 해당날짜 종가 stockDataEntityStockDataClosingPrice : {}",stockDataEntityStockDataClosingPrice);
-            Long stockDataIncreasement = stockDataEntity.getStockDataPriceIncreasement();
-            log.info("한 종목의 등락금액 : {}", stockDataIncreasement);
+            Long stockDataEntityStockDataClosingPrice = stockDataEntity.getStockDataClosingPrice();
+            log.info("한 종목 주식 해당날짜 종가 stockDataEntityStockDataClosingPrice : {}",stockDataEntityStockDataClosingPrice);
+//            Long stockDataIncreasement = stockDataEntity.getStockDataPriceIncreasement();
+//            log.info("한 종목의 등락금액 : {}", stockDataIncreasement);
             Long memberStockAmount = memberStockEntity.getMemberStockAmount();
             log.info("한 종목의 보유량 : {}", memberStockAmount);
 
             // 종가 - 평매가 (차익)
 //            Long diffAvgPrice = (stockDataEntityStockDataClosingPrice - memberStockAvgPrice) * memberStockAmount;
 //            log.info("종가 - 평매가 차익 : {}",diffAvgPrice);
-            sumDiff += (stockDataIncreasement * memberStockAmount);
+//            sumDiff += (stockDataIncreasement * memberStockAmount);
+            stockAssetSum += (stockDataEntityStockDataClosingPrice * memberStockAmount);
+
         }
-        log.info("sumDiff :  {}",sumDiff);
+//        log.info("sumDiff :  {}",sumDiff);
+        log.info("stockAssetSum : {}", stockAssetSum);
         // 멤버 전날 총 자산에 오늘 자산 데이터 업데이트하기 (전날보다 얼마나 자산이 증가했는지 계산하기 위한 데이터)
         // 당일건 거래는 이전 날짜 총 자산을 업데이트 할 필요없음
         if (updateType.equals("todayLimitPriceOrder")){
@@ -82,11 +86,18 @@ public class MemberAssetService {
             memberAssetEntity.setMemberassetLastTotalAsset(memberAssetEntity.getMemberassetTotalAsset());
         }
         // 들고온 보유 주식과 데이터 기반으로 회원의 보유 주식 자산을 업데이트 하기
-        memberAssetEntity.setMemberassetStockAsset(memberAssetEntity.getMemberassetStockAsset() + sumDiff);
-        log.info("memberAssetEntity.getMemberassetStockAsset() + sumDiff 시뮬레이션 날짜 변경후 주식 자산 : {}" ,memberAssetEntity.getMemberassetStockAsset() + sumDiff);
+//        memberAssetEntity.setMemberassetStockAsset(memberAssetEntity.getMemberassetStockAsset() + sumDiff);
+//        log.info("memberAssetEntity.getMemberassetStockAsset() + sumDiff 시뮬레이션 날짜 변경후 주식 자산 : {}" ,memberAssetEntity.getMemberassetStockAsset() + sumDiff);
+        memberAssetEntity.setMemberassetStockAsset(stockAssetSum);
+        log.info("stockAssetSum += stockDataEntityStockDataClosingPrice * memberStockAmount" ,stockAssetSum);
+
         memberAssetEntity.setMemberassetAvailableAsset(memberAssetEntity.getMemberassetAvailableAsset());
-        memberAssetEntity.setMemberassetTotalAsset(memberAssetEntity.getMemberassetTotalAsset() + sumDiff);
-        log.info("memberAssetEntity.getMemberassetTotalAsset() + sumDiff 시뮬레이션 날짜 변경후 총 자산 : {}", memberAssetEntity.getMemberassetTotalAsset() + sumDiff);
+
+//        memberAssetEntity.setMemberassetTotalAsset(memberAssetEntity.getMemberassetTotalAsset() + sumDiff);
+//        log.info("memberAssetEntity.getMemberassetTotalAsset() + sumDiff 시뮬레이션 날짜 변경후 총 자산 : {}", memberAssetEntity.getMemberassetTotalAsset() + sumDiff);
+        memberAssetEntity.setMemberassetTotalAsset(memberAssetEntity.getMemberassetAvailableAsset() + stockAssetSum);
+        log.info("memberAssetEntity.getMemberassetAvailableAsset() + stockAssetSum 시뮬레이션 날짜 변경후 총 자산 : {}",memberAssetEntity.getMemberassetAvailableAsset() + stockAssetSum);
+
         memberAssetEntity.setMemberassetCurrentTime(currentTime);
         log.info("시뮬레이션 날짜변경하면서 보유 주식 금액 반영함 : {}",currentTime);
         MemberAssetEntity result = memberAssetRepository.save(memberAssetEntity);

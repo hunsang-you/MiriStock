@@ -63,6 +63,7 @@ public class SimulationController {
     public ResponseEntity<?> restartSimulation(@RequestHeader String Authorization) {
         log.info("회원 시뮬레이션 초기화 됨 ");
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
+        log.info("회원정보 m : {}", m);
         if (m == null){
             log.info(ErrorMessage.TOKEN_EXPIRE);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorMessage.TOKEN_EXPIRE);
