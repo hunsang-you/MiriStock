@@ -2,22 +2,17 @@ import './css/FavoriteStock.css';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { memberAPI } from '../../api/api';
-import { userStore } from '../../store';
+import { userStore, favoriteStore } from '../../store';
 const FavoriteStock = () => {
   const navigate = useNavigate();
   const { user } = userStore((state) => state);
-  let [isUpDown, setIsUpDown] = useState([true, true, false]);
-  let [favoriteStock, setFavoriteStock] = useState([]);
+  const { favoriteStocks, setFavoriteStocks } = favoriteStore((state) => state);
   useEffect(() => {
     const myFavorite = async () => {
       await memberAPI
         .intersetStocks(user.memberassetCurrentTime)
         .then((request) => {
-          let topFavorite = request.data.sort(
-            (a, b) => b.stockDataFlucauationRate - a.stockDataFlucauationRate,
-          );
-
-          setFavoriteStock(topFavorite.slice(0, 5));
+          setFavoriteStocks(request.data);
         })
         .catch((err) => console.log(err));
     };
@@ -34,7 +29,7 @@ const FavoriteStock = () => {
       >
         관심주식　〉{' '}
       </div>
-      {favoriteStock.map((stock, i) => {
+      {favoriteStocks.slice(0, 5).map((stock, i) => {
         return (
           <div
             className="favorite-list"

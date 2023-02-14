@@ -3,11 +3,23 @@ import Result1 from './Result1';
 import Result2 from './Result2';
 import './css/Portfolio.css';
 import { Button } from '@mui/material';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { simulAPI } from '../../api/api';
 import { useNavigate } from 'react-router-dom';
 
 const Portfolio = () => {
+  const [portfol, setPortfol] = useState([]);
+  useEffect(() => {
+    const getPortfol = async () => {
+      await simulAPI
+        .theEnd()
+        .then((request) => {
+          console.log(request.data);
+        })
+        .catch((err) => console.log(err));
+    };
+    getPortfol();
+  });
   const [state, setState] = useState({
     RevenueData: [
       {
@@ -65,11 +77,11 @@ const Portfolio = () => {
           variant="contained"
           size="large"
           onClick={() => {
-            navigate('/');
             simulAPI
               .restart()
               .then((request) => console.log(request.data, '시뮬레이션 종료'))
               .catch((err) => console.log(err));
+            navigate('/');
           }}
         >
           게임 재시작

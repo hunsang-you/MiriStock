@@ -1,13 +1,24 @@
 import './css/Favorite.css';
 import { AiFillStar } from 'react-icons/ai';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { memberAPI } from '../../api/api';
-import { favoriteStore } from '../../store';
+import { favoriteStore, userStore } from '../../store';
 const FavoriteItem = () => {
+  const [updateFavorite, setUpdateFavorite] = useState(0);
+  const { user } = userStore((state) => state);
   const { favoriteStocks, setFavoriteStocks } = favoriteStore((state) => state);
   // 관심주식 체크 확인
-  const [isFavorite, setIsFavorite] = useState(true);
-
+  useEffect(() => {
+    const myFavorite = async () => {
+      await memberAPI
+        .intersetStocks(user.memberassetCurrentTime)
+        .then((request) => {
+          setFavoriteStocks(request.data);
+        })
+        .catch((err) => console.log(err));
+    };
+    myFavorite();
+  }, [updateFavorite]);
   return (
     <div>
       {favoriteStocks.map((favorite, i) => {
@@ -43,7 +54,10 @@ const FavoriteItem = () => {
                 onClick={() => {
                   memberAPI
                     .deleteIntersetStocks(favorite.stockCode)
-                    .then((request) => console.log(request))
+                    .then((request) => {
+                      setUpdateFavorite(updateFavorite + 1);
+                      console.log(request);
+                    })
                     .catch((err) => console.log(err));
                 }}
               />

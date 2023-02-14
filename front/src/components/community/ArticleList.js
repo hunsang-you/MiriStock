@@ -44,7 +44,7 @@ const ArticleList = () => {
         <TextField
           sx={{ width: { xs: 300, sm: 540, md: 720, lg: 960, xl: 1140 } }}
           id="search-bar"
-          placeholder="검색어를 입력하세요"
+          placeholder="제목 또는 내용을 검색하세요"
           variant="standard"
           onChange={(e) => {
             communityAPI

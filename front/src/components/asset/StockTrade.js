@@ -18,7 +18,7 @@ const StockTrade = () => {
       await tradeAPI
         .getAllTrades(type)
         .then((request) => {
-          setTransaction(request.data);
+          setTransaction(request.data.reverse());
         })
         .catch((err) => {
           console.log(err);
