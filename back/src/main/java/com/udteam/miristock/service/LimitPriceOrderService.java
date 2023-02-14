@@ -139,6 +139,11 @@ public class LimitPriceOrderService {
                         ((double)limitPriceOrderDto.getLimitPriceOrderPrice() * (double)1.005) * (double)limitPriceOrderDto.getLimitPriceOrderAmount());
                 log.info("availableAsset : {}", availableAsset);
 
+                if(availableAsset < 0){
+                    log.warn("LimitPriceOrderService Class > oneLimitPriceOrderSave 매수시 현금 자산 마이너스 감지됨 -> 0으로 셋팅");
+                    availableAsset = 0L;
+                }
+
                 Long stockAsset = getMemberAsset.getMemberassetStockAsset()
                         + limitPriceOrderDto.getLimitPriceOrderPrice() * limitPriceOrderDto.getLimitPriceOrderAmount();
                 log.info("매수 getMemberAsset.getMemberassetStockAsset() : {}", getMemberAsset.getMemberassetStockAsset());
@@ -243,7 +248,10 @@ public class LimitPriceOrderService {
                         - (getClosingPriceOnTime * limitPriceOrderDto.getLimitPriceOrderAmount());
 //                Long stockAsset = getMemberAsset.getMemberassetStockAsset()
 //                        - (getMemberStockCode.getMemberStockAvgPrice() * limitPriceOrderDto.getLimitPriceOrderAmount());
-
+                if(stockAsset < 0){
+                    log.warn("LimitPriceOrderService Class > oneLimitPriceOrderSave 매도시 회원 주식 자산이 마이너스 감지 -> 0으로 설정");
+                    stockAsset = 0L;
+                }
 
                 log.info("availableAssetDouble : {} ", availableAssetDouble);
                 log.info("availableAsset (주식 팔고 얻은 현금 자산 금액 총합) : {}", availableAsset);
