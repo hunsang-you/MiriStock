@@ -65,11 +65,11 @@ const Portfolio = () => {
           variant="contained"
           size="large"
           onClick={() => {
-            navigate('/');
             simulAPI
               .restart()
               .then((request) => console.log(request.data, '시뮬레이션 종료'))
               .catch((err) => console.log(err));
+            navigate('/');
           }}
         >
           게임 재시작

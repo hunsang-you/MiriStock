@@ -35,11 +35,14 @@ const EraseMember = () => {
             style={{ color: 'white' }}
             size="large"
             onClick={() => {
-              navigate('/login');
               profileAPI
                 .deleteMember(info)
-                .then((request) => console.log(request.data))
+                .then((request) => {
+                  console.log(request.data);
+                  window.localStorage.clear();
+                })
                 .catch((err) => console.log(err));
+              navigate('/login');
             }}
           >
             예
