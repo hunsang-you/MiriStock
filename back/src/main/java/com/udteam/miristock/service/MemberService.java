@@ -40,6 +40,14 @@ public class MemberService {
         return MemberDto.of(memberrepository.saveAndFlush(member));
     }
 
+    @Modifying
+    public MemberDto updateNickName(MemberDto memberDto) {
+        MemberEntity getMemberEntity = memberrepository.findByMemberEmail(memberDto.getMemberEmail());
+        getMemberEntity.setMemberNickname(memberDto.getMemberNickname());
+        log.info("getMemberEntity : {}", getMemberEntity);
+        return MemberDto.of(memberrepository.saveAndFlush(getMemberEntity));
+    }
+
     public MemberDto selectOneMember(String token){
         String email = tokenservice.getEmail(token);
         return MemberDto.of(memberrepository.findByMemberEmail(email));
