@@ -1,9 +1,8 @@
 package com.udteam.miristock.controller;
 
+import com.udteam.miristock.dto.*;
+import com.udteam.miristock.entity.Role;
 import com.udteam.miristock.util.ErrorMessage;
-import com.udteam.miristock.dto.CommentRequestDto;
-import com.udteam.miristock.dto.CommentResponseDto;
-import com.udteam.miristock.dto.MemberDto;
 import com.udteam.miristock.service.CommentService;
 import com.udteam.miristock.service.MemberService;
 import com.udteam.miristock.util.HeaderUtil;
@@ -44,10 +43,15 @@ public class CommentController {
     @Operation(summary = "댓글 수정", description = "QnA 게시글의 댓글을 수정합니다.", tags = { "Comment" })
     public ResponseEntity<CommentResponseDto> update(@RequestHeader String Authorization, @RequestBody CommentRequestDto commentRequestDto) {
         log.info("CommentRequestDto : {}", commentRequestDto);
-        MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
+        MemberAdminDto m = memberService.selectOneMemberAllInfo(HeaderUtil.getAccessTokenString(Authorization));
         if (m == null){
             log.info(ErrorMessage.TOKEN_EXPIRE);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        } else if (m.getROLE().equals(Role.ADMIN)) {
+            CommentResponseDto getCommentResponseDto = commentService.findOne(commentRequestDto.getCommentNo());
+            commentRequestDto.setMemberNo(getCommentResponseDto.getMemberNo());
+            commentRequestDto.setMemberNickname(getCommentResponseDto.getMemberNickname());
+            return ResponseEntity.ok().body(commentService.save(commentRequestDto));
         } else {
             commentRequestDto.setMemberNo(m.getMemberNo());
             commentRequestDto.setMemberNickname(m.getMemberNickname());
@@ -59,16 +63,19 @@ public class CommentController {
     @Operation(summary = "댓글 삭제", description = "QnA 게시글의 댓글을 삭제합니다.", tags = { "Comment" })
     public ResponseEntity<String> delete(@RequestHeader String Authorization, @PathVariable Integer commentno) {
         log.info("CommentRequestDto : {}", commentno);
-        MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
+        MemberAdminDto m = memberService.selectOneMemberAllInfo(HeaderUtil.getAccessTokenString(Authorization));
         if (m == null){
             log.info(ErrorMessage.TOKEN_EXPIRE);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorMessage.TOKEN_EXPIRE);
+        } else if (m.getROLE().equals(Role.ADMIN)){
+            if(commentService.deleteAdminMode(commentno) == 0)
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ReturnMessage.DELETE_FAIL);
+            return ResponseEntity.status(HttpStatus.OK).body(ReturnMessage.DELETE_SUCCESS);
+        } else {
+            if (commentService.delete(m.getMemberNo(), commentno) == 0)
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ReturnMessage.DELETE_FAIL);
+            return ResponseEntity.status(HttpStatus.OK).body(ReturnMessage.DELETE_SUCCESS);
         }
-
-        if (commentService.delete(m.getMemberNo(), commentno) == 0)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ReturnMessage.DELETE_FAIL);
-        return ResponseEntity.status(HttpStatus.OK).body(ReturnMessage.DELETE_SUCCESS);
-
     }
 }
 

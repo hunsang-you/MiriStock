@@ -46,5 +46,10 @@ public class ArticleService {
         return articleRepository.deleteByMemberNoAndArticleNo(memberNo, articleNo);
     }
 
+    @Transactional
+    public int deleteAdminMode(Integer articleNo){
+        return articleRepository.deleteByArticleNo(articleNo);
+    }
+
 }
 

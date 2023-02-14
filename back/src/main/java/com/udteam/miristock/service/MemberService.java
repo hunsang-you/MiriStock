@@ -1,5 +1,7 @@
 package com.udteam.miristock.service;
 
+import com.udteam.miristock.dto.MemberAdminDto;
+import com.udteam.miristock.dto.MemberAssetDto;
 import com.udteam.miristock.dto.MemberDto;
 import com.udteam.miristock.entity.MemberEntity;
 import com.udteam.miristock.repository.MemberRepository;
@@ -51,6 +53,11 @@ public class MemberService {
     public MemberDto selectOneMember(String token){
         String email = tokenservice.getEmail(token);
         return MemberDto.of(memberrepository.findByMemberEmail(email));
+    }
+
+    public MemberAdminDto selectOneMemberAllInfo(String token){
+        String email = tokenservice.getEmail(token);
+        return MemberAdminDto.of(memberrepository.findByMemberEmail(email));
     }
 
     public MemberDto selectOnMemberByEmail (MemberDto memberDto){

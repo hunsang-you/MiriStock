@@ -11,4 +11,6 @@ public interface ArticleRepository extends JpaRepository<ArticleEntity, Integer>
      int deleteByMemberNoAndArticleNo(Integer memberNo, Integer articleNo);
 
      List<ArticleEntity> findByArticleTitleContainingOrArticleContentContaining(String keyword1, String keyword2);
+
+     int deleteByArticleNo(Integer articleNo);
 }

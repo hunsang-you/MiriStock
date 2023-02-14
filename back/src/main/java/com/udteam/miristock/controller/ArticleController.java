@@ -1,10 +1,8 @@
 package com.udteam.miristock.controller;
 
+import com.udteam.miristock.dto.*;
+import com.udteam.miristock.entity.Role;
 import com.udteam.miristock.util.ErrorMessage;
-import com.udteam.miristock.dto.ArticleResponseDto;
-import com.udteam.miristock.dto.ArticleRequestDto;
-import com.udteam.miristock.dto.ArticleCUDResponseDto;
-import com.udteam.miristock.dto.MemberDto;
 import com.udteam.miristock.service.ArticleService;
 import com.udteam.miristock.service.MemberService;
 import com.udteam.miristock.util.HeaderUtil;
@@ -90,10 +88,16 @@ public class ArticleController {
     @Operation(summary = "QnA 게시글 수정", description = "QnA 게시글을 수정합니다.", tags = { "QnA" })
     public ResponseEntity<ArticleCUDResponseDto> update(@RequestHeader String Authorization, @RequestBody ArticleRequestDto articleRequestDto) {
         log.info("articleRequestDto : {}", articleRequestDto);
-        MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
+        // 요청자
+        MemberAdminDto m = memberService.selectOneMemberAllInfo(HeaderUtil.getAccessTokenString(Authorization));
         if (m == null){
             log.info(ErrorMessage.TOKEN_EXPIRE);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        } else if (m.getROLE().equals(Role.ADMIN)){
+            ArticleResponseDto getArticleResponseDto = articleService.findOne(articleRequestDto.getArticleNo());
+            articleRequestDto.setMemberNo(getArticleResponseDto.getMemberNo());
+            articleRequestDto.setMemberNickname(getArticleResponseDto.getMemberNickname());
+            return ResponseEntity.ok().body(articleService.save(articleRequestDto));
         } else {
             articleRequestDto.setMemberNo(m.getMemberNo());
             articleRequestDto.setMemberNickname(m.getMemberNickname());
@@ -104,15 +108,20 @@ public class ArticleController {
     @DeleteMapping("/{articleno}")
     @Operation(summary = "QnA 게시글 삭제", description = "QnA 게시글을 삭제합니다.", tags = { "QnA" })
     public ResponseEntity<String> delete(@RequestHeader String Authorization, @PathVariable Integer articleno) {
-        MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
+        MemberAdminDto m = memberService.selectOneMemberAllInfo(HeaderUtil.getAccessTokenString(Authorization));
         if (m == null){
             log.info(ErrorMessage.TOKEN_EXPIRE);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorMessage.TOKEN_EXPIRE);
+        } else if (m.getROLE().equals(Role.ADMIN)){
+            if(articleService.deleteAdminMode(articleno) == 0)
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ReturnMessage.DELETE_FAIL);
+            return ResponseEntity.status(HttpStatus.OK).body(ReturnMessage.DELETE_SUCCESS);
+        } else{
+            if(articleService.delete(m.getMemberNo(), articleno) == 0)
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ReturnMessage.DELETE_FAIL);
+            return ResponseEntity.status(HttpStatus.OK).body(ReturnMessage.DELETE_SUCCESS);
         }
 
-        if(articleService.delete(m.getMemberNo(), articleno) == 0)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ReturnMessage.DELETE_FAIL);
-        return ResponseEntity.status(HttpStatus.OK).body(ReturnMessage.DELETE_SUCCESS);
 
     }
 
