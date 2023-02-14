@@ -1,8 +1,13 @@
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { simulAPI } from '../../api/api';
+import { memberStore } from '../../store';
 import './css/GameExit.css';
 const GameExit = () => {
   const navigate = useNavigate();
+  const { info, setInfo } = memberStore((state) => state);
+
+  console.log(info);
 
   return (
     <div className="exit-page">
