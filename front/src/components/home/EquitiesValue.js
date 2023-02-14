@@ -1,9 +1,24 @@
 import './css/EquitiesValue.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-const EquitiesValue = (props) => {
-  let userStock = props.userStock;
+import { dateStore } from '../../store';
+import { memberAPI } from '../../api/api';
+const EquitiesValue = () => {
+  const [userStock, setUserStock] = useState([]);
+  const { date } = dateStore((state) => state);
+  useEffect(() => {
+    const getUserStock = async () => {
+      await memberAPI
+        .stocks()
+        .then((request) => {
+          setUserStock(request.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    getUserStock();
+  }, [date]);
   const navigate = useNavigate();
   return (
     <div className="equities-container">

@@ -83,6 +83,10 @@
     vertical-align: bottom;
 }
 
+.detail-favorite-icon {
+    margin-bottom: auto;
+}
+
 .detail-title > b {
     font-size: 24px;
     margin-right: 5px;

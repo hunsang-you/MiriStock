@@ -10,10 +10,10 @@ import News from '../components/detail/News';
 import { Button } from '@mui/material';
 import { AiFillStar } from 'react-icons/ai';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import { memberAPI } from '../api/api';
 
 const StockDetail = () => {
   const { user } = userStore((state) => state);
-  const { favoriteStocks, setFavoriteStocks } = favoriteStore((state) => state);
   const navigate = useNavigate();
   // 오늘 날짜
   let today = user.memberassetCurrentTime;
@@ -21,6 +21,35 @@ const StockDetail = () => {
   let userDate =
     today.slice(0, 4) + '.' + today.slice(4, 6) + '.' + today.slice(6, 8);
   let { stockCode } = useParams();
+  //관심주식관련로직
+  const { favoriteStocks, setFavoriteStocks } = favoriteStore((state) => state);
+  const [isFavorite, setIsFavorite] = useState();
+  const [updateFavorite, setUpdateFavorite] = useState(0); //렌더링용
+  useEffect(() => {
+    const isFavorite = (stock) => {
+      if (stock.stockCode === stockCode) {
+        return true;
+      }
+    };
+    const favoriteStock = favoriteStocks.filter(isFavorite);
+    if (favoriteStock.length === 1) {
+      setIsFavorite(true);
+    } else {
+      setIsFavorite(false);
+    }
+  }, []);
+  useEffect(() => {
+    //밥먹고와서 axios로 관심주식목록불러와서 리프레시하기.
+    const getFavorite = async () => {
+      await memberAPI
+        .intersetStocks(user.memberassetCurrentTime)
+        .then((request) => {
+          setFavoriteStocks(request.data);
+        })
+        .catch((err) => console.log(err));
+    };
+    getFavorite();
+  }, [updateFavorite]);
   const location = useLocation();
   // 날짜데이터를 시간으로 변환하는 함수
   const dayToTime = (date) => {
@@ -36,7 +65,6 @@ const StockDetail = () => {
   // 오늘날짜 -> 종목명
   const [stockInfo, setStockInfo] = useState('');
 
-  const [isFavorite, setIsFavorite] = useState(true);
   useEffect(() => {
     if (location.state) {
       setStockInfo(location.state.stockName);
@@ -63,14 +91,29 @@ const StockDetail = () => {
       <div className="detail-title">
         <b>{stockInfo}</b>
         <span>{stockCode}</span>
-        <div className="favorite-icon">
+        <div className="detail-favorite-icon">
           <AiFillStar
             // 클릭시 관심주식 on / off
-            id="favorite-icon"
             size={40}
             style={isFavorite ? { color: '#FFCC00' } : { color: '#AAA7A7' }}
             onClick={() => {
-              setIsFavorite(!isFavorite);
+              if (isFavorite === true) {
+                memberAPI
+                  .deleteIntersetStocks(stockCode)
+                  .then((request) => {
+                    setUpdateFavorite(updateFavorite + 1);
+                    setIsFavorite(false);
+                  })
+                  .catch((err) => console.log(err));
+              } else {
+                memberAPI
+                  .addIntersetStocks(stockCode)
+                  .then((request) => {
+                    setIsFavorite(true);
+                    setUpdateFavorite(updateFavorite + 1);
+                  })
+                  .catch((err) => console.log(err));
+              }
             }}
           />
         </div>
