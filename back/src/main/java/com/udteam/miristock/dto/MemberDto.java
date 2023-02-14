@@ -4,6 +4,7 @@ import com.udteam.miristock.entity.MemberEntity;
 import lombok.*;
 
 @Builder
+@Setter
 @Getter
 @ToString
 @AllArgsConstructor

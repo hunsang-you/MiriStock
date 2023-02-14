@@ -44,15 +44,15 @@ public class MemberController {
 
     @PutMapping("/nickname")
     @Operation(summary = "회원 닉네임 수정", description = "서비스에 가입된 회원 닉네임 정보를 수정한다.", tags = { "Member" })
-    public ResponseEntity<MemberDto> updateMember(@RequestHeader String Authorization, @RequestParam String nickname){
-        String userDetails = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String token = HeaderUtil.getAccessTokenString(Authorization);
-        log.info("유저 디테일 = {}",userDetails);
-        if(memberservice.selectOneMember(token)== null){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+    public ResponseEntity<?> updateMember(@RequestBody MemberDto memberDto){
+        log.info("설정할 유저 디테일 = {}", memberDto);
+        MemberDto result = memberservice.updateNickName(memberDto);
+        if(result == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원 정보 없음");
         }
-        return ResponseEntity.ok().body(memberservice.updateMember(token,nickname));
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
+
 
     @PostMapping("/nicknamecheck")
     @Operation(summary = "회원 닉네임 출력", description = "서비스에 가입된 회원 닉네임 정보를 출력한다.", tags = { "Member" })
