@@ -39,28 +39,6 @@ const dateStore = create(
 );
 //보유주식 저장
 
-//검색기록 스토리지용
-const insertWatchData = (history, data) => {
-  history.push(data);
-  const set = new Set(history);
-  const result = [...set];
-  return result;
-};
-
-const searchStore = create(
-  persist(
-    (set) => ({
-      searchHistory: [],
-      setSearchHistory: (data) => {
-        set((state) => ({
-          searchHistory: insertWatchData(state.searchHistory, data),
-        }));
-      },
-    }),
-    { name: 'searchStore' },
-  ),
-);
-
 // 유저 정보
 const memberStore = create(
   persist(
@@ -74,4 +52,16 @@ const memberStore = create(
   ),
 );
 
-export { navStore, searchStore, userStore, dateStore, memberStore };
+const favoriteStore = create(
+  persist(
+    (set) => ({
+      favoriteStocks: [],
+      setFavoriteStocks: (favoriteStocks) => {
+        set((state) => ({ favoriteStocks: favoriteStocks }));
+      },
+    }),
+    { name: 'favoriteStore' },
+  ),
+);
+
+export { navStore, userStore, dateStore, memberStore, favoriteStore };

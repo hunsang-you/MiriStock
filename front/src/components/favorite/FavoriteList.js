@@ -3,23 +3,23 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MdOutlineArrowBackIos } from 'react-icons/md';
 import { memberAPI } from '../../api/api';
-import { userStore } from '../../store';
+import { userStore, favoriteStore } from '../../store';
 import './css/Favorite.css';
 
 const FavoriteList = () => {
   const navigate = useNavigate();
   const { user } = userStore((state) => state);
+  const { setFavoriteStocks } = favoriteStore((state) => state);
   const date = user.memberassetCurrentTime;
-  const [favorites, setFavorites] = useState([]);
   useEffect(() => {
     const getFavorite = async () => {
       await memberAPI
         .intersetStocks(date)
         .then((request) => {
-          let favorite = request.data.sort(
-            (a, b) => b.stockDataFlucauationRate - a.stockDataFlucauationRate,
-          );
-          setFavorites(favorite);
+          // let favorite = request.data.sort(
+          //   (a, b) => b.stockDataFlucauationRate - a.stockDataFlucauationRate,
+          // );
+          setFavoriteStocks(request.data);
         })
         .catch((err) => {
           console.log(err);
@@ -40,13 +40,7 @@ const FavoriteList = () => {
         </p>
       </div>
       <div className="favorite-list2">
-        {favorites.map((favorite, i) => {
-          return (
-            <div key={i}>
-              <FavoriteItem favorite={favorite} i={i} />
-            </div>
-          );
-        })}
+        <FavoriteItem />
       </div>
     </div>
   );
