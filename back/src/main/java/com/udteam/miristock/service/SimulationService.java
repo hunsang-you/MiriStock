@@ -22,33 +22,61 @@ public class SimulationService {
 
     @Transactional
     public SimulEndDto resultSimulation(Integer memberNo){
+        log.info("시뮬레이션 resultSimulation 진입");
         // 회원자산 불러오기
         MemberAssetEntity memberAssetEntity = memberAssetRepository.findById(memberNo).get();
+        log.info("회원 자산 불러오기 memberAssetEntity : {}",memberAssetEntity);
 
         // 매수 예정 내역들 전부 취소하기(삭제)
-        limitPriceOrderRepository.deleteAllByMemberNoAndLimitPriceOrderType(memberNo, Deal.BUY);
+//        limitPriceOrderRepository.deleteAllByMemberNoAndLimitPriceOrderType(memberNo, Deal.BUY);
+        
+        // 매수, 매도 전부 취소하기
+        limitPriceOrderRepository.deleteAllByMemberNo(memberNo);
         
         // 매도 예정 내역들 불러오기
-        List<Object[]> limitPriceOrderListSELL = limitPriceOrderRepository.compareLimitPriceOrderWithTodayStockData(memberNo, memberAssetEntity.getMemberassetCurrentTime(), Deal.SELL);
+        // List<Object[]> limitPriceOrderListSELL = limitPriceOrderRepository.compareLimitPriceOrderWithTodayStockData(memberNo, memberAssetEntity.getMemberassetCurrentTime(), Deal.SELL);
+
+        // 보유 주식 목록 + 주식 데이터 같이 들고오기
+        List<Object[]> memberStockListOrderByPrice = memberStockRepository.findAllMemberStockListOrderByPrice(memberNo, memberAssetEntity.getMemberassetCurrentTime());
         // 현재가로 팔아버리기
         
-        Long totalMemberStockPriceSum = 0L; // 처음 주식 구입 금액 합
-        Long curStockPriceSum = 0L; // 팔때 주식 금액 합
+        Long purchaseStockPriceSum = 0L; // 처음 주식 구입 금액 합
+        Long sellStockPriceSum = 0L; // 팔때 주식 금액 합
 
-        for (Object[] objects : limitPriceOrderListSELL) {
+        // 보유 주식 목록에서 수익률 계산하기
+        for (Object[] objects : memberStockListOrderByPrice) {
             MemberStockEntity memberStockEntity = (MemberStockEntity) objects[0];
             StockDataEntity stockDataEntity = (StockDataEntity) objects[1];
-            Long curStockAmount = stockDataEntity.getStockDataAmount();
-            String targetStockCode = memberStockEntity.getStockCode();
 
-            Long memStockPrice = memberStockEntity.getMemberStockAvgPrice() * curStockAmount;
-            Long curStockPrice = stockDataEntity.getStockDataClosingPrice() * curStockAmount;
+            // 회원 보유 주식 량
+            Long memberStockAmount = memberStockEntity.getMemberStockAmount();
+            // 해당 주식 종가
+            Long stockClosingPrice = stockDataEntity.getStockDataClosingPrice();
+            // 해당 보유 주식 평균 가치 금액 (구입금액)
+            Long purchasePrice = memberStockEntity.getMemberStockAccPurchasePrice();
 
-            totalMemberStockPriceSum += memStockPrice;
-            curStockPriceSum += curStockPrice;
+            // 해당 주식 강제 판매금액 -> 해당주식 종가 X 회원 보유 주식량
+            Long sellClosingPriceAmount = memberStockAmount * stockClosingPrice;
+            // 총 판매 금액에 반영하기
+            sellStockPriceSum += sellClosingPriceAmount;
+
+            // 해당 주식 구입 총 구입 금액
+            Long purchasePriceAmount = purchasePrice * memberStockAmount;
+            // 총 구입 금액에 반영하기
+            purchaseStockPriceSum += purchasePriceAmount;
+
+//            Long sellPriceSum = memberStockEntity.getMemberStockAccSellPrice() + sellClosingPriceAmount;
+
+            // 처음 주식 구입가 X 가지고 있는 주식 보유량 => 주식 자산가격
+            Long memStockPrice = memberStockEntity.getMemberStockAvgPrice() * memberStockAmount;
+            // 종가 X  주식 보유량 -> 강제판매가격
+
+
+//            purchaseStockPriceSum += memStockPrice;
+//            sellStockPriceSum += curStockPrice;
 
             // 해당 주식 목록의 수익률, 수익금도 반영해야함...
-            // 회원 보유 주식 업데이트
+            // 회원 보유 주식에 업데이트
             memberStockRepository.save(MemberStockEntity.builder()
                     .memberStockNo(memberStockEntity.getMemberStockNo())
                     .stockCode(memberStockEntity.getStockCode())
@@ -57,29 +85,39 @@ public class SimulationService {
                     .memberStockAmount(0L)
                     .memberStockAvgPrice(0L)
                     .memberStockAccPurchasePrice(memberStockEntity.getMemberStockAccPurchasePrice())
-                    .memberStockAccSellPrice(memberStockEntity.getMemberStockAccSellPrice() + curStockPriceSum)
-                    .memberStockAccEarnRate(
-                            memberStockEntity.getMemberStockAccPurchasePrice()
-                            / (memberStockEntity.getMemberStockAccSellPrice() + curStockPriceSum)
-                                    * (float)100 - (float)100)
+                    .memberStockAccSellPrice(memberStockEntity.getMemberStockAccSellPrice() + sellClosingPriceAmount)
+//                    .memberStockAccEarnRate(
+//                            memberStockEntity.getMemberStockAccPurchasePrice()
+//                            / (memberStockEntity.getMemberStockAccSellPrice() + sellClosingPriceAmount)
+//                                    * (float)100 - (float)100)
+                            .memberStockAccEarnRate(  (float)((sellClosingPriceAmount - purchasePriceAmount) / purchasePriceAmount) * 100   )
                     .build()
             );
 
         }
 
         // 매도 예정 내역들 전부 취소하기(삭제)
-        limitPriceOrderRepository.deleteAllByMemberNoAndLimitPriceOrderType(memberNo, Deal.SELL);
+//        limitPriceOrderRepository.deleteAllByMemberNoAndLimitPriceOrderType(memberNo, Deal.SELL);
 
         // 회원 자산 업데이트
         memberAssetRepository.save(MemberAssetEntity.builder()
                         .memberassetNo(memberAssetEntity.getMemberassetNo())
                         .member(memberAssetEntity.getMember())
-                        .memberassetTotalAsset(memberAssetEntity.getMemberassetTotalAsset() + curStockPriceSum)
-                        .memberassetAvailableAsset(memberAssetEntity.getMemberassetAvailableAsset() +curStockPriceSum)
-                        .memberassetStockAsset(memberAssetEntity.getMemberassetStockAsset() - totalMemberStockPriceSum)
+                        .memberassetTotalAsset(memberAssetEntity.getMemberassetTotalAsset() + sellStockPriceSum)
+                        .memberassetAvailableAsset(memberAssetEntity.getMemberassetAvailableAsset() + sellStockPriceSum)
+                        .memberassetStockAsset(memberAssetEntity.getMemberassetStockAsset() - purchaseStockPriceSum)
                         .memberassetLastTotalAsset(memberAssetEntity.getMemberassetLastTotalAsset())
+                        .memberassetCurrentTime(memberAssetEntity.getMemberassetCurrentTime())
                         .build());
 
+        try{
+            MemberStockEntity low =  memberStockRepository.findTop1ByMemberNoAndMemberStockAmountOrderByMemberStockAccEarnPriceDesc(memberNo, 0L).get(0);
+            MemberStockEntity high = memberStockRepository.findTop1ByMemberNoAndMemberStockAmountOrderByMemberStockAccEarnPriceAsc(memberNo, 0L).get(0);
+        } catch (Exception e){
+            log.info("사고 판 주식이 없음");
+            return new SimulEndDto(memberAssetEntity,null,null );
+        }
+        
         // 결과 데이터 출력
         return new SimulEndDto(
                 memberAssetEntity,

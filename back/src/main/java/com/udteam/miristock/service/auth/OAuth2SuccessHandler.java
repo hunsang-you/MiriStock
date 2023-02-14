@@ -121,6 +121,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                         .memberassetStockAsset(0L)
                         .memberassetAvailableAsset(initialMoney)
                         .memberassetCurrentTime(initialSimulationTime)
+                        .memberassetLastTotalAsset(initialMoney)
                         .build());
     }
 }
