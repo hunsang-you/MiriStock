@@ -1,16 +1,12 @@
 package com.udteam.miristock.service;
 
-
 import com.udteam.miristock.dto.StockDataInfoMapping;
-import com.udteam.miristock.dto.StockDataRequestDto;
 import com.udteam.miristock.dto.StockDataResponseDto;
-import com.udteam.miristock.entity.StockDataEntity;
 import com.udteam.miristock.repository.StockDataCustomRepository;
 import com.udteam.miristock.repository.StockDataRepository;
 import com.udteam.miristock.util.ErrorMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.stream.Collectors;
