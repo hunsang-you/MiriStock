@@ -31,8 +31,8 @@ const SearchBar = () => {
                 .serachStock(e.target.value)
                 .then((request) => {
                   // 검색어O -> 결과 출력, 검색어X 검색 결과 초기화
-                  // setSearchResult(request.data);
-                  console.log(request.data);
+                  setSearchResult(request.data);
+                  // console.log(request.data);
                 })
                 .catch((err) => console.log(err));
               if (e.target.value.length > 0) {
@@ -45,10 +45,11 @@ const SearchBar = () => {
         </div>
       </div>
 
-      {/* 종목 검색 결과 */}
+      {/* 종목 검색 결과  스트링반환값은 해주지마세요 제발*/}
+
       {isCheck === true ? (
         <History />
-      ) : searchResult.length >= 1 ? (
+      ) : searchResult.length >= 1 && typeof searchResult !== 'string' ? (
         searchResult.map((stock, i) => {
           return (
             <div
