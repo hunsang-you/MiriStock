@@ -30,14 +30,15 @@ public class InterestController {
     @GetMapping("/intereststock/{stockDate}")
     @Operation(summary = "관심 주식 목록, 주식데이터 출력", description = "회원의 관심 주식 목록과 해당 시뮬레이션 날짜의 주식데이터와 같이 출력한다.", tags = { "InterestStock" })
     public ResponseEntity<List<StockDataResponseDto>> selectIntereststcok(@RequestHeader String Authorization, @PathVariable Integer stockDate) {
-        log.info("회원 관심 주식 목록 출력 호출됨 / 날짜 : {} ", stockDate);
+        log.debug("회원 관심 주식 목록 출력 호출됨 / 날짜 : {} ", stockDate);
         String token= HeaderUtil.getAccessTokenString(Authorization);
         MemberDto m = memberService.selectOneMember(token);
+        log.info("회원 : {} | /asset/intereststock/{stockDate} GET API호출 : 관심주식 + 주식데이터 목록 출력", m);
         if (m==null ){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }else{
-            log.info("회원 고유 식별번호 : {}", m.getMemberNo());
-            log.info("날짜 : {}", stockDate);
+            log.debug("회원 고유 식별번호 : {}", m.getMemberNo());
+            log.debug("날짜 : {}", stockDate);
             return ResponseEntity.ok().body(interestService.selectInterestStock(stockDate, m.getMemberNo()));
         }
     }
@@ -45,13 +46,14 @@ public class InterestController {
     @GetMapping("/intereststock/list")
     @Operation(summary = "관심 주식 단순 목록 출력", description = "회원의 관심 주식 목록을 출력한다.", tags = { "InterestStock" })
     public ResponseEntity<?> selectIntereststcok(@RequestHeader String Authorization) {
-        log.info("회원 관심 단순 주식 목록 출력 호출됨");
+        log.debug("회원 관심 단순 주식 목록 출력 호출됨");
         String token= HeaderUtil.getAccessTokenString(Authorization);
         MemberDto m = memberService.selectOneMember(token);
+        log.info("회원 : {} | /asset/intereststock/list GET API호출 : 관심주식 단순 목록 출력", m);
         if (m==null ){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }else{
-            log.info("회원 고유 식별번호 : {}", m.getMemberNo());
+            log.debug("회원 고유 식별번호 : {}", m.getMemberNo());
             return ResponseEntity.ok().body(interestService.selectInterestStockNoDate(m.getMemberNo()));
         }
     }
@@ -61,6 +63,7 @@ public class InterestController {
     public ResponseEntity<?> insertIntereststock(@RequestHeader String Authorization, @RequestParam String stockcode) {
         String token= HeaderUtil.getAccessTokenString(Authorization);
         MemberDto m = memberService.selectOneMember(token);
+        log.info("회원 : {} | /asset/intereststock POST API호출 : 관심주식 등록", m);
         if (m == null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } else {
@@ -73,6 +76,7 @@ public class InterestController {
     public ResponseEntity<String> deleteIntereststock(@RequestHeader String Authorization,@RequestParam String stockcode) {
         String token= HeaderUtil.getAccessTokenString(Authorization);
         MemberDto m = memberService.selectOneMember(token);
+        log.info("회원 : {} | /asset/intereststock DELETE API호출 : 관심주식 삭제", m);
         if (m == null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorMessage.TOKEN_EXPIRE);
         }

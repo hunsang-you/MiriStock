@@ -31,8 +31,9 @@ public class MemberStockController {
     @Operation(summary = "보유 주식 목록 출력", description = "회원의 보유 주식 목록과 해당 시뮬레이션 날짜의 주식 정보도 출력한다.", tags = { "MemberStock" })
     public ResponseEntity<?> findAll(@RequestHeader String Authorization, @RequestParam(required=false, defaultValue="price") String type) {
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
+        log.info("회원 : {} | /asset/memberstock GET API호출 : 회원 보유주식목록 + 주식데이터 출력", m);
         if (m == null){
-            log.info(ErrorMessage.TOKEN_EXPIRE);
+            log.debug(ErrorMessage.TOKEN_EXPIRE);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } else {
             MemberAssetDto result = memberAssetService.selectMemberAsset(m.getMemberNo());
@@ -44,8 +45,9 @@ public class MemberStockController {
     @Operation(summary = "보유 주식 단건 검색", description = "회원의 보유 주식 목록에서 코드 검색을 통해 단건 출력한다.", tags = { "MemberStock" })
     public ResponseEntity<?> findOne(@RequestHeader String Authorization, @PathVariable String stockCode) {
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
+        log.info("회원 : {} | /asset/memberstock/{stockCode} GET API호출 : 회원 보유주식목록 + 주식데이터 코드검색 출력", m);
         if (m == null){
-            log.info(ErrorMessage.TOKEN_EXPIRE);
+            log.debug(ErrorMessage.TOKEN_EXPIRE);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } else {
             MemberAssetDto result = memberAssetService.selectMemberAsset(m.getMemberNo());
@@ -62,8 +64,9 @@ public class MemberStockController {
     @Operation(summary = "전일 대비 보유주식에 대한 등락률, 등락금액 출력", description = "전일 대비 회원 보유주식의 등락률, 등락금액 출력", tags = { "MemberStock" })
     public ResponseEntity<StockRateAndPriceResponseDto> getMemberStockRateAndPrice(@RequestHeader String Authorization) {
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
+        log.info("회원 : {} | /asset/memberstock/main GET API호출 : 회원 보유주식 등락률, 등락금액 출력", m);
         if (m == null){
-            log.info(ErrorMessage.TOKEN_EXPIRE);
+            log.debug(ErrorMessage.TOKEN_EXPIRE);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } else {
             MemberAssetDto result = memberAssetService.selectMemberAsset(m.getMemberNo());
@@ -76,7 +79,7 @@ public class MemberStockController {
 //    public ResponseEntity<MemberStockDto> save(@RequestHeader String Authorization, @RequestBody MemberStockDto memberStockDto) {
 //        MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
 //        if (m == null){
-//            log.info(ErrorMessage.TOKEN_EXPIRE);
+//            log.debug(ErrorMessage.TOKEN_EXPIRE);
 //            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 //        } else {
 //            memberStockDto.setMemberNo(m.getMemberNo());
@@ -89,7 +92,7 @@ public class MemberStockController {
 //    public ResponseEntity<MemberStockDto> update(@RequestHeader String Authorization, @RequestBody MemberStockDto memberStockDto) {
 //        MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
 //        if (m == null){
-//            log.info(ErrorMessage.TOKEN_EXPIRE);
+//            log.debug(ErrorMessage.TOKEN_EXPIRE);
 //            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 //        } else {
 //            memberStockDto.setMemberNo(m.getMemberNo());
@@ -102,7 +105,7 @@ public class MemberStockController {
 //    public ResponseEntity<?> delete(@RequestHeader String Authorization, @RequestParam String stockCode) {
 //        MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
 //        if (m == null){
-//            log.info(ErrorMessage.TOKEN_EXPIRE);
+//            log.debug(ErrorMessage.TOKEN_EXPIRE);
 //            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 //        } else {
 //            if (memberStockService.delete(m.getMemberNo(), stockCode) == 0){

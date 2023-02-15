@@ -25,7 +25,7 @@ public class MemberStockService {
     // 회원 보유 주식 출력
     public List<?> findAll(Integer memberNo, Integer currentTime, String type) {
         List<Object[]> result = null;
-        log.info("type :{}",type);
+        log.debug("type :{}",type);
         if (type.equals("price")) {
             result = memberStockRepository.findAllMemberStockListOrderByPrice(memberNo, currentTime);
         } else if (type.equals("rate")){
@@ -57,16 +57,16 @@ public class MemberStockService {
         int size = stockDataMemberStockDtos.size();
         // 보유 주식이 없으므로 그냥 0으로 리턴한다.
         if (size == 0) {
-            log.info("main 보유주식 등락률, 등락금 보유주기에서 보유주식모록이 없음");
+            log.debug("main 보유주식 등락률, 등락금 보유주기에서 보유주식모록이 없음");
             return new StockRateAndPriceResponseDto(0.0f, 0L);
         }
 
         for (int i = 0; i < size; i++) {
-            log.info("stockDataMemberStockDtos : {} ", stockDataMemberStockDtos.get(i));
+            log.debug("stockDataMemberStockDtos : {} ", stockDataMemberStockDtos.get(i));
             // 이전금액 합계
-            log.info("stockDataMemberStockDtos.get(i).getMemberStockAvgPrice() : {}", stockDataMemberStockDtos.get(i).getMemberStockAvgPrice());
-            log.info("stockDataMemberStockDtos.get(i).getStockDataClosingPrice() : {} ", stockDataMemberStockDtos.get(i).getStockDataClosingPrice() );
-            log.info("stockDataMemberStockDtos.get(i).getMemberStockAmount() : {}", stockDataMemberStockDtos.get(i).getMemberStockAmount());
+            log.debug("stockDataMemberStockDtos.get(i).getMemberStockAvgPrice() : {}", stockDataMemberStockDtos.get(i).getMemberStockAvgPrice());
+            log.debug("stockDataMemberStockDtos.get(i).getStockDataClosingPrice() : {} ", stockDataMemberStockDtos.get(i).getStockDataClosingPrice() );
+            log.debug("stockDataMemberStockDtos.get(i).getMemberStockAmount() : {}", stockDataMemberStockDtos.get(i).getMemberStockAmount());
             stockDataAvgPriceSum += stockDataMemberStockDtos.get(i).getMemberStockAvgPrice() * stockDataMemberStockDtos.get(i).getMemberStockAmount();
             // 현재가 합계
             stockDataClosingPriceSum += stockDataMemberStockDtos.get(i).getStockDataClosingPrice() * stockDataMemberStockDtos.get(i).getMemberStockAmount();
@@ -76,17 +76,17 @@ public class MemberStockService {
             stockDataAmountSum += stockDataMemberStockDtos.get(i).getMemberStockAmount();
         }
         // 전체 등락금액의 등락률 구하기
-        log.info("stockDataAvgPriceSum : {} ", stockDataAvgPriceSum);
-        log.info("stockDataClosingPriceSum : {}", stockDataClosingPriceSum);
-        log.info("stockdatapriceincreasement : {}", stockdatapriceincreasement);
+        log.debug("stockDataAvgPriceSum : {} ", stockDataAvgPriceSum);
+        log.debug("stockDataClosingPriceSum : {}", stockDataClosingPriceSum);
+        log.debug("stockdatapriceincreasement : {}", stockdatapriceincreasement);
 
         if( ((float)stockDataClosingPriceSum - (float)stockDataAvgPriceSum) == 0.0f){
             return new StockRateAndPriceResponseDto(0.0f, 0L);
         }
         stockDataFlucauationRateSum = (float)( ((float)stockDataClosingPriceSum - (float)stockDataAvgPriceSum) / (float)stockDataAvgPriceSum) * (float)100;
 
-        log.info("stockDataFlucauationRateSum : {} ", stockDataFlucauationRateSum);
-        log.info("stockdatapriceincreasement : {}", stockdatapriceincreasement);
+        log.debug("stockDataFlucauationRateSum : {} ", stockDataFlucauationRateSum);
+        log.debug("stockdatapriceincreasement : {}", stockdatapriceincreasement);
         // error 분기
 //        if (stockDataFlucauationRateSum == 0 & stockdatapriceincreasement != 0 ){
 //            return new StockRateAndPriceResponseDto(0f, stockdatapriceincreasement);

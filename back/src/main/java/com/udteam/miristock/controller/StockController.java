@@ -16,7 +16,7 @@
 //
 //    @GetMapping("/search")
 //    public ResponseEntity<?> findByStockName (@RequestParam String keyword) throws Exception{
-//        log.info("종목검색 : {} :", keyword);
+//        log.debug("종목검색 : {} :", keyword);
 //        return ResponseEntity.ok().body(searchService.findByStockName(keyword));
 //    }
 //

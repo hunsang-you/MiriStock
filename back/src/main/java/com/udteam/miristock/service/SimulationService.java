@@ -23,10 +23,10 @@ public class SimulationService {
 
     @Transactional
     public SimulEndDto resultSimulation(Integer memberNo){
-        log.info("시뮬레이션 resultSimulation 진입");
+        log.debug("시뮬레이션 resultSimulation 진입");
         // 회원자산 불러오기
         MemberAssetEntity memberAssetEntity = memberAssetRepository.findById(memberNo).get();
-        log.info("회원 자산 불러오기 memberAssetEntity : {}",memberAssetEntity);
+        log.debug("회원 자산 불러오기 memberAssetEntity : {}",memberAssetEntity);
 
         // 매수 예정 내역들 전부 취소하기(삭제)
 //        limitPriceOrderRepository.deleteAllByMemberNoAndLimitPriceOrderType(memberNo, Deal.BUY);
@@ -76,9 +76,9 @@ public class SimulationService {
 //            purchaseStockPriceSum += memStockPrice;
 //            sellStockPriceSum += curStockPrice;
 
-            log.info("sellClosingPriceAmount : {}", sellClosingPriceAmount);
-            log.info("purchasePriceAmount : {}", purchasePriceAmount);
-            log.info("(float)((double)((sellClosingPriceAmount - purchasePriceAmount) / (double)purchasePriceAmount) * (double)100) : {}",
+            log.debug("sellClosingPriceAmount : {}", sellClosingPriceAmount);
+            log.debug("purchasePriceAmount : {}", purchasePriceAmount);
+            log.debug("(float)((double)((sellClosingPriceAmount - purchasePriceAmount) / (double)purchasePriceAmount) * (double)100) : {}",
                     (float)((double)((sellClosingPriceAmount - purchasePriceAmount) / (double)purchasePriceAmount) * (double)100));
 
             // 해당 주식 목록의 수익률, 수익금도 반영해야함...
@@ -142,14 +142,14 @@ public class SimulationService {
 //        try{
 //
 //        } catch (Exception e){
-//            log.info("사고 판 주식이 없음");
+//            log.debug("사고 판 주식이 없음");
 //            return new SimulEndDto(memberAssetEntity,null,null );
 //        }
-//        log.info("low.get(0) : {}",low.get(0) );
-//        log.info("high.get(0) : {}",high.get(0) );
+//        log.debug("low.get(0) : {}",low.get(0) );
+//        log.debug("high.get(0) : {}",high.get(0) );
 
-        log.info("low : {}", low);
-        log.info("high : {}", high);
+        log.debug("low : {}", low);
+        log.debug("high : {}", high);
         List<MemberSimulEndDto> lowList = low.stream().map(MemberSimulEndDto::new).collect(Collectors.toList());
         List<MemberSimulEndDto> highList = high.stream().map(MemberSimulEndDto::new).collect(Collectors.toList());
 

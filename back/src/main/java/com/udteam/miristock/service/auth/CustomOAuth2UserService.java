@@ -38,9 +38,9 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
         String userNameAttributeName = userRequest.getClientRegistration()
                 .getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
-        log.info("registrationId = {}", registrationId);
+        log.debug("registrationId = {}", registrationId);
         // naver는 response, kakao는 kakao_account 안에 필요한 정보가 들어가 있으니 해당 내용을 application-oauth.yml에 미리 설정해둠
-        log.info("userNameAttributeName = {}", userNameAttributeName);
+        log.debug("userNameAttributeName = {}", userNameAttributeName);
 
         // 얻어온 값들로 oAuth2Attribute 객체 생성 ( oAuth2User.getAttributes() 에는 반환받은 JSON 값이 들어가있음 )
         OAuth2Attribute oAuth2Attribute =
@@ -48,7 +48,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         // 만들어진 객체를 map 형식으로 변환 후 OAuth2User 기본객체인 DefaultOAuth2User 생성후 리턴 ( 권한, 유저 데이터, nameattributeKey ( 사용자 식별을 하기위한 키 ))
         Map<String,Object> memberAttribute = oAuth2Attribute.convertToMap();
-        log.info("login email = {}", (String) memberAttribute.get("email"));
+        log.debug("login email = {}", (String) memberAttribute.get("email"));
 
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority("ROLE_MEMBER")),

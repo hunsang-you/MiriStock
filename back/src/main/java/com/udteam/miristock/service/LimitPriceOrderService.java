@@ -97,7 +97,7 @@ public class LimitPriceOrderService {
 
                     // 현재 보유량 + 추가 매수량
                     Long sumAmount = memberStockEntity.getMemberStockAmount() + limitPriceOrderDto.getLimitPriceOrderAmount();
-                    log.info("매수 sumAmount : {}",  sumAmount);
+                    log.debug("매수 sumAmount : {}",  sumAmount);
                     // 총 구입 가격 (누적용) -> 기존 총 구입량 + 현재 주문량 X 요청가격
                     Long totalPurchasePrice = memberStockEntity.getMemberStockAccPurchasePrice() +
                             (long)limitPriceOrderDto.getLimitPriceOrderPrice() * limitPriceOrderDto.getLimitPriceOrderAmount();
@@ -124,20 +124,20 @@ public class LimitPriceOrderService {
                 // 자산현황 업데이트
                 // 자산현황 들고오기
                 MemberAssetEntity getMemberAsset = memberAssetRepository.findByMember_MemberNo(limitPriceOrderDto.getMemberNo());
-//                log.info("매수 하고 나서 자산현황 업뎃");
-//                log.info("getMemberStockCode.getMemberStockAvgPrice() :{}",getMemberStockCode.getMemberStockAvgPrice());
-//                log.info("getMemberAsset.getMemberassetAvailableAsset() : {}", getMemberAsset.getMemberassetAvailableAsset());
-//                log.info("getMemberAsset.getMemberassetStockAsset(): {}" , getMemberAsset.getMemberassetStockAsset());
-//                log.info("limitPriceOrderDto.getLimitPriceOrderAmount(); : {}", limitPriceOrderDto.getLimitPriceOrderAmount());
-//                log.info("limitPriceOrderDto.getLimitPriceOrderPrice() : {}", limitPriceOrderDto.getLimitPriceOrderPrice());
+//                log.debug("매수 하고 나서 자산현황 업뎃");
+//                log.debug("getMemberStockCode.getMemberStockAvgPrice() :{}",getMemberStockCode.getMemberStockAvgPrice());
+//                log.debug("getMemberAsset.getMemberassetAvailableAsset() : {}", getMemberAsset.getMemberassetAvailableAsset());
+//                log.debug("getMemberAsset.getMemberassetStockAsset(): {}" , getMemberAsset.getMemberassetStockAsset());
+//                log.debug("limitPriceOrderDto.getLimitPriceOrderAmount(); : {}", limitPriceOrderDto.getLimitPriceOrderAmount());
+//                log.debug("limitPriceOrderDto.getLimitPriceOrderPrice() : {}", limitPriceOrderDto.getLimitPriceOrderPrice());
 
                 double availableAssetDouble = (double)getMemberAsset.getMemberassetAvailableAsset()
                         - ((double)limitPriceOrderDto.getLimitPriceOrderPrice() * (double)1.005) * (double)limitPriceOrderDto.getLimitPriceOrderAmount();
                 long availableAsset = (long) Math.floor(availableAssetDouble);
-                log.info("매수 getMemberAsset.getMemberassetAvailableAsset() : {}", getMemberAsset.getMemberassetAvailableAsset());
-                log.info("매수((double)limitPriceOrderDto.getLimitPriceOrderPrice() * (double)1.005) * (double)limitPriceOrderDto.getLimitPriceOrderAmount() : {}",
+                log.debug("매수 getMemberAsset.getMemberassetAvailableAsset() : {}", getMemberAsset.getMemberassetAvailableAsset());
+                log.debug("매수((double)limitPriceOrderDto.getLimitPriceOrderPrice() * (double)1.005) * (double)limitPriceOrderDto.getLimitPriceOrderAmount() : {}",
                         ((double)limitPriceOrderDto.getLimitPriceOrderPrice() * (double)1.005) * (double)limitPriceOrderDto.getLimitPriceOrderAmount());
-                log.info("availableAsset : {}", availableAsset);
+                log.debug("availableAsset : {}", availableAsset);
 
                 if(availableAsset < 0){
                     log.warn("LimitPriceOrderService Class > oneLimitPriceOrderSave 매수시 현금 자산 마이너스 감지됨 -> 0으로 셋팅");
@@ -146,10 +146,10 @@ public class LimitPriceOrderService {
 
                 Long stockAsset = getMemberAsset.getMemberassetStockAsset()
                         + limitPriceOrderDto.getLimitPriceOrderPrice() * limitPriceOrderDto.getLimitPriceOrderAmount();
-                log.info("매수 getMemberAsset.getMemberassetStockAsset() : {}", getMemberAsset.getMemberassetStockAsset());
-                log.info("매수 limitPriceOrderDto.getLimitPriceOrderPrice() : {} ", limitPriceOrderDto.getLimitPriceOrderPrice());
-                log.info("매수 limitPriceOrderDto.getLimitPriceOrderAmount() : {}", limitPriceOrderDto.getLimitPriceOrderAmount());
-                log.info("매수 stockAsset : {}", stockAsset);
+                log.debug("매수 getMemberAsset.getMemberassetStockAsset() : {}", getMemberAsset.getMemberassetStockAsset());
+                log.debug("매수 limitPriceOrderDto.getLimitPriceOrderPrice() : {} ", limitPriceOrderDto.getLimitPriceOrderPrice());
+                log.debug("매수 limitPriceOrderDto.getLimitPriceOrderAmount() : {}", limitPriceOrderDto.getLimitPriceOrderAmount());
+                log.debug("매수 stockAsset : {}", stockAsset);
 
                 memberAssetRepository.save(MemberAssetEntity.builder()
                         .memberassetNo(getMemberAsset.getMemberassetNo())
@@ -166,15 +166,15 @@ public class LimitPriceOrderService {
                     limitPriceOrderRepository.deleteAllByMemberNoAndLimitPriceOrderNo(limitPriceOrderDto.getMemberNo(), limitPriceOrderDto.getLimitPriceOrderNo());
                 }
 
-                log.info("매수 요청 완료");
+                log.debug("매수 요청 완료");
 
             } else {  // 매수할 금액이 종가보다 작다면 예약 목록에 등록합니다.
 //                limitPriceOrderRepository.saveAndFlush(limitPriceOrderDto.toEntity());
 //                result = new LimitPriceOrderDto(limitPriceOrderRepository.saveAndFlush(limitPriceOrderDto.toEntity()));
 
-                log.info("매수 예약 등록됨");
+                log.debug("매수 예약 등록됨");
                 result = limitPriceOrderRepository.saveAndFlush(limitPriceOrderDto.toEntity());
-                log.info("회원 날짜 변경 : {}", memberSimulationTime);
+                log.debug("회원 날짜 변경 : {}", memberSimulationTime);
                 MemberAssetEntity getMemberAsset = memberAssetRepository.findByMember_MemberNo(limitPriceOrderDto.getMemberNo());
                 memberAssetRepository.save(MemberAssetEntity.builder()
                         .memberassetNo(getMemberAsset.getMemberassetNo())
@@ -193,14 +193,14 @@ public class LimitPriceOrderService {
 
                 // 보유 주식의 평균가 들고와야함.
                 MemberStockEntity getMemberStockCode = memberStockRepository.findByMemberNoAndStockCode(limitPriceOrderDto.getMemberNo(), limitPriceOrderDto.getStockCode());
-                log.info("limitpriceOrderDto : {}", limitPriceOrderDto);
+                log.debug("limitpriceOrderDto : {}", limitPriceOrderDto);
                 if (getMemberStockCode == null ){
-                    log.info("보유주식 없음! 잘못된 요청!");
-                    log.info("getMemberstockcode is : {}", getMemberStockCode);
+                    log.debug("보유주식 없음! 잘못된 요청!");
+                    log.debug("getMemberstockcode is : {}", getMemberStockCode);
                     return "보유주식 없음! 잘못된 요청!";
                 } else if  (getMemberStockCode.getMemberStockAmount() < limitPriceOrderDto.getLimitPriceOrderAmount()){
-                    log.info("보유주식보다 더 많은 매도량 요청됨 (승인거절)");
-                    log.info("getMemberstockcode is : {}", getMemberStockCode);
+                    log.debug("보유주식보다 더 많은 매도량 요청됨 (승인거절)");
+                    log.debug("getMemberstockcode is : {}", getMemberStockCode);
                     return "보유주식보다 더 많은 매도량 요청됨 (승인거절)";
                 } // 여기서 현금보다 적은데 사려고 하면 거절해야한다.
 
@@ -227,12 +227,12 @@ public class LimitPriceOrderService {
                 // 자산현황 업데이트
                 // 자산현황 들고오기
                 MemberAssetEntity getMemberAsset = memberAssetRepository.findByMember_MemberNo(limitPriceOrderDto.getMemberNo());
-                log.info("매도 하기 전 자산현황");
-                log.info("getMemberStockCode.getMemberStockAvgPrice() -> 보유주식 평균가 :{}",getMemberStockCode.getMemberStockAvgPrice());
-                log.info("getMemberAsset.getMemberassetAvailableAsset() -> 회원 현금 자산: {}", getMemberAsset.getMemberassetAvailableAsset());
-                log.info("getMemberAsset.getMemberassetStockAsset(): -> 회원 주식 자산 : {} " , getMemberAsset.getMemberassetStockAsset());
-                log.info("limitPriceOrderDto.getLimitPriceOrderAmount() -> 회원 주식 판매량 : {}", limitPriceOrderDto.getLimitPriceOrderAmount());
-                log.info("limitPriceOrderDto.getLimitPriceOrderPrice() -> 회원 주식 판매가격 : {}", limitPriceOrderDto.getLimitPriceOrderPrice());
+                log.debug("매도 하기 전 자산현황");
+                log.debug("getMemberStockCode.getMemberStockAvgPrice() -> 보유주식 평균가 :{}",getMemberStockCode.getMemberStockAvgPrice());
+                log.debug("getMemberAsset.getMemberassetAvailableAsset() -> 회원 현금 자산: {}", getMemberAsset.getMemberassetAvailableAsset());
+                log.debug("getMemberAsset.getMemberassetStockAsset(): -> 회원 주식 자산 : {} " , getMemberAsset.getMemberassetStockAsset());
+                log.debug("limitPriceOrderDto.getLimitPriceOrderAmount() -> 회원 주식 판매량 : {}", limitPriceOrderDto.getLimitPriceOrderAmount());
+                log.debug("limitPriceOrderDto.getLimitPriceOrderPrice() -> 회원 주식 판매가격 : {}", limitPriceOrderDto.getLimitPriceOrderPrice());
 
                 // 현금자산
                 double availableAssetDouble = (double)getMemberAsset.getMemberassetAvailableAsset()
@@ -240,9 +240,9 @@ public class LimitPriceOrderService {
                 
                 long availableAsset = (long) Math.floor(availableAssetDouble);
                 // 주식자산
-                log.info("getMemberStockCode.getMemberStockAvgPrice() : {}",getMemberStockCode.getMemberStockAvgPrice());
-                log.info("limitPriceOrderDto.getLimitPriceOrderAmount() : {}", limitPriceOrderDto.getLimitPriceOrderAmount());
-                log.info("getClosingPriceOnTime : {}", getClosingPriceOnTime);
+                log.debug("getMemberStockCode.getMemberStockAvgPrice() : {}",getMemberStockCode.getMemberStockAvgPrice());
+                log.debug("limitPriceOrderDto.getLimitPriceOrderAmount() : {}", limitPriceOrderDto.getLimitPriceOrderAmount());
+                log.debug("getClosingPriceOnTime : {}", getClosingPriceOnTime);
                 // 해당 주식 종가로 팔아야함...
                 Long stockAsset = getMemberAsset.getMemberassetStockAsset()
                         - (getClosingPriceOnTime * limitPriceOrderDto.getLimitPriceOrderAmount());
@@ -253,10 +253,10 @@ public class LimitPriceOrderService {
                     stockAsset = 0L;
                 }
 
-                log.info("availableAssetDouble : {} ", availableAssetDouble);
-                log.info("availableAsset (주식 팔고 얻은 현금 자산 금액 총합) : {}", availableAsset);
-                log.info("stockAsset (주식 팔고 남은 주식 자산 금액 총합) : {}", stockAsset);
-                log.info("memberassetTotalAsset (거래후 자산보유량) : {}",availableAsset + stockAsset);
+                log.debug("availableAssetDouble : {} ", availableAssetDouble);
+                log.debug("availableAsset (주식 팔고 얻은 현금 자산 금액 총합) : {}", availableAsset);
+                log.debug("stockAsset (주식 팔고 남은 주식 자산 금액 총합) : {}", stockAsset);
+                log.debug("memberassetTotalAsset (거래후 자산보유량) : {}",availableAsset + stockAsset);
 
                 memberAssetRepository.save(MemberAssetEntity.builder()
                         .memberassetNo(limitPriceOrderDto.getMemberNo())
@@ -300,15 +300,15 @@ public class LimitPriceOrderService {
                     limitPriceOrderRepository.deleteAllByMemberNoAndLimitPriceOrderNo(limitPriceOrderDto.getMemberNo(), limitPriceOrderDto.getLimitPriceOrderNo());
                 }
 
-                log.info("매도 요청 완료");
+                log.debug("매도 요청 완료");
 
 
             } else {  // 매도할 금액이 종가보다 크면 예약 목록에 등록합니다.
                 //result = new LimitPriceOrderDto(limitPriceOrderRepository.saveAndFlush(limitPriceOrderDto.toEntity()));
-                log.info("매도 예약 목록 등록");
+                log.debug("매도 예약 목록 등록");
                 result = limitPriceOrderRepository.saveAndFlush(limitPriceOrderDto.toEntity());
 
-                log.info("회원 날짜 변경 : {}", memberSimulationTime);
+                log.debug("회원 날짜 변경 : {}", memberSimulationTime);
                 MemberAssetEntity getMemberAsset = memberAssetRepository.findByMember_MemberNo(limitPriceOrderDto.getMemberNo());
                 memberAssetRepository.save(MemberAssetEntity.builder()
                         .memberassetNo(getMemberAsset.getMemberassetNo())

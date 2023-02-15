@@ -29,7 +29,7 @@ public class MemberService {
 
     public Integer deleteMember(String token){
         String email = tokenservice.getEmail(token);
-        log.info("이메일 출력={}",email);
+        log.debug("이메일 출력={}",email);
         return memberrepository.deleteByMemberEmail(email);
     }
 
@@ -45,7 +45,7 @@ public class MemberService {
     public MemberDto updateNickName(MemberDto memberDto) {
         MemberEntity getMemberEntity = memberrepository.findByMemberEmail(memberDto.getMemberEmail());
         getMemberEntity.setMemberNickname(memberDto.getMemberNickname());
-        log.info("getMemberEntity : {}", getMemberEntity);
+        log.debug("getMemberEntity : {}", getMemberEntity);
         return MemberDto.of(memberrepository.saveAndFlush(getMemberEntity));
     }
 
