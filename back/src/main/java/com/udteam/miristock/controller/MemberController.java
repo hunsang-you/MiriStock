@@ -44,6 +44,11 @@ public class MemberController {
     @Operation(summary = "회원 닉네임 수정", description = "서비스에 가입된 회원 닉네임 정보를 수정한다.", tags = { "Member" })
     public ResponseEntity<?> updateMember(@RequestBody MemberDto memberDto){
         log.info("회원 : {} | /member/nickname PUT API호출 : 회원 닉네임 수정", memberDto);
+        if(memberDto.getMemberNickname() == null || memberDto.getMemberNickname().equals("")){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("닉네임 Null 닉네임 수정 요청 거부");
+        } else if (memberDto.getMemberNickname().length() < 2 || memberDto.getMemberNickname().length() > 10){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("닉네임은 2자 이상 10자 이하만 입력할 수 있습니다.");
+        }
         MemberDto result = memberservice.updateNickName(memberDto);
         if(result == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원 정보 없음");

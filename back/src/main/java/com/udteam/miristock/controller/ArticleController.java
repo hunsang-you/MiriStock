@@ -130,9 +130,13 @@ public class ArticleController {
             log.debug(ErrorMessage.TOKEN_EXPIRE);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorMessage.TOKEN_EXPIRE);
         } else if (m.getROLE().equals(Role.ADMIN)){
-            if(articleService.deleteAdminMode(articleno) == 0)
+            try{
+                log.info("articleno : {}", articleno);
+                articleService.deleteAdminMode(articleno);
+                return ResponseEntity.status(HttpStatus.OK).body(ReturnMessage.DELETE_SUCCESS);
+            } catch (Exception e){
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ReturnMessage.DELETE_FAIL);
-            return ResponseEntity.status(HttpStatus.OK).body(ReturnMessage.DELETE_SUCCESS);
+            }
         } else{
             if(articleService.delete(m.getMemberNo(), articleno) == 0)
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ReturnMessage.DELETE_FAIL);

@@ -28,7 +28,7 @@ public class ArticleEntity {
     @Column(name = "article_no")
     private Integer articleNo; // PK
 
-    @Column(name = "member_nickname", columnDefinition = "TEXT", nullable = false)
+    @Column(name = "member_nickname")
     private String memberNickname; // 회원 닉네임
 
     @Column(name = "member_no")
