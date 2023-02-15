@@ -9,7 +9,7 @@ function Redirect() {
         const url = new URL(document.location).searchParams;
         const accessToken = url.get('accesstoken');
         localStorage.setItem('accessToken', 'Bearer ' + accessToken);
-        setTimeout(() => navigate('/', { replace: true }), 300);
+        setTimeout(() => navigate('/', { replace: true }), 500);
       } catch (e) {
         console.log(e);
       }
