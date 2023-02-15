@@ -4,11 +4,13 @@ import { PieChart, Pie, Cell, Label } from 'recharts';
 import { useState } from 'react';
 import './css/PoChart.css';
 
-const PoChart = () => {
+const PoChart = (props) => {
   const colors1 = ['#D2143C', '#ef4444', '#f87171', '#fca5a5', '#fecaca'];
   const colors2 = ['#1e40af', '#3b82f6', '#0ea5e9', '#38bdf8', '#bae6fd'];
 
+  const portfol = props.portfol;
   // 수익금, 손실금이 큰 순서대로
+
   const [state, setState] = useState({
     RevenueData: [
       {
@@ -44,8 +46,8 @@ const PoChart = () => {
         Rate: 13.19,
       },
     ],
-    dataKey: 'StockPrice',
-    nameKey: 'StockName',
+    dataKey: 'memberStockEarnPrice',
+    nameKey: 'stockName',
     cx: '50%',
     cy: '50%',
     innerRadius: 120,
@@ -59,6 +61,10 @@ const PoChart = () => {
   // 차트 라벨 클릭시 변화
   const [labelState, setLabelState] = useState([0, 0]);
 
+  if (!portfol) {
+    return <div> 데이터를 불러오지 못했습니다</div>;
+  }
+
   return (
     <div className="Chart-page">
       <div className="Chart-Circle">
@@ -68,7 +74,7 @@ const PoChart = () => {
         <PieChart width={320} height={360}>
           {/* 최고 수익금 */}
           <Pie
-            data={state.RevenueData}
+            data={portfol.highMemberStock}
             dataKey={state.dataKey}
             nameKey={state.nameKey}
             cx={state.cx}
@@ -84,8 +90,10 @@ const PoChart = () => {
             <Label
               content={
                 <RevenueLabel
-                  StockName={state.RevenueData[labelState[0]].StockName}
-                  Rate={state.RevenueData[labelState[0]].Rate}
+                  StockName={portfol.highMemberStock[labelState[0]].stockName}
+                  Rate={
+                    portfol.highMemberStock[labelState[0]].memberStockEarnRate
+                  }
                 />
               }
             />
@@ -104,7 +112,7 @@ const PoChart = () => {
 
           {/* 최고 손실금 */}
           <Pie
-            data={state.LossData}
+            data={portfol.lowMemberStock}
             dataKey={state.dataKey}
             nameKey={state.nameKey}
             cx={state.cx}
@@ -120,8 +128,10 @@ const PoChart = () => {
             <Label
               content={
                 <LossLabel
-                  StockName={state.LossData[labelState[1]].StockName}
-                  Rate={state.LossData[labelState[1]].Rate}
+                  StockName={portfol.lowMemberStock[labelState[1]].stockName}
+                  Rate={
+                    portfol.lowMemberStock[labelState[1]].memberStockEarnRate
+                  }
                 />
               }
             />

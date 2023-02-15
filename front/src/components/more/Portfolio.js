@@ -8,68 +8,51 @@ import { simulAPI } from '../../api/api';
 import { useNavigate } from 'react-router-dom';
 
 const Portfolio = () => {
-  const [portfol, setPortfol] = useState([]);
+  const [portfol, setPortfol] = useState({});
+
   useEffect(() => {
     const getPortfol = async () => {
       await simulAPI
         .theEnd()
         .then((request) => {
-          console.log(request.data);
+          setPortfol(request.data);
+          simulAPI
+            .restart()
+            .then((request) => console.log(request.data, '시뮬레이션 종료'))
+            .catch((err) => console.log(err));
         })
         .catch((err) => console.log(err));
     };
     getPortfol();
-  });
-  const [state, setState] = useState({
-    RevenueData: [
-      {
-        StockName: '삼성전자',
-        Revenue: 3333333,
-        Rate: 21.26,
-      },
-      {
-        StockName: '삼성카드',
-        Revenue: 2222222,
-        Rate: 11.62,
-      },
-      {
-        StockName: 'SK하이닉스',
-        Revenue: 1822828,
-        Rate: 13.19,
-      },
-    ],
-    LossData: [
-      {
-        StockName: '카카오뱅크',
-        Loss: 44444,
-        Rate: 21.26,
-      },
-      {
-        StockName: '룰루',
-        Loss: 33333,
-        Rate: 11.62,
-      },
-      {
-        StockName: '랄라',
-        Loss: 22222,
-        Rate: 13.19,
-      },
-    ],
-  });
+  }, []);
+  function isEmptyObj(obj) {
+    if (obj.constructor === Object && Object.keys(obj).length === 0) {
+      return true;
+    }
 
+    return false;
+  }
   const navigate = useNavigate();
 
   return (
     <div className="portfolio-page">
       <div className="port-name">
-        <p> 주식고수 김싸피 님의 게임 결과</p>
+        <p>
+          {console.log(portfol)}
+          {isEmptyObj(portfol) === false &&
+            portfol.memberAsset.member.memberNickname}
+          님의 게임 결과
+        </p>
       </div>
       <div className="portfolio-charts">
-        <PoChart />
+        {isEmptyObj(portfol) === false &&
+          portfol.highMemberStock.length !== 0 && <PoChart portfol={portfol} />}
       </div>
       <div className="port-result">
-        <Result1 />
-        <Result2 state={state} />
+        {isEmptyObj(portfol) === false &&
+          portfol.highMemberStock.length !== 0 && <Result1 portfol={portfol} />}
+        {isEmptyObj(portfol) === false &&
+          portfol.highMemberStock.length !== 0 && <Result2 portfol={portfol} />}
       </div>
       <div className="restart-btn">
         <Button
@@ -77,10 +60,6 @@ const Portfolio = () => {
           variant="contained"
           size="large"
           onClick={() => {
-            simulAPI
-              .restart()
-              .then((request) => console.log(request.data, '시뮬레이션 종료'))
-              .catch((err) => console.log(err));
             navigate('/');
           }}
         >
