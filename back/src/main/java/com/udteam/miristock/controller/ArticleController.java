@@ -41,7 +41,7 @@ public class ArticleController {
     }
 
     @GetMapping("/list")
-    @Operation(summary = "QnA 게시글 목록", description = "QnA 게시글 목록과 댓글을 전체 출력합니다.", tags = { "QnA" })
+    @Operation(summary = "QnA 게시글 목록", description = "QnA 게시글 목록(+댓글)을 10개씩 불러옵니다.", tags = { "QnA" })
     public ResponseEntity<List<ArticleResponseDto>> findArticleList(@RequestHeader String Authorization, @RequestParam(value = "index", required = false) Integer index){
         if(index == null) {index = 0;}
         log.info("articel 목록");
