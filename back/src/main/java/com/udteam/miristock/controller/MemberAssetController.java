@@ -1,6 +1,5 @@
 package com.udteam.miristock.controller;
 
-import com.udteam.miristock.dto.MemberAssetDto;
 import com.udteam.miristock.dto.MemberAssetNickNameResponseDto;
 import com.udteam.miristock.dto.MemberDto;
 import com.udteam.miristock.service.MemberAssetService;

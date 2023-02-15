@@ -1,6 +1,5 @@
 package com.udteam.miristock.dto;
 
-
 import com.udteam.miristock.entity.ArticleEntity;
 import lombok.*;
 

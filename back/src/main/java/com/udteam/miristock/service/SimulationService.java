@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -107,15 +106,31 @@ public class SimulationService {
 //        limitPriceOrderRepository.deleteAllByMemberNoAndLimitPriceOrderType(memberNo, Deal.SELL);
 
         // 회원 자산 업데이트
+        Long willUpdateStockAsset = memberAssetEntity.getMemberassetStockAsset() - purchaseStockPriceSum;
+        if(willUpdateStockAsset < 0){
+            log.warn("SimulationService Class resultSimulation Method : 회원 보유 주식 자산이 마이너스 감지");
+            willUpdateStockAsset = 0L;
+        }
+
         memberAssetRepository.save(MemberAssetEntity.builder()
-                        .memberassetNo(memberAssetEntity.getMemberassetNo())
-                        .member(memberAssetEntity.getMember())
-                        .memberassetTotalAsset(memberAssetEntity.getMemberassetTotalAsset() + sellStockPriceSum)
-                        .memberassetAvailableAsset(memberAssetEntity.getMemberassetAvailableAsset() + sellStockPriceSum)
-                        .memberassetStockAsset(memberAssetEntity.getMemberassetStockAsset() - purchaseStockPriceSum)
-                        .memberassetLastTotalAsset(memberAssetEntity.getMemberassetLastTotalAsset())
-                        .memberassetCurrentTime(memberAssetEntity.getMemberassetCurrentTime())
-                        .build());
+                .memberassetNo(memberAssetEntity.getMemberassetNo())
+                .member(memberAssetEntity.getMember())
+                .memberassetTotalAsset(memberAssetEntity.getMemberassetTotalAsset() + sellStockPriceSum)
+                .memberassetAvailableAsset(memberAssetEntity.getMemberassetAvailableAsset() + sellStockPriceSum)
+                .memberassetStockAsset(willUpdateStockAsset)
+                .memberassetLastTotalAsset(memberAssetEntity.getMemberassetLastTotalAsset())
+                .memberassetCurrentTime(memberAssetEntity.getMemberassetCurrentTime())
+                .build());
+
+//        memberAssetRepository.save(MemberAssetEntity.builder()
+//                        .memberassetNo(memberAssetEntity.getMemberassetNo())
+//                        .member(memberAssetEntity.getMember())
+//                        .memberassetTotalAsset(memberAssetEntity.getMemberassetTotalAsset() + sellStockPriceSum)
+//                        .memberassetAvailableAsset(memberAssetEntity.getMemberassetAvailableAsset() + sellStockPriceSum)
+//                        .memberassetStockAsset(memberAssetEntity.getMemberassetStockAsset() - purchaseStockPriceSum)
+//                        .memberassetLastTotalAsset(memberAssetEntity.getMemberassetLastTotalAsset())
+//                        .memberassetCurrentTime(memberAssetEntity.getMemberassetCurrentTime())
+//                        .build());
 
         List<MemberStockEntity> low = memberStockRepository.findTop1ByMemberNoAndMemberStockAmountOrderByMemberStockAccEarnPriceDesc(memberNo);
         List<MemberStockEntity> high = memberStockRepository.findTop1ByMemberNoAndMemberStockAmountOrderByMemberStockAccEarnPriceAsc(memberNo);

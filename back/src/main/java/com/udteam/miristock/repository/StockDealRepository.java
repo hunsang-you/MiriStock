@@ -1,10 +1,7 @@
 package com.udteam.miristock.repository;
 
-import com.udteam.miristock.entity.Deal;
 import com.udteam.miristock.entity.StockDealEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.List;
 
 public interface StockDealRepository  extends JpaRepository<StockDealEntity, Integer> {
 

@@ -1,12 +1,9 @@
 package com.udteam.miristock.service;
 
-import com.udteam.miristock.entity.StockEntity;
 import com.udteam.miristock.repository.StockRepository;
 import com.udteam.miristock.util.ErrorMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

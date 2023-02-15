@@ -1,7 +1,6 @@
 package com.udteam.miristock.service;
 
 import com.udteam.miristock.dto.MemberAdminDto;
-import com.udteam.miristock.dto.MemberAssetDto;
 import com.udteam.miristock.dto.MemberDto;
 import com.udteam.miristock.entity.MemberEntity;
 import com.udteam.miristock.repository.MemberRepository;

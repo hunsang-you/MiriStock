@@ -40,6 +40,20 @@ public class ArticleController {
         }
     }
 
+    @GetMapping("/list")
+    @Operation(summary = "QnA 게시글 목록", description = "QnA 게시글 목록(+댓글)을 10개씩 불러옵니다.", tags = { "QnA" })
+    public ResponseEntity<List<ArticleResponseDto>> findArticleList(@RequestHeader String Authorization, @RequestParam(value = "index", required = false) Integer index){
+        if(index == null) {index = 0;}
+        log.info("articel 목록");
+        MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
+        if (m == null){
+            log.info(ErrorMessage.TOKEN_EXPIRE);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        } else {
+            return ResponseEntity.ok().body(articleService.findArticleList(index));
+        }
+    }
+
     @GetMapping("/{articleno}")
     @Operation(summary = "QnA 게시글 상세조회", description = "QnA 게시글 번호를 단건 출력합니다.", tags = { "QnA" })
     public ResponseEntity<ArticleResponseDto> findOne(@RequestHeader String Authorization, @PathVariable Integer articleno){

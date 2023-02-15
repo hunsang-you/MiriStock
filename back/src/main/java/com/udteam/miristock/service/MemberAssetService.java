@@ -88,6 +88,11 @@ public class MemberAssetService {
         // 들고온 보유 주식과 데이터 기반으로 회원의 보유 주식 자산을 업데이트 하기
 //        memberAssetEntity.setMemberassetStockAsset(memberAssetEntity.getMemberassetStockAsset() + sumDiff);
 //        log.info("memberAssetEntity.getMemberassetStockAsset() + sumDiff 시뮬레이션 날짜 변경후 주식 자산 : {}" ,memberAssetEntity.getMemberassetStockAsset() + sumDiff);
+        if(stockAssetSum < 0) {
+            log.warn("MemberAssetService Class > updateMemberStockAsset : stockAssetSum(변경될 회원자산 주식자산) 이 마이너스 감지");
+            stockAssetSum = 0L;
+        }
+
         memberAssetEntity.setMemberassetStockAsset(stockAssetSum);
         log.info("stockAssetSum += stockDataEntityStockDataClosingPrice * memberStockAmount" ,stockAssetSum);
 
