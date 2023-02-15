@@ -17,7 +17,7 @@ const ArticleItem = (props) => {
   const navigate = useNavigate();
 
   //서버에 9시간 늦게 저장돼있어 9시간만큼 빼줌
-  let nowTime = new Date(article.articleCreateDate).getTime(); // - 32400000;
+  let nowTime = new Date(article.articleCreateDate).getTime() - 32400000;
   let modifyTime = new Date(article.articleModifyDate).getTime();
 
   //api에 있는 detailPost.createdAt를 바꿔주는 것
@@ -89,7 +89,6 @@ const ArticleItem = (props) => {
             size={40}
             color={isComment === true ? '#6DCEF5' : '#C4C4C4'}
           />
-          <span> {article.comments.length}개의 댓글</span>
         </div>
         <div className="item-btn">
           <div>

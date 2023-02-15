@@ -27,7 +27,7 @@ const Update = () => {
         <div className="create-title">
           <TextField
             id="article-title"
-            value={article.articleTitle}
+            defaultValue={article.articleTitle}
             inputProps={{
               style: {
                 height: '20px',
@@ -40,7 +40,7 @@ const Update = () => {
         <div className="create-content">
           <TextField
             id="article-content"
-            value={article.articleContent}
+            defaultValue={article.articleContent}
             multiline
             rows={10}
             inputProps={{

@@ -6,3 +6,4 @@ export { default as More } from './More';
 export { default as Community } from './Community';
 export { default as Stock } from './Stock';
 export { default as Redirect } from './Redirect';
+export { default as homeFavorite } from './HomeFavorite';

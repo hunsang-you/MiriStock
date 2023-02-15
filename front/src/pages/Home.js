@@ -33,6 +33,7 @@ const Home = () => {
         .catch((err) => console.log(err));
     };
     getMember();
+    console.log(user);
   }, [date, setUser]); //추후에 데이트 값
   return (
     <div className="main-container">
