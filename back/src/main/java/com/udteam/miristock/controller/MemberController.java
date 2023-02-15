@@ -1,5 +1,6 @@
 package com.udteam.miristock.controller;
 
+import com.udteam.miristock.dto.MemberAdminDto;
 import com.udteam.miristock.dto.MemberDto;
 import com.udteam.miristock.service.MemberService;
 import com.udteam.miristock.util.HeaderUtil;
@@ -61,7 +62,7 @@ public class MemberController {
     @Operation(summary = "회원 닉네임 출력", description = "서비스에 가입된 회원 닉네임 정보를 출력한다.", tags = { "Member" })
     public ResponseEntity<?> selectAllMember(@RequestBody MemberDto memberDto){
         log.debug("유저 닉네임 체크 호출됨 : {} " , memberDto);
-        MemberDto getMember = memberservice.selectOnMemberByEmail(memberDto);
+        MemberAdminDto getMember = memberservice.selectOneMemberAllInfo(memberDto);
         if(getMember == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원 정보를 찾을 수 없습니다.");
         }

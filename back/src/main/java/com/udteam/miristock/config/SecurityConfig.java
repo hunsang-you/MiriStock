@@ -69,7 +69,8 @@ public class SecurityConfig{
                     .antMatchers(
                             "/actuator/health",
                             "/",
-                            "/member/nickname");
+                            "/member/nickname",
+                            "/member/nicknamecheck");
         };
     }
 }
