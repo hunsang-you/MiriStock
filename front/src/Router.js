@@ -10,6 +10,7 @@ const Community = lazy(() => import('./pages/Community'));
 const More = lazy(() => import('./pages/More'));
 const Stock = lazy(() => import('./pages/Stock'));
 const Redirect = lazy(() => import('./pages/Redirect'));
+const notFound = lazy(() => import('./components/more/NotFound'));
 const Router = () => {
   return (
     <Routes>
@@ -77,7 +78,14 @@ const Router = () => {
           </Suspense>
         }
       />
-      <Route></Route>
+      <Route
+        path="/*"
+        element={
+          <Suspense fallback={<Loading />}>
+            <notFound />
+          </Suspense>
+        }
+      ></Route>
     </Routes>
   );
 };
