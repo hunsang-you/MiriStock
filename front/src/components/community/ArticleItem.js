@@ -93,7 +93,7 @@ const ArticleItem = (props) => {
         </div>
         <div className="item-btn">
           <div>
-            {user.memberNo === article.memberNo ? (
+            {user.memberNo === article.memberNo || user.memberNo === 1 ? (
               <Button
                 id="delete-btn"
                 variant="contained"
@@ -112,7 +112,7 @@ const ArticleItem = (props) => {
             ) : null}
           </div>
           <div>
-            {user.memberNo === article.memberNo ? (
+            {user.memberNo === article.memberNo || user.memberNo === 1 ? (
               <Button
                 id="update-btn"
                 variant="contained"
