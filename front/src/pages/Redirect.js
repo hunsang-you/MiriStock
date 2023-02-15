@@ -9,7 +9,7 @@ function Redirect() {
         const url = new URL(document.location).searchParams;
         const accessToken = url.get('accesstoken');
         localStorage.setItem('accessToken', 'Bearer ' + accessToken);
-        navigate('/', { replace: true }); //닉네임 있으면 홈 없으면 설정창으로 가게 만들기나중에~
+        setTimeout(() => navigate('/', { replace: true }), 300);
       } catch (e) {
         console.log(e);
       }
