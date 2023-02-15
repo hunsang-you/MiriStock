@@ -44,7 +44,10 @@ const Comment = (props) => {
             onClick={() => {
               communityAPI
                 .createComment(article.articleNo, text)
-                .then((request) => setComNo(request.data))
+                .then((request) => {
+                  setComNo(request.data);
+                  setText('');
+                })
                 .catch((err) => console.log(err));
             }}
           >
