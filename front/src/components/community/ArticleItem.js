@@ -18,7 +18,7 @@ const ArticleItem = (props) => {
 
   //서버에 9시간 늦게 저장돼있어 9시간만큼 빼줌
   let nowTime = new Date(article.articleCreateDate).getTime() + 32400000;
-  // let modifyTime = new Date(article.articleModifyDate).getTime() + 32400000;
+  let modifyTime = new Date(article.articleModifyDate).getTime() + 32400000;
   console.log(nowTime);
   console.log(article);
   //api에 있는 detailPost.createdAt를 바꿔주는 것
