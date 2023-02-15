@@ -2,18 +2,23 @@ import { useState, useEffect } from 'react';
 import { newsAPI } from '../../api/api'; // api 통신
 import Loading from '../Loading';
 import { NewsLoading } from '../NewsLoading';
-const News = () => {
+import { dateStore } from '../../store';
+const News = (props) => {
+  const { date } = dateStore((state) => state);
   const [newsList, setNewsList] = useState([]);
   const [newsLink, setNewsLink] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
+    const stockName = props.stockInfo;
+    console.log(stockName);
     const getNewsData = async () => {
       setIsLoading(true);
       let newsdata = [];
       let newslink = [];
       await newsAPI
-        .getNews('삼성전자', 20200123)
+        .getNews(stockName, date.memberassetCurrentTime)
         .then((request) => {
+          console.log(request.data);
           for (let i = 0; i < 5; i++) {
             newsdata.push(request.data.messages[i].title);
             newslink.push(request.data.messages[i].link);

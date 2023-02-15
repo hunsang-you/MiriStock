@@ -73,7 +73,10 @@ const AssetStatus = () => {
 
   return (
     <div className="asset-current">
-      <div className="asset-nickname">유저닉네임/의 자산입니다</div>
+      <div className="asset-nickname">
+        <span style={{ fontWeight: 'bold' }}>{user.memberNickName}</span> 님의
+        자산
+      </div>
       <div className="asset-chart">
         <ReactApexChart
           type="donut"

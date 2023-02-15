@@ -19,7 +19,7 @@ const Portfolio = () => {
         .catch((err) => console.log(err));
     };
     getPortfol();
-  });
+  }, []);
   const [state, setState] = useState({
     RevenueData: [
       {

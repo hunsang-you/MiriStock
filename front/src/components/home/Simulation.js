@@ -29,6 +29,7 @@ const Simulation = () => {
               disableElevation
               onClick={() => {
                 const changeDate = async () => {
+                  setIsLoading(true);
                   await simulAPI
                     .changeDate(1)
                     .then((request) => {
@@ -39,6 +40,9 @@ const Simulation = () => {
                     .currentDate()
                     .then((request) => {
                       setDate(request.data);
+                      setTimeout(() => {
+                        setIsLoading(false);
+                      }, 1000);
                     })
                     .catch((err) => console.log(err));
                 };
@@ -55,6 +59,7 @@ const Simulation = () => {
               disableElevation
               onClick={() => {
                 const changeDate = async () => {
+                  setIsLoading(true);
                   await simulAPI
                     .changeDate(7)
                     .then((request) => {
@@ -65,6 +70,9 @@ const Simulation = () => {
                     .currentDate()
                     .then((request) => {
                       setDate(request.data);
+                      setTimeout(() => {
+                        setIsLoading(false);
+                      }, 1000);
                     })
                     .catch((err) => console.log(err));
                 };
@@ -92,7 +100,9 @@ const Simulation = () => {
                     .currentDate()
                     .then((request) => {
                       setDate(request.data);
-                      setIsLoading(false);
+                      setTimeout(() => {
+                        setIsLoading(false);
+                      }, 1000);
                     })
                     .catch((err) => console.log(err));
                 };
