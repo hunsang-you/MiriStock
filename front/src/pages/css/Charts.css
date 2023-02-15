@@ -8,6 +8,11 @@
     margin-top : 2.5vh;
 }
 
+.detail-container {
+    display: flex;
+    flex-direction: column;
+}
+
 .space-between {
     display: flex;
     justify-content: space-between;
@@ -51,12 +56,23 @@
 
 .detail-header {
     display: flex;
+    align-items: center;
     justify-content : space-between;
-    height: 3vh;
+    font-size: 24px;
+    height: 16px;
     margin: 10px 0px 20px;
 }
 
-.mirilogo2 {height: 100%;}
+.detaildate {
+    font-family: var(--font-digi);
+    font-size: 40px;
+}
+
+.mirilogo {
+    height: 28px;
+    display: flex;
+    align-items: center;
+}
 
 .detail-title {
     height: 40px;
@@ -65,6 +81,10 @@
     align-items: flex-end;
     font-family: var(--font-IbmPlexSansKrLightRegular);
     vertical-align: bottom;
+}
+
+.detail-favorite-icon {
+    margin-bottom: auto;
 }
 
 .detail-title > b {

@@ -4,23 +4,60 @@ import Counter from './countanimation';
 import CounterPer from './counterperanimation';
 import { userStore } from '../../store';
 
-const AssetStatus = () => {
-  let [isUpDown, setIsUpDown] = useState(true);
+const AssetStatus = (props) => {
   const { user } = userStore((state) => state);
+  const userAssetChanged = props.userAssetChanged;
   return (
     <div className="asset">
-      <div className="asset-status">보유 현황</div>
+      <div className="asset-status">보유 주식 현황</div>
       <div className="money-unit">
         <span className="money">
-          <Counter from={0} to={user.memberassetTotalAsset} />
+          <Counter
+            from={0}
+            to={
+              user.memberassetStockAsset === undefined
+                ? 0
+                : user.memberassetStockAsset
+            }
+          />
         </span>
         <span className="unit">원</span>
       </div>
       <div
         className="change"
-        style={isUpDown ? { color: '#D2143C' } : { color: '#1E90FF' }}
+        style={
+          userAssetChanged.stockDataPriceIncreasement >= 0 ||
+          userAssetChanged.stockDataPriceIncreasement === undefined
+            ? { color: '#D2143C' }
+            : { color: '#1E90FF' }
+        }
       >
-        <Counter from={0} to={3086500} />원 (<CounterPer from={0} to={11.28} />)
+        {userAssetChanged.stockDataPriceIncreasement >= 0 ||
+        userAssetChanged.stockDataPriceIncreasement === undefined
+          ? '▲'
+          : '▼'}
+        <Counter
+          from={0}
+          to={
+            userAssetChanged.stockDataPriceIncreasement === undefined
+              ? 0
+              : Math.abs(userAssetChanged.stockDataPriceIncreasement)
+          }
+        />
+        원 (
+        {userAssetChanged.stockDataFlucauationRateSum >= 0 ||
+        userAssetChanged.stockDataPriceIncreasement === undefined
+          ? '+'
+          : null}
+        <CounterPer
+          from={0}
+          to={
+            userAssetChanged.stockDataFlucauationRateSum === undefined
+              ? 0
+              : userAssetChanged.stockDataFlucauationRateSum
+          }
+        />
+        )
       </div>
       <hr id="lines" />
     </div>

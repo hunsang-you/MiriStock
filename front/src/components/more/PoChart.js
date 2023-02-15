@@ -4,62 +4,15 @@ import { PieChart, Pie, Cell, Label } from 'recharts';
 import { useState } from 'react';
 import './css/PoChart.css';
 
-const PoChart = () => {
+const PoChart = (props) => {
   const colors1 = ['#D2143C', '#ef4444', '#f87171', '#fca5a5', '#fecaca'];
   const colors2 = ['#1e40af', '#3b82f6', '#0ea5e9', '#38bdf8', '#bae6fd'];
 
+  const portfol = props.portfol;
+  // 수익금, 손실금이 큰 순서대로
   const [state, setState] = useState({
-    RevenueData: [
-      {
-        StockName: '삼성전자',
-        StockPrice: 555555,
-        CellNo: 0,
-      },
-      {
-        StockName: '삼성카드',
-        StockPrice: 44444,
-        CellNo: 1,
-      },
-      {
-        StockName: 'SK하이닉스',
-        StockPrice: 33333,
-        CellNo: 2,
-      },
-      {
-        StockName: 'LG전자',
-        StockPrice: 22222,
-        CellNo: 3,
-      },
-      {
-        StockName: '현대차',
-        StockPrice: 11111,
-        CellNo: 4,
-      },
-    ],
-    LossData: [
-      {
-        StockName: '카카오뱅크',
-        StockPrice: 44444,
-      },
-      {
-        StockName: '룰루',
-        StockPrice: 33333,
-      },
-      {
-        StockName: '랄라',
-        StockPrice: 22222,
-      },
-      {
-        StockName: '이제그만',
-        StockPrice: 18283,
-      },
-      {
-        StockName: '그만',
-        StockPrice: 11111,
-      },
-    ],
-    dataKey: 'StockPrice',
-    nameKey: 'StockName',
+    dataKey: 'memberStockEarnPrice',
+    nameKey: 'stockName',
     cx: '50%',
     cy: '50%',
     innerRadius: 120,
@@ -70,20 +23,23 @@ const PoChart = () => {
     paddingAngle: 1,
   });
 
+  // 차트 라벨 클릭시 변화
   const [labelState, setLabelState] = useState([0, 0]);
+
+  if (!portfol) {
+    return <div> 데이터를 불러오지 못했습니다</div>;
+  }
 
   return (
     <div className="Chart-page">
       <div className="Chart-Circle">
-        <div className="port-income">
-          <div className="high-revenue">
-            <span> 수익 Top 5</span>
-          </div>
+        <div className="high-revenue">
+          <span> 수익 Top 3</span>
         </div>
         <PieChart width={320} height={360}>
           {/* 최고 수익금 */}
           <Pie
-            data={state.RevenueData}
+            data={portfol.highMemberStock}
             dataKey={state.dataKey}
             nameKey={state.nameKey}
             cx={state.cx}
@@ -99,14 +55,16 @@ const PoChart = () => {
             <Label
               content={
                 <RevenueLabel
-                  StockName={state.RevenueData[labelState[0]].StockName}
-                  StockPrice={state.RevenueData[labelState[0]].StockPrice}
+                  StockName={portfol.highMemberStock[labelState[0]].stockName}
+                  Rate={
+                    portfol.highMemberStock[labelState[0]].memberStockEarnRate
+                  }
                 />
               }
             />
 
-            {/* Cell 색깔 변화 */}
-            {state.RevenueData.map((entry, index) => (
+            {/* Cell 색깔 변화 + 클릭시 종목,수익률 변화*/}
+            {portfol.highMemberStock.map((entry, index) => (
               <Cell
                 key={`cell-${index}`}
                 fill={colors1[index]}
@@ -119,7 +77,7 @@ const PoChart = () => {
 
           {/* 최고 손실금 */}
           <Pie
-            data={state.LossData}
+            data={portfol.lowMemberStock}
             dataKey={state.dataKey}
             nameKey={state.nameKey}
             cx={state.cx}
@@ -131,17 +89,19 @@ const PoChart = () => {
             endAngle={state.endAngle[1]}
             paddingAngle={state.paddingAngle}
           >
-            {/* Cell 클릭시 종목-손해 출력 */}
+            {/* Cell 클릭시 종목-손실률 출력 */}
             <Label
               content={
                 <LossLabel
-                  StockName={state.LossData[labelState[1]].StockName}
-                  StockPrice={state.LossData[labelState[1]].StockPrice}
+                  StockName={portfol.lowMemberStock[labelState[1]].stockName}
+                  Rate={
+                    portfol.lowMemberStock[labelState[1]].memberStockEarnRate
+                  }
                 />
               }
             />
-            {/* Cell 색깔 변화 */}
-            {state.LossData.map((entry, index) => (
+            {/* Cell 색깔 변화 + 클릭시 종목,수익 변화*/}
+            {portfol.lowMemberStock.map((entry, index) => (
               <Cell
                 key={`cell-${index}`}
                 fill={colors2[index]}
@@ -152,10 +112,9 @@ const PoChart = () => {
             ))}
           </Pie>
         </PieChart>
-        <div className="port-income">
-          <div className="high-loss">
-            <span> 손실 Top 5</span>
-          </div>
+
+        <div className="high-loss">
+          <span> 손실 Top 3</span>
         </div>
       </div>
     </div>

@@ -1,8 +1,11 @@
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { simulAPI } from '../../api/api';
+import { memberStore } from '../../store';
 import './css/GameExit.css';
 const GameExit = () => {
   const navigate = useNavigate();
+  const { info, setInfo } = memberStore((state) => state);
 
   return (
     <div className="exit-page">
@@ -26,10 +29,11 @@ const GameExit = () => {
         <div className="exit-submitbtn">
           <Button
             id="exit-submit"
-            variant="outlined"
+            variant="contained"
+            style={{ color: 'white' }}
             size="large"
             onClick={() => {
-              navigate('/');
+              navigate('/more/result');
             }}
           >
             예

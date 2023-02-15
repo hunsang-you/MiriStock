@@ -1,17 +1,24 @@
-import HeartBtn from './HeartBtn';
-import { FaRegCommentDots } from 'react-icons/fa';
+// import HeartBtn from './HeartBtn';
+// import { FaRegCommentDots } from 'react-icons/fa';
+import { AiOutlineComment } from 'react-icons/ai';
 import Comment from './Comment';
 import { Button } from '@mui/material';
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { userStore } from '../../store';
 import { communityAPI } from '../../api/api';
+import { useNavigate } from 'react-router-dom';
 import './css/ArticleItem.css';
 
 const ArticleItem = (props) => {
   const article = props.article;
   const setArticles = props.setArticles;
+  const { user, setUser } = userStore((state) => state);
+
+  const navigate = useNavigate();
+
   //서버에 9시간 늦게 저장돼있어 9시간만큼 빼줌
-  let nowTime = new Date(article.articleDate).getTime() - 32400000;
+  let nowTime = new Date(article.articleCreateDate).getTime(); // - 32400000;
+  let modifyTime = new Date(article.articleModifyDate).getTime();
 
   //api에 있는 detailPost.createdAt를 바꿔주는 것
   // content 글자 제한, 더보기
@@ -21,18 +28,14 @@ const ArticleItem = (props) => {
   };
 
   // comment list 활성화
-  const [iscomment, setIsComment] = useState(false);
+  const [isComment, setIsComment] = useState(false);
   const CommentBtn = () => {
-    if (iscomment === true) {
-      setIsComment(!iscomment);
-    } else {
-      setIsComment(!iscomment);
-    }
+    setIsComment(!isComment);
   };
 
   // 댓글창 출력
-  const CommentBox = () => {
-    if (iscomment === true) {
+  let CommentBox = () => {
+    if (isComment === true) {
       return <Comment article={article} setArticles={setArticles} />;
     }
   };
@@ -53,16 +56,20 @@ const ArticleItem = (props) => {
       <div className="userid">
         <span id="item-userId"> {article.memberNickname} </span>
         <div>
-          <span id="item-createAt"> {detailDate(nowTime)} </span>
+          {modifyTime === 0 ? (
+            <span id="item-createAt"> {detailDate(nowTime)} </span>
+          ) : (
+            <span id="item-createAt"> {detailDate(modifyTime)} 수정</span>
+          )}
         </div>
       </div>
 
       {/* 제목 */}
-      <div className="title" onClick={handlerBtn}>
+      <div className="article-title" onClick={handlerBtn}>
         <span> {article.articleTitle} </span>
       </div>
       {/* 내용 */}
-      <div className="content" onClick={handlerBtn}>
+      <div className="article-content" onClick={handlerBtn}>
         <span className={isclosed ? 'content-open' : 'content-close'}>
           {article.articleContent}
         </span>
@@ -75,31 +82,56 @@ const ArticleItem = (props) => {
           onClick={() => {
             setLike(!like);
           }}
-        >
-          {/* <motion.div variants={likeVariant} whileTap="click">
-            <HeartBtn like={like} item={item} />
-          </motion.div> */}
-        </div>
+        ></div>
         <div className="comment">
-          <FaRegCommentDots onClick={CommentBtn} />
+          <AiOutlineComment
+            onClick={CommentBtn}
+            size={40}
+            color={isComment === true ? '#6DCEF5' : '#C4C4C4'}
+          />
+          <span> {article.comments.length}개의 댓글</span>
         </div>
         <div className="item-btn">
-          <Button
-            id="delete-btn"
-            variant="outlined"
-            size="middle"
-            onClick={() => {
-              communityAPI
-                .deleteArticle(article.articleNo)
-                .then((request) => console.log(request.data))
-                .catch((err) => console.log(err));
-            }}
-          >
-            삭제
-          </Button>
-          <Button id="update-btn" variant="outlined" size="large">
-            수정
-          </Button>
+          <div>
+            {user.memberNo === article.memberNo || user.memberNo === 1 ? (
+              <Button
+                id="delete-btn"
+                variant="contained"
+                size="large"
+                style={{ color: 'white' }}
+                onClick={() => {
+                  communityAPI
+                    .deleteArticle(article.articleNo)
+                    .then((request) => console.log(request.data))
+                    .catch((err) => console.log(err));
+                  window.location.replace('/community');
+                }}
+              >
+                삭제
+              </Button>
+            ) : null}
+          </div>
+          <div>
+            {user.memberNo === article.memberNo || user.memberNo === 1 ? (
+              <Button
+                id="update-btn"
+                variant="contained"
+                size="large"
+                style={{ color: 'white' }}
+                onClick={(e) => {
+                  navigate(`update/${article.articleNo}`, {
+                    state: {
+                      articleNo: article.articleNo,
+                      articleTitle: article.articleTitle,
+                      articleContent: article.articleContent,
+                    },
+                  });
+                }}
+              >
+                수정
+              </Button>
+            ) : null}
+          </div>
         </div>
       </div>
       <div> {CommentBox()} </div>

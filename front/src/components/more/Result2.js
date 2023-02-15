@@ -1,54 +1,64 @@
 import './css/Portfolio.css';
+import Counter from '../home/countanimation';
 
-const Result2 = () => {
+const Result2 = (props) => {
+  // const RevenueData = props.state.RevenueData;
+  // const LossData = props.state.LossData;
+
+  const portfol = props.portfol;
+  const highMemberStock = portfol.highMemberStock;
+  const lowMemberStock = portfol.lowMemberStock;
+
   return (
     <div className="portfolio-result2">
       <div>
-        <p> 종료까지 가장 등락률이 높았던 종목</p>
-        <div className="portfolio-best">
-          <span> 재윤전자 </span>
-          <span id="port-revenue"> 11.111%</span>
-        </div>
-        <div className="portfolio-best">
-          <span> 효관전자 </span>
-          <span id="port-revenue"> 11.11%</span>
-        </div>
-        <div className="portfolio-best">
-          <span> 도겸전자 </span>
-          <span id="port-revenue"> 11.11%</span>
-        </div>
-        <div className="portfolio-best">
-          <span> 상현전자 </span>
-          <span id="port-revenue"> 11.11%</span>
-        </div>
-        <div className="portfolio-best">
-          <span> 헌상전자1111111 </span>
-          <span id="port-revenue"> 11.11%</span>
-        </div>
+        <p> {portfol.memberAsset.member.memberNickname} 님의 BEST TOP3</p>
+        {highMemberStock.map((data, i) => {
+          if (highMemberStock[i].memberStockEarnBoolean === 'TRUE') {
+            return (
+              <div key={i} className="portfolio-best">
+                <span> {data.stockName} </span>
+                <span id="port-revenue">
+                  ▲ <Counter from={0} to={data.memberStockEarnPrice} />원
+                </span>
+              </div>
+            );
+          } else {
+            return (
+              <div key={i} className="portfolio-best">
+                <span> {data.stockName} </span>
+                <span id="port-revenue">
+                  ▼ <Counter from={0} to={data.memberStockEarnPrice} />원
+                </span>
+              </div>
+            );
+          }
+        })}
       </div>
       <hr id="result-lines" />
       <div>
-        <p> 종료까지 가장 등락률이 낮았던 종목</p>
-        <div className="portfolio-worst">
-          <span> 카카오뱅크 </span>
-          <span id="port-loss"> -13.081% </span>
-        </div>
-        <div className="portfolio-worst">
-          <span> 종목2 </span>
-          <span id="port-loss"> -11.1111% </span>
-        </div>
-        <div className="portfolio-worst">
-          <span> 종목3333 </span>
-          <span id="port-loss"> -11.11% </span>
-        </div>
-        <div className="portfolio-worst">
-          <span> 종목4444444 </span>
-          <span id="port-loss"> -11.11% </span>
-        </div>
-        <div className="portfolio-worst">
-          <span> 종목5 </span>
-          <span id="port-loss"> -11.11% </span>
-        </div>
+        <p> {portfol.memberAsset.member.memberNickname} 님의 WORST TOP3</p>
+        {lowMemberStock.map((data, i) => {
+          if (lowMemberStock[i].memberStockEarnBoolean === 'FALSE') {
+            return (
+              <div key={i} className="portfolio-worst">
+                <span> {data.stockName} </span>
+                <span id="port-loss">
+                  ▼ <Counter from={0} to={data.memberStockEarnPrice} /> 원
+                </span>
+              </div>
+            );
+          } else {
+            return (
+              <div key={i} className="portfolio-worst">
+                <span> {data.stockName} </span>
+                <span id="port-loss">
+                  ▲ <Counter from={0} to={data.memberStockEarnPrice} /> 원
+                </span>
+              </div>
+            );
+          }
+        })}
       </div>
     </div>
   );

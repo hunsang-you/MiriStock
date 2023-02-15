@@ -1,0 +1,48 @@
+.notfound-page * {
+    font-family:  var(--font-NanumGothicCoding);
+}
+
+.notlogo {
+    margin-top: 2vh;
+    text-align: right;
+}
+
+.notfoundment {
+    display: flex;
+    flex-direction: column;
+}
+
+.notfoundment > p {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.notfoundment > span {
+    margin-top: 4px;
+    margin-bottom: 4px;
+    font-size: 16px;
+    color: #C4C4C4;
+}
+
+.notfoundback {
+    margin-top: 5vh;
+    margin-bottom: auto;
+}
+
+#notfoundmiri {
+    width: 50%;
+}
+
+#notfoundimg {
+    margin-top: 4vh;
+    width: 60%;
+}
+
+#back404btn {
+    width: 80%;
+    height: 50px;
+    color: white;
+    font-weight: bold;
+    font-family:  var(--font-NanumGothicCoding);
+
+}

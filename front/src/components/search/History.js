@@ -1,11 +1,11 @@
 import './css/History.css';
-import { searchStore } from '../../store';
 import { searchAPI } from '../../api/api';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const History = () => {
   const [searchHistory, setSearchHistory] = useState([]);
+  const [refreshHistory, setRefreshHistory] = useState(0);
   const navigate = useNavigate();
   useEffect(() => {
     const getHistory = async () => {
@@ -17,7 +17,7 @@ const History = () => {
         .catch((err) => console.log(err));
     };
     getHistory();
-  }, []);
+  }, [refreshHistory]);
   return (
     <div className="watch-list">
       <div className="watch-title">
@@ -36,19 +36,23 @@ const History = () => {
               }}
             >
               <div>{stock.stockName}</div>
-              <div>{stock.stockCode}</div>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  console.log(stock.searchNo);
-                  searchAPI
-                    .deleteSearchHis(stock.searchNo)
-                    .then((request) => console.log(request.data))
-                    .catch((err) => console.log(err));
-                }}
-              >
-                X
-              </button>
+              <div>
+                {stock.stockCode}
+                <button
+                  id="deletesearch-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    searchAPI
+                      .deleteSearchHis(stock.stockCode)
+                      .then((request) => {
+                        setRefreshHistory(refreshHistory + 1);
+                      })
+                      .catch((err) => console.log(err));
+                  }}
+                >
+                  X
+                </button>
+              </div>
             </div>
           );
         })}

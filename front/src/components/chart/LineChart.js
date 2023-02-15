@@ -25,6 +25,7 @@ const LineChart = (props) => {
   const [stockPrice, setStockPrice] = useState([0]);
   // 18.01 ~ 거래량
   const [dataAmount, setDataAmount] = useState([]);
+  const [amountMax, setAmountMax] = useState([]);
   // 18.01 ~ 날짜
   const [totalDate, setTotalDate] = useState([]);
   // 18.01 ~ 등락금액
@@ -85,7 +86,7 @@ const LineChart = (props) => {
         y: [
           {
             formatter: function (value, { dataPointIndex }) {
-              // console.log(dataPointIndex);   // 인덱스 값 출력 확인 (value 를 안넣으면 dataPointIndex 가 value 가 됨)
+              // 인덱스 값 출력 확인 (value 를 안넣으면 dataPointIndex 가 value 가 됨)
               setIndex(dataPointIndex);
               return null;
             }, // dataPointIndex = 인덱스값
@@ -154,13 +155,15 @@ const LineChart = (props) => {
       <LineChartData
         stockCode={props.stockCode}
         setStockInfo={props.setStockInfo}
-        toDay={props.toDay}
+        today={props.today}
         dayToTime={props.dayToTime}
         setIndex={setIndex}
         stockPrice={stockPrice}
         setStockPrice={setStockPrice}
         dataAmount={dataAmount}
         setDataAmount={setDataAmount}
+        amountMax={amountMax}
+        setAmountMax={setAmountMax}
         totalDate={totalDate}
         setTotalDate={setTotalDate}
         priceIncreasement={priceIncreasement}
@@ -202,10 +205,11 @@ const LineChart = (props) => {
         </div>
         <div>
           <ShowDate
-            toDay={props.toDay}
+            today={props.today}
             dayToTime={props.dayToTime}
             stockPrice={stockPrice}
             dataAmount={dataAmount}
+            amountMax={amountMax}
             totalDate={totalDate}
             setIndex={setIndex}
             state={state}
@@ -213,42 +217,8 @@ const LineChart = (props) => {
           />
         </div>
       </div>
-      <div>
-        <button
-          onClick={() => {
-            props.setToDay(props.toDay + 1);
-          }}
-        >
-          하루+
-        </button>
-      </div>
     </div>
   );
 };
 
 export default LineChart;
-
-// 차트 데이터 확인해볼 때 쓴 버튼
-// <div>
-//   <button
-//     onClick={() => {
-//       stockAPI
-//         .stockDetail('005930', 20200123, 20200126)
-//         .then((request) => {
-//           console.log(request.data);
-//         })
-//         .catch((err) => {
-//           console.log(err);
-//         });
-//     }}
-//   >
-//     stockdetail
-//   </button>
-//   <button
-//     onClick={() => {
-//       ymdReturn('005930', 20220330, 20220502);
-//     }}
-//   >
-//     차트데이터추가
-//   </button>
-// </div>

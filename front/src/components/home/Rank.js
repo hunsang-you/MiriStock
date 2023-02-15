@@ -47,10 +47,6 @@ const Rank = () => {
     todayTop();
     increase();
     decrease();
-
-    // rankAPI.todayTop(tempDate).then((request) => {
-    //   console.log(request.data);
-    // });
   }, [user]);
 
   return (
@@ -112,7 +108,7 @@ const Trade = (props) => {
       {trades.map((stock, i) => {
         return (
           <div
-            className="rank-choose"
+            className="incrdecr-list"
             key={i}
             onClick={() => {
               navigate(`stock/${stock.stockCode}`, {
@@ -120,8 +116,24 @@ const Trade = (props) => {
               });
             }}
           >
-            <span>{stock.stockName}</span>
-            <span>{stock.stockDataAmount.toLocaleString()}</span>
+            <div className="incrdecr-top">
+              <span>{stock.stockName}</span>
+              <span>{stock.stockDataAmount.toLocaleString()}</span>
+            </div>
+            <div className="incrdecr-bottom">
+              <span>{stock.stockCode}</span>
+              {stock.stockDataFlucauationRate >= 0 ? (
+                <span style={{ color: '#D2143C' }}>
+                  ▲ {stock.stockDataPriceIncreasement}원 (+
+                  {stock.stockDataFlucauationRate.toFixed(2)}%)
+                </span>
+              ) : (
+                <span style={{ color: '#1E90FF' }}>
+                  ▼ {Math.abs(stock.stockDataPriceIncreasement)}원 (
+                  {stock.stockDataFlucauationRate.toFixed(2)}%)
+                </span>
+              )}
+            </div>
           </div>
         );
       })}
@@ -158,8 +170,8 @@ const BestIncrease = (props) => {
                     : { color: '#1E90FF' }
                 }
               >
-                ▲ {stock.stockDataPriceIncreasement.toLocaleString()}원 (
-                {stock.stockDataFlucauationRate}%)
+                ▲ {stock.stockDataPriceIncreasement.toLocaleString()}원 ( +
+                {stock.stockDataFlucauationRate.toFixed(2)}%)
               </span>
             </div>
           </div>
@@ -198,8 +210,8 @@ const BestDecrease = (props) => {
                     : { color: '#1E90FF' }
                 }
               >
-                ▼ {stock.stockDataPriceIncreasement.toLocaleString()}원 (
-                {stock.stockDataFlucauationRate}%)
+                ▼ {Math.abs(stock.stockDataPriceIncreasement).toLocaleString()}
+                원 ({stock.stockDataFlucauationRate.toFixed(2)}%)
               </span>
             </div>
           </div>

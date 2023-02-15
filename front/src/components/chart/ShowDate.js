@@ -3,8 +3,7 @@ import { Button } from '@mui/material';
 const ShowDate = (props) => {
   // 날짜 변환해주는 함수 (86400000은 1일 -> 초)
   const updateData = (num) => {
-    // console.log(props.toDay);
-    let change = props.dayToTime(props.toDay) - 86400000 * num;
+    let change = props.dayToTime(props.today) - 86400000 * num;
     if (change <= 1514732400000) {
       change = 1514732400000;
     }
@@ -59,7 +58,7 @@ const ShowDate = (props) => {
           y: [
             {
               formatter: function (value, { dataPointIndex }) {
-                // console.log(dataPointIndex);   // 인덱스 값 출력 확인 (value 를 안넣으면 dataPointIndex 가 value 가 됨)
+                // 인덱스 값 출력 확인 (value 를 안넣으면 dataPointIndex 가 value 가 됨)
                 props.setIndex(dataPointIndex);
                 return null;
               }, // dataPointIndex = 인덱스값
@@ -105,7 +104,7 @@ const ShowDate = (props) => {
           {
             show: false, // y 축 보여줄지 안보여줄지
             opposite: true, // 오른쪽으로 보내는 옵션
-            max: 200000000,
+            max: props.amountMax * 2.5,
             labels: {
               style: {
                 // colors: '#008FFB',

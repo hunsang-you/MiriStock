@@ -1,12 +1,15 @@
 import { React, useState } from 'react';
 import { TextField, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { profileAPI } from '../../api/api';
+import { memberStore } from '../../store';
 import './css/ChangeName.css';
+import '../login/nickname.css';
 
 const ChangeName = () => {
   const navigate = useNavigate();
-
   const [text, setText] = useState('');
+  const { info, setInfo } = memberStore((state) => state);
 
   const ChangeText = (e) => {
     setText(e.target.value);
@@ -52,9 +55,10 @@ const ChangeName = () => {
               id="nickname"
               placeholder="변경할 닉네임을 입력하세요."
               variant="standard"
+              required
               onChange={ChangeText}
               value={text}
-              error={Validation()}
+              error={Validation() ? true : false}
               helperText={Validation() ? Validation() : ''}
               inputProps={{ maxLength: 15 }}
             />
@@ -86,7 +90,12 @@ const ChangeName = () => {
             style={{ color: 'white' }}
             disableElevation
             onClick={() => {
-              navigate(-1);
+              profileAPI
+                .nicknameChange(info, text)
+                .then((request) => {
+                  navigate('/more');
+                })
+                .catch((err) => console.log(err));
             }}
           >
             수정하기

@@ -3,6 +3,8 @@ import './css/Home.css';
 import StockDetail from './StockDetail';
 import BuyStock from './BuyStock';
 import SellStock from './SellStock';
+import UpdateBuy from './UpdateBuy';
+import UpdateSell from './UpdateSell';
 
 const Stock = () => {
   return (
@@ -11,6 +13,8 @@ const Stock = () => {
         <Route path="" element={<StockDetail />} />;
         <Route path="buyStock" element={<BuyStock />} />
         <Route path="sellStock" element={<SellStock />} />
+        <Route path="updatebuy" element={<UpdateBuy />} />
+        <Route path="updatesell" element={<UpdateSell />} />
       </Routes>
     </div>
   );
