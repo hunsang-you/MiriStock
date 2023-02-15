@@ -93,7 +93,8 @@ const ChangeName = () => {
               profileAPI
                 .nicknameChange(info, text)
                 .then((request) => {
-                  navigate('/more');
+                  // navigate('/more');
+                  console.log(request);
                 })
                 .catch((err) => console.log(err));
             }}
