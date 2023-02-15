@@ -12,8 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Slf4j
 @RestController
 @RequestMapping("/member")
@@ -26,6 +24,11 @@ public class MemberController {
     @Operation(summary = "회원 탈퇴", description = "서비스에 가입된 회원 정보를 삭제한다.", tags = { "Member" })
     public ResponseEntity<String> deleteMember(@RequestHeader String Authorization){
         log.info("회원 삭제 요청됨");
+        MemberDto m = memberservice.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
+        if(m.getMemberNo() == 1){
+            log.info("관리자는 회원 탈퇴를 할 수 없습니다.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ADMIN Account Delete refusal");
+        }
         String userDetails = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String token = HeaderUtil.getAccessTokenString(Authorization);
         log.info("유저 디테일 = {}",userDetails);
