@@ -2,14 +2,6 @@ import { useEffect } from 'react';
 import { stockAPI } from '../../api/api'; // api 통신
 
 const FinancialData = (props) => {
-  // financialYear={financialYear}
-  // setFinancialYear={setFinancialYear}
-  // salesRevenue={salesRevenue}
-  // setSalesRevenue={setSalesRevenue}
-  // operatingProfit={operatingProfit}
-  // setOperatingProfit={setOperatingProfit}
-  // newIncome={newIncome}
-  // setNewIncome={setNewIncome}
   useEffect(() => {
     const getValueData = async (stockCode) => {
       let newYear = [];
@@ -110,7 +102,7 @@ const FinancialData = (props) => {
       // console.log(reqData.data);
       // console.log(idx);
     };
-    getValueData('005930');
+    getValueData(props.stockCode);
   }, [props.idx]);
   return <div></div>;
 };
