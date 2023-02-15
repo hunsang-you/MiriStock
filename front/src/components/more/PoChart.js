@@ -10,42 +10,8 @@ const PoChart = (props) => {
 
   const portfol = props.portfol;
   // 수익금, 손실금이 큰 순서대로
-
+  console.log(portfol);
   const [state, setState] = useState({
-    RevenueData: [
-      {
-        StockName: '삼성전자',
-        StockPrice: 3333333,
-        Rate: 21.26,
-      },
-      {
-        StockName: '삼성카드',
-        StockPrice: 2222222,
-        Rate: 11.62,
-      },
-      {
-        StockName: 'SK하이닉스',
-        StockPrice: 1822828,
-        Rate: 13.19,
-      },
-    ],
-    LossData: [
-      {
-        StockName: '카카오뱅크',
-        StockPrice: 44444,
-        Rate: 21.26,
-      },
-      {
-        StockName: '현대차',
-        StockPrice: 33333,
-        Rate: 11.62,
-      },
-      {
-        StockName: '한화생명',
-        StockPrice: 22222,
-        Rate: 13.19,
-      },
-    ],
     dataKey: 'memberStockEarnPrice',
     nameKey: 'stockName',
     cx: '50%',
@@ -99,7 +65,7 @@ const PoChart = (props) => {
             />
 
             {/* Cell 색깔 변화 + 클릭시 종목,수익률 변화*/}
-            {state.RevenueData.map((entry, index) => (
+            {portfol.highMemberStock.map((entry, index) => (
               <Cell
                 key={`cell-${index}`}
                 fill={colors1[index]}
@@ -136,7 +102,7 @@ const PoChart = (props) => {
               }
             />
             {/* Cell 색깔 변화 + 클릭시 종목,수익 변화*/}
-            {state.LossData.map((entry, index) => (
+            {portfol.lowMemberStock.map((entry, index) => (
               <Cell
                 key={`cell-${index}`}
                 fill={colors2[index]}

@@ -25,7 +25,6 @@ const HomeMain = () => {
   const [loading, setLoading] = useState(true); //로딩창
   //일단 마운트될때마다로 설정 추후에 데이변할때 하게 해야함
   useEffect(() => {
-    console.log('T:qlf');
     const getMember = async () => {
       await memberAPI
         .asset()
