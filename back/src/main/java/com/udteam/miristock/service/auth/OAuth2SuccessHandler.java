@@ -1,5 +1,6 @@
 package com.udteam.miristock.service.auth;
 
+import com.udteam.miristock.config.ValueConfig;
 import com.udteam.miristock.entity.MemberAssetEntity;
 import com.udteam.miristock.entity.MemberEntity;
 import com.udteam.miristock.entity.Role;
@@ -113,15 +114,13 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     // 회원 가입시 회원 자산 테이블 생성
     public MemberAssetEntity createMemberAsset(MemberEntity memberEntity) {
-        Long initialMoney = 50000000L;
-        Integer initialSimulationTime = 20180102;
         return memberAssetRepository.saveAndFlush(MemberAssetEntity.builder()
                         .member(memberEntity)
-                        .memberassetAvailableAsset(initialMoney)
+                        .memberassetAvailableAsset(ValueConfig.memberInitAvailableAsset)
                         .memberassetStockAsset(0L)
-                        .memberassetAvailableAsset(initialMoney)
-                        .memberassetCurrentTime(initialSimulationTime)
-                        .memberassetLastTotalAsset(initialMoney)
+                        .memberassetAvailableAsset(ValueConfig.memberInitAvailableAsset)
+                        .memberassetCurrentTime(ValueConfig.memberInitSimulationTime)
+                        .memberassetLastTotalAsset(ValueConfig.memberInitAvailableAsset)
                         .build());
     }
 }
