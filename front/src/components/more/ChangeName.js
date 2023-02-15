@@ -90,6 +90,7 @@ const ChangeName = () => {
             style={{ color: 'white' }}
             disableElevation
             onClick={() => {
+              console.log(info, text);
               profileAPI
                 .nicknameChange(info, text)
                 .then((request) => {
