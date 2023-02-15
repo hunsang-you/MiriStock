@@ -27,7 +27,7 @@ const Update = () => {
         <div className="create-title">
           <TextField
             id="article-title"
-            placeholder={article.articleTitle}
+            value={article.articleTitle}
             inputProps={{
               style: {
                 height: '20px',
@@ -40,7 +40,7 @@ const Update = () => {
         <div className="create-content">
           <TextField
             id="article-content"
-            placeholder={article.articleContent}
+            value={article.articleContent}
             multiline
             rows={10}
             inputProps={{
@@ -75,7 +75,8 @@ const Update = () => {
               .then((request) => {})
               .catch((err) => console.log(err));
             //새로고침페이지
-            window.location.replace('/community');
+            // window.location.replace('/community');
+            navigate('/community');
           }}
         >
           수정

@@ -1,5 +1,4 @@
 import './css/Home.css';
-import HomeFavorite from './HomeFavorite';
 import HomeMain from './HomeMain';
 import { Routes, Route } from 'react-router-dom';
 
