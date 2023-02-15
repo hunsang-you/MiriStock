@@ -166,7 +166,7 @@ const StockDetail = () => {
       <div className="space-margin divbox">
         <div className="div-title">재무 제표</div>
         <div>
-          <Financial today={today} />
+          <Financial today={today} stockCode={stockCode} />
         </div>
       </div>
     </div>
