@@ -116,9 +116,9 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     public MemberAssetEntity createMemberAsset(MemberEntity memberEntity) {
         return memberAssetRepository.saveAndFlush(MemberAssetEntity.builder()
                         .member(memberEntity)
+                        .memberassetTotalAsset(ValueConfig.memberInitAvailableAsset)
                         .memberassetAvailableAsset(ValueConfig.memberInitAvailableAsset)
                         .memberassetStockAsset(0L)
-                        .memberassetAvailableAsset(ValueConfig.memberInitAvailableAsset)
                         .memberassetCurrentTime(ValueConfig.memberInitSimulationTime)
                         .memberassetLastTotalAsset(ValueConfig.memberInitAvailableAsset)
                         .build());
