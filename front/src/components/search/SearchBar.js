@@ -31,15 +31,14 @@ const SearchBar = () => {
                 .serachStock(e.target.value)
                 .then((request) => {
                   // 검색어O -> 결과 출력, 검색어X 검색 결과 초기화
-                  if (e.target.value.length > 0) {
-                    setIsCheck(false);
-                    setSearchResult(request.data);
-                  } else {
-                    setIsCheck(true);
-                    setSearchResult([]);
-                  }
+                  setSearchResult(request.data);
                 })
                 .catch((err) => console.log(err));
+              if (e.target.value.length > 0) {
+                setIsCheck(false);
+              } else {
+                setIsCheck(true);
+              }
             }}
           />
         </div>
