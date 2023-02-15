@@ -46,30 +46,32 @@ const SearchBar = () => {
       </div>
 
       {/* 종목 검색 결과 */}
-
-      {searchResult.map((stock, i) => {
-        return (
-          <div
-            key={i}
-            onClick={() => {
-              searchAPI
-                .createSearchHis(stock.stockName, stock.stockCode)
-                .then((request) => {})
-                .catch((err) => console.log(err));
-              navigate(`/stock/${stock.stockCode}`, {
-                state: { stockName: stock.stockName },
-              });
-            }}
-          >
-            <SearchView
-              name={stock.stockName}
-              code={stock.stockCode}
-              key={stock.stockCode}
-            />
-          </div>
-        );
-      })}
-      {isCheck ? <History /> : null}
+      {isCheck === true ? (
+        <History />
+      ) : (
+        searchResult.map((stock, i) => {
+          return (
+            <div
+              key={i}
+              onClick={() => {
+                searchAPI
+                  .createSearchHis(stock.stockName, stock.stockCode)
+                  .then((request) => {})
+                  .catch((err) => console.log(err));
+                navigate(`/stock/${stock.stockCode}`, {
+                  state: { stockName: stock.stockName },
+                });
+              }}
+            >
+              <SearchView
+                name={stock.stockName}
+                code={stock.stockCode}
+                key={stock.stockCode}
+              />
+            </div>
+          );
+        })
+      )}
     </div>
   );
 };
