@@ -79,7 +79,7 @@ const Router = () => {
         }
       />
       <Route
-        path="/*"
+        path="*"
         element={
           <Suspense fallback={<Loading />}>
             <notFound />
