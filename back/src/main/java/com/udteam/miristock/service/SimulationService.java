@@ -165,9 +165,9 @@ public class SimulationService {
         MemberAssetEntity memberAssetResetResult  = memberAssetRepository.save(MemberAssetEntity.builder()
                         .memberassetNo(memberDto.getMemberNo())
                         .member(MemberEntity.builder().memberNo(memberDto.getMemberNo()).build())
+                        .memberassetTotalAsset(ValueConfig.memberInitAvailableAsset)
                         .memberassetAvailableAsset(ValueConfig.memberInitAvailableAsset)
                         .memberassetStockAsset(0L)
-                        .memberassetTotalAsset(ValueConfig.memberInitAvailableAsset)
                         .memberassetCurrentTime(ValueConfig.memberInitSimulationTime)
                         .memberassetLastTotalAsset(ValueConfig.memberInitAvailableAsset)
                         .build());
