@@ -7,7 +7,7 @@ const CommentItem = (props) => {
     setIsClosed(!isclosed);
   };
 
-  let nowTime = new Date(comment.commentCreateDate).getTime() - 32400000;
+  let nowTime = new Date(comment.commentCreateDate).getTime() + 32400000;
 
   return (
     <div className="comment-item">
