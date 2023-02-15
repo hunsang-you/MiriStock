@@ -11,6 +11,7 @@ const More = lazy(() => import('./pages/More'));
 const Stock = lazy(() => import('./pages/Stock'));
 const Redirect = lazy(() => import('./pages/Redirect'));
 const notFound = lazy(() => import('./components/more/NotFound'));
+const HomeFavorite = lazy(() => import('./pages/HomeFavorite'));
 const Router = () => {
   return (
     <Routes>
@@ -19,6 +20,14 @@ const Router = () => {
         element={
           <Suspense fallback={<Loading />}>
             <Home />
+          </Suspense>
+        }
+      />
+      <Route
+        path="/favorite"
+        element={
+          <Suspense fallback={<Loading />}>
+            <HomeFavorite />
           </Suspense>
         }
       />

@@ -94,7 +94,7 @@ const ChangeName = () => {
               profileAPI
                 .nicknameChange(info, text)
                 .then((request) => {
-                  // navigate('/more');
+                  navigate('/');
                   console.log(request);
                 })
                 .catch((err) => console.log(err));
