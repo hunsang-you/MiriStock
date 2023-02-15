@@ -25,6 +25,13 @@ public class ArticleService {
                 .collect(Collectors.toList());
     }
 
+    public List<ArticleResponseDto> findArticleList(Integer index) {
+        List<ArticleEntity> articleEntityList = articleRepository.findArticleList(index*10);
+        return articleEntityList.stream()
+                .map(ArticleResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
     public ArticleResponseDto findOne(Integer articleNO) {
         return new ArticleResponseDto(articleRepository.findById(articleNO).get());
     }
