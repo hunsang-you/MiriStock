@@ -8,7 +8,6 @@ const Home = () => {
     <div className="main-container">
       <Routes>
         <Route path="" element={<HomeMain />} />;
-        <Route path="homeFavorite" element={<HomeFavorite />} />;
       </Routes>
     </div>
   );
