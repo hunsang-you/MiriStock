@@ -64,4 +64,9 @@ public class MemberService {
         return MemberDto.of(memberrepository.findByMemberEmail(email));
     }
 
+    public MemberAdminDto selectOneMemberAllInfo (MemberDto memberDto){
+        String email = memberDto.getMemberEmail();
+        return MemberAdminDto.of(memberrepository.findByMemberEmail(email));
+    }
+
 }
