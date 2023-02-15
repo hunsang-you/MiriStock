@@ -54,7 +54,7 @@ const SearchBar = () => {
             onClick={() => {
               searchAPI
                 .createSearchHis(stock.stockName, stock.stockCode)
-                .then((request) => console.log(request.data))
+                .then((request) => {})
                 .catch((err) => console.log(err));
               navigate(`/stock/${stock.stockCode}`, {
                 state: { stockName: stock.stockName },

@@ -35,23 +35,25 @@ const SellTradeBotton = (props) => {
       confirmButtonColor: '#6DCEF5',
       cancelButtonColor: '#d33',
     }).then((result) => {
-      tradeAPI.updateOrder(
-        props.orderNo,
-        props.stockCode,
-        props.stockName,
-        props.userNo,
-        props.hopePrice,
-        props.hopeCount,
-        'SELL',
-      );
       if (result.isConfirmed) {
         Swal.fire({
           icon: 'success',
           title: '주문하였습니다',
           confirmButtonText: '확인',
         }).then(() => {
-          console.log(123);
-          navigate('/asset');
+          tradeAPI
+            .updateOrder(
+              props.orderNo,
+              props.stockCode,
+              props.stockName,
+              props.userNo,
+              props.hopePrice,
+              props.hopeCount,
+              'SELL',
+            )
+            .then((request) => {
+              navigate('/asset');
+            });
         });
       }
     });
@@ -99,7 +101,7 @@ const SellTradeBotton = (props) => {
         >
           <div className="trade-nonbtn">입력 완료</div>
         </Button>
-      ) : props.hopeCount == 0 ? (
+      ) : props.hopeCount === 0 ? (
         <Button
           style={{ width: '100%' }}
           variant="contained"
@@ -125,7 +127,6 @@ const SellTradeBotton = (props) => {
           disableElevation
           onClick={() => {
             finalCheck();
-            console.log('거래완뇨');
           }}
         >
           <div className="trade-btn">

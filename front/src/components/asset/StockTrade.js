@@ -503,14 +503,12 @@ const ExpectedTransactionSell = (props) => {
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
-        console.log('수정');
         navigate(`/stock/` + stock.stockCode + `/updatesell`, {
           state: {
             stock: stock,
           },
         });
       } else if (result.isDenied) {
-        console.log(1);
         tradeAPI.deleteStockOrder(stock.limitPriceOrderNo).then((request) => {
           setUpdateLimitOrder(updateLimitOrder);
         });
@@ -625,7 +623,6 @@ const ExpectedTransactionBuy = (props) => {
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
-        // console.log('수정');
         navigate(`/stock/` + stock.stockCode + `/updatebuy`, {
           state: {
             stock: stock,

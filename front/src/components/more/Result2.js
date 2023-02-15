@@ -9,10 +9,6 @@ const Result2 = (props) => {
   const highMemberStock = portfol.highMemberStock;
   const lowMemberStock = portfol.lowMemberStock;
 
-  console.log('result2', portfol);
-
-  console.log(highMemberStock);
-
   return (
     <div className="portfolio-result2">
       <div>

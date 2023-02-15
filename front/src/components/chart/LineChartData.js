@@ -32,7 +32,6 @@ const LineChartData = (props) => {
           const reqData = request;
           const todayidx = reqData.data.length - 1;
           props.setIndex(todayidx);
-          // console.log(reqData.data);
           props.setStockInfo(reqData.data[0].stockName);
           for (let i = 0; i <= todayidx; i++) {
             newPrice.push(reqData.data[i].stockDataClosingPrice);
@@ -122,8 +121,8 @@ const LineChartData = (props) => {
                 }, // x 축 표시 형식
                 y: [
                   {
+                    // 인덱스 값 출력 확인 (value 를 안넣으면 dataPointIndex 가 value 가 됨)
                     formatter: function (value, { dataPointIndex }) {
-                      // console.log(dataPointIndex); // 인덱스 값 출력 확인 (value 를 안넣으면 dataPointIndex 가 value 가 됨)
                       props.setIndex(dataPointIndex);
                       return null;
                     }, // dataPointIndex = 인덱스값

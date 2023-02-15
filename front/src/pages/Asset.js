@@ -4,7 +4,7 @@ import { memberAPI } from '../api/api';
 import { useEffect } from 'react';
 import { userStore, dateStore } from '../store';
 const Asset = () => {
-  const { user, setUser } = userStore((state) => state);
+  const { setUser } = userStore((state) => state);
   const { date } = dateStore((state) => state);
   useEffect(() => {
     const getMember = async () => {

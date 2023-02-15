@@ -20,7 +20,6 @@ const Persent = (props) => {
         disableElevation
         variant="outlined"
         onClick={() => {
-          console.log(props.stockPrice);
           props.setHopePrice(props.stockPrice);
         }}
       >

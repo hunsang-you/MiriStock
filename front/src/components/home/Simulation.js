@@ -32,9 +32,7 @@ const Simulation = () => {
                   setIsLoading(true);
                   await simulAPI
                     .changeDate(1)
-                    .then((request) => {
-                      console.log(request.data);
-                    })
+                    .then((request) => {})
                     .catch((err) => console.log(err));
                   await simulAPI
                     .currentDate()
@@ -62,9 +60,7 @@ const Simulation = () => {
                   setIsLoading(true);
                   await simulAPI
                     .changeDate(7)
-                    .then((request) => {
-                      console.log(request.data);
-                    })
+                    .then((request) => {})
                     .catch((err) => console.log(err));
                   await simulAPI
                     .currentDate()
@@ -92,9 +88,7 @@ const Simulation = () => {
                   setIsLoading(true);
                   await simulAPI
                     .changeDate(30)
-                    .then((request) => {
-                      console.log(request.data);
-                    })
+                    .then((request) => {})
                     .catch((err) => console.log(err));
                   await simulAPI
                     .currentDate()
@@ -112,89 +106,6 @@ const Simulation = () => {
               <span style={{ color: '#FFFFFF', fontWeight: 'bold' }}>D+30</span>
             </Button>
           </Stack>
-          {/* <Button
-            className="si-btn"
-            color="primary"
-            variant="contained"
-            disableElevation
-            size="small"
-            style={{ color: 'white', width: '5%' }}
-            onClick={() => {
-              const changeDate = async () => {
-                await simulAPI
-                  .changeDate(1)
-                  .then((request) => {
-                    console.log(request.data);
-                  })
-                  .catch((err) => console.log(err));
-                await simulAPI
-                  .currentDate()
-                  .then((request) => {
-                    setDate(request.data);
-                  })
-                  .catch((err) => console.log(err));
-              };
-              changeDate();
-            }}
-          >
-            1일
-          </Button>
-          <Button
-            className="si-btn"
-            size="small"
-            color="primary"
-            variant="contained"
-            disableElevation
-            style={{ color: 'white', width: '5%' }}
-            onClick={() => {
-              const changeDate = async () => {
-                await simulAPI
-                  .changeDate(7)
-                  .then((request) => {
-                    console.log(request.data);
-                  })
-                  .catch((err) => console.log(err));
-                await simulAPI
-                  .currentDate()
-                  .then((request) => {
-                    setDate(request.data);
-                  })
-                  .catch((err) => console.log(err));
-              };
-              changeDate();
-            }}
-          >
-            7일
-          </Button>
-          <Button
-            className="si-btn"
-            size="small"
-            color="primary"
-            variant="contained"
-            disableElevation
-            style={{ color: 'white', width: '5%' }}
-            onClick={() => {
-              const changeDate = async () => {
-                setIsLoading(true);
-                await simulAPI
-                  .changeDate(30)
-                  .then((request) => {
-                    console.log(request.data);
-                  })
-                  .catch((err) => console.log(err));
-                await simulAPI
-                  .currentDate()
-                  .then((request) => {
-                    setDate(request.data);
-                    setIsLoading(false);
-                  })
-                  .catch((err) => console.log(err));
-              };
-              changeDate();
-            }}
-          >
-            30일
-          </Button> */}
         </div>
       </div>
       <hr id="lines" />

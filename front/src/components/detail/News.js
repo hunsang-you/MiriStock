@@ -10,19 +10,17 @@ const News = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const stockName = props.stockInfo;
-    console.log(stockName);
+    const currentDate = props.currentDate;
     const getNewsData = async () => {
       setIsLoading(true);
       let newsdata = [];
       let newslink = [];
       await newsAPI
-        .getNews(stockName, date.memberassetCurrentTime)
+        .getNews(stockName, currentDate)
         .then((request) => {
-          console.log(request.data);
           for (let i = 0; i < 5; i++) {
             newsdata.push(request.data.messages[i].title);
             newslink.push(request.data.messages[i].link);
-            // console.log(request.data.messages[i].link);
             setNewsList(newsdata);
             setNewsLink(newslink);
             setIsLoading(false);

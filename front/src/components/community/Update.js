@@ -72,7 +72,7 @@ const Update = () => {
           onClick={() => {
             communityAPI
               .updateArticle(articleNo, title, content)
-              .then((request) => console.log(request.data))
+              .then((request) => {})
               .catch((err) => console.log(err));
             //새로고침페이지
             window.location.replace('/community');

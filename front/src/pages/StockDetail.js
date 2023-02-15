@@ -58,8 +58,7 @@ const StockDetail = () => {
     month = parseInt((date - year * 10000) / 100) - 1;
     day = date - year * 10000 - (month + 1) * 100;
     time = new Date(year, month, day);
-    // console.log(time.getTime());
-    // console.log(year, month, day);
+
     return time.getTime();
   };
   // 오늘날짜 -> 종목명
@@ -85,7 +84,7 @@ const StockDetail = () => {
         </strong>
         <div className="detaildate">{userDate}</div>
         <div>
-          <img src={mirilogo} className="mirilogo" />
+          <img src={mirilogo} className="mirilogo" alt="no-img" />
         </div>
       </div>
       <div className="detail-title">
@@ -160,7 +159,12 @@ const StockDetail = () => {
       <div className="space-margin divbox">
         <div className="charts-title">주요 뉴스</div>
         <div className="charts-content" style={{ height: '190px' }}>
-          {stockInfo && <News stockInfo={stockInfo} />}
+          {stockInfo && (
+            <News
+              stockInfo={stockInfo}
+              currentDate={user.memberassetCurrentTime}
+            />
+          )}
         </div>
       </div>
       <div className="space-margin divbox">

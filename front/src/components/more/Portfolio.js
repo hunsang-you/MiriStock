@@ -18,7 +18,7 @@ const Portfolio = () => {
           setPortfol(request.data);
           simulAPI
             .restart()
-            .then((request) => console.log(request.data, '시뮬레이션 종료'))
+            .then((request) => {})
             .catch((err) => console.log(err));
         })
         .catch((err) => console.log(err));
@@ -38,7 +38,6 @@ const Portfolio = () => {
     <div className="portfolio-page">
       <div className="port-name">
         <p>
-          {console.log(portfol)}
           {isEmptyObj(portfol) === false &&
             portfol.memberAsset.member.memberNickname}
           님의 게임 결과

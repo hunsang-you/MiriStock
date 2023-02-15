@@ -6,8 +6,6 @@ import { useState } from 'react';
 const Result1 = (props) => {
   const portfol = props.portfol;
 
-  console.log('result1', portfol);
-
   const [state, setState] = useState();
 
   const earnPrice = portfol.memberAsset.memberassetAvailableAsset - 50000000;

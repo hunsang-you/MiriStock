@@ -2,7 +2,7 @@ import './css/BuySell.css';
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { userStore } from '../store';
-import { tradeAPI, stockAPI } from '../api/api';
+import { stockAPI } from '../api/api';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 import Swal from 'sweetalert2';
 
@@ -21,7 +21,7 @@ const UpdateBuy = () => {
 
   // 유저 정보
   const { user } = userStore((state) => state);
-  // console.log(user);
+
   const userNo = user.memberNo;
   const today = user.memberassetCurrentTime;
   const userMoney = user.memberassetAvailableAsset;
