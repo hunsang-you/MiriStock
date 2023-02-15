@@ -1,5 +1,6 @@
 package com.udteam.miristock.controller;
 
+import com.udteam.miristock.config.ValueConfig;
 import com.udteam.miristock.dto.*;
 import com.udteam.miristock.service.*;
 import com.udteam.miristock.util.ErrorMessage;
@@ -86,19 +87,19 @@ public class SimulationController {
         // 회원 시뮬레이션 시간 가져오기
         MemberAssetDto getMemberAssetDto = memberAssetService.selectMemberAsset(m.getMemberNo());
         Integer memberDate = getMemberAssetDto.getMemberassetCurrentTime();
-        log.debug("회원의 시뮬레이션 시간 : {}", memberDate);
+        log.info("회원의 시뮬레이션 시간 : {}", memberDate);
         
         // 시간 추가 로직
         String memberDateStr = null;
         int dayCount = 0;
         // 날짜 먼저 더하기
-        while(true) {
+        while(memberDate <= 20221231) {
             memberDateStr = AddDate(String.valueOf(memberDate), 0, 0, 1);
             // 해당 날짜 데이터가 있는지 확인하기
             memberDate = Integer.parseInt(memberDateStr);
             StockDataInfoMapping result = stockDataService.findTop1ByStockDataDate(memberDate);
             if (result == null) {
-                log.debug("날짜 데이터 체크 -> null 입니다.");
+                log.info("날짜 데이터 체크 -> null 입니다.");
             } else {
                 if(dayCount == targetDate){
                     break;
@@ -113,7 +114,7 @@ public class SimulationController {
                 }
                 // 모든 거래 이후에 회원 주식자산을 업데이트한다.
                 // 주식종목의 평균매입가와 현재종가로 비교하여 회원 주식 자산을 업데이트 한다.
-                log.debug("디버그용 memberDate : {}" , getMemberAssetDto.getMemberassetCurrentTime());
+                log.info("변경된 회원 시간 : {}" , getMemberAssetDto.getMemberassetCurrentTime());
                 memberAssetService.updateMemberStockAsset(m.getMemberNo(), getMemberAssetDto.getMemberassetCurrentTime(), "Simulation");
                 dayCount++;
             }
