@@ -70,7 +70,8 @@ public class SecurityConfig{
                             "/actuator/health",
                             "/",
                             "/member/nickname",
-                            "/member/nicknamecheck");
+                            "/member/nicknamecheck",
+                            "/info/news");
         };
     }
 }
