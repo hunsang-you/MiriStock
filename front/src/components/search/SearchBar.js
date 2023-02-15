@@ -31,7 +31,8 @@ const SearchBar = () => {
                 .serachStock(e.target.value)
                 .then((request) => {
                   // 검색어O -> 결과 출력, 검색어X 검색 결과 초기화
-                  setSearchResult(request.data);
+                  // setSearchResult(request.data);
+                  console.log(request.data);
                 })
                 .catch((err) => console.log(err));
               if (e.target.value.length > 0) {
