@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react';
 import { userStore, dateStore } from '../store';
 
 const Home = () => {
-  const { setUser } = userStore((state) => state);
+  const { user, setUser } = userStore((state) => state);
   const { date } = dateStore((state) => state);
   const [userAssetChanged, setUserAssetChanged] = useState([]);
   //일단 마운트될때마다로 설정 추후에 데이변할때 하게 해야함

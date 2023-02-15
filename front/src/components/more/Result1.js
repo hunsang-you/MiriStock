@@ -8,7 +8,7 @@ const Result1 = (props) => {
 
   const [state, setState] = useState();
 
-  const earnPrice = portfol.memberAsset.memberassetAvailableAsset - 50000000;
+  const earnPrice = portfol.memberAsset.memberassetAvailableAsset - 100000000;
   const earnRate =
     (earnPrice / portfol.memberAsset.memberassetAvailableAsset) * 100;
   return (
