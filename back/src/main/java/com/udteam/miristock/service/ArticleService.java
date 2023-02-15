@@ -54,8 +54,8 @@ public class ArticleService {
     }
 
     @Transactional
-    public int deleteAdminMode(Integer articleNo){
-        return articleRepository.deleteByArticleNo(articleNo);
+    public void deleteAdminMode(Integer articleNo){
+        articleRepository.deleteById(articleNo);
     }
 
 }
