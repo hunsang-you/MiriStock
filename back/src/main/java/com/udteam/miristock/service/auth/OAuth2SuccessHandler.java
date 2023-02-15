@@ -64,11 +64,11 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             return;
         }
         String nickname = memberRepository.findByMemberEmail((String) oAuth2User.getAttribute("email")).getMemberNickname();
-        log.info("nickname = {}", nickname);
+        log.debug("nickname = {}", nickname);
         // 닉네임 작성 여부 확인
         if (nickname == null) {
             // 닉네임 설정 화면으로
-            log.info("닉네임 설정 화면으로");
+            log.debug("닉네임 설정 화면으로");
             getRedirectStrategy().sendRedirect(request, response, UriComponentsBuilder.fromUriString(redirectUrl + "/login/nickname")
                     .queryParam("email", (String) oAuth2User.getAttribute("email"))
                     .build().toUriString());
@@ -95,7 +95,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
 
             // 메인으로
-            log.info("메인으로");
+            log.debug("메인으로");
             getRedirectStrategy().sendRedirect(request, response, UriComponentsBuilder.fromUriString(redirectUrl + "/redirect")
                     .queryParam("accesstoken", accesstoken)
                     .build().toUriString());

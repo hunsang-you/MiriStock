@@ -30,8 +30,9 @@ public class AdminController {
     @Operation(summary = "회원 목록 출력", description = "서비스에 가입된 회원 목록을 출력한다.", tags = { "Member" })
     public ResponseEntity<List<MemberDto>> selectAllMember(@RequestHeader String Authorization){
         MemberAdminDto m = memberservice.selectOneMemberAllInfo(HeaderUtil.getAccessTokenString(Authorization));
+        log.info("회원 : {} | /admin/member/list GET API호출 : 관리자용 회원 목록 출력", m);
         if (m == null){
-            log.info(ErrorMessage.TOKEN_EXPIRE);
+            log.debug(ErrorMessage.TOKEN_EXPIRE);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } else if(m.getROLE().equals(Role.ADMIN)) {
             return ResponseEntity.ok().body(memberservice.selectAllMember());

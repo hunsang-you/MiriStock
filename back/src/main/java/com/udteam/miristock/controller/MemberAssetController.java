@@ -28,8 +28,9 @@ public class MemberAssetController {
     public ResponseEntity<?> selectMemberAsset(@RequestHeader String Authorization) {
         String token= HeaderUtil.getAccessTokenString(Authorization);
         MemberDto m = memberService.selectOneMember(token);
+        log.info("회원 : {} | /asset GET API호출 : 회원 자산 출력", m);
         if (m == null){
-            log.info("토큰 기간이 만료되었거나 유저 정보가 존재하지 않습니다");
+            log.debug("토큰 기간이 만료되었거나 유저 정보가 존재하지 않습니다");
             // 엑세스 토큰 재 발급 프로세스 필요
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }else {

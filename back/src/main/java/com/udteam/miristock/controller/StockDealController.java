@@ -32,8 +32,9 @@ public class StockDealController {
     @Operation(summary = "회원 주식 거래 정보 출력", description = "회원이 거래한 주식 정보를 출력한다.", tags = { "StockDeal" })
     public ResponseEntity<List<StockDealDto>> findAll(@RequestHeader String Authorization, @RequestParam(required = false) Deal stockdealtype) {
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
+        log.info("/stockdata/stockdeal GET API호출 : 회원이 거래한 주식 정보를 출력");
         if (m == null){
-            log.info(ErrorMessage.TOKEN_EXPIRE);
+            log.debug(ErrorMessage.TOKEN_EXPIRE);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } else {
             return ResponseEntity.ok().body(stockDealService.findAllByMemberNoAndStockDealType((int) m.getMemberNo(), stockdealtype));
@@ -45,7 +46,7 @@ public class StockDealController {
 //    public ResponseEntity<Integer> save(@RequestHeader String Authorization, @RequestBody StockDealDto stockDealDto) {
 //        MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
 //        if (m == null){
-//            log.info(ErrorMessage.TOKEN_EXPIRE);
+//            log.debug(ErrorMessage.TOKEN_EXPIRE);
 //            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 //        } else {
 //            stockDealDto.setMemberNo((int) m.getMemberNo());
@@ -58,7 +59,7 @@ public class StockDealController {
 //    public ResponseEntity<?> delete(@RequestHeader String Authorization) {
 //        MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
 //        if (m == null){
-//            log.info(ErrorMessage.TOKEN_EXPIRE);
+//            log.debug(ErrorMessage.TOKEN_EXPIRE);
 //            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 //        } else {
 //            if(stockDealService.delete(m.getMemberNo()) == 0){

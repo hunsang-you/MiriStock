@@ -24,14 +24,14 @@ public class InformationController {
     @GetMapping("/financialstatement/{stockCode}")
     @Operation(summary = "재무재표 출력", description = "주식종목에 대한 제무재표를 출력한다.", tags = { "Information" })
     public ResponseEntity<List<FinancialstatementDto>> findAllFinancialstatement(@PathVariable String stockCode) {
-        log.info("재무재표 호출 요청됨 : code -> {} ", stockCode);
+        log.info("/info/financialstatement/{stockCode} : 재무재표 호출 요청됨 : code -> {} ", stockCode);
          return ResponseEntity.ok().body(informationService.findAllFinancialstatement(stockCode));
     }
 
     @PostMapping("/news")
     @Operation(summary = "뉴스 출력", description = "주식종목에 대한 뉴스를 출력한다.", tags = { "Information" })
     public ResponseEntity<NewsResponseDto> findNews(@RequestBody NewsRequestDto newsRequestDto) {
-        log.info("뉴스 호출 요청됨 : newsRequestDto -> {}", newsRequestDto);
+        log.info("/info/news : 뉴스 호출 요청됨 : newsRequestDto -> {}", newsRequestDto);
         return ResponseEntity.ok().body(informationService.findNaverNews(newsRequestDto));
     }
 }

@@ -31,13 +31,14 @@ public class SearchRecordController {
     @GetMapping("/list")
     @Operation(summary = "주식 검색 기록 목록 출력", description = "회원의 주식 검색 기록 목록을 출력한다.", tags = { "SearchRecord" })
     public ResponseEntity<List<SearchRecordEntity>> findAllList(@RequestHeader String Authorization) throws Exception{
-        log.info("주식 종목 검색 기록 출력 호출됨");
+        log.debug("주식 종목 검색 기록 출력 호출됨");
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
+        log.info("회원 : {} | /searchrecord/list GET API호출 : 회원 검색기록 목록 출력", m);
         if (m == null){
-            log.info(ErrorMessage.TOKEN_EXPIRE);
+            log.debug(ErrorMessage.TOKEN_EXPIRE);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } else {
-            log.info("memberNo : {} ", m.getMemberNo());
+            log.debug("memberNo : {} ", m.getMemberNo());
             return ResponseEntity.ok().body(searchRecordService.findByMemberNo(m.getMemberNo()));
         }
     }
@@ -46,15 +47,16 @@ public class SearchRecordController {
     @PostMapping
     @Operation(summary = "주식 검색 기록 등록", description = "회원의 주식 검색 기록을 등록한다.", tags = { "SearchRecord" })
     public ResponseEntity<?> save(@RequestHeader String Authorization, @RequestBody SearchRecordEntity searchRecordEntity){
-        log.info("주식 종목 검색 기록 등록 호출됨 searchRecordEntity : {} ", searchRecordEntity);
+        log.debug("주식 종목 검색 기록 등록 호출됨 searchRecordEntity : {} ", searchRecordEntity);
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
+        log.info("회원 : {} | /searchrecord/list POST API호출 : 회원 검색기록 등록", m);
         if (m == null){
-            log.info(ErrorMessage.TOKEN_EXPIRE);
+            log.debug(ErrorMessage.TOKEN_EXPIRE);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } else {
             searchRecordEntity.setMemberNo(m.getMemberNo());
-            log.info("memberNo : {} ", m.getMemberNo());
-            log.info("searchRecord : {}", searchRecordEntity);
+            log.debug("memberNo : {} ", m.getMemberNo());
+            log.debug("searchRecord : {}", searchRecordEntity);
             return ResponseEntity.status(HttpStatus.CREATED).body(searchRecordService.save(searchRecordEntity));
         }
     }
@@ -63,8 +65,9 @@ public class SearchRecordController {
     @DeleteMapping("/{stockCode}")
     @Operation(summary = "주식 검색 기록 삭제", description = "회원의 주식 검색 기록을 삭제한다.", tags = { "SearchRecord" })
     public ResponseEntity<String> delete(@RequestHeader String Authorization, @PathVariable String stockCode){
-//        log.info("검색기록 제거 호출됨 stockCode : {}", stockCode);
+//        log.debug("검색기록 제거 호출됨 stockCode : {}", stockCode);
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
+        log.info("회원 : {} | /searchrecord/{stockCode} DELETE API호출 : 회원 검색기록 삭제", m);
         if (m == null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorMessage.TOKEN_EXPIRE);
         }

@@ -74,9 +74,9 @@ public class InformationService {
             RSSFeedParser parser = new RSSFeedParser(url);
             newsResponseDto = parser.readFeed();
 
-            log.info("탐색 스타트 날짜 : {}", startDateEncord);
-            log.info("객체있는가? : {}", newsResponseDto != null);
-            if(newsResponseDto != null) log.info("리스트 갯수 : {}", newsResponseDto.getMessages().size());
+            log.debug("탐색 스타트 날짜 : {}", startDateEncord);
+            log.debug("객체있는가? : {}", newsResponseDto != null);
+            if(newsResponseDto != null) log.debug("리스트 갯수 : {}", newsResponseDto.getMessages().size());
             if(newsResponseDto == null || newsResponseDto.getMessages().size() < 35){
                 startDateEncord =  AddDate(startDateEncord, 0,0,-7);
             } else {
@@ -99,24 +99,24 @@ public class InformationService {
             if(randNum >= randKeyword.length) {
                 randNum = randKeyword.length-1;
             }
-            log.info("랜덤 값 :  {}" , randNum);
-            log.info("randkeyword0 : {}", randKeyword[0]);
-            log.info("randkeyword1 : {}", randKeyword[1]);
-            log.info("randkeyword2 : {}", randKeyword[2]);
+            log.debug("랜덤 값 :  {}" , randNum);
+            log.debug("randkeyword0 : {}", randKeyword[0]);
+            log.debug("randkeyword1 : {}", randKeyword[1]);
+            log.debug("randkeyword2 : {}", randKeyword[2]);
             keywordEncord = URLEncoder.encode(randKeyword[randNum], "UTF-8");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
-        log.info("=============");
+        log.debug("=============");
         String rurl = createRssURL("https://news.google.com/rss/search?q=",keywordEncord, originStartDateEncord, originEndDateEncord);
         System.out.println(rurl);
         RSSFeedParser parser = new RSSFeedParser(rurl);
         newsResponseDto = parser.readFeed();
         // 뉴스 더보기 링크 설정 (구글 뉴스)
         newsResponseDto.setLink(createRssURL("https://news.google.com/search?q=",keywordEncord, originStartDateEncord, originEndDateEncord));
-        log.info("탐색 스타트 날짜 : {}", startDateEncord);
-        log.info("리스트 갯수 : {}", newsResponseDto.getMessages().size());
+        log.debug("탐색 스타트 날짜 : {}", startDateEncord);
+        log.debug("리스트 갯수 : {}", newsResponseDto.getMessages().size());
         return newsResponseDto;
     }
 

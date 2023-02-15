@@ -35,8 +35,9 @@ public class LimitPriceOrderController {
     @Operation(summary = "매수/매도 예정 내역 출력", description = "회원의 매수/매도 예정 목록을 출력한다.", tags = { "LimitPriceOrder" })
     public ResponseEntity<List<LimitPriceOrderDto>> findAll(@RequestHeader String Authorization, @RequestParam(required = false) Deal limitPriceOrderType) {
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
+        log.info("회원 : {} | /limitpriceorder GET API호출 : 매수/매도 예정 내역 출력", m);
         if (m == null){
-            log.info(ErrorMessage.TOKEN_EXPIRE);
+            log.debug(ErrorMessage.TOKEN_EXPIRE);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } else {
             return ResponseEntity.status(HttpStatus.OK).body(limitPriceOrderService.findAll(m.getMemberNo(), limitPriceOrderType));
@@ -56,6 +57,7 @@ public class LimitPriceOrderController {
     public ResponseEntity<?> save(@RequestHeader String Authorization, @RequestBody LimitPriceOrderDto limitPriceOrderDto) {
         // 회원 정보 불러오기
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
+        log.info("회원 : {} | /limitpriceorder POST API호출 : 매수/매도 예정 내역 등록", m);
         // 회원의 시뮬레이션 시간 불러오기
         MemberAssetDto getMemberAssetDto = memberAssetService.selectMemberAsset(m.getMemberNo());
         Integer memberDate = getMemberAssetDto.getMemberassetCurrentTime();
@@ -63,10 +65,10 @@ public class LimitPriceOrderController {
 
         // 이 부분을 왜 넣었을까?
 //        memberAssetService.updateMemberStockAsset(m.getMemberNo(), memberDate, updateType);
-        log.info("매수, 매도 요청 등록됨 limitPriceOrderDto {} , ", limitPriceOrderDto);
+        log.debug("매수, 매도 요청 등록됨 limitPriceOrderDto {} , ", limitPriceOrderDto);
 
         if (m == null){
-            log.info(ErrorMessage.TOKEN_EXPIRE);
+            log.debug(ErrorMessage.TOKEN_EXPIRE);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } else {
             limitPriceOrderDto.setMemberNo(m.getMemberNo());
@@ -89,10 +91,10 @@ public class LimitPriceOrderController {
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
         // 회원 정보 불러오기
         MemberAssetDto memberAssetDto = memberAssetService.selectMemberAsset(m.getMemberNo());
-
-        log.info("매수, 매도 수정 등록됨 limitPriceOrderDto {} , ", limitPriceOrderDto);
+        log.info("회원 : {} | /limitpriceorder PUT API호출 : 매수/매도 예정 내역 수정", m);
+        log.debug("매수, 매도 수정 등록됨 limitPriceOrderDto {} , ", limitPriceOrderDto);
         if (m == null){
-            log.info(ErrorMessage.TOKEN_EXPIRE);
+            log.debug(ErrorMessage.TOKEN_EXPIRE);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } else {
             limitPriceOrderDto.setMemberNo(m.getMemberNo());
@@ -105,8 +107,9 @@ public class LimitPriceOrderController {
     @Operation(summary = "매수/매도 예정 삭제", description = "회원의 매수/매도 요청을 삭제한다.", tags = { "LimitPriceOrder" })
     public ResponseEntity<String> delete(@RequestHeader String Authorization, @PathVariable Integer limitPriceOrderNo) {
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
+        log.info("회원 : {} | /limitpriceorder/{limitPriceOrderNo} DELETE API호출 : 매수/매도 예정 내역 삭제", m);
         if (m == null){
-            log.info(ErrorMessage.TOKEN_EXPIRE);
+            log.debug(ErrorMessage.TOKEN_EXPIRE);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } else {
             if (limitPriceOrderService.delete(m.getMemberNo(), limitPriceOrderNo) == 0){

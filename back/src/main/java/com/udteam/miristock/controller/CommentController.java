@@ -29,8 +29,9 @@ public class CommentController {
     @Operation(summary = "댓글 등록", description = "QnA 게시글의 댓글을 등록합니다.", tags = { "Comment" })
     public ResponseEntity<CommentResponseDto> save(@RequestHeader String Authorization, @RequestBody CommentRequestDto commentRequestDto) {
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
+        log.info("회원 : {} | /qna/comment POST API호출 : 댓글 등록", m);
         if (m == null){
-            log.info(ErrorMessage.TOKEN_EXPIRE);
+            log.debug(ErrorMessage.TOKEN_EXPIRE);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } else {
             commentRequestDto.setMemberNo(m.getMemberNo());
@@ -42,10 +43,11 @@ public class CommentController {
     @PutMapping
     @Operation(summary = "댓글 수정", description = "QnA 게시글의 댓글을 수정합니다.", tags = { "Comment" })
     public ResponseEntity<CommentResponseDto> update(@RequestHeader String Authorization, @RequestBody CommentRequestDto commentRequestDto) {
-        log.info("CommentRequestDto : {}", commentRequestDto);
+        log.debug("CommentRequestDto : {}", commentRequestDto);
         MemberAdminDto m = memberService.selectOneMemberAllInfo(HeaderUtil.getAccessTokenString(Authorization));
+        log.info("회원 : {} | /qna/comment PUT API호출 : 댓글 수정", m);
         if (m == null){
-            log.info(ErrorMessage.TOKEN_EXPIRE);
+            log.debug(ErrorMessage.TOKEN_EXPIRE);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } else if (m.getROLE().equals(Role.ADMIN)) {
             CommentResponseDto getCommentResponseDto = commentService.findOne(commentRequestDto.getCommentNo());
@@ -62,10 +64,11 @@ public class CommentController {
     @DeleteMapping("/{commentno}")
     @Operation(summary = "댓글 삭제", description = "QnA 게시글의 댓글을 삭제합니다.", tags = { "Comment" })
     public ResponseEntity<String> delete(@RequestHeader String Authorization, @PathVariable Integer commentno) {
-        log.info("CommentRequestDto : {}", commentno);
+        log.debug("CommentRequestDto : {}", commentno);
         MemberAdminDto m = memberService.selectOneMemberAllInfo(HeaderUtil.getAccessTokenString(Authorization));
+        log.info("회원 : {} | /qna/comment DELETE API호출 : 댓글 삭제", m);
         if (m == null){
-            log.info(ErrorMessage.TOKEN_EXPIRE);
+            log.debug(ErrorMessage.TOKEN_EXPIRE);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorMessage.TOKEN_EXPIRE);
         } else if (m.getROLE().equals(Role.ADMIN)){
             if(commentService.deleteAdminMode(commentno) == 0)
