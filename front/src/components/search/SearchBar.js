@@ -47,7 +47,7 @@ const SearchBar = () => {
       {/* 종목 검색 결과 */}
       {isCheck === true ? (
         <History />
-      ) : (
+      ) : searchResult.length >= 1 ? (
         searchResult.map((stock, i) => {
           return (
             <div
@@ -70,7 +70,7 @@ const SearchBar = () => {
             </div>
           );
         })
-      )}
+      ) : null}
     </div>
   );
 };
