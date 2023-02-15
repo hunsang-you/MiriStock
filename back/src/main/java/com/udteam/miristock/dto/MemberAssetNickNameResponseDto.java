@@ -18,6 +18,7 @@ public class MemberAssetNickNameResponseDto {
     private Integer memberassetCurrentTime;
     private Long memberassetLastTotalAsset;
     private String memberNickName;
+    private String memberEmail;
 
     public static MemberAssetNickNameResponseDto of(MemberAssetDto m, MemberDto md){
         return MemberAssetNickNameResponseDto.builder()
@@ -29,6 +30,7 @@ public class MemberAssetNickNameResponseDto {
                 .memberassetCurrentTime(m.getMemberassetCurrentTime())
                 .memberassetLastTotalAsset(m.getMemberassetLastTotalAsset())
                 .memberNickName(md.getMemberNickname())
+                .memberEmail(md.getMemberEmail())
                 .build();
     }
 }

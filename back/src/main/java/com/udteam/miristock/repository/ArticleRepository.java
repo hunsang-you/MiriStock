@@ -18,4 +18,5 @@ public interface ArticleRepository extends JpaRepository<ArticleEntity, Integer>
      @Query(nativeQuery = true,
              value = " select * from article order by article_no desc limit 10 offset :index")
      List<ArticleEntity> findArticleList(@Param("index") Integer index);
+
 }
