@@ -37,11 +37,12 @@ const Portfolio = () => {
   return (
     <div className="portfolio-page">
       <div className="port-name">
-        <p>
+        <div>
           {isEmptyObj(portfol) === false &&
-            portfol.memberAsset.member.memberNickname}
-          님의 투자 결과
-        </p>
+            portfol.memberAsset.member.memberNickname}{' '}
+          님의
+        </div>
+        <div> 투자 결과</div>
       </div>
       <div className="portfolio-charts">
         {isEmptyObj(portfol) === false &&

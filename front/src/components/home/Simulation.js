@@ -64,7 +64,7 @@ const Simulation = () => {
                 const changeDate = async () => {
                   setIsLoading(true);
                   await simulAPI
-                    .changeDate(250)
+                    .changeDate(7)
                     .then((request) => {})
                     .catch((err) => console.log(err));
                   await simulAPI

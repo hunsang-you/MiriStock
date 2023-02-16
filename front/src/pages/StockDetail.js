@@ -11,10 +11,20 @@ import { Button } from '@mui/material';
 import { AiFillStar } from 'react-icons/ai';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { memberAPI } from '../api/api';
-
+import { AiOutlineInfoCircle } from 'react-icons/ai';
+import Swal from 'sweetalert2';
+import mainImg from '.././static/Detail_Guide3.png';
 const StockDetail = () => {
   const { user } = userStore((state) => state);
   const navigate = useNavigate();
+  //모달창
+  const guideLine = () => {
+    Swal.fire({
+      html:
+        `<img src="` + mainImg + `" alt="no img" height="100%" width="100%">`,
+      showConfirmButton: false,
+    });
+  };
   // 오늘 날짜
   let today = user.memberassetCurrentTime;
   today = String(today);
@@ -158,7 +168,17 @@ const StockDetail = () => {
           </Button>
         </div>
         <div className="space-margin divbox">
-          <div className="charts-title">주요 뉴스</div>
+          <div className="charts-title">
+            <div>주요 뉴스</div>
+            <div>
+              <AiOutlineInfoCircle
+                style={{ marginTop: '7px' }}
+                onClick={() => {
+                  guideLine();
+                }}
+              />
+            </div>
+          </div>
           <div className="charts-content" style={{ height: '190px' }}>
             {stockInfo && (
               <News
@@ -171,7 +191,7 @@ const StockDetail = () => {
         <div className="space-margin divbox">
           <div className="div-title">재무 제표</div>
           <div>
-            <Financial today={today} stockCode={stockCode} />
+            {today ? <Financial today={today} stockCode={stockCode} /> : null}
           </div>
         </div>
       </div>
