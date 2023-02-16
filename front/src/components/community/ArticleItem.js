@@ -68,7 +68,12 @@ const ArticleItem = (props) => {
 
       {/* 닉네임 */}
       <div className="article-title" onClick={handlerBtn}>
-        <div style={{ fontSize: '16px' }}> {article.memberNickname} </div>
+        <div style={{ fontSize: '16px' }}>
+          {' '}
+          {article.memberNickname === null
+            ? '탈퇴유저'
+            : article.memberNickname}{' '}
+        </div>
         <div id="item-createAt">
           {1 ? (
             <span> {detailDate(nowTime)} </span>
