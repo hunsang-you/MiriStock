@@ -9,14 +9,13 @@ const Result1 = (props) => {
   const [state, setState] = useState();
 
   const earnPrice = portfol.memberAsset.memberassetAvailableAsset - 100000000;
-  const earnRate =
-    (earnPrice / portfol.memberAsset.memberassetAvailableAsset) * 100;
+  const earnRate = (earnPrice / 100000000) * 100;
   return (
     <div className="portfolio-asset">
       <div className="portfolio-result1">
         <p id="start-asset">초기자산</p>
         <p>
-          <Counter from={0} to={50000000} />원
+          <Counter from={0} to={100000000} />원
         </p>
         <p id="end-asset">최종자산</p>
         <p>
