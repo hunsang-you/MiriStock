@@ -30,8 +30,6 @@ const CommentItem = (props) => {
                 communityAPI
                   .deleteComment(comment.commentNo)
                   .then((request) => {
-                    console.log(request.data);
-                    // window.location.replace('/community');
                     setCheckComment();
                   })
                   .catch((err) => console.log(err));
