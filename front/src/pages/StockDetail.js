@@ -72,109 +72,111 @@ const StockDetail = () => {
     }
   }, [location]);
 
-  return (
-    <div className="detail-container">
-      <div className="detail-header">
-        <strong
-          onClick={() => {
-            navigate(-1);
-          }}
-        >
-          〈
-        </strong>
-        <div className="detaildate">{userDate}</div>
-        <div>
-          <img src={mirilogo} className="mirilogo" alt="no-img" />
-        </div>
-      </div>
-      <div className="detail-title">
-        <b>{stockInfo}</b>
-        <span>{stockCode}</span>
-        <div className="detail-favorite-icon">
-          <AiFillStar
-            // 클릭시 관심주식 on / off
-            size={40}
-            style={isFavorite ? { color: '#FFCC00' } : { color: '#AAA7A7' }}
+  if (stockInfo.length > 0) {
+    return (
+      <div className="detail-container">
+        <div className="detail-header">
+          <strong
             onClick={() => {
-              if (isFavorite === true) {
-                memberAPI
-                  .deleteIntersetStocks(stockCode)
-                  .then((request) => {
-                    setUpdateFavorite(updateFavorite + 1);
-                    setIsFavorite(false);
-                  })
-                  .catch((err) => console.log(err));
-              } else {
-                memberAPI
-                  .addIntersetStocks(stockCode)
-                  .then((request) => {
-                    setIsFavorite(true);
-                    setUpdateFavorite(updateFavorite + 1);
-                  })
-                  .catch((err) => console.log(err));
-              }
+              navigate(-1);
             }}
-          />
+          >
+            〈
+          </strong>
+          <div className="detaildate">{userDate}</div>
+          <div>
+            <img src={mirilogo} className="mirilogo" alt="no-img" />
+          </div>
         </div>
-      </div>
-      <LineChart
-        stockCode={stockCode}
-        today={today}
-        dayToTime={dayToTime}
-        setStockInfo={setStockInfo}
-      />
-
-      <div className="space-between space-margin">
-        <Button
-          style={{ width: '48%' }}
-          variant="contained"
-          color="primary"
-          disableElevation
-          onClick={() => {
-            navigate(`buyStock`, {
-              state: {
-                stockCode: stockCode,
-              },
-            });
-          }}
-        >
-          매수
-        </Button>
-        <Button
-          style={{ width: '48%' }}
-          variant="contained"
-          color="primary"
-          disableElevation
-          onClick={() => {
-            navigate(`sellStock`, {
-              state: {
-                stockCode: stockCode,
-              },
-            });
-          }}
-        >
-          매도
-        </Button>
-      </div>
-      <div className="space-margin divbox">
-        <div className="charts-title">주요 뉴스</div>
-        <div className="charts-content" style={{ height: '190px' }}>
-          {stockInfo && (
-            <News
-              stockInfo={stockInfo}
-              currentDate={user.memberassetCurrentTime}
+        <div className="detail-title">
+          <b>{stockInfo}</b>
+          <span>{stockCode}</span>
+          <div className="detail-favorite-icon">
+            <AiFillStar
+              // 클릭시 관심주식 on / off
+              size={40}
+              style={isFavorite ? { color: '#FFCC00' } : { color: '#AAA7A7' }}
+              onClick={() => {
+                if (isFavorite === true) {
+                  memberAPI
+                    .deleteIntersetStocks(stockCode)
+                    .then((request) => {
+                      setUpdateFavorite(updateFavorite + 1);
+                      setIsFavorite(false);
+                    })
+                    .catch((err) => console.log(err));
+                } else {
+                  memberAPI
+                    .addIntersetStocks(stockCode)
+                    .then((request) => {
+                      setIsFavorite(true);
+                      setUpdateFavorite(updateFavorite + 1);
+                    })
+                    .catch((err) => console.log(err));
+                }
+              }}
             />
-          )}
+          </div>
+        </div>
+        <LineChart
+          stockCode={stockCode}
+          today={today}
+          dayToTime={dayToTime}
+          setStockInfo={setStockInfo}
+        />
+
+        <div className="space-between space-margin">
+          <Button
+            style={{ width: '48%' }}
+            variant="contained"
+            color="primary"
+            disableElevation
+            onClick={() => {
+              navigate(`buyStock`, {
+                state: {
+                  stockCode: stockCode,
+                },
+              });
+            }}
+          >
+            매수
+          </Button>
+          <Button
+            style={{ width: '48%' }}
+            variant="contained"
+            color="primary"
+            disableElevation
+            onClick={() => {
+              navigate(`sellStock`, {
+                state: {
+                  stockCode: stockCode,
+                },
+              });
+            }}
+          >
+            매도
+          </Button>
+        </div>
+        <div className="space-margin divbox">
+          <div className="charts-title">주요 뉴스</div>
+          <div className="charts-content" style={{ height: '190px' }}>
+            {stockInfo && (
+              <News
+                stockInfo={stockInfo}
+                currentDate={user.memberassetCurrentTime}
+              />
+            )}
+          </div>
+        </div>
+        <div className="space-margin divbox">
+          <div className="div-title">재무 제표</div>
+          <div>
+            <Financial today={today} stockCode={stockCode} />
+          </div>
         </div>
       </div>
-      <div className="space-margin divbox">
-        <div className="div-title">재무 제표</div>
-        <div>
-          <Financial today={today} stockCode={stockCode} />
-        </div>
-      </div>
-    </div>
-  );
+    );
+  }
 };
 
 export default StockDetail;
