@@ -49,6 +49,10 @@ public class MemberController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("닉네임 Null 닉네임 수정 요청 거부");
         } else if (memberDto.getMemberNickname().length() < 2 || memberDto.getMemberNickname().length() > 10){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("닉네임은 2자 이상 10자 이하만 입력할 수 있습니다.");
+        } else if (memberDto.getMemberNickname().equals("탈퇴유저")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("설정할 수 없는 닉네임 입니다.");
+        } else if (memberDto.getMemberNickname().equals("관리자")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("설정할 수 없는 닉네임 입니다.");
         }
         MemberDto result = memberservice.updateNickName(memberDto);
         if(result == null) {
