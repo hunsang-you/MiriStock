@@ -55,7 +55,10 @@ const AssetStatus = () => {
                 fontSize: '16px',
                 formatter: function (val) {
                   let asset =
-                    user.memberassetTotalAsset.toLocaleString() + '원';
+                    (
+                      user.memberassetAvailableAsset +
+                      user.memberassetStockAsset
+                    ).toLocaleString() + '원';
                   return asset;
                 },
               },
