@@ -6,10 +6,12 @@ import { dateStore, userStore } from '../../store';
 import { simulAPI } from '../../api/api';
 import { useEffect, useState } from 'react';
 import Loading from '../Loading';
+import { useNavigate } from 'react-router-dom';
 const Simulation = () => {
   const { date, setDate } = dateStore((state) => state);
   const { user } = userStore((state) => state);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
   let today = user.memberassetCurrentTime;
   today = String(today);
   let userDate =
@@ -40,6 +42,9 @@ const Simulation = () => {
                       setDate(request.data);
                       setTimeout(() => {
                         setIsLoading(false);
+                        if (request.data.memberassetCurrentTime === 20221229) {
+                          navigate('/more/result');
+                        }
                       }, 1000);
                     })
                     .catch((err) => console.log(err));
@@ -59,7 +64,7 @@ const Simulation = () => {
                 const changeDate = async () => {
                   setIsLoading(true);
                   await simulAPI
-                    .changeDate(7)
+                    .changeDate(250)
                     .then((request) => {})
                     .catch((err) => console.log(err));
                   await simulAPI
@@ -68,6 +73,9 @@ const Simulation = () => {
                       setDate(request.data);
                       setTimeout(() => {
                         setIsLoading(false);
+                        if (request.data.memberassetCurrentTime === 20221229) {
+                          navigate('/more/result');
+                        }
                       }, 1000);
                     })
                     .catch((err) => console.log(err));
@@ -96,6 +104,9 @@ const Simulation = () => {
                       setDate(request.data);
                       setTimeout(() => {
                         setIsLoading(false);
+                        if (request.data.memberassetCurrentTime === 20221229) {
+                          navigate('/more/result');
+                        }
                       }, 1000);
                     })
                     .catch((err) => console.log(err));

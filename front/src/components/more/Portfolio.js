@@ -40,7 +40,7 @@ const Portfolio = () => {
         <p>
           {isEmptyObj(portfol) === false &&
             portfol.memberAsset.member.memberNickname}
-          님의 게임 결과
+          님의 투자 결과
         </p>
       </div>
       <div className="portfolio-charts">
@@ -62,7 +62,7 @@ const Portfolio = () => {
             navigate('/');
           }}
         >
-          게임 재시작
+          시뮬레이션 재시작
         </Button>
       </div>
     </div>

@@ -1,5 +1,5 @@
 .spinner-4 {
-  
+    z-index: 999;
     width: 100px;
     --b: 10px;
     aspect-ratio: 1;
@@ -16,9 +16,10 @@
   @keyframes s4 {to{transform: rotate(1turn)}}
 
   .Loading {
-    width:100vw;
+    width:88vw;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    background: #ffffffb7;
   }
