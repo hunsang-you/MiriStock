@@ -53,19 +53,29 @@ const ArticleItem = (props) => {
     <div className="article-item">
       {/* 제목, 작성시간 */}
       <div className="userid">
-        <span id="item-userId"> {article.articleTitle} </span>
-        <div>
+        <span
+          id="item-userId"
+          style={{
+            fontSize: '20px',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {article.articleTitle}
+        </span>
+      </div>
+
+      {/* 닉네임 */}
+      <div className="article-title" onClick={handlerBtn}>
+        <div style={{ fontSize: '16px' }}> {article.memberNickname} </div>
+        <div id="item-createAt">
           {1 ? (
-            <span id="item-createAt"> {detailDate(nowTime)} </span>
+            <span> {detailDate(nowTime)} </span>
           ) : (
             <span id="item-createAt"> {detailDate(modifyTime)} 수정</span>
           )}
         </div>
-      </div>
-
-      {/* 제목 */}
-      <div className="article-title" onClick={handlerBtn}>
-        <span> {article.memberNickname} </span>
       </div>
       {/* 내용 */}
       <div className="article-content" onClick={handlerBtn}>
@@ -100,9 +110,11 @@ const ArticleItem = (props) => {
                 onClick={() => {
                   communityAPI
                     .deleteArticle(article.articleNo)
-                    .then((request) => console.log(request.data))
+                    .then((request) => {
+                      console.log(request.data);
+                      window.location.replace('/community');
+                    })
                     .catch((err) => console.log(err));
-                  window.location.replace('/community');
                 }}
               >
                 삭제

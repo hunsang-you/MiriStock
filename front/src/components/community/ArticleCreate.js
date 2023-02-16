@@ -3,6 +3,7 @@ import { TextField, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { communityAPI } from '../../api/api';
+import Swal from 'sweetalert2';
 
 const Create = () => {
   const navigate = useNavigate();
@@ -14,6 +15,18 @@ const Create = () => {
   };
   const ChangeContent = (e) => {
     setContent(e.target.value);
+  };
+
+  const errAlert = () => {
+    Swal.fire({
+      text: '제목 또는 내용을 입력해 주세요',
+      showClass: {
+        popup: 'animate__animated animate__fadeInDown',
+      },
+      hideClass: {
+        popup: 'animate__animated animate__fadeOutUp',
+      },
+    });
   };
   return (
     <div className="create-page">
@@ -64,12 +77,19 @@ const Create = () => {
           variant="outlined"
           size="large"
           onClick={() => {
-            communityAPI
-              .createArticle(title, content)
-              .then((request) => {})
-              .catch((err) => console.log(err));
-            //새로고침페이지
-            window.location.replace('/community');
+            if (title.trim().length !== 0 && content.trim().length !== 0) {
+              communityAPI
+                .createArticle(title, content)
+                .then((request) => {
+                  navigate('/community');
+                })
+                .catch((err) => console.log(err));
+              //새로고침페이지
+            } else {
+              //스위트알람위치
+              console.log(123);
+              errAlert();
+            }
           }}
         >
           작성
