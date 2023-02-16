@@ -1,0 +1,120 @@
+.portfolio-page {
+    display: flex;
+    flex-direction: column;
+
+}
+
+
+.portfolio-page * {
+    font-family: var(--font-IbmPlexSansKrLightRegular);
+}
+
+.portfolio-asset {
+    display: flex;
+    border: 2px solid #6DCEF5;
+    border-radius: 10px;
+    justify-content: space-between;   
+}
+
+.port-name {
+    text-align: left;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.portfolio-charts {
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.port-result {
+    position: relative;
+}
+
+#start-asset {
+    margin-top: 2vh;
+    font-weight: bold;
+}
+
+#end-asset {
+    font-weight: bold;
+}
+
+
+#end-profit {
+    margin-bottom: 2vh;
+    font-weight: bold;
+}
+
+#end-rate {
+    font-weight: bold;
+}
+.portfolio-result1 {
+    margin-right: 6vw;
+    margin-left: 6vw;
+}
+
+.portfolio-result2 {
+    margin-top: 24px;
+    border: 2px solid #6DCEF5;
+    border-radius: 10px;
+    margin-bottom: 4vh;
+}
+
+.portfolio-result2 p {
+    margin-left: 6vw;
+    text-align: left;
+    font-weight: bold;
+}
+
+.portfolio-best {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1vh;
+}
+
+.portfolio-best > span {
+    margin-left: 8vw;
+    margin-right: 8vw;
+}
+
+.portfolio-worst {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1vh;
+}
+
+.portfolio-worst > span {
+    margin-left: 8vw;
+    margin-right: 8vw;
+}
+
+#result-lines {
+    border : 0;
+    background-color: #F4F4F4;
+    border-color: #C9C3C3;
+    text-align: left;  
+    border-top: dashed #C9C3C3; 
+  }
+
+
+#port-revenue {
+    color: #D2143C;
+}
+
+#port-loss {
+    color: #1E90FF;
+}
+
+#restart {
+    color: white;
+    font-size: 24px;
+    font-family:  var(--font-NanumGothicCoding);
+    font-weight: bold;
+    height: 4rem;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    
+  }

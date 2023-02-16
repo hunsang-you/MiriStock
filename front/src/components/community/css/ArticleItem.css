@@ -2,46 +2,54 @@
     display: flex;
     flex-direction: column;
     padding-top: 0.95vh;
-    margin-bottom: 5.85vh;
-    border-top: 1px solid #6DCEF5;
-    border-bottom: 1px solid #6DCEF5;
+    margin-bottom: 2.00vh;
+    border-bottom: 4px solid #6DCEF5 ;
 }
 
 .userid {
     display: flex;
-    margin-top: 24px;
-    text-align: left;
-    padding-bottom: 1.9vh;
-    font-size: 1rem;
-    margin-left: 4vw;
-    margin-right: 4vw;
-    justify-content: space-between;
-}
-
-.title {
-    text-align: left;
-    font-size: 1.2rem;
-    margin-top: auto;
-    margin-bottom: 1.43vh;
-    margin-left: 4vw;
-    margin-right: 4vw;
-}
-
-.title > * {
+    padding-bottom: 1vh;
+    font-size: 24px;
     font-weight: bold;
-    font-size: larger;
+    margin-left: 4vw;
+    margin-right: 4vw;
     
 }
 
-.content {
-    /* display: flex; */
-    margin-top: 24px;
+#item-createAt {
+    font-size: 1rem;
+    color: #C4C4C4;;
+    margin-left: auto;
+}
+
+.article-title {
+    display: flex;
+    flex-direction: row;
+    ;
+    font-size: 1.2rem;
+    margin-bottom: 1vh;
+    margin-left: 4vw;
+    margin-right: 4vw;
+    
+    
+}
+
+.article-title > * {
+    font-weight: bold;
+    font-size: 20px
+    
+}
+
+.article-content {
+    margin-top: 12px;
     text-align: left;
-    padding-bottom: 1.9vh;
+    padding-bottom: 1vh;
     font-size: 1rem;
     margin-left: 4vw;
     margin-right: 4vw;
+    padding-top: 4px;
     font-size: large;
+
 }
 
 .content-open {
@@ -61,14 +69,8 @@
 
 .icon {
     display: flex;
-    margin-top: 2vh;
-    margin-bottom: 2vh;
-}
-
-.like {
-    margin-left: 4vw;
-    margin-right: 2vw;
-    font-size: xx-large;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
 }
 
 .comment {
@@ -80,9 +82,9 @@
 .item-btn {
     display: flex;
     margin-left: auto;
-    margin-right: 4vw;
+    justify-content: space-around;
 }
 
-.item-btn > div {
+.item-btn * {
     margin-left: 8px;
 }

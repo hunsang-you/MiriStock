@@ -1,0 +1,29 @@
+.Chart-page {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.Chart-Circle {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.high-revenue > span {
+    font-weight: bold;
+    font-size: 20px;
+    color:#D2143C;
+}
+
+.high-loss {
+    margin-bottom: 32px;
+}
+
+.high-loss > span {
+    font-weight: bold;
+    font-size: 20px;
+    color: #1e40af;
+}

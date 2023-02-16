@@ -19,3 +19,10 @@
 .watch-item > * {
     font-family: var(--font-IbmPlexSansKrLightRegular);
 }
+
+#deletesearch-btn {
+    font-size: 16px;
+    background-color: white;
+    border: 0;
+    color: #C4C4C4;
+}

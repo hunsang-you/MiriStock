@@ -1,0 +1,110 @@
+.stock-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.stock-container div {
+    font-family: var(--font-IbmPlexSansKrLightRegular);
+}
+
+.stock-container span {
+    font-family: var(--font-IbmPlexSansKrLightRegular);
+}
+
+.stock-button {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.asset-holding-main {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    font-size: 14px;
+    margin-top: 16px;
+    border-bottom: 1px dashed #C9C3C3;
+    padding-bottom: 8px;
+    
+    
+}
+
+.asset-holding-first {
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+    
+}
+.asset-holding-second {
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+}
+.asset-holding-last {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    text-align: end;
+    
+}
+
+.transaction-sell-container {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    margin-right: 32px;
+    border: solid 2px #1E90FF;
+    padding-left: 8px;
+    padding-right: 8px;
+    font-size: 14px;
+    padding-bottom: 8px;
+    padding-top: 4px;
+    border-radius: 10px;
+}
+
+.transaction-sell-items {
+    margin-top: 4px;
+    display: flex;
+    gap: 16px;
+    text-align: start;
+}
+
+.transaction-sell-last {
+    flex-grow: 1;
+    text-align: end;
+}
+
+.transaction-buy-container {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    margin-left: 32px;
+    border: solid 2px #D2143C;
+    padding-left: 8px;
+    padding-right: 8px;
+    font-size: 14px;
+    padding-bottom: 8px;
+    padding-top: 4px;
+    border-radius: 10px;
+}
+
+.transaction-buy-items {
+    margin-top: 4px;
+    display: flex;
+    gap: 16px;
+    text-align: start;
+}
+
+.transaction-buy-last {
+    text-align: end;
+}
+
+.transaction-buy-mid {
+    flex-grow: 1;
+    text-align: end;
+}
+
+.transaction-buy-nomid-last{
+    flex-grow: 1;
+    text-align: end;    
+}

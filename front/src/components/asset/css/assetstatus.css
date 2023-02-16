@@ -1,0 +1,26 @@
+.asset-current {
+  display: flex;
+  flex-direction: column;
+}
+
+.asset-nickname {
+  text-align: start;
+  font-family: var(--font-IbmPlexSansKrLightRegular);
+  display: flex;
+    justify-content : space-between;
+    align-items: center;
+}
+
+.asset-chart {
+  font-family: var(--font-IbmPlexSansKrLightRegular);
+}
+
+#lines {
+  border : 0;
+  height: 8px;
+  width: 100vw;
+  background-color: #F4F4F4;
+  border-color: white;
+  text-align: left;
+  margin-left: -6vw;
+}

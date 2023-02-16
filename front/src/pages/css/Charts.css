@@ -8,22 +8,28 @@
     margin-top : 2.5vh;
 }
 
+.detail-container {
+    display: flex;
+    flex-direction: column;
+}
+
 .space-between {
     display: flex;
     justify-content: space-between;
 }
  
 .space-margin {
-    margin: 6vw;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
 }
 
 .divbox {
-    background-color: F4F4F4;
+    background-color: #F4F4F4;
+    padding: 16px;
     float : left;
 }
 
 .divbox > * {
-    display: flex;
     justify-content: flex-start;
 }
 
@@ -34,4 +40,69 @@
 
 .selectDay div {
     margin: auto
+}
+
+.charts-title {
+    display: flex;
+    font-size: 24px;
+    justify-content : space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.charts-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.detail-header {
+    display: flex;
+    align-items: center;
+    justify-content : space-between;
+    font-size: 24px;
+    height: 16px;
+    margin: 10px 0px 20px;
+}
+
+.detaildate {
+    font-family: var(--font-digi);
+    font-size: 40px;
+}
+
+.mirilogo {
+    height: 28px;
+    display: flex;
+    align-items: center;
+}
+
+.detail-title {
+    height: 40px;
+    margin-bottom: 2px;
+    display: flex;
+    align-items: flex-end;
+    font-family: var(--font-IbmPlexSansKrLightRegular);
+    vertical-align: bottom;
+}
+
+.detail-favorite-icon {
+    margin-bottom: auto;
+}
+
+.detail-title > b {
+    font-size: 24px;
+    margin-right: 5px;
+    font-family: var(--font-IbmPlexSansKrLightRegular);
+}
+
+.detail-title > span {
+    font-size: 16px;
+    margin-left: 5px;
+    font-family: var(--font-IbmPlexSansKrLightRegular);
+}
+
+.detail-title > div {
+    font-size: 32px;
+    vertical-align: middle;
+    margin-left: auto;
 }

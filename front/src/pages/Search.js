@@ -1,6 +1,5 @@
 // import '../App.css';
-import './css/Search.css';
-import { useState } from 'react';
+import './css/Home.css';
 import SearchBar from '../components/search/SearchBar';
 
 const Search = () => {

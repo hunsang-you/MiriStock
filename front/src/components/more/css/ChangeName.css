@@ -1,0 +1,7 @@
+.Btn {
+    margin-top: 128px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+

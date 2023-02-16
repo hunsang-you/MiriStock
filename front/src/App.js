@@ -4,7 +4,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { React, useEffect } from 'react';
 import BottomNav from './components/home/BottonNav.js';
 import { navStore } from './store.js';
-
 function App() {
   const { page, setPage } = navStore((state) => state);
   const location = useLocation();
@@ -29,7 +28,6 @@ function App() {
       setPage(location.pathname);
     }
   }, [location, setPage]);
-
   return (
     <div className="App">
       <div>
@@ -39,7 +37,12 @@ function App() {
           : null}
         <Router />
       </div>
-      {page.indexOf('login') === -1 ? <BottomNav /> : null}
+      {page.indexOf('login') === -1 &&
+      location.pathname.indexOf('buy') === -1 &&
+      location.pathname.indexOf('sell') === -1 &&
+      location.pathname.indexOf('result') === -1 ? (
+        <BottomNav />
+      ) : null}
     </div>
   );
 }

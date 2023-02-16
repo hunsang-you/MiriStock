@@ -1,0 +1,48 @@
+.exit-page {
+    display: flex;
+    flex-direction: column;
+}
+
+.exit-ment {
+    margin-top: 18.09vh;
+    font-size: x-large;
+}
+
+.exit-btn {
+    display: flex;
+    justify-content: center;
+    margin-top: 5.72vh;
+}
+
+.exit-backbtn {
+    margin-left: auto;
+    margin-right: 12px;
+}
+
+.exit-submitbtn {
+    margin-left: 12px;
+    margin-right: auto;
+}
+
+#exit-back {
+    border: 2px solid #6DCEF5;
+    color: #6DCEF5;
+    height: 4rem;
+    width: 10rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#exit-submit {
+    border: 2px solid #6DCEF5;
+    color: #6DCEF5;
+    height: 4rem;
+    width: 10rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.exit-ment > span {
+    font-size: 16px;
+    color:#D2143C;
+}

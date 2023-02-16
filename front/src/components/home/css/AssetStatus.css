@@ -8,7 +8,10 @@
     font-family: var(--font-IbmPlexSansKrLightRegular);
 }
 .asset-status {
-    text-align: start;
+    display: flex;
+    justify-content : space-between;
+    align-items: center;
+    height: 3vh;
 }
 
 .money-unit {
@@ -38,7 +41,15 @@
     font-family: var(--font-IbmPlexSansKrLightMedium);
 }
 .change {
+    display: flex;
     text-align: start;
     font-size: 16px;
     font-family: var(--font-IbmPlexSansKrLightRegular);
+}
+
+.swal2-image{
+    margin-top:0px !important;
+    margin-bottom: 0px !important;
+    width:100% !important;
+    height: 80% !important;
 }

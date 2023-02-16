@@ -1,0 +1,36 @@
+.more-page {
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.more-logo {
+    margin-top: 4.28vh;
+    padding-bottom: 2.86vh;
+    
+}
+
+.more-btn {
+    margin-left: auto;
+    margin-right: auto;
+    border-top: 1px solid #C4C4C4;
+    width: 80%;
+}
+
+.more-des p {
+    font-size: small;
+}
+
+#more-copy {
+    color: #C4C4C4;
+}
+
+#more-btn {
+    color: black;
+    border-color: #6DCEF5;
+    justify-content: space-evenly;
+    font-weight: bold;
+    width: 90%;
+}
+
