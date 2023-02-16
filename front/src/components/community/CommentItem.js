@@ -10,7 +10,6 @@ const CommentItem = (props) => {
   const handlerBtn = () => {
     setIsClosed(!isclosed);
   };
-  console.log(comment.commentNo);
   let nowTime = new Date(comment.commentCreateDate).getTime() + 32400000;
 
   return (
