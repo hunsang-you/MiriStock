@@ -1,8 +1,5 @@
 package com.udteam.miristock.util;
 
-import com.udteam.miristock.entity.MemberEntity;
-import com.udteam.miristock.entity.Role;
-import com.udteam.miristock.repository.MemberRepository;
 import com.udteam.miristock.repository.RedisRepository;
 import com.udteam.miristock.service.auth.TokenService;
 import lombok.RequiredArgsConstructor;
@@ -13,18 +10,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.JwtException;
-import org.springframework.stereotype.Component;
-import org.springframework.web.filter.GenericFilterBean;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collections;
 
 
@@ -60,18 +52,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
             // 엑세스 토큰이 블랙리스트 등록되있거나 만료되었을 경우 access token, refresh token 재발급
         }catch(Exception e){
-            e.printStackTrace();
             log.info("JWT Token Reissue");
             try {
                 // request의 Cookie에서 refresh token 추출
                 refreshtoken = cookieUtil.getRefreshTokenCookie(request);
-                String email = tokenservice.getEmail(refreshtoken);
+                String email=null;
+                try {
+                    email = tokenservice.getEmail(refreshtoken);
+                }catch(Exception a){
+                    throw new JwtException("RefreshToken Expired or Error");
+                }
                 // Redis를 통한 리프레쉬 토큰 검증
-                log.info("Redis Refresh check = {}",redisUtil.getData(email));
-                if(redisUtil.getData(email)==null){
+//                log.info("Redis Refresh check = {}",redisUtil.getData(email));
+                if(redisUtil.getData(email)==null || tokenservice.getExpiredTokenClaims(refreshtoken)){
                     log.info ("Refreshtoken Expired");
                     throw new JwtException("RefreshToken Expired");
                 }
+
                 String nickname = tokenservice.getPayload(refreshtoken,"nickname");
                 String role = tokenservice.getPayload(refreshtoken,"role");
                 log.info("ROLE = {}" ,role);
@@ -94,7 +91,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 log.debug("Refreshtoken invaild");
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
 //                request.setAttribute("RefreshTokenInvalid",j.getMessage());
-                j.printStackTrace();
             }
         }
         filterChain.doFilter(request,response);

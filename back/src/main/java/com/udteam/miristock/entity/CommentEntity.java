@@ -1,12 +1,19 @@
 package com.udteam.miristock.entity;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "comment")
+@DynamicInsert
+@DynamicUpdate
 @Getter
 @Setter
 @Builder
@@ -25,8 +32,13 @@ public class CommentEntity {
 
     private String memberNickname;
 
-    @Column(insertable = false, updatable = false)
-    private LocalDateTime commentDate; // 작성시간
+    @CreationTimestamp
+    @Column(name = "comment_create_date", updatable = false)
+    private LocalDateTime commentCreateDate; // 작성시간
+
+    @UpdateTimestamp
+    @Column(name = "comment_modify_date")
+    private LocalDateTime commentModifyDate;
 
     @ManyToOne
     @JoinColumn(name = "article_no")

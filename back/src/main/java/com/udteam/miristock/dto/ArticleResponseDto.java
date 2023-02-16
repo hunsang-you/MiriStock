@@ -11,24 +11,29 @@ import java.util.stream.Collectors;
 @Getter
 @ToString
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ArticleResponseDto {
     private Integer articleNo; // 글 번호
     private Integer memberNo;
     private String memberNickname; // 작성자 닉네임
     private String articleTitle; // 제목
     private String articleContent; // 내용
-    private LocalDateTime articleDate; // 작성날짜
-
+    private LocalDateTime articleCreateDate; // 작성날짜
+    private LocalDateTime articleModifyDate; // 수정날짜
+    private Integer articleHeartCount;
     private List<CommentResponseDto> comments;
 
+
+    @Builder
     public ArticleResponseDto(ArticleEntity entity){
         this.articleNo = entity.getArticleNo();
         this.memberNo = entity.getMemberNo();
         this.memberNickname = entity.getMemberNickname();
         this.articleTitle = entity.getArticleTitle();
         this.articleContent = entity.getArticleContent();
-        this.articleDate = entity.getArticleDate();
+        this.articleCreateDate = entity.getArticleCreateDate();
+        this.articleModifyDate = entity.getArticleModifyDate();
+        this.articleHeartCount = entity.getArticleHeartCount();
         this.comments = entity.getComments().stream()
                 .map(CommentResponseDto::new)
                 .collect(Collectors.toList());

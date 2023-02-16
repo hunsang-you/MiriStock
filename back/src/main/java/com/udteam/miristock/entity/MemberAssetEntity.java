@@ -38,4 +38,7 @@ public class MemberAssetEntity {
 
     @Column(name = "memberasset_current_time")
     private Integer memberassetCurrentTime;
+
+    @Column(name = "memberasset_last_total_asset")
+    private Long memberassetLastTotalAsset;
 }

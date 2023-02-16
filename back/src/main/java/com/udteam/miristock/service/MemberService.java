@@ -1,5 +1,6 @@
 package com.udteam.miristock.service;
 
+import com.udteam.miristock.dto.MemberAdminDto;
 import com.udteam.miristock.dto.MemberDto;
 import com.udteam.miristock.entity.MemberEntity;
 import com.udteam.miristock.repository.MemberRepository;
@@ -28,7 +29,7 @@ public class MemberService {
 
     public Integer deleteMember(String token){
         String email = tokenservice.getEmail(token);
-        log.info("이메일 출력={}",email);
+        log.debug("이메일 출력={}",email);
         return memberrepository.deleteByMemberEmail(email);
     }
 
@@ -37,21 +38,35 @@ public class MemberService {
         String email = tokenservice.getEmail(token);
         MemberEntity member = memberrepository.findByMemberEmail(email);
         member.setMemberNickname(nickname);
-//        MemberEntity updatemember= MemberEntity.builder()
-//                .memberNo(member.getMemberNo())
-//                .memberEmail(member.getMemberEmail())
-//                .memberNickname(nickname)
-//                .memberProvider(member.getMemberProvider())
-//                .memberTotalasset(member.getMemberTotalasset())
-//                .memberCurrentTime(member.getMemberCurrentTime())
-//                .role(member.getRole())
-//                .build();
         return MemberDto.of(memberrepository.saveAndFlush(member));
+    }
+
+    @Modifying
+    public MemberDto updateNickName(MemberDto memberDto) {
+        MemberEntity getMemberEntity = memberrepository.findByMemberEmail(memberDto.getMemberEmail());
+        getMemberEntity.setMemberNickname(memberDto.getMemberNickname());
+        log.debug("getMemberEntity : {}", getMemberEntity);
+        return MemberDto.of(memberrepository.saveAndFlush(getMemberEntity));
     }
 
     public MemberDto selectOneMember(String token){
         String email = tokenservice.getEmail(token);
         return MemberDto.of(memberrepository.findByMemberEmail(email));
+    }
+
+    public MemberAdminDto selectOneMemberAllInfo(String token){
+        String email = tokenservice.getEmail(token);
+        return MemberAdminDto.of(memberrepository.findByMemberEmail(email));
+    }
+
+    public MemberDto selectOnMemberByEmail (MemberDto memberDto){
+        String email = memberDto.getMemberEmail();
+        return MemberDto.of(memberrepository.findByMemberEmail(email));
+    }
+
+    public MemberAdminDto selectOneMemberAllInfo (MemberDto memberDto){
+        String email = memberDto.getMemberEmail();
+        return MemberAdminDto.of(memberrepository.findByMemberEmail(email));
     }
 
 }

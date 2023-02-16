@@ -2,6 +2,7 @@ package com.udteam.miristock.service;
 
 import com.udteam.miristock.dto.ArticleResponseDto;
 import com.udteam.miristock.dto.ArticleRequestDto;
+import com.udteam.miristock.dto.ArticleCUDResponseDto;
 import com.udteam.miristock.entity.ArticleEntity;
 import com.udteam.miristock.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,23 +25,37 @@ public class ArticleService {
                 .collect(Collectors.toList());
     }
 
+    public List<ArticleResponseDto> findArticleList(Integer index) {
+        List<ArticleEntity> articleEntityList = articleRepository.findArticleList(index*10);
+        return articleEntityList.stream()
+                .map(ArticleResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
     public ArticleResponseDto findOne(Integer articleNO) {
         return new ArticleResponseDto(articleRepository.findById(articleNO).get());
     }
 
+    public List<ArticleResponseDto> findSearchArticle(String keyword) {
+        List<ArticleEntity> articleEntityList = articleRepository.findByArticleTitleContainingOrArticleContentContaining(keyword, keyword);
+        return articleEntityList.stream()
+                .map(ArticleResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
     @Transactional // 메서드 실행시 트랜잭션 시작, 정상종료되면 커밋, 에러발생시 종료
-    public Integer save(ArticleRequestDto articleRequestDto) {
-        return articleRepository.save(articleRequestDto.toEntity()).getArticleNo();
+    public ArticleCUDResponseDto save(ArticleRequestDto articleRequestDto) {
+        return new ArticleCUDResponseDto(articleRepository.saveAndFlush(articleRequestDto.toEntity()));
     }
 
     @Transactional
-    public Integer update(ArticleRequestDto articleRequestDto) {
-        return articleRepository.save(articleRequestDto.toEntity()).getArticleNo();
+    public int delete(Integer memberNo, Integer articleNo) {
+        return articleRepository.deleteByMemberNoAndArticleNo(memberNo, articleNo);
     }
 
     @Transactional
-    public void delete(Integer articleNo) {
-        articleRepository.delete(ArticleEntity.builder().articleNo(articleNo).build());
+    public void deleteAdminMode(Integer articleNo){
+        articleRepository.deleteById(articleNo);
     }
 
 }

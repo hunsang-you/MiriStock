@@ -11,7 +11,6 @@ import java.util.List;
 
 import static com.udteam.miristock.entity.QStockDataEntity.stockDataEntity;
 
-
 @Repository
 @RequiredArgsConstructor
 public class StockDataCustomRepositoryImpl implements StockDataCustomRepository {

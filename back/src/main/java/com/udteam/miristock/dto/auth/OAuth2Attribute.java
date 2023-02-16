@@ -1,6 +1,5 @@
 package com.udteam.miristock.dto.auth;
 
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +33,7 @@ public class OAuth2Attribute {
     private static OAuth2Attribute ofKakao(String attributeKey, Map<String,Object> attributes){
         Map<String,Object> kakaoAccount = (Map<String,Object>) attributes.get("kakao_account");
         Map<String,Object> kakaoProfile = (Map<String,Object>) kakaoAccount.get("profile");
-        log.info("{}",kakaoProfile.values());
+        log.debug("{}",kakaoProfile.values());
         return OAuth2Attribute.builder()
                 .name((String) kakaoProfile.get("nickname"))
                 .email((String) kakaoAccount.get("email"))
@@ -49,7 +48,7 @@ public class OAuth2Attribute {
     private static OAuth2Attribute ofNaver(String attributeKey,Map<String,Object> attributes){
         Map<String,Object> response = (Map<String,Object>) attributes.get("response");
 
-        log.info("{}",response.values());
+        log.debug("{}",response.values());
         return OAuth2Attribute.builder()
                 .name((String) response.get("name"))
                 .email((String) response.get("email"))

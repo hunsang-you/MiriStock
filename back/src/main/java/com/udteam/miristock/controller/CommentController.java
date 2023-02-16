@@ -1,36 +1,37 @@
 package com.udteam.miristock.controller;
 
-import com.udteam.miristock.config.ErrorMessage;
-import com.udteam.miristock.dto.CommentRequestDto;
-import com.udteam.miristock.dto.LimitPriceOrderDto;
-import com.udteam.miristock.dto.MemberDto;
+import com.udteam.miristock.dto.*;
+import com.udteam.miristock.entity.Role;
+import com.udteam.miristock.util.ErrorMessage;
 import com.udteam.miristock.service.CommentService;
 import com.udteam.miristock.service.MemberService;
 import com.udteam.miristock.util.HeaderUtil;
+import com.udteam.miristock.util.ReturnMessage;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Slf4j
 @RestController
 @RequestMapping("/qna/comment")
 @RequiredArgsConstructor
+@Tag(name = "Comment", description = "QnA 댓글")
 public class CommentController {
 
     private final CommentService commentService;
     private final MemberService memberService;
 
     @PostMapping
-    public ResponseEntity<Integer> save(@RequestHeader String Authorization, @RequestBody CommentRequestDto commentRequestDto) {
+    @Operation(summary = "댓글 등록", description = "QnA 게시글의 댓글을 등록합니다.", tags = { "Comment" })
+    public ResponseEntity<CommentResponseDto> save(@RequestHeader String Authorization, @RequestBody CommentRequestDto commentRequestDto) {
         MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
+        log.info("회원 : {} | /qna/comment POST API호출 : 댓글 등록", m);
         if (m == null){
-            log.info(ErrorMessage.TOKEN_EXPIRE);
+            log.debug(ErrorMessage.TOKEN_EXPIRE);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } else {
             commentRequestDto.setMemberNo(m.getMemberNo());
@@ -40,28 +41,43 @@ public class CommentController {
     }
 
     @PutMapping
-    public ResponseEntity<Integer> update(@RequestHeader String Authorization, @RequestBody CommentRequestDto commentRequestDto) {
-        log.info("CommentRequestDto : {}", commentRequestDto);
-        MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
+    @Operation(summary = "댓글 수정", description = "QnA 게시글의 댓글을 수정합니다.", tags = { "Comment" })
+    public ResponseEntity<CommentResponseDto> update(@RequestHeader String Authorization, @RequestBody CommentRequestDto commentRequestDto) {
+        log.debug("CommentRequestDto : {}", commentRequestDto);
+        MemberAdminDto m = memberService.selectOneMemberAllInfo(HeaderUtil.getAccessTokenString(Authorization));
+        log.info("회원 : {} | /qna/comment PUT API호출 : 댓글 수정", m);
         if (m == null){
-            log.info(ErrorMessage.TOKEN_EXPIRE);
+            log.debug(ErrorMessage.TOKEN_EXPIRE);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        } else if (m.getROLE().equals(Role.ADMIN)) {
+            CommentResponseDto getCommentResponseDto = commentService.findOne(commentRequestDto.getCommentNo());
+            commentRequestDto.setMemberNo(getCommentResponseDto.getMemberNo());
+            commentRequestDto.setMemberNickname(getCommentResponseDto.getMemberNickname());
+            return ResponseEntity.ok().body(commentService.save(commentRequestDto));
         } else {
             commentRequestDto.setMemberNo(m.getMemberNo());
+            commentRequestDto.setMemberNickname(m.getMemberNickname());
             return ResponseEntity.ok().body(commentService.save(commentRequestDto));
         }
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void> delete(@RequestHeader String Authorization, @RequestParam Integer commentNo) {
-        log.info("CommentRequestDto : {}", commentNo);
-        MemberDto m = memberService.selectOneMember(HeaderUtil.getAccessTokenString(Authorization));
+    @DeleteMapping("/{commentno}")
+    @Operation(summary = "댓글 삭제", description = "QnA 게시글의 댓글을 삭제합니다.", tags = { "Comment" })
+    public ResponseEntity<String> delete(@RequestHeader String Authorization, @PathVariable Integer commentno) {
+        log.debug("CommentRequestDto : {}", commentno);
+        MemberAdminDto m = memberService.selectOneMemberAllInfo(HeaderUtil.getAccessTokenString(Authorization));
+        log.info("회원 : {} | /qna/comment DELETE API호출 : 댓글 삭제", m);
         if (m == null){
-            log.info(ErrorMessage.TOKEN_EXPIRE);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            log.debug(ErrorMessage.TOKEN_EXPIRE);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorMessage.TOKEN_EXPIRE);
+        } else if (m.getROLE().equals(Role.ADMIN)){
+            if(commentService.deleteAdminMode(commentno) == 0)
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ReturnMessage.DELETE_FAIL);
+            return ResponseEntity.status(HttpStatus.OK).body(ReturnMessage.DELETE_SUCCESS);
         } else {
-            commentService.delete(commentNo);
-            return ResponseEntity.ok().body(null);
+            if (commentService.delete(m.getMemberNo(), commentno) == 0)
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ReturnMessage.DELETE_FAIL);
+            return ResponseEntity.status(HttpStatus.OK).body(ReturnMessage.DELETE_SUCCESS);
         }
     }
 }

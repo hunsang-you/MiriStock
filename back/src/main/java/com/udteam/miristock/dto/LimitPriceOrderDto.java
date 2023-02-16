@@ -9,15 +9,14 @@ import lombok.*;
 @Setter
 @ToString
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class LimitPriceOrderDto {
-
     private Integer limitPriceOrderNo;
     private String stockCode;
     private String stockName;
     private Integer memberNo;
-    private Integer limitPriceOrderPrice;
-    private Integer limitPriceOrderAmount;
+    private Long limitPriceOrderPrice;
+    private Long limitPriceOrderAmount;
     private Deal limitPriceOrderType;
 
     @Builder

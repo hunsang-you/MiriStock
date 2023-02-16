@@ -9,5 +9,7 @@ import java.util.List;
 @Repository
 public interface SearchRecordRepository extends JpaRepository<SearchRecordEntity, Integer> {
 
-    List<SearchRecordEntity> findByMemberNo (Integer memberNo);
+    List<SearchRecordEntity> findByMemberNoOrderBySearchNoDesc (Integer memberNo);
+
+    int deleteByMemberNoAndStockCode(Integer memberNo, String stockCode);
 }

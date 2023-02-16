@@ -1,6 +1,7 @@
 package com.udteam.miristock.repository;
 
 import com.udteam.miristock.entity.StockEntity;
+import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,5 +15,6 @@ public interface StockRepository extends JpaRepository<StockEntity, String> {
 
     // 종목명으로 검색
     List<StockEntity> findByStockNameStartingWithOrderByStockCodeAsc(String stockName);
+
 
 }

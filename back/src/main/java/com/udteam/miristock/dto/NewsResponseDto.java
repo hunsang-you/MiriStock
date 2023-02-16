@@ -9,20 +9,17 @@ import java.util.List;
 @Builder
 @Getter
 @Setter
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class NewsResponseDto {
 
     private String title;
     private String link;
     private String description;
     private String lastBuildDate;
-    private List<NewsMessage> entries = new ArrayList<>();
+    private List<NewsMessage> messages = new ArrayList<>();
 
-    public List<NewsMessage> getMessages() {
-        return entries;
-    }
     @Builder
     public NewsResponseDto(String title, String link, String description, String lastBuildDate) {
         this.title = title;
@@ -31,14 +28,8 @@ public class NewsResponseDto {
         this.lastBuildDate = lastBuildDate;
     }
 
-    @Override
-    public String toString() {
-        return "NewsResponseDto{" +
-                "title='" + title + '\'' +
-                ", link='" + link + '\'' +
-                ", description='" + description + '\'' +
-                ", lastBuildDate='" + lastBuildDate + '\'' +
-                ", entries=" + entries +
-                '}';
+    public void addMessage(NewsMessage newsMessage){
+        this.messages.add(newsMessage);
     }
+
 }

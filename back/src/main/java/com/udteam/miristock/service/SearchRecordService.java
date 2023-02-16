@@ -15,18 +15,28 @@ public class SearchRecordService {
     private final SearchRecordRepository searchRecordRepository;
 
     public List<SearchRecordEntity> findByMemberNo(Integer memberNo) {
-        List<SearchRecordEntity> articleEntityList = searchRecordRepository.findByMemberNo(memberNo);
+        List<SearchRecordEntity> articleEntityList = searchRecordRepository.findByMemberNoOrderBySearchNoDesc(memberNo);
         return articleEntityList;
     }
 
     @Transactional
-    public Integer save(SearchRecordEntity searchRecordEntity) {
-        return searchRecordRepository.save(searchRecordEntity).getMemberNo();
+    public Object save(SearchRecordEntity searchRecordEntity) {
+        List<SearchRecordEntity> memberSearchResult = searchRecordRepository.findByMemberNoOrderBySearchNoDesc(searchRecordEntity.getMemberNo());
+        String saveStockCode = searchRecordEntity.getStockCode();
+        for (SearchRecordEntity recordEntity : memberSearchResult) {
+            if (recordEntity.getStockCode().equals(saveStockCode)) {
+                return "Duplicated StockCode : record save fail";
+            }
+        }
+        if (memberSearchResult.size() >= 10){
+            searchRecordRepository.deleteByMemberNoAndStockCode(searchRecordEntity.getMemberNo(), memberSearchResult.get(memberSearchResult.size()-1).getStockCode());
+        }
+        return searchRecordRepository.saveAndFlush(searchRecordEntity);
     }
 
     @Transactional
-    public void delete(Integer searchNo) {
-        searchRecordRepository.delete(SearchRecordEntity.builder().searchNo(searchNo).build());
+    public int delete(Integer memberNo, String stockCode) {
+        return searchRecordRepository.deleteByMemberNoAndStockCode(memberNo, stockCode);
     }
 
 }

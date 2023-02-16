@@ -1,11 +1,15 @@
 package com.udteam.miristock.entity;
 
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "stockdata")
+@DynamicInsert
+@DynamicUpdate
 @Getter
 @Setter
 @Builder
@@ -28,13 +32,13 @@ public class StockDataEntity {
     private Integer stockDataDate;
 
     @Column(name = "stockdata_closing_price")
-    private Integer stockDataClosingPrice;
+    private Long stockDataClosingPrice;
 
     @Column(name = "stockdata_amount")
     private Long stockDataAmount;
 
     @Column(name = "stockdata_price_increasement")
-    private Integer stockDataPriceIncreasement;
+    private Long stockDataPriceIncreasement;
 
     @Column(name = "stockdata_flucauation_rate")
     private Float stockDataFlucauationRate;

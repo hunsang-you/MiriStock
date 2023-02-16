@@ -18,9 +18,9 @@ public class StockDealDto {
     private String stockName;
     private Integer memberNo;
     private Integer stockDealDate;
-    private Integer stockDealBuyClosingPrice;
-    private Integer stockDealSellClosingPrice;
-    private Integer stockDealAmount;
+    private Long stockDealOrderClosingPrice;
+    private Long stockDealAvgClosingPrice;
+    private Long stockDealAmount;
     private Deal stockDealType;
     private Float stockDealEarnRate;
     private Long stockDealEarnPrice;
@@ -32,8 +32,8 @@ public class StockDealDto {
         this.stockName = entity.getStockName();
         this.memberNo = entity.getMemberNo();
         this.stockDealDate = entity.getStockDealDate();
-        this.stockDealBuyClosingPrice = entity.getStockDealBuyClosingPrice();
-        this.stockDealSellClosingPrice = entity.getStockDealSellClosingPrice();
+        this.stockDealOrderClosingPrice = entity.getStockDealOrderClosingPrice();
+        this.stockDealAvgClosingPrice = entity.getStockDealAvgClosingPrice();
         this.stockDealAmount = entity.getStockDealAmount();
         this.stockDealType = entity.getStockDealType();
         this.stockDealEarnRate = entity.getStockDealEarnRate();
@@ -47,8 +47,8 @@ public class StockDealDto {
                 .stockName(stockName)
                 .memberNo(memberNo)
                 .stockDealDate(stockDealDate)
-                .stockDealBuyClosingPrice(stockDealBuyClosingPrice)
-                .stockDealSellClosingPrice(stockDealSellClosingPrice)
+                .stockDealOrderClosingPrice(stockDealOrderClosingPrice)
+                .stockDealAvgClosingPrice(stockDealAvgClosingPrice)
                 .stockDealAmount(stockDealAmount)
                 .stockDealType(stockDealType)
                 .stockDealEarnRate(stockDealEarnRate)

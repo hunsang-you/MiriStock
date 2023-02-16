@@ -1,11 +1,15 @@
 package com.udteam.miristock.entity;
 
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name="limitpriceorder")
+@DynamicInsert
+@DynamicUpdate
 @Getter
 @Setter
 @Builder
@@ -29,10 +33,10 @@ public class LimitPriceOrderEntity {
     private Integer memberNo;
 
     @Column(name = "limitpriceorder_price")
-    private Integer limitPriceOrderPrice;
+    private Long limitPriceOrderPrice;
 
     @Column(name = "limitpriceorder_amount")
-    private Integer limitPriceOrderAmount;
+    private Long limitPriceOrderAmount;
 
     @Column(name = "limitpriceorder_type")
     @Enumerated(EnumType.STRING)

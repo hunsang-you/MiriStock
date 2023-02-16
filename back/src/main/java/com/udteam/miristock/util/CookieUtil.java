@@ -1,6 +1,5 @@
 package com.udteam.miristock.util;
 
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.oauth2.jwt.JwtException;
@@ -8,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
 
 @Slf4j
 @Component
@@ -19,7 +17,7 @@ public class CookieUtil {
                 .maxAge(time)
                 .path("/")
                 .secure(true)
-                .sameSite("Lax")
+                .sameSite("None")
                 .httpOnly(true)
                 .build();
     }

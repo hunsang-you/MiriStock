@@ -5,6 +5,8 @@ import com.udteam.miristock.entity.MemberAssetEntity;
 import com.udteam.miristock.entity.MemberStockEntity;
 import lombok.*;
 
+import java.util.List;
+
 @Builder
 @Getter
 @Setter
@@ -13,6 +15,6 @@ import lombok.*;
 @NoArgsConstructor
 public class SimulEndDto {
     MemberAssetEntity memberAsset;
-    MemberStockEntity lowMemberStock;
-    MemberStockEntity highMemberStock;
+    List<MemberSimulEndDto> lowMemberStock;
+    List<MemberSimulEndDto> highMemberStock;
 }

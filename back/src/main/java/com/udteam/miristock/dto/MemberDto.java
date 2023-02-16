@@ -3,7 +3,11 @@ package com.udteam.miristock.dto;
 import com.udteam.miristock.entity.MemberEntity;
 import lombok.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Size;
+
 @Builder
+@Setter
 @Getter
 @ToString
 @AllArgsConstructor

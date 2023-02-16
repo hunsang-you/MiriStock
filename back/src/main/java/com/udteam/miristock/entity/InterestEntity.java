@@ -19,7 +19,7 @@ public class InterestEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer interestNo;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="stock_code")
     private StockEntity stock;
 

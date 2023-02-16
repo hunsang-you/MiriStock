@@ -1,6 +1,5 @@
 package com.udteam.miristock.config;
 
-import com.udteam.miristock.repository.MemberRepository;
 import com.udteam.miristock.repository.RedisRepository;
 import com.udteam.miristock.service.auth.CustomLogoutSuccessHandler;
 import com.udteam.miristock.service.auth.CustomOAuth2UserService;
@@ -14,17 +13,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
-import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -37,7 +29,6 @@ public class SecurityConfig{
     private final CustomOAuth2UserService customOAuth2UserService;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
     private final TokenService tokenservice;
-    private final MemberRepository memberRepository;
     private final CustomLogoutSuccessHandler logoutSuccessHandler;
     private final RedisUtil redisUtil;
     private final RedisRepository redisRepository;
@@ -77,7 +68,10 @@ public class SecurityConfig{
             web.ignoring()
                     .antMatchers(
                             "/actuator/health",
-                            "/");
+                            "/",
+                            "/member/nickname",
+                            "/member/nicknamecheck",
+                            "/info/news");
         };
     }
 }
