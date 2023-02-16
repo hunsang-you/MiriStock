@@ -2,7 +2,7 @@ const SellPossible = (props) => {
   return (
     <div className="possible-body">
       <div className="possible-content">
-        <div>구매가능 주식수</div>
+        <div>판매가능 주식수</div>
         <div>
           {props.maxCount === undefined ? (
             <div className="text-right">0 주</div>
