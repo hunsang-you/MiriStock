@@ -1,9 +1,18 @@
 import './css/assetstatus.css';
 import ReactApexChart from 'react-apexcharts';
 import { userStore } from '../../store';
-
+import { AiOutlineInfoCircle } from 'react-icons/ai';
+import Swal from 'sweetalert2';
+import mainImg from '../../static/Asset_Guide.png';
 const AssetStatus = () => {
   const { user } = userStore((state) => state);
+  const guideLine = () => {
+    Swal.fire({
+      html:
+        `<img src="` + mainImg + `" alt="no img" height="100%" width="100%">`,
+      showConfirmButton: false,
+    });
+  };
   const donutData = {
     series: [user.memberassetAvailableAsset, user.memberassetStockAsset],
     options: {
@@ -77,8 +86,17 @@ const AssetStatus = () => {
   return (
     <div className="asset-current">
       <div className="asset-nickname">
-        <span style={{ fontWeight: 'bold' }}>{user.memberNickName}</span> 님의
-        자산
+        <div>
+          <span style={{ fontWeight: 'bold' }}>{user.memberNickName}</span>님의
+          자산
+        </div>
+        <div style={{ paddingTop: '7px' }}>
+          <AiOutlineInfoCircle
+            onClick={() => {
+              guideLine();
+            }}
+          />
+        </div>
       </div>
       <div className="asset-chart">
         <ReactApexChart

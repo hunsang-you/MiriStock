@@ -3,13 +3,31 @@ import { useState } from 'react';
 import Counter from './countanimation';
 import CounterPer from './counterperanimation';
 import { userStore } from '../../store';
-
+import { AiOutlineInfoCircle } from 'react-icons/ai';
+import Swal from 'sweetalert2';
+import mainImg from '../.././static/Main_Guide.png';
 const AssetStatus = (props) => {
   const { user } = userStore((state) => state);
   const userAssetChanged = props.userAssetChanged;
+  const guideLine = () => {
+    Swal.fire({
+      html:
+        `<img src="` + mainImg + `" alt="no img" height="100%" width="100%">`,
+      showConfirmButton: false,
+    });
+  };
   return (
     <div className="asset">
-      <div className="asset-status">보유 주식 현황</div>
+      <div className="asset-status">
+        <div>보유 주식 현황</div>
+        <div style={{ paddingTop: '7px' }}>
+          <AiOutlineInfoCircle
+            onClick={() => {
+              guideLine();
+            }}
+          />
+        </div>
+      </div>
       <div className="money-unit">
         <span className="money">
           <Counter

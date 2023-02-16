@@ -5,7 +5,10 @@
 
 .asset-nickname {
   text-align: start;
-  font-family: var(--font-IbmPlexSansKrLightRegular)
+  font-family: var(--font-IbmPlexSansKrLightRegular);
+  display: flex;
+    justify-content : space-between;
+    align-items: center;
 }
 
 .asset-chart {

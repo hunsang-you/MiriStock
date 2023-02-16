@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { newsAPI } from '../../api/api'; // api 통신
 import { dateStore } from '../../store';
+
 const News = (props) => {
   const { date } = dateStore((state) => state);
   const [newsList, setNewsList] = useState([]);
