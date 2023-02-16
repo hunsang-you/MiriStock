@@ -60,7 +60,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         // 다른 소셜로 등록된 회원이면 error페이지 리턴
         if (member != null && !member.getMemberProvider().equals(oAuth2User.getAttribute("provider"))) {
             log.info("다른 소셜에 등록된 회원입니다");
-            getRedirectStrategy().sendRedirect(request, response, UriComponentsBuilder.fromUriString("/error")
+            getRedirectStrategy().sendRedirect(request, response, UriComponentsBuilder.fromUriString("/login")
                     .build().toUriString());
             return;
         }
