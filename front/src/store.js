@@ -64,18 +64,18 @@ const favoriteStore = create(
   ),
 );
 
-//카카오, 네이버 로그인 구별
-const socialLoginStore = create(
-  persist(
-    (set) => ({
-      checkSocial: 0,
-      setCheckSocial: (num) => {
-        set((state) => ({ checkSocial: num }));
-      },
-    }),
-    { name: 'socialLoginStore' },
-  ),
-);
+// //카카오, 네이버 로그인 구별(네이버실패)
+// const socialLoginStore = create(
+//   persist(
+//     (set) => ({
+//       checkSocial: 0,
+//       setCheckSocial: (num) => {
+//         set((state) => ({ checkSocial: num }));
+//       },
+//     }),
+//     { name: 'socialLoginStore' },
+//   ),
+// );
 
 export {
   navStore,
