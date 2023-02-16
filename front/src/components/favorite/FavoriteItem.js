@@ -61,12 +61,12 @@ const FavoriteItem = () => {
                 id="favorite-icon"
                 size={40}
                 style={{ color: '#FFCC00' }}
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   memberAPI
                     .deleteIntersetStocks(favorite.stockCode)
                     .then((request) => {
                       setUpdateFavorite(updateFavorite + 1);
-                      console.log(request);
                     })
                     .catch((err) => console.log(err));
                 }}

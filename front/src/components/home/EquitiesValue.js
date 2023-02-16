@@ -11,7 +11,7 @@ const EquitiesValue = () => {
       await memberAPI
         .stocks()
         .then((request) => {
-          setUserStock(request.data);
+          setUserStock(request.data.slice(0, 5)); //짜르기
         })
         .catch((err) => {
           console.log(err);

@@ -16,7 +16,6 @@ const More = () => {
         <Route path="/exit" element={<GameExit />} />;
         <Route path="/result" element={<Portfolio />} />;
         <Route path="/erase" element={<EraseMember />} />;
-        <Route path="/notfound" element={<NotFound />} />;
       </Routes>
     </div>
   );

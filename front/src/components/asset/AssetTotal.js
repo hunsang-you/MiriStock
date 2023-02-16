@@ -6,8 +6,8 @@ import { userStore } from '../../store';
 const AssetTotal = () => {
   const { user } = userStore((state) => state);
   //memberassetAvailableAsset memberassetStockAsset memberassetTotalAsset
-  const rateReturn = user.memberassetTotalAsset - 50000000;
-  const rateReturnPer = (user.memberassetTotalAsset / 50000000) * 100 - 100;
+  const rateReturn = user.memberassetTotalAsset - 100000000;
+  const rateReturnPer = (user.memberassetTotalAsset / 100000000) * 100 - 100;
   return (
     <div className="asset-total">
       <div className="asset-cash">

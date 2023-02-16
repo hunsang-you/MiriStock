@@ -1,7 +1,7 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import { TextField, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { profileAPI } from '../../api/api';
+import { profileAPI, memberAPI } from '../../api/api';
 import { memberStore } from '../../store';
 import './css/ChangeName.css';
 import '../login/nickname.css';
@@ -10,7 +10,11 @@ const ChangeName = () => {
   const navigate = useNavigate();
   const [text, setText] = useState('');
   const { info, setInfo } = memberStore((state) => state);
-
+  useEffect(() => {
+    memberAPI.asset().then((request) => {
+      setInfo(request.data.memberEmail);
+    });
+  }, []);
   const ChangeText = (e) => {
     setText(e.target.value);
   };
@@ -93,8 +97,7 @@ const ChangeName = () => {
               profileAPI
                 .nicknameChange(info, text)
                 .then((request) => {
-                  console.log(request.data);
-                  navigate('/more');
+                  navigate('/');
                 })
                 .catch((err) => console.log(err));
             }}

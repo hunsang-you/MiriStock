@@ -10,7 +10,6 @@ const PoChart = (props) => {
 
   const portfol = props.portfol;
   // 수익금, 손실금이 큰 순서대로
-  console.log(portfol);
   const [state, setState] = useState({
     dataKey: 'memberStockEarnPrice',
     nameKey: 'stockName',

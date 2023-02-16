@@ -18,7 +18,6 @@ const FinancialData = (props) => {
             operatingData.push(reqData.data[i].operatingProfit);
             incomeData.push(reqData.data[i].newIncome);
           }
-          // console.log(newYear);
           props.setFinancialYear(newYear);
           props.setSalesRevenue(salesData);
           props.setOperatingProfit(operatingData);
@@ -99,8 +98,6 @@ const FinancialData = (props) => {
           });
         })
         .catch((err) => console.log(err));
-      // console.log(reqData.data);
-      // console.log(idx);
     };
     getValueData(props.stockCode);
   }, [props.idx]);

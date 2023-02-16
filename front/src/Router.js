@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import React from 'react';
-import Loading from './components/Loading';
+import Loading from './components/suspenLoading';
 const Home = lazy(() => import('./pages/Home'));
 const Search = lazy(() => import('./pages/Search'));
 const Login = lazy(() => import('./pages/Login'));
@@ -10,14 +10,24 @@ const Community = lazy(() => import('./pages/Community'));
 const More = lazy(() => import('./pages/More'));
 const Stock = lazy(() => import('./pages/Stock'));
 const Redirect = lazy(() => import('./pages/Redirect'));
+const notFound = lazy(() => import('./components/more/NotFound'));
+const HomeFavorite = lazy(() => import('./pages/HomeFavorite'));
 const Router = () => {
   return (
     <Routes>
       <Route
-        path="/*"
+        path="/"
         element={
           <Suspense fallback={<Loading />}>
             <Home />
+          </Suspense>
+        }
+      />
+      <Route
+        path="/favorite"
+        element={
+          <Suspense fallback={<Loading />}>
+            <HomeFavorite />
           </Suspense>
         }
       />
@@ -77,9 +87,17 @@ const Router = () => {
           </Suspense>
         }
       />
-      <Route></Route>
+      <Route
+        path="*"
+        element={
+          <Suspense fallback={<Loading />}>
+            <notFound />
+          </Suspense>
+        }
+      ></Route>
     </Routes>
   );
 };
 
 export default Router;
+//<Route path="homeFavorite" element={<HomeFavorite />} />;

@@ -24,7 +24,7 @@ const FavoriteStock = () => {
       <div
         className="favorite"
         onClick={() => {
-          navigate('/homefavorite');
+          navigate('/favorite');
         }}
       >
         관심주식　〉{' '}

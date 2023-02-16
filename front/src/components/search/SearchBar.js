@@ -31,45 +31,48 @@ const SearchBar = () => {
                 .serachStock(e.target.value)
                 .then((request) => {
                   // 검색어O -> 결과 출력, 검색어X 검색 결과 초기화
-                  if (e.target.value.length > 0) {
-                    setIsCheck(false);
-                    setSearchResult(request.data);
-                  } else {
-                    setIsCheck(true);
-                    setSearchResult([]);
-                  }
+                  setSearchResult(request.data);
+                  // console.log(request.data);
                 })
                 .catch((err) => console.log(err));
+              if (e.target.value.length > 0) {
+                setIsCheck(false);
+              } else {
+                setIsCheck(true);
+              }
             }}
           />
         </div>
       </div>
 
-      {/* 종목 검색 결과 */}
+      {/* 종목 검색 결과  스트링반환값은 해주지마세요 제발*/}
 
-      {searchResult.map((stock, i) => {
-        return (
-          <div
-            key={i}
-            onClick={() => {
-              searchAPI
-                .createSearchHis(stock.stockName, stock.stockCode)
-                .then((request) => console.log(request.data))
-                .catch((err) => console.log(err));
-              navigate(`/stock/${stock.stockCode}`, {
-                state: { stockName: stock.stockName },
-              });
-            }}
-          >
-            <SearchView
-              name={stock.stockName}
-              code={stock.stockCode}
-              key={stock.stockCode}
-            />
-          </div>
-        );
-      })}
-      {isCheck ? <History /> : null}
+      {isCheck === true ? (
+        <History />
+      ) : searchResult.length >= 1 && typeof searchResult !== 'string' ? (
+        searchResult.map((stock, i) => {
+          return (
+            <div
+              key={i}
+              onClick={() => {
+                searchAPI
+                  .createSearchHis(stock.stockName, stock.stockCode)
+                  .then((request) => {})
+                  .catch((err) => console.log(err));
+                navigate(`/stock/${stock.stockCode}`, {
+                  state: { stockName: stock.stockName },
+                });
+              }}
+            >
+              <SearchView
+                name={stock.stockName}
+                code={stock.stockCode}
+                key={stock.stockCode}
+              />
+            </div>
+          );
+        })
+      ) : null}
     </div>
   );
 };

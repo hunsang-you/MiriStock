@@ -1,18 +1,44 @@
 import { useState } from 'react';
-
+import { Button } from '@mui/material';
+import { userStore, commentUpdateStore } from '../../store';
+import { communityAPI } from '../../api/api';
 const CommentItem = (props) => {
   const comment = props.comment;
+  const { user } = userStore((state) => state);
   const [isclosed, setIsClosed] = useState(false);
+  const { setCheckComment } = commentUpdateStore((state) => state);
   const handlerBtn = () => {
     setIsClosed(!isclosed);
   };
-
-  let nowTime = new Date(comment.commentCreateDate).getTime(); // - 32400000
+  let nowTime = new Date(comment.commentCreateDate).getTime() + 32400000;
 
   return (
     <div className="comment-item">
       <div className="item-id">
-        <span>{comment.memberNickname} </span>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          {comment.memberNickname === null
+            ? '탈퇴유저'
+            : comment.memberNickname}{' '}
+          {user.memberNo === comment.memberNo || user.memberNo === 1 ? (
+            <Button
+              id="comment-btn"
+              variant="outlined"
+              size="small"
+              color="red"
+              onClick={() => {
+                communityAPI
+                  .deleteComment(comment.commentNo)
+                  .then((request) => {
+                    setCheckComment();
+                  })
+                  .catch((err) => console.log(err));
+              }}
+            >
+              삭제
+            </Button>
+          ) : null}
+        </div>
+
         <span id="item-createAt"> {detailDate(nowTime)} </span>
       </div>
       <div className="item-content">

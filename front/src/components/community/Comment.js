@@ -4,6 +4,7 @@ import CommentItem from './CommentItem';
 import { TextField, Button } from '@mui/material';
 import { useState, useEffect, useMemo } from 'react';
 import { communityAPI } from '../../api/api';
+import Swal from 'sweetalert2';
 const Comment = (props) => {
   const article = props.article;
   const setArticles = props.setArticles;
@@ -23,6 +24,17 @@ const Comment = (props) => {
   const ChangeText = (e) => {
     setText(e.target.value);
   };
+  const errAlert = () => {
+    Swal.fire({
+      text: '댓글을 입력해 주세요',
+      showClass: {
+        popup: 'animate__animated animate__fadeInDown',
+      },
+      hideClass: {
+        popup: 'animate__animated animate__fadeOutUp',
+      },
+    });
+  };
   // className=`{기존클래스 ${addClass === true ? "클래스" : "클래스"} }`
   return (
     <div className="comment-box">
@@ -32,6 +44,7 @@ const Comment = (props) => {
           id="create-commentbox"
           placeholder="댓글을 입력하세요."
           variant="outlined"
+          value={text}
           onChange={(e) => {
             ChangeText(e);
           }}
@@ -42,10 +55,17 @@ const Comment = (props) => {
             variant="outlined"
             size="middle"
             onClick={() => {
-              communityAPI
-                .createComment(article.articleNo, text)
-                .then((request) => setComNo(request.data))
-                .catch((err) => console.log(err));
+              if (text.trim().length !== 0) {
+                communityAPI
+                  .createComment(article.articleNo, text)
+                  .then((request) => {
+                    setComNo(request.data);
+                    setText('');
+                  })
+                  .catch((err) => console.log(err));
+              } else {
+                errAlert();
+              }
             }}
           >
             등록

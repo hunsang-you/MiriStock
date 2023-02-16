@@ -21,8 +21,6 @@ const SellStock = () => {
 
   // 유저 정보
   const { user } = userStore((state) => state);
-  const userNo = user.memberNo;
-  // console.log(user);
   let { stockCode } = useParams();
   const today = user.memberassetCurrentTime;
   const userMoney = user.memberassetAvailableAsset;
@@ -36,7 +34,6 @@ const SellStock = () => {
   const [hopePrice, setHopePrice] = useState(0);
   const [hopeCount, setHopeCount] = useState(0);
   const [hopeTax, setHopeTax] = useState(0);
-  // console.log(stockCode);
   // id = 0 => 구매 희망가 만 입력 (클릭이벤트x) / id = 1
   const inputID = (id) => {
     if (id === 0) {
@@ -65,7 +62,6 @@ const SellStock = () => {
   useEffect(() => {
     const use = async () => {
       const reqData = await stockAPI.stockDetail(stockCode, today, today);
-      // console.log(reqData.data[0]);
       setStockName(reqData.data[0].stockName);
       setStockPrice(reqData.data[0].stockDataClosingPrice);
     };

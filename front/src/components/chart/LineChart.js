@@ -86,7 +86,7 @@ const LineChart = (props) => {
         y: [
           {
             formatter: function (value, { dataPointIndex }) {
-              // console.log(dataPointIndex);   // 인덱스 값 출력 확인 (value 를 안넣으면 dataPointIndex 가 value 가 됨)
+              // 인덱스 값 출력 확인 (value 를 안넣으면 dataPointIndex 가 value 가 됨)
               setIndex(dataPointIndex);
               return null;
             }, // dataPointIndex = 인덱스값
@@ -222,28 +222,3 @@ const LineChart = (props) => {
 };
 
 export default LineChart;
-
-// 차트 데이터 확인해볼 때 쓴 버튼
-// <div>
-//   <button
-//     onClick={() => {
-//       stockAPI
-//         .stockDetail('005930', 20200123, 20200126)
-//         .then((request) => {
-//           console.log(request.data);
-//         })
-//         .catch((err) => {
-//           console.log(err);
-//         });
-//     }}
-//   >
-//     stockdetail
-//   </button>
-//   <button
-//     onClick={() => {
-//       ymdReturn('005930', 20220330, 20220502);
-//     }}
-//   >
-//     차트데이터추가
-//   </button>
-// </div>

@@ -18,7 +18,7 @@ const Portfolio = () => {
           setPortfol(request.data);
           simulAPI
             .restart()
-            .then((request) => console.log(request.data, '시뮬레이션 종료'))
+            .then((request) => {})
             .catch((err) => console.log(err));
         })
         .catch((err) => console.log(err));
@@ -37,12 +37,12 @@ const Portfolio = () => {
   return (
     <div className="portfolio-page">
       <div className="port-name">
-        <p>
-          {console.log(portfol)}
+        <div>
           {isEmptyObj(portfol) === false &&
-            portfol.memberAsset.member.memberNickname}
-          님의 게임 결과
-        </p>
+            portfol.memberAsset.member.memberNickname}{' '}
+          님의
+        </div>
+        <div> 투자 결과</div>
       </div>
       <div className="portfolio-charts">
         {isEmptyObj(portfol) === false &&
@@ -63,7 +63,7 @@ const Portfolio = () => {
             navigate('/');
           }}
         >
-          게임 재시작
+          시뮬레이션 재시작
         </Button>
       </div>
     </div>
