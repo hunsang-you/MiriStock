@@ -77,11 +77,4 @@ const favoriteStore = create(
 //   ),
 // );
 
-export {
-  navStore,
-  userStore,
-  dateStore,
-  memberStore,
-  favoriteStore,
-  socialLoginStore,
-};
+export { navStore, userStore, dateStore, memberStore, favoriteStore };
