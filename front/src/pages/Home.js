@@ -9,6 +9,7 @@ import {
 import { memberAPI } from '../api/api';
 import { useEffect, useState } from 'react';
 import { userStore, dateStore } from '../store';
+import { Loading } from '../components/Loading';
 
 const Home = () => {
   const { user, setUser } = userStore((state) => state);

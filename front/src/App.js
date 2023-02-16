@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { React, useEffect } from 'react';
 import BottomNav from './components/home/BottonNav.js';
 import { navStore } from './store.js';
-
+import { Loading } from './components/Loading';
 function App() {
   const { page, setPage } = navStore((state) => state);
   const location = useLocation();
