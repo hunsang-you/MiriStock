@@ -19,8 +19,10 @@ const EraseMember = () => {
         <div className="exit-backbtn">
           <Button
             id="exit-back"
-            variant="outlined"
+            variant="contained"
+            style={{ color: 'white' }}
             size="large"
+            disableElevation
             onClick={() => {
               navigate(-1);
             }}
@@ -31,8 +33,8 @@ const EraseMember = () => {
         <div className="exit-submitbtn">
           <Button
             id="exit-submit"
-            variant="contained"
-            style={{ color: 'white' }}
+            variant="outlined"
+            disableElevation
             size="large"
             onClick={() => {
               profileAPI

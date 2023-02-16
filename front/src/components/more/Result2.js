@@ -27,7 +27,7 @@ const Result2 = (props) => {
             return (
               <div key={i} className="portfolio-best">
                 <span> {data.stockName} </span>
-                <span id="port-revenue">
+                <span id="port-loss">
                   ▼ <Counter from={0} to={data.memberStockEarnPrice} />원
                 </span>
               </div>
@@ -52,7 +52,7 @@ const Result2 = (props) => {
             return (
               <div key={i} className="portfolio-worst">
                 <span> {data.stockName} </span>
-                <span id="port-loss">
+                <span id="port-revenue">
                   ▲ <Counter from={0} to={data.memberStockEarnPrice} /> 원
                 </span>
               </div>

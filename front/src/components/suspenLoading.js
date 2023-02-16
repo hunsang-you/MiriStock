@@ -4,7 +4,7 @@ export const Loading = () => {
     <div
       style={{
         position: 'absolute',
-        width: '88vw',
+        width: '100vw',
         height: '100vh',
         top: '0',
         left: '0',
@@ -22,12 +22,5 @@ export const Loading = () => {
     </div>
   );
 };
-// export const Loading = () => {
-//   return (
-//     <div className="Loading">
-//       <div className="spinner-4"></div>
-//     </div>
-//   );
-// };
 
 export default Loading;
