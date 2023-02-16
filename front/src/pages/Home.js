@@ -14,6 +14,8 @@ const Home = () => {
   const { user, setUser } = userStore((state) => state);
   const { date } = dateStore((state) => state);
   const [userAssetChanged, setUserAssetChanged] = useState([]);
+  const [rendering, setRendering] = useState('');
+
   //일단 마운트될때마다로 설정 추후에 데이변할때 하게 해야함
   useEffect(() => {
     const getMember = async () => {
@@ -21,6 +23,7 @@ const Home = () => {
         .asset()
         .then((request) => {
           setUser(request.data);
+          setRendering('123');
         })
         .catch((err) => {
           console.log(err);
@@ -36,11 +39,13 @@ const Home = () => {
   }, [date, setUser]); //추후에 데이트 값
   return (
     <div className="main-container">
-      <Simulation />
-      <AssetStatus userAssetChanged={userAssetChanged} />
-      <EquitiesValue />
-      <FavoriteStock />
-      <Rank />
+      {rendering === '' ? null : <Simulation />}
+      {rendering === '' ? null : (
+        <AssetStatus userAssetChanged={userAssetChanged} />
+      )}
+      {rendering === '' ? null : <EquitiesValue />}
+      {rendering === '' ? null : <FavoriteStock />}
+      {rendering === '' ? null : <Rank />}
     </div>
   );
 };
