@@ -12,7 +12,11 @@ const CommentItem = (props) => {
   return (
     <div className="comment-item">
       <div className="item-id">
-        <span>{comment.memberNickname} </span>
+        <span>
+          {comment.memberNickname === null
+            ? '탈퇴유저'
+            : comment.memberNickname}{' '}
+        </span>
         <span id="item-createAt"> {detailDate(nowTime)} </span>
       </div>
       <div className="item-content">
