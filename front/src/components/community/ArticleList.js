@@ -6,13 +6,14 @@ import { Button, TextField } from '@mui/material';
 import write from '../../static/write.jpg';
 import QnAimg from '../../static/QnAimg.png';
 import './css/ArticleList.css';
+import { commentUpdateStore } from '../../store';
 
 const ArticleList = () => {
   const navigate = useNavigate();
   const [articles, setArticles] = useState([]);
   const [state, setState] = useState(false);
   const [searchArticle, setSearchArticle] = useState([]);
-
+  const { checkComment } = commentUpdateStore((state) => state);
   useEffect(() => {
     communityAPI
       .getArticle()
@@ -20,7 +21,7 @@ const ArticleList = () => {
         setArticles(request.data.reverse());
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [checkComment]);
 
   return (
     <div className="article-list">

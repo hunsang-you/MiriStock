@@ -87,7 +87,6 @@ const Create = () => {
               //새로고침페이지
             } else {
               //스위트알람위치
-              console.log(123);
               errAlert();
             }
           }}

@@ -116,7 +116,6 @@ const ArticleItem = (props) => {
                   communityAPI
                     .deleteArticle(article.articleNo)
                     .then((request) => {
-                      console.log(request.data);
                       window.location.replace('/community');
                     })
                     .catch((err) => console.log(err));
