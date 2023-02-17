@@ -9,6 +9,8 @@ import mainImg from '../.././static/Main_Guide.png';
 const AssetStatus = (props) => {
   const { user } = userStore((state) => state);
   const userAssetChanged = props.userAssetChanged;
+  const rateReturn = user.memberassetTotalAsset - 100000000;
+  const rateReturnPer = (user.memberassetTotalAsset / 100000000) * 100 - 100;
   const guideLine = () => {
     Swal.fire({
       imageUrl: mainImg,
@@ -23,7 +25,7 @@ const AssetStatus = (props) => {
   return (
     <div className="asset">
       <div className="asset-status">
-        <div>보유 주식 현황</div>
+        <div>총 자산 현황</div>
         <div style={{ paddingTop: '7px' }}>
           <AiOutlineInfoCircle
             onClick={() => {
@@ -39,7 +41,7 @@ const AssetStatus = (props) => {
             to={
               user.memberassetStockAsset === undefined
                 ? 0
-                : user.memberassetStockAsset
+                : user.memberassetStockAsset + user.memberassetAvailableAsset
             }
           />
         </span>
@@ -48,36 +50,20 @@ const AssetStatus = (props) => {
       <div
         className="change"
         style={
-          userAssetChanged.stockDataPriceIncreasement >= 0 ||
-          userAssetChanged.stockDataPriceIncreasement === undefined
+          rateReturnPer >= 0 || rateReturn === undefined
             ? { color: '#D2143C' }
             : { color: '#1E90FF' }
         }
       >
-        {userAssetChanged.stockDataPriceIncreasement >= 0 ||
-        userAssetChanged.stockDataPriceIncreasement === undefined
-          ? '▲'
-          : '▼'}
+        {rateReturn >= 0 || rateReturn === undefined ? '▲' : '▼'}
         <Counter
           from={0}
-          to={
-            userAssetChanged.stockDataPriceIncreasement === undefined
-              ? 0
-              : Math.abs(userAssetChanged.stockDataPriceIncreasement)
-          }
+          to={rateReturn === undefined ? 0 : Math.abs(rateReturn)}
         />
-        원 (
-        {userAssetChanged.stockDataFlucauationRateSum >= 0 ||
-        userAssetChanged.stockDataPriceIncreasement === undefined
-          ? '+'
-          : null}
+        원 ({rateReturnPer >= 0 || rateReturnPer === undefined ? '+' : null}
         <CounterPer
           from={0}
-          to={
-            userAssetChanged.stockDataFlucauationRateSum === undefined
-              ? 0
-              : userAssetChanged.stockDataFlucauationRateSum
-          }
+          to={rateReturnPer === undefined ? 0 : rateReturnPer}
         />
         )
       </div>
