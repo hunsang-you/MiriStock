@@ -20,8 +20,9 @@ const StockDetail = () => {
   //모달창
   const guideLine = () => {
     Swal.fire({
-      html:
-        `<img src="` + mainImg + `" alt="no img" height="100%" width="100%">`,
+      imageUrl: mainImg,
+      imageHeight: 450,
+      imageWidth: 340,
       showConfirmButton: false,
       showCancelButton: true,
       cancelButtonText: '닫기',
