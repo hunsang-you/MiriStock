@@ -8,9 +8,13 @@ const AssetStatus = () => {
   const { user } = userStore((state) => state);
   const guideLine = () => {
     Swal.fire({
-      html:
-        `<img src="` + mainImg + `" alt="no img" height="100%" width="100%">`,
+      imageUrl: mainImg,
+      imageHeight: 450,
+      imageWidth: 340,
       showConfirmButton: false,
+      showCancelButton: true,
+      cancelButtonText: '닫기',
+      cancelButtonColor: '#6DCEF5',
     });
   };
   const donutData = {
