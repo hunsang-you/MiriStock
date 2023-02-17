@@ -11,6 +11,9 @@ const AssetStatus = () => {
       html:
         `<img src="` + mainImg + `" alt="no img" height="100%" width="100%">`,
       showConfirmButton: false,
+      showCancelButton: true,
+      cancelButtonText: '닫기',
+      cancelButtonColor: '#6DCEF5',
     });
   };
   const donutData = {
